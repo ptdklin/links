@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рабочее место медицинского работника</title>
+    <style>
+        :root {
+            --primary-color: #2c7fb8;
+            --secondary-color: #7fcdbb;
+            --accent-color: #edf8b1;
+            --light-color: #f0f8ff;
+            --dark-color: #253746;
+            --success-color: #41ab5d;
+            --warning-color: #feb24c;
+            --danger-color: #e31a1c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f9fc;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px 0;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .instructions {
+            background-color: var(--accent-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .instructions p {
+            margin: 0;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .category {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .category-title i {
+            margin-right: 10px;
+        }
+        
+        .link-list {
+            list-style-type: none;
+        }
+        
+        .link-item {
+            margin-bottom: 12px;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        
+        .link-item:hover {
+            background-color: var(--light-color);
+        }
+        
+        .link-item a {
+            color: var(--dark-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .link-item a:hover {
+            color: var(--primary-color);
+        }
+        
+        .link-icon {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        
+        .credentials {
+            background-color: #fff9e6;
+            border: 1px dashed var(--warning-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: #8a6d3b;
+        }
+        
+        .credentials strong {
+            color: var(--dark-color);
+        }
+        
+        .special-section {
+            background: linear-gradient(135deg, var(--primary-color), #41b6c4);
+            color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .special-section h2 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .special-section h2 i {
+            margin-right: 10px;
+        }
+        
+        .special-instructions {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #e9ecef;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <div>
+                        <h1>Рабочее место медицинского работника</h1>
+                        <div class="subtitle">Быстрый доступ к профессиональным ресурсам</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="instructions">
+            <p><i class="fas fa-info-circle"></i> <strong>Инструкция:</strong> Удерживая клавишу Ctrl, кликните на ссылку мышкой или кликните мышкой по ссылке быстро 2 раза, затем кликните на выпадающее окно.</p>
+        </div>
+        
+        <div class="links-grid">
+            <div class="category">
+                <h2 class="category-title"><i class="fas fa-pills"></i> Фармакология и лекарства</h2>
+                <ul class="link-list">
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> РЛС</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> ВИДАЛЬ</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Проверка взаимодействия лекарственных препаратов</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Калькулятор скорости клубочковой фильтрации</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category">
+                <h2 class="category-title"><i class="fas fa-clipboard-list"></i> Отчетность и контроль</h2>
+                <ul class="link-list">
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Нежелательные события — цифровая платформа</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Контроль качества (KK)-нормативные документы</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Приказы МОКПТД</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Информирование пациентов (нормативная база)</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category">
+                <h2 class="category-title"><i class="fas fa-file-medical"></i> Клинические рекомендации</h2>
+                <ul class="link-list">
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Клинические (ВСЕ) рекомендации на сайте МЗ РФ</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Клинические рекомендации туберкулез: Взрослые Дети</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category">
+                <h2 class="category-title"><i class="fas fa-user-md"></i> Специализированные системы</h2>
+                <ul class="link-list">
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> DIGIPAX</a>
+                        <div class="credentials">
+                            <strong>Логин:</strong> по запросу у зав. отд<br>
+                            <strong>Пароль:</strong> ttPy7pUz
+                        </div>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Шаблоны и образцы</a>
+                        <div class="credentials">
+                            <strong>Логин:</strong> klin_tbc@mail.ru<br>
+                            <strong>Пароль:</strong> Aa5..831
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category">
+                <h2 class="category-title"><i class="fas fa-laptop-medical"></i> Медицинские информационные системы</h2>
+                <ul class="link-list">
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> ЕМИАС</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> ФРБТ</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> 1С-мокрота</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> БАК-журнал МОКПТД</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Сигнальная картотека</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Проверка полиса ОМС</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="category">
+                <h2 class="category-title"><i class="fas fa-tools"></i> Дополнительные инструменты</h2>
+                <ul class="link-list">
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Пайрус (Груша)</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> Гид по работе врача-фтизиатра</a>
+                    </li>
+                    <li class="link-item">
+                        <a href="#"><i class="fas fa-external-link-alt link-icon"></i> ВКС</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="special-section">
+            <h2><i class="fas fa-network-wired"></i> Сетевые ресурсы</h2>
+            <div class="special-instructions">
+                <p><strong>Папка ТМК:</strong> Этот компьютер → Подключить сетевой диск → в поле папка: <code>http://217.107.102.71:90/tmk/</code> → Готово</p>
+                <p><strong>Имя пользователя:</strong> mos\klin</p>
+                <p><strong>Пароль:</strong> 123456</p>
+            </div>
+            <p><strong>Для ЦВК:</strong> создать папку с ФИО, вложить диски и выписки</p>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Рабочее место медицинского работника &copy; 2023</p>
+        </div>
+    </footer>
+</body>
+</html>
