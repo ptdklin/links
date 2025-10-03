@@ -30,13 +30,13 @@
         header {
             margin-bottom: 40px;
             padding: 35px 30px;
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            background: linear-gradient(135deg, #6c8eb0 0%, #5a7a9a 100%);
             border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.15);
+            box-shadow: 0 8px 32px rgba(92, 142, 176, 0.15);
             position: relative;
             overflow: hidden;
             text-align: center;
-            border: 1px solid #2980b9;
+            border: 1px solid #5a7a9a;
         }
         
         .institution {
@@ -88,15 +88,15 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
+            height: 3px;
         }
         
-        .card-1::before { background: #3498db; }
-        .card-2::before { background: #e74c3c; }
-        .card-3::before { background: #2ecc71; }
-        .card-4::before { background: #9b59b6; }
-        .card-5::before { background: #f39c12; }
-        .card-6::before { background: #1abc9c; }
+        .card-1::before { background: #7ea8c9; }
+        .card-2::before { background: #c97e7e; }
+        .card-3::before { background: #7ec98a; }
+        .card-4::before { background: #b87ec9; }
+        .card-5::before { background: #c9b27e; }
+        .card-6::before { background: #7ec9c1; }
         
         .card:hover {
             transform: translateY(-4px);
@@ -138,12 +138,13 @@
             font-size: 1.05rem;
             background: #f8f9fa;
             border: 1px solid #e9ecef;
+            width: 100%;
         }
         
         .link-item:hover {
             background: #ffffff;
-            border-color: #3498db;
-            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+            border-color: #7ea8c9;
+            box-shadow: 0 2px 8px rgba(126, 168, 201, 0.1);
             transform: translateX(2px);
         }
         
@@ -154,7 +155,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #3498db;
+            color: #7ea8c9;
             font-weight: 700;
             flex-shrink: 0;
             font-size: 1.1rem;
@@ -164,13 +165,14 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            width: 100%;
         }
         
         .note-container {
             display: flex;
             align-items: flex-start;
-            margin: 8px 0 0 50px;
-            width: calc(100% - 50px);
+            margin: 8px 0 0 36px;
+            width: calc(100% - 36px);
         }
         
         .note-icon {
@@ -180,35 +182,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #f39c12;
+            color: #d4a55c;
             font-weight: 700;
             flex-shrink: 0;
             font-size: 1rem;
         }
         
         .link-note {
-            background: #fffbf0;
+            background: #fdf8f0;
             border-radius: 6px;
             padding: 12px 16px;
             font-size: 0.9rem;
             color: #8e6c0a;
-            border-left: 3px solid #f39c12;
+            border-left: 3px solid #d4a55c;
             flex: 1;
-            font-weight: 500;
-        }
-        
-        .credentials {
-            background: #f8f9fa;
-            border-radius: 6px;
-            padding: 12px 16px;
-            font-size: 0.9rem;
-            color: #2c3e50;
-            border-left: 3px solid #95a5a6;
-            flex: 1;
-        }
-        
-        .credentials p {
-            margin-bottom: 4px;
             font-weight: 500;
         }
         
@@ -218,7 +205,7 @@
             padding: 20px;
             margin-top: 8px;
             font-size: 0.92rem;
-            border-left: 3px solid #3498db;
+            border-left: 3px solid #7ea8c9;
             width: 100%;
         }
         
@@ -415,9 +402,9 @@
                         </a>
                         <div class="note-container">
                             <div class="note-icon">💡</div>
-                            <div class="credentials">
-                                <p>Логин: <a href="mailto:klin_tbc@mail.ru" style="color: #2c3e50; text-decoration: none; font-weight: 600;">klin_tbc@mail.ru</a></p>
-                                <p>Пароль: Aa5..831</p>
+                            <div class="link-note">
+                                Логин: <a href="mailto:klin_tbc@mail.ru" style="color: #8e6c0a; text-decoration: none; font-weight: 600;">klin_tbc@mail.ru</a><br>
+                                Пароль: Aa5..831
                             </div>
                         </div>
                     </li>
