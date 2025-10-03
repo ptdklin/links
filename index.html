@@ -3,83 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ГБУЗ МО МОКПТД - Навигатор врача-фтизиатра</title>
-    <link href="https://fonts.cdnfonts.com/css/gotham-pro" rel="stylesheet">
+    <title>Навигатор врача-фтизиатра | ГБУЗ МО МОКПТД</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Gotham Pro', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --primary-very-light: #f8faff;
+            --secondary: #64748b;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
         
         body {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            color: #2c3e50;
-            line-height: 1.5;
+            background: linear-gradient(135deg, var(--background) 0%, #f1f5f9 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
             padding: 20px;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         
-        header {
-            margin-bottom: 40px;
-            padding: 35px 30px;
-            background: linear-gradient(135deg, #6c8eb0 0%, #5a7a9a 100%);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(92, 142, 176, 0.15);
+        /* Header */
+        .header {
+            margin-bottom: 48px;
+            padding: 48px 40px;
+            background: var(--surface);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
             position: relative;
             overflow: hidden;
             text-align: center;
-            border: 1px solid #5a7a9a;
+            border: 1px solid var(--border);
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
         }
         
         .institution {
-            color: #ecf0f1;
-            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
             margin-bottom: 12px;
-            font-weight: 600;
+            font-weight: 500;
             letter-spacing: 0.5px;
         }
         
+        .title-container {
+            display: inline-block;
+            background: var(--primary-very-light);
+            padding: 20px 40px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+        
         .main-title {
-            color: #ffffff;
-            font-size: 2.4rem;
+            color: var(--text-primary);
+            font-size: 3rem;
             font-weight: 700;
             letter-spacing: -0.5px;
             line-height: 1.1;
-            margin-bottom: 8px;
+            margin: 0;
         }
         
         .description {
-            color: #ecf0f1;
-            font-size: 1.1rem;
-            font-weight: 500;
-            max-width: 500px;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            font-weight: 400;
+            white-space: nowrap;
             margin: 0 auto;
-            line-height: 1.4;
+            line-height: 1.5;
         }
         
+        /* Grid Layout */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
         }
         
+        /* Cards */
         .card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
-            transition: all 0.3s ease;
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            border: 1px solid #e9ecef;
+            border: 1px solid var(--border);
         }
         
         .card::before {
@@ -88,345 +128,438 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 3px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
         }
-        
-        .card-1::before { background: #7ea8c9; }
-        .card-2::before { background: #c97e7e; }
-        .card-3::before { background: #7ec98a; }
-        .card-4::before { background: #b87ec9; }
-        .card-5::before { background: #c9b27e; }
-        .card-6::before { background: #7ec9c1; }
         
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(44, 62, 80, 0.15);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
         }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 1.5rem;
+        }
+        
+        .card-1 .card-icon { background: var(--primary-light); color: var(--primary); }
+        .card-2 .card-icon { background: #fef3c7; color: var(--warning); }
+        .card-3 .card-icon { background: #d1fae5; color: var(--success); }
+        .card-4 .card-icon { background: #e0e7ff; color: #6366f1; }
+        .card-5 .card-icon { background: #fce7f3; color: #ec4899; }
+        .card-6 .card-icon { background: #f0f9ff; color: var(--accent); }
         
         .card h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
-            border-bottom: 2px solid #ecf0f1;
-            font-size: 1.3rem;
-            font-weight: 700;
-            letter-spacing: -0.2px;
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0;
         }
         
+        /* Links */
         .link-list {
-            list-style-type: none;
-        }
-        
-        .link-list li {
-            margin-bottom: 12px;
-            transition: all 0.25s ease;
-        }
-        
-        .link-list li:last-child {
-            margin-bottom: 0;
+            list-style: none;
         }
         
         .link-item {
-            color: #2c3e50;
-            text-decoration: none;
             display: flex;
-            align-items: center;
-            padding: 14px 16px;
-            border-radius: 8px;
-            transition: all 0.25s ease;
-            font-weight: 600;
-            font-size: 1.05rem;
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            width: 100%;
+            align-items: flex-start;
+            padding: 16px 20px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: var(--text-primary);
+            border: 1px solid transparent;
+            background: var(--background);
+            margin-bottom: 12px;
+            flex-direction: column;
         }
         
         .link-item:hover {
-            background: #ffffff;
-            border-color: #7ea8c9;
-            box-shadow: 0 2px 8px rgba(126, 168, 201, 0.1);
-            transform: translateX(2px);
+            background: var(--surface);
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+            transform: translateX(4px);
+        }
+        
+        .link-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .link-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
         }
         
         .link-icon {
             width: 20px;
             height: 20px;
-            margin-right: 14px;
+            margin-right: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #7ea8c9;
-            font-weight: 700;
+            color: var(--primary);
+            font-weight: 600;
             flex-shrink: 0;
-            font-size: 1.1rem;
         }
         
-        .link-with-note {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            width: 100%;
-        }
-        
-        .note-container {
-            display: flex;
-            align-items: flex-start;
-            margin: 8px 0 0 36px;
-            width: calc(100% - 36px);
-        }
-        
-        .note-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #d4a55c;
-            font-weight: 700;
-            flex-shrink: 0;
-            font-size: 1rem;
-        }
-        
-        .link-note {
-            background: #fdf8f0;
-            border-radius: 6px;
-            padding: 12px 16px;
-            font-size: 0.9rem;
-            color: #8e6c0a;
-            border-left: 3px solid #d4a55c;
+        .link-text {
             flex: 1;
             font-weight: 500;
         }
         
+        .link-meta {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            margin-left: 36px;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        
+        /* Network Info */
         .network-info {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 8px;
-            font-size: 0.92rem;
-            border-left: 3px solid #7ea8c9;
-            width: 100%;
-        }
-        
-        .network-info p {
-            margin-bottom: 6px;
-            color: #2c3e50;
-            font-weight: 500;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 50px;
+            background: #f0f9ff;
+            border-radius: 16px;
             padding: 24px;
-            color: #7f8c8d;
-            font-size: 0.95rem;
-            background: #ffffff;
-            border-radius: 12px;
-            border: 1px solid #e9ecef;
-            font-weight: 500;
-            box-shadow: 0 2px 8px rgba(44, 62, 80, 0.05);
+            margin-top: 16px;
+            border-left: 4px solid var(--accent);
         }
         
+        .network-info h3 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .network-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+        
+        .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px;
+            color: var(--text-secondary);
+            background: var(--surface);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        
+        .footer p {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .year {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* Responsive */
         @media (max-width: 768px) {
             .grid {
                 grid-template-columns: 1fr;
             }
             
-            header {
-                padding: 28px 20px;
+            .header {
+                padding: 32px 24px;
             }
             
             .main-title {
-                font-size: 2rem;
+                font-size: 2.25rem;
+            }
+            
+            .title-container {
+                padding: 16px 24px;
             }
             
             .description {
-                font-size: 1rem;
+                white-space: normal;
+                max-width: 300px;
             }
             
-            .note-container {
+            .card {
+                padding: 24px;
+            }
+            
+            .link-meta {
                 margin-left: 0;
-                width: 100%;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="header-text">
+        <header class="header">
+            <div class="header-content">
                 <div class="institution">ГБУЗ МО МОКПТД филиал Клинский</div>
-                <h1 class="main-title">Навигатор врача-фтизиатра</h1>
-                <p class="description">Ресурсы для эффективной работы</p>
+                <div class="title-container">
+                    <h1 class="main-title">Навигатор врача-фтизиатра</h1>
+                </div>
+                <p class="description">Система доступа к профессиональным ресурсам</p>
             </div>
         </header>
         
         <div class="grid">
-            <!-- Блок 1: Лекарственные справочники -->
+            <!-- Лекарственные справочники -->
             <div class="card card-1">
-                <h2>Лекарственные справочники</h2>
-                <ul class="link-list">
-                    <li><a href="https://www.rlsnet.ru/" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        РЛС
-                    </a></li>
-                    <li><a href="https://www.vidal.ru/" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        ВИДАЛЬ
-                    </a></li>
-                    <li><a href="https://www.vidal.ru/drugs/interaction/new" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Проверка взаимодействия лекарственных препаратов
-                    </a></li>
-                    <li><a href="https://www.cardioneurology.ru/skf/" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Калькулятор скорости клубочковой фильтрации
-                    </a></li>
-                </ul>
+                <div class="card-header">
+                    <div class="card-icon">💊</div>
+                    <h2>Лекарственные справочники</h2>
+                </div>
+                <div class="link-list">
+                    <a href="https://www.rlsnet.ru/" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">РЛС</div>
+                        </div>
+                    </a>
+                    <a href="https://www.vidal.ru/" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">ВИДАЛЬ</div>
+                        </div>
+                    </a>
+                    <a href="https://www.vidal.ru/drugs/interaction/new" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Проверка взаимодействия ЛС</div>
+                        </div>
+                        <div class="link-meta">Анализ лекарственных взаимодействий</div>
+                    </a>
+                    <a href="https://www.cardioneurology.ru/skf/" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Калькулятор СКФ</div>
+                        </div>
+                        <div class="link-meta">Скорость клубочковой фильтрации</div>
+                    </a>
+                </div>
             </div>
             
-            <!-- Блок 2: Нормативные документы -->
+            <!-- Нормативные документы -->
             <div class="card card-2">
-                <h2>Нормативные документы</h2>
-                <ul class="link-list">
-                    <li><a href="http://217.107.102.71:90/kk/" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Контроль качества (КК) - нормативные документы
-                    </a></li>
-                    <li><a href="https://1drv.ms/f/s!AgHonOA1SYONg6V9QJOtmDuNuSpnrw?e=jXOO9r" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Приказы МОКПТД
-                    </a></li>
-                    <li class="link-with-note">
-                        <a href="https://1drv.ms/w/s!AgHonOA1SYONg_tUOgiWd54EJ6t0hA?e=S78Iq2" target="_blank" class="link-item">
+                <div class="card-header">
+                    <div class="card-icon">📋</div>
+                    <h2>Нормативные документы</h2>
+                </div>
+                <div class="link-list">
+                    <a href="http://217.107.102.71:90/kk/" target="_blank" class="link-item">
+                        <div class="link-content">
                             <div class="link-icon">→</div>
-                            Информирование пациентов
-                        </a>
-                        <div class="note-container">
-                            <div class="note-icon">💡</div>
-                            <div class="link-note">
-                                Ответы на вопросы, ссылки на нормативную документацию
-                            </div>
+                            <div class="link-text">Контроль качества</div>
                         </div>
-                    </li>
-                </ul>
+                        <div class="link-meta">Нормативные документы по КК</div>
+                    </a>
+                    <a href="https://1drv.ms/f/s!AgHonOA1SYONg6V9QJOtmDuNuSpnrw?e=jXOO9r" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Приказы МОКПТД</div>
+                        </div>
+                    </a>
+                    <a href="https://1drv.ms/w/s!AgHonOA1SYONg_tUOgiWd54EJ6t0hA?e=S78Iq2" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Информирование пациентов</div>
+                        </div>
+                        <div class="link-meta">Ответы на вопросы, нормативная документация</div>
+                    </a>
+                </div>
             </div>
             
-            <!-- Блок 3: Клинические рекомендации -->
+            <!-- Клинические рекомендации -->
             <div class="card card-3">
-                <h2>Клинические рекомендации</h2>
-                <ul class="link-list">
-                    <li><a href="https://cr.minzdrav.gov.ru/clin-rec" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Клинические рекомендации на сайте МЗ РФ (Все)
-                    </a></li>
-                    <li><a href="https://cr.minzdrav.gov.ru/view-cr/16_3" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Клинические рекомендации по туберкулезу (Взрослые)
-                    </a></li>
-                    <li><a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Клинические рекомендации по туберкулезу (Дети)
-                    </a></li>
-                </ul>
+                <div class="card-header">
+                    <div class="card-icon">📚</div>
+                    <h2>Клинические рекомендации</h2>
+                </div>
+                <div class="link-list">
+                    <a href="https://cr.minzdrav.gov.ru/clin-rec" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Все рекомендации МЗ РФ</div>
+                        </div>
+                    </a>
+                    <a href="https://cr.minzdrav.gov.ru/view-cr/16_3" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Туберкулез (Взрослые)</div>
+                        </div>
+                    </a>
+                    <a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Туберкулез (Дети)</div>
+                        </div>
+                    </a>
+                </div>
             </div>
             
-            <!-- Блок 4: Системы и платформы -->
+            <!-- Системы и платформы -->
             <div class="card card-4">
-                <h2>Системы и платформы</h2>
-                <ul class="link-list">
-                    <li><a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        DIGIPAX
-                    </a></li>
-                    <li><a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        ЕМИАС
-                    </a></li>
-                    <li><a href="https://esia.gosuslugi.ru/login/" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        ФРБТ
-                    </a></li>
-                    <li><a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        1С-мокрота
-                    </a></li>
-                    <li><a href="https://pyrus.com/t#inbox" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Pyrus
-                    </a></li>
-                    <li><a href="https://conf.mokptd.ru:553/c/8257285451" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        ВКС
-                    </a></li>
-                </ul>
+                <div class="card-header">
+                    <div class="card-icon">⚙️</div>
+                    <h2>Рабочие системы</h2>
+                </div>
+                <div class="link-list">
+                    <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">DIGIPAX</div>
+                        </div>
+                    </a>
+                    <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">ЕМИАС</div>
+                        </div>
+                    </a>
+                    <a href="https://esia.gosuslugi.ru/login/" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">ФРБТ</div>
+                        </div>
+                    </a>
+                    <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">1С-мокрота</div>
+                        </div>
+                    </a>
+                    <a href="https://pyrus.com/t#inbox" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Pyrus</div>
+                        </div>
+                    </a>
+                    <a href="https://conf.mokptd.ru:553/c/8257285451" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">ВКС</div>
+                        </div>
+                    </a>
+                </div>
             </div>
             
-            <!-- Блок 5: Дополнительные ресурсы -->
+            <!-- Дополнительные ресурсы -->
             <div class="card card-5">
-                <h2>Дополнительные ресурсы</h2>
-                <ul class="link-list">
-                    <li><a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Нежелательные события - цифровая платформа
-                    </a></li>
-                    <li><a href="https://1drv.ms/x/c/8d834935e09ce801/ETRB57lESrFEuvrIH6A-7ZQB8oGKqomMyLTRWU3LdJRsbw?e=pZ7lQh" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Сигнальная картотека
-                    </a></li>
-                    <li><a href="https://www.mofoms.ru/polis/" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Проверка полиса ОМС
-                    </a></li>
-                    <li><a href="https://1drv.ms/f/c/8d834935e09ce801/Equbs6WBjiVOgQr38OI_a24BYBttmeBF6ZxINRlAcMzIxQ?e=ZNTqoH" target="_blank" class="link-item">
-                        <div class="link-icon">→</div>
-                        Гид по работе врача-фтизиатра
-                    </a></li>
-                    <li class="link-with-note">
-                        <a href="https://drive.google.com/drive/folders/1QBk3bPDDm6Sw6Iyyg20hgGpfGPc9Z2ua?usp=sharing" target="_blank" class="link-item">
+                <div class="card-header">
+                    <div class="card-icon">🔗</div>
+                    <h2>Дополнительные ресурсы</h2>
+                </div>
+                <div class="link-list">
+                    <a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="link-item">
+                        <div class="link-content">
                             <div class="link-icon">→</div>
-                            Файлы для ЦВК
-                        </a>
-                        <div class="note-container">
-                            <div class="note-icon">💡</div>
-                            <div class="link-note">
-                                После перехода по ссылке создавайте отдельные папки для каждого пациента
-                            </div>
+                            <div class="link-text">Нежелательные события</div>
                         </div>
-                    </li>
-                    <li class="link-with-note">
-                        <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="link-item">
+                        <div class="link-meta">Цифровая платформа для учета</div>
+                    </a>
+                    <a href="https://1drv.ms/x/c/8d834935e09ce801/ETRB57lESrFEuvrIH6A-7ZQB8oGKqomMyLTRWU3LdJRsbw?e=pZ7lQh" target="_blank" class="link-item">
+                        <div class="link-content">
                             <div class="link-icon">→</div>
-                            Шаблоны и образцы
-                        </a>
-                        <div class="note-container">
-                            <div class="note-icon">💡</div>
-                            <div class="link-note">
-                                Логин: <a href="mailto:klin_tbc@mail.ru" style="color: #8e6c0a; text-decoration: none; font-weight: 600;">klin_tbc@mail.ru</a><br>
-                                Пароль: Aa5..831
-                            </div>
+                            <div class="link-text">Сигнальная картотека</div>
                         </div>
-                    </li>
-                </ul>
+                    </a>
+                    <a href="https://www.mofoms.ru/polis/" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Проверка полиса ОМС</div>
+                        </div>
+                    </a>
+                    <a href="https://1drv.ms/f/c/8d834935e09ce801/Equbs6WBjiVOgQr38OI_a24BYBttmeBF6ZxINRlAcMzIxQ?e=ZNTqoH" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Гид врача-фтизиатра</div>
+                        </div>
+                    </a>
+                    <a href="https://drive.google.com/drive/folders/1QBk3bPDDm6Sw6Iyyg20hgGpfGPc9Z2ua?usp=sharing" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Файлы для ЦВК</div>
+                        </div>
+                        <div class="link-meta">Создавайте отдельные папки для каждого пациента</div>
+                    </a>
+                    <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="link-item">
+                        <div class="link-content">
+                            <div class="link-icon">→</div>
+                            <div class="link-text">Шаблоны и образцы</div>
+                        </div>
+                        <div class="link-meta">Логин: klin_tbc@mail.ru | Пароль: Aa5..831</div>
+                    </a>
+                </div>
             </div>
             
-            <!-- Блок 6: Сетевое подключение -->
+            <!-- Сетевое подключение -->
             <div class="card card-6">
-                <h2>Сетевое подключение</h2>
+                <div class="card-header">
+                    <div class="card-icon">🌐</div>
+                    <h2>Сетевое подключение</h2>
+                </div>
                 <div class="network-info">
-                    <p><strong>Папка ТМК (телемедицинская консультация с МОКПТД):</strong></p>
-                    <p>Этот компьютер → Подключить сетевой диск → в поле папка:</p>
-                    <p><a href="http://217.107.102.71:90/tmk/" target="_blank" style="color: #2c3e50; text-decoration: none; font-weight: 600;">http://217.107.102.71:90/tmk/</a></p>
-                    <p>Имя пользователя: mosklin</p>
-                    <p>Пароль: Узнайте у IT-специалиста или заведующего</p>
+                    <h3>Папка ТМК (телемедицинская консультация)</h3>
+                    <div class="network-step">
+                        <div class="step-number">1</div>
+                        <div>Откройте "Этот компьютер"</div>
+                    </div>
+                    <div class="network-step">
+                        <div class="step-number">2</div>
+                        <div>Выберите "Подключить сетевой диск"</div>
+                    </div>
+                    <div class="network-step">
+                        <div class="step-number">3</div>
+                        <div>В поле папка введите:</div>
+                    </div>
+                    <a href="http://217.107.102.71:90/tmk/" target="_blank" class="link-item" style="margin-top: 12px;">
+                        <div class="link-content">
+                            <div class="link-icon">🔗</div>
+                            <div class="link-text">http://217.107.102.71:90/tmk/</div>
+                        </div>
+                    </a>
+                    <div style="margin-top: 16px; color: var(--text-secondary); font-size: 0.9rem; padding-left: 12px;">
+                        Имя пользователя: mosklin | Пароль: узнайте у IT-специалиста
+                    </div>
                 </div>
             </div>
         </div>
         
-        <footer>
+        <footer class="footer">
             <p>Страница создана для удобства медицинских работников</p>
-            <p>2024</p>
+            <p class="year">2024</p>
         </footer>
     </div>
 </body>
