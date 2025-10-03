@@ -161,6 +161,7 @@
         .card-4 .card-icon { background: #e0e7ff; color: #6366f1; }
         .card-5 .card-icon { background: #fce7f3; color: #ec4899; }
         .card-6 .card-icon { background: #f0f9ff; color: var(--accent); }
+        .card-7 .card-icon { background: #e0f2fe; color: #0284c7; }
         
         .card h2 {
             color: var(--text-primary);
@@ -227,6 +228,97 @@
             color: var(--text-secondary);
             margin-top: 6px;
             margin-left: 36px;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            margin-top: 8px;
+        }
+        
+        .dropdown-toggle {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-toggle:hover {
+            background: #1d4ed8;
+        }
+        
+        .dropdown-toggle::after {
+            content: "▼";
+            font-size: 0.8rem;
+            margin-left: 8px;
+            transition: transform 0.2s ease;
+        }
+        
+        .dropdown-toggle.open::after {
+            transform: rotate(180deg);
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: relative;
+            background: var(--surface);
+            border-radius: 12px;
+            margin-top: 8px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .dropdown-content.show {
+            display: block;
+        }
+        
+        .dropdown-link {
+            display: flex;
+            align-items: flex-start;
+            padding: 16px 20px;
+            text-decoration: none;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.2s ease;
+            flex-direction: column;
+        }
+        
+        .dropdown-link:hover {
+            background: var(--primary-light);
+        }
+        
+        .dropdown-link:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-link-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .dropdown-link-text {
+            flex: 1;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        .dropdown-link-meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            margin-left: 0;
             font-weight: 400;
             line-height: 1.4;
         }
@@ -318,6 +410,10 @@
             }
             
             .link-meta {
+                margin-left: 0;
+            }
+            
+            .dropdown-link-meta {
                 margin-left: 0;
             }
         }
@@ -434,6 +530,91 @@
                         </div>
                         <div class="link-meta">Подробный справочник по режимам ХТ</div>
                     </a>
+                </div>
+            </div>
+            
+            <!-- Образовательные материалы -->
+            <div class="card card-7">
+                <div class="card-header">
+                    <div class="card-icon">🎓</div>
+                    <h2>Образовательные материалы</h2>
+                </div>
+                <div class="dropdown">
+                    <button class="dropdown-toggle" onclick="toggleDropdown(this)">
+                        Показать образовательные ресурсы
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="https://rof-tb.ru/" target="_blank" class="dropdown-link">
+                            <div class="dropdown-link-content">
+                                <div class="link-icon">→</div>
+                                <div class="dropdown-link-text">Российское Общество Фтизиатров (РОФ)</div>
+                            </div>
+                            <div class="dropdown-link-meta">Официальное сообщество специалистов по диагностике и лечению туберкулёза в России. Публикует клинические рекомендации, организует школы и конференции, выпускает журнал «Туберкулёз и болезни лёгких».</div>
+                        </a>
+                        <a href="https://nmrc.ru/" target="_blank" class="dropdown-link">
+                            <div class="dropdown-link-content">
+                                <div class="link-icon">→</div>
+                                <div class="dropdown-link-text">Национальный медицинский исследовательский центр фтизиопульмонологии и инфекционных заболеваний (НМИЦ Фтизиопульмонологии)</div>
+                            </div>
+                            <div class="dropdown-link-meta">Ведущий научно-практический центр России по туберкулёзу и инфекционным заболеваниям. Проводит исследования, обучающие вебинары и предоставляет методические материалы.</div>
+                        </a>
+                        <a href="https://www.who.int/teams/global-tuberculosis-programme" target="_blank" class="dropdown-link">
+                            <div class="dropdown-link-content">
+                                <div class="link-icon">→</div>
+                                <div class="dropdown-link-text">Всемирная организация здравоохранения (ВОЗ) — Программа по туберкулёзу</div>
+                            </div>
+                            <div class="dropdown-link-meta">Международные стандарты диагностики, лечения и профилактики туберкулёза, а также актуальная статистика по странам.</div>
+                        </a>
+                        <a href="https://www.tb-journal.ru/" target="_blank" class="dropdown-link">
+                            <div class="dropdown-link-content">
+                                <div class="link-icon">→</div>
+                                <div class="dropdown-link-text">Журнал «Туберкулёз и болезни лёгких»</div>
+                            </div>
+                            <div class="dropdown-link-meta">Научно-практическое издание, публикующее статьи по актуальным вопросам фтизиатрии и пульмонологии.</div>
+                        </a>
+                        <a href="https://www.cdc.gov/tb" target="_blank" class="dropdown-link">
+                            <div class="dropdown-link-content">
+                                <div class="link-icon">→</div>
+                                <div class="dropdown-link-text">CDC — Tuberculosis (США)</div>
+                            </div>
+                            <div class="dropdown-link-meta">Центры по контролю и профилактике заболеваний США. Подробные рекомендации по диагностике, лечению и профилактике туберкулёза, включая устойчивые формы.</div>
+                        </a>
+                        <a href="https://www.ecdc.europa.eu/en/tuberculosis" target="_blank" class="dropdown-link">
+                            <div class="dropdown-link-content">
+                                <div class="link-icon">→</div>
+                                <div class="dropdown-link-text">European Centre for Disease Prevention and Control (ECDC) — Tuberculosis</div>
+                            </div>
+                            <div class="dropdown-link-meta">Европейский центр профилактики и контроля заболеваний. Содержит отчёты по эпидемиологии, стандарты лечения и профилактики TB в Европе.</div>
+                        </a>
+                        <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" class="dropdown-link">
+                            <div class="dropdown-link-content">
+                                <div class="link-icon">→</div>
+                                <div class="dropdown-link-text">PubMed</div>
+                            </div>
+                            <div class="dropdown-link-meta">Международная база медицинских и биомедицинских публикаций. Позволяет искать последние исследования по туберкулёзу, лекарственной устойчивости и клиническим протоколам.</div>
+                        </a>
+                        <a href="https://www.thelancet.com/journals/lanres" target="_blank" class="dropdown-link">
+                            <div class="dropdown-link-content">
+                                <div class="link-icon">→</div>
+                                <div class="dropdown-link-text">Lancet Respiratory Medicine</div>
+                            </div>
+                            <div class="dropdown-link-meta">Ведущий международный журнал по заболеваниям дыхательной системы, включая туберкулёз.</div>
+                        </a>
+                        <a href="http://www.stoptb.org" target="_blank" class="dropdown-link">
+                            <div class="dropdown-link-content">
+                                <div class="link-icon">→</div>
+                                <div class="dropdown-link-text">Stop TB Partnership</div>
+                            </div>
+                            <div class="dropdown-link-meta">Международная организация по борьбе с туберкулёзом. Предоставляет отчёты, статистику и материалы для профессионалов здравоохранения.</div>
+                        </a>
+                        <a href="https://theunion.org" target="_blank" class="dropdown-link">
+                            <div class="dropdown-link-content">
+                                <div class="link-icon">→</div>
+                                <div class="dropdown-link-text">The Union (International Union Against Tuberculosis and Lung Disease)</div>
+                            </div>
+                            <div class="dropdown-link-meta">Международная организация, публикует практические руководства, исследования и образовательные программы для специалистов по туберкулёзу и заболеваниям лёгких.</div>
+                        </a>
+                    </div>
                 </div>
             </div>
             
@@ -570,5 +751,13 @@
             <p class="year">2024</p>
         </footer>
     </div>
+
+    <script>
+        function toggleDropdown(button) {
+            const dropdownContent = button.nextElementSibling;
+            button.classList.toggle('open');
+            dropdownContent.classList.toggle('show');
+        }
+    </script>
 </body>
 </html>
