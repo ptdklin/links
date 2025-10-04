@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <title>Навигатор врача-фтизиатра | ГБУЗ МО МОКПТД</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -17,112 +17,261 @@
         :root {
             --primary: #2563eb;
             --primary-light: #eff6ff;
+            --primary-dark: #1e40af;
             --primary-very-light: #f8faff;
             --secondary: #64748b;
             --accent: #06b6d4;
             --success: #10b981;
             --warning: #f59e0b;
             --error: #ef4444;
-            --background: #f8fafc;
+            --background: #ffffff;
             --surface: #ffffff;
             --text-primary: #1e293b;
             --text-secondary: #64748b;
             --border: #e2e8f0;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --sidebar-width: 300px;
         }
         
         body {
-            background: linear-gradient(135deg, var(--background) 0%, #f1f5f9 100%);
+            background: var(--background);
             color: var(--text-primary);
             line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            display: flex;
+            min-height: 100vh;
         }
         
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        /* Header */
-        .header {
-            margin-bottom: 48px;
-            padding: 48px 40px;
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
             background: var(--surface);
-            border-radius: 24px;
+            border-right: 1px solid var(--border);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
             box-shadow: var(--shadow-lg);
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-            border: 1px solid var(--border);
         }
         
-        .header::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+        
+        .sidebar-header {
+            padding: 35px 20px 25px 20px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            text-align: center;
+            position: relative;
         }
         
         .institution {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 12px;
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
             font-weight: 500;
             letter-spacing: 0.5px;
         }
         
-        .title-container {
-            display: inline-block;
-            background: var(--primary-very-light);
-            padding: 20px 40px;
-            border-radius: 16px;
-            margin-bottom: 16px;
-        }
-        
-        .main-title {
-            color: var(--text-primary);
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            line-height: 1.1;
-            margin: 0;
-        }
-        
-        .description {
-            color: var(--text-secondary);
+        .sidebar-title {
             font-size: 1.2rem;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 15px 0;
+        }
+
+        .nav-group {
+            margin-bottom: 6px;
+        }
+
+        .nav-group-title {
+            padding: 10px 20px;
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-light), transparent);
+            border-left: 3px solid var(--primary);
+        }
+        
+        .nav-item {
+            margin-bottom: 1px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link:hover {
+            background: var(--primary-light);
+            border-left-color: var(--primary);
+            transform: translateX(3px);
+        }
+        
+        .nav-link.active {
+            background: var(--primary-light);
+            border-left-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+
+        .nav-link:hover .nav-icon,
+        .nav-link.active .nav-icon {
+            transform: scale(1.1);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+        
+        .content-header {
+            background: var(--surface);
+            padding: 35px 40px;
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            text-align: center;
+            position: relative;
+        }
+
+        .content-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--success));
+        }
+        
+        .institution-main {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .page-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
             font-weight: 400;
-            white-space: nowrap;
+            max-width: 600px;
             margin: 0 auto;
             line-height: 1.5;
+        }
+        
+        .content-area {
+            flex: 1;
+            padding: 35px;
+            overflow-y: auto;
+        }
+        
+        /* Hamburger Menu */
+        .hamburger {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            touch-action: manipulation;
+        }
+
+        .hamburger:hover {
+            transform: scale(1.1);
         }
         
         /* Grid Layout */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 24px;
-            margin-bottom: 48px;
+            gap: 25px;
+            margin-bottom: 40px;
         }
         
         /* Cards */
         .card {
             background: var(--surface);
             border-radius: 20px;
-            padding: 32px;
-            box-shadow: var(--shadow);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 28px;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             border: 1px solid var(--border);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
         }
-        
+
         .card::before {
             content: "";
             position: absolute;
@@ -134,66 +283,72 @@
         }
         
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
         }
         
         .card-header {
             display: flex;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
         }
         
         .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 16px;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.05);
         }
         
-        .card-1 .card-icon { background: var(--primary-light); color: var(--primary); }
-        .card-2 .card-icon { background: #fef3c7; color: var(--warning); }
-        .card-3 .card-icon { background: #d1fae5; color: var(--success); }
-        .card-4 .card-icon { background: #e0e7ff; color: #6366f1; }
-        .card-5 .card-icon { background: #fce7f3; color: #ec4899; }
-        .card-6 .card-icon { background: #f0f9ff; color: var(--accent); }
-        .card-7 .card-icon { background: #e0f2fe; color: #0284c7; }
+        .card-1 .card-icon { background: var(--primary-light); }
+        .card-2 .card-icon { background: #fef3c7; }
+        .card-3 .card-icon { background: #d1fae5; }
+        .card-4 .card-icon { background: #e0e7ff; }
+        .card-5 .card-icon { background: #fce7f3; }
+        .card-6 .card-icon { background: #f0f9ff; }
+        .card-7 .card-icon { background: #e0f2fe; }
         
         .card h2 {
             color: var(--text-primary);
             font-size: 1.4rem;
-            font-weight: 600;
+            font-weight: 700;
             margin: 0;
         }
         
         /* Links */
         .link-list {
             list-style: none;
+            flex: 1;
         }
         
         .link-item {
             display: flex;
             align-items: flex-start;
-            padding: 16px 20px;
+            padding: 14px 18px;
             border-radius: 12px;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             color: var(--text-primary);
             border: 1px solid transparent;
-            background: var(--background);
-            margin-bottom: 12px;
+            background: var(--primary-very-light);
+            margin-bottom: 10px;
             flex-direction: column;
         }
         
         .link-item:hover {
             background: var(--surface);
             border-color: var(--primary);
-            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
-            transform: translateX(4px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.12);
+            transform: translateX(6px);
         }
         
         .link-item:last-child {
@@ -209,116 +364,32 @@
         .link-icon {
             width: 20px;
             height: 20px;
-            margin-right: 16px;
+            margin-right: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary);
-            font-weight: 600;
+            font-weight: 700;
             flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .link-item:hover .link-icon {
+            transform: scale(1.15);
+            color: var(--accent);
         }
         
         .link-text {
             flex: 1;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 1rem;
         }
         
         .link-meta {
-            font-size: 0.875rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
             margin-top: 6px;
-            margin-left: 36px;
-            font-weight: 400;
-            line-height: 1.4;
-        }
-        
-        /* Dropdown Styles */
-        .dropdown {
-            position: relative;
-            margin-top: 8px;
-        }
-        
-        .dropdown-toggle {
-            width: 100%;
-            padding: 16px 20px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.2s ease;
-        }
-        
-        .dropdown-toggle:hover {
-            background: #1d4ed8;
-        }
-        
-        .dropdown-toggle::after {
-            content: "▼";
-            font-size: 0.8rem;
-            margin-left: 8px;
-            transition: transform 0.2s ease;
-        }
-        
-        .dropdown-toggle.open::after {
-            transform: rotate(180deg);
-        }
-        
-        .dropdown-content {
-            display: none;
-            position: relative;
-            background: var(--surface);
-            border-radius: 12px;
-            margin-top: 8px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-        
-        .dropdown-content.show {
-            display: block;
-        }
-        
-        .dropdown-link {
-            display: flex;
-            align-items: flex-start;
-            padding: 16px 20px;
-            text-decoration: none;
-            color: var(--text-primary);
-            border-bottom: 1px solid var(--border);
-            transition: all 0.2s ease;
-            flex-direction: column;
-        }
-        
-        .dropdown-link:hover {
-            background: var(--primary-light);
-        }
-        
-        .dropdown-link:last-child {
-            border-bottom: none;
-        }
-        
-        .dropdown-link-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-        
-        .dropdown-link-text {
-            flex: 1;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-        
-        .dropdown-link-meta {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-top: 6px;
-            margin-left: 0;
+            margin-left: 34px;
             font-weight: 400;
             line-height: 1.4;
         }
@@ -329,435 +400,867 @@
             border-radius: 16px;
             padding: 24px;
             margin-top: 16px;
-            border-left: 4px solid var(--accent);
+            border-left: 5px solid var(--accent);
         }
         
         .network-info h3 {
             color: var(--text-primary);
             font-size: 1.1rem;
-            margin-bottom: 12px;
-            font-weight: 600;
+            margin-bottom: 14px;
+            font-weight: 700;
         }
         
         .network-step {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: var(--text-secondary);
         }
         
         .step-number {
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent) 0%, #0891b2 100%);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.75rem;
-            font-weight: 600;
-            margin-right: 12px;
+            font-weight: 700;
+            margin-right: 14px;
             flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(6, 182, 212, 0.3);
         }
         
         /* Footer */
         .footer {
             text-align: center;
-            padding: 32px;
+            padding: 35px;
             color: var(--text-secondary);
             background: var(--surface);
             border-radius: 20px;
             border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-lg);
+            margin-top: 35px;
         }
         
         .footer p {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 500;
         }
         
         .year {
             color: var(--primary);
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.05rem;
         }
         
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
+            .sidebar:not(.collapsed) {
+                transform: translateX(0);
+            }
+            
+            .main-content:not(.expanded) {
+                margin-left: var(--sidebar-width);
+            }
+            
             .grid {
                 grid-template-columns: 1fr;
             }
-            
-            .header {
-                padding: 32px 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .content-header {
+                padding: 25px 20px;
             }
             
-            .main-title {
-                font-size: 2.25rem;
+            .content-area {
+                padding: 25px;
             }
             
-            .title-container {
-                padding: 16px 24px;
-            }
-            
-            .description {
-                white-space: normal;
-                max-width: 300px;
+            .page-title {
+                font-size: 2.2rem;
             }
             
             .card {
-                padding: 24px;
+                padding: 22px;
+                min-height: 280px;
             }
             
             .link-meta {
                 margin-left: 0;
             }
+        }
+        
+        @media (max-width: 480px) {
+            .content-header {
+                padding: 20px 15px;
+            }
             
-            .dropdown-link-meta {
-                margin-left: 0;
+            .content-area {
+                padding: 20px;
+            }
+            
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .card {
+                padding: 18px;
+                min-height: 260px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hamburger {
+                top: 10px;
+                left: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
             }
         }
+
+        /* iOS специфичные исправления */
+        @supports (-webkit-touch-callout: none) {
+            .hamburger {
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            .hamburger:active {
+                background: var(--primary-dark);
+                transform: scale(0.95);
+            }
+            
+            /* Улучшаем отзывчивость на тач */
+            .nav-link, .link-item {
+                -webkit-tap-highlight-color: rgba(37, 99, 235, 0.1);
+            }
+        }
+
+        /* Гарантированно убираем выделение при тапе */
+        .hamburger, .nav-link, .link-item {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Иконки для бокового меню - сплошная синяя заливка без контуров */
+        .icon-home { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+        .icon-chart { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M3 13h2v-2H3v2zm0 4h2v-2H3v2zm2 4v-2H3v2h2zM3 9h2V7H3v2zm12 12h2v-2h-2v2zm4-18H9v2h10v16h2V5c0-1.1-.9-2-2-2zm-4 18h2v-2h-2v2zm-8 0h2v-2H7v2z'/%3E%3C/svg%3E"); }
+        .icon-scroll { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z'/%3E%3C/svg%3E"); }
+        .icon-checklist { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z'/%3E%3C/svg%3E"); }
+        .icon-book { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z'/%3E%3C/svg%3E"); }
+        .icon-user { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"); }
+        .icon-child { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Ccircle cx='12' cy='6' r='2'/%3E%3Cpath d='M15 20v-2h4v2h-4zm-6 0v-2H5v2h4zm5.5-10c0-1.93-1.57-3.5-3.5-3.5S8.5 8.07 8.5 10H7l3 3 3-3h-1.5z'/%3E%3C/svg%3E"); }
+        .icon-pill { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M17 3H7c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7V5h10v14zm-5-8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z'/%3E%3C/svg%3E"); }
+        .icon-calculator { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-2h2v2zm0-4H7v-2h2v2zm0-4H7V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-4h2v4zm0-6h-2V7h2v2z'/%3E%3C/svg%3E"); }
+        .icon-warning { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z'/%3E%3C/svg%3E"); }
+        .icon-arrows { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z'/%3E%3C/svg%3E"); }
+        .icon-people { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z'/%3E%3C/svg%3E"); }
+        .icon-passport { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z'/%3E%3C/svg%3E"); }
+        .icon-case { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M14 6V4h-4v2h4zM4 8v11h16V8H4zm16-2c1.11 0 2 .89 2 2v11c0 1.11-.89 2-2 2H4c-1.11 0-2-.89-2-2l.01-11c0-1.11.88-2 1.99-2h4V4c0-1.11.89-2 2-2h4c1.11 0 2 .89 2 2v2h4z'/%3E%3C/svg%3E"); }
+        .icon-survey { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z'/%3E%3C/svg%3E"); }
+        .icon-computer { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z'/%3E%3C/svg%3E"); }
+        .icon-image { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'/%3E%3C/svg%3E"); }
+        .icon-document { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z'/%3E%3C/svg%3E"); }
+        .icon-flask { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M17.66 8L12 2.35 6.34 8C4.78 9.56 4 11.64 4 13.64s.78 4.11 2.34 5.67 3.61 2.35 5.66 2.35 4.1-.79 5.66-2.35S20 15.64 20 13.64 19.22 9.56 17.66 8zM6 14c.01-2 .62-3.27 1.76-4.4L12 5.27l4.24 4.38C17.38 10.77 17.99 12 18 14H6z'/%3E%3C/svg%3E"); }
+        .icon-mail { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z'/%3E%3C/svg%3E"); }
+        .icon-video { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z'/%3E%3C/svg%3E"); }
+        .icon-folder { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z'/%3E%3C/svg%3E"); }
+        .icon-search { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E"); }
+        .icon-help { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z'/%3E%3C/svg%3E"); }
+        .icon-flag { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z'/%3E%3C/svg%3E"); }
+        .icon-star { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E"); }
+        .icon-globe { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z'/%3E%3C/svg%3E"); }
+        .icon-check { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E"); }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="header-content">
-                <div class="institution">ГБУЗ МО МОКПТД филиал Клинский</div>
-                <div class="title-container">
-                    <h1 class="main-title">Навигатор врача-фтизиатра</h1>
-                </div>
-                <p class="description">Система доступа к профессиональным ресурсам</p>
-            </div>
+    <!-- Hamburger Menu -->
+    <button class="hamburger" id="hamburgerButton">☰</button>
+    
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="institution">Филиал Клинский</div>
+            <div class="sidebar-title">Навигатор фтизиатра</div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#main-content" class="nav-link active">
+                    <div class="nav-icon icon-home"></div>
+                    <span>Главная</span>
+                </a>
+            </li>
+
+            <!-- НОРМАТИВНЫЕ ДОКУМЕНТЫ -->
+            <li class="nav-group">
+                <div class="nav-group-title">НОРМАТИВНЫЕ ДОКУМЕНТЫ</div>
+            </li>
+            <li class="nav-item">
+                <a href="http://217.107.102.71:90/kk/" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-chart"></div>
+                    <span>Контроль качества</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="legislation.html" class="nav-link">
+                    <div class="nav-icon icon-scroll"></div>
+                    <span>Обновления законодательства</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://1drv.ms/f/s!AgHonOA1SYONg6V9QJOtmDuNuSpnrw?e=jXOO9r" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-checklist"></div>
+                    <span>Приказы МОКПТД</span>
+                </a>
+            </li>
+
+            <!-- КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ -->
+            <li class="nav-group">
+                <div class="nav-group-title">КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ</div>
+            </li>
+            <li class="nav-item">
+                <a href="https://cr.minzdrav.gov.ru/clin-rec" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-book"></div>
+                    <span>Все рекомендации МЗ РФ</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://cr.minzdrav.gov.ru/view-cr/16_3" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-user"></div>
+                    <span>Туберкулез (Взрослые)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-child"></div>
+                    <span>Туберкулез (Дети)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://1drv.ms/b/c/8d834935e09ce801/EXfoaQoPodRFlFCwYQF30E4BOpcXAQ02t2QHElCyODukjA?e=xysaif" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-pill"></div>
+                    <span>Терапия туберкулеза у взрослых</span>
+                </a>
+            </li>
+
+            <!-- ЛЕКАРСТВА И РАСЧЕТЫ -->
+            <li class="nav-group">
+                <div class="nav-group-title">ЛЕКАРСТВА И РАСЧЕТЫ</div>
+            </li>
+            <li class="nav-item">
+                <a href="https://www.rlsnet.ru/" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-search"></div>
+                    <span>РЛС</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://www.vidal.ru/" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-search"></div>
+                    <span>ВИДАЛЬ</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="calculator_doz.html" class="nav-link">
+                    <div class="nav-icon icon-calculator"></div>
+                    <span>Калькулятор дозировок</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="side_effects.html" class="nav-link">
+                    <div class="nav-icon icon-warning"></div>
+                    <span>Справочник по побочным эффектам</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://www.vidal.ru/drugs/interaction/new" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-arrows"></div>
+                    <span>Проверка взаимодействия ЛС</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://www.cardioneurology.ru/skf/" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-calculator"></div>
+                    <span>Калькулятор СКФ</span>
+                </a>
+            </li>
+
+            <!-- РАБОТА С ПАЦИЕНТАМИ -->
+            <li class="nav-group">
+                <div class="nav-group-title">РАБОТА С ПАЦИЕНТАМИ</div>
+            </li>
+            <li class="nav-item">
+                <a href="patient_info.html" class="nav-link">
+                    <div class="nav-icon icon-people"></div>
+                    <span>Информация для пациентов</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="passport.html" class="nav-link">
+                    <div class="nav-icon icon-passport"></div>
+                    <span>Паспорт участка</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="clinical_cases.html" class="nav-link">
+                    <div class="nav-icon icon-case"></div>
+                    <span>Клинические случаи</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="patient_surveys.html" class="nav-link">
+                    <div class="nav-icon icon-survey"></div>
+                    <span>Анкетирование пациентов</span>
+                </a>
+            </li>
+
+            <!-- РАБОЧИЕ СИСТЕМЫ -->
+            <li class="nav-group">
+                <div class="nav-group-title">РАБОЧИЕ СИСТЕМЫ</div>
+            </li>
+            <li class="nav-item">
+                <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-computer"></div>
+                    <span>ЕМИАС</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-image"></div>
+                    <span>DIGIPAX</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-document"></div>
+                    <span>ФРБТ</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-flask"></div>
+                    <span>1С-мокрота</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://pyrus.com/t#inbox" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-mail"></div>
+                    <span>Pyrus</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="vks.html" class="nav-link">
+                    <div class="nav-icon icon-video"></div>
+                    <span>ВКС</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="tmk_folder.html" class="nav-link">
+                    <div class="nav-icon icon-folder"></div>
+                    <span>Папка ТМК</span>
+                </a>
+            </li>
+
+            <!-- ДОПОЛНИТЕЛЬНЫЕ РЕСУРСЫ -->
+            <li class="nav-group">
+                <div class="nav-group-title">ДОПОЛНИТЕЛЬНЫЕ РЕСУРСЫ</div>
+            </li>
+            <li class="nav-item">
+                <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-document"></div>
+                    <span>Шаблоны и образцы</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-warning"></div>
+                    <span>Нежелательные события</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://1drv.ms/x/c/8d834935e09ce801/ETRB57lESrFEuvrIH6A-7ZQB8oGKqomMyLTRWU3LdJRsbw?e=pZ7lQh" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-checklist"></div>
+                    <span>Сигнальная картотека</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://www.mofoms.ru/polis/" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-search"></div>
+                    <span>Проверка полиса ОМС</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://1drv.ms/f/c/8d834935e09ce801/Equbs6WBjiVOgQr38OI_a24BYBttmeBF6ZxINRlAcMzIxQ?e=ZNTqoH" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-help"></div>
+                    <span>Гид участкового фтизиатра</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://drive.google.com/drive/folders/1QBk3bPDDm6Sw6Iyyg20hgGpfGPc9Z2ua?usp=sharing" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-image"></div>
+                    <span>КТ для врачебных комиссий</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="checklists.html" class="nav-link">
+                    <div class="nav-icon icon-check"></div>
+                    <span>Чек-листы</span>
+                </a>
+            </li>
+
+            <!-- ОБРАЗОВАТЕЛЬНЫЕ РЕСУРСЫ -->
+            <li class="nav-group">
+                <div class="nav-group-title">ОБРАЗОВАТЕЛЬНЫЕ РЕСУРСЫ</div>
+            </li>
+            <li class="nav-item">
+                <a href="https://rof-tb.ru/" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-flag"></div>
+                    <span>Российское общество фтизиатров</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://nmrc.ru/" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-star"></div>
+                    <span>Национальный центр фтизиопульмонологии</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://www.who.int/teams/global-tuberculosis-programme" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-globe"></div>
+                    <span>ВОЗ - программа по туберкулёзу</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="https://www.tb-journal.ru/" target="_blank" class="nav-link">
+                    <div class="nav-icon icon-book"></div>
+                    <span>Журнал "Туберкулёз и болезни лёгких"</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="international_resources.html" class="nav-link">
+                    <div class="nav-icon icon-search"></div>
+                    <span>Международные ресурсы</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+        <header class="content-header">
+            <div class="institution-main">ГБУЗ МО МОКПТД филиал Клинский</div>
+            <h1 class="page-title">Навигатор врача-фтизиатра</h1>
+            <p class="page-description">Система доступа к профессиональным ресурсам</p>
         </header>
         
-        <div class="grid">
-            <!-- Лекарственные справочники -->
-            <div class="card card-1">
-                <div class="card-header">
-                    <div class="card-icon">💊</div>
-                    <h2>Лекарственные справочники</h2>
+        <div class="content-area">
+            <div class="grid">
+                <!-- Нормативные документы -->
+                <div class="card card-1" id="normative-documents">
+                    <div class="card-header">
+                        <div class="card-icon">📋</div>
+                        <h2>Нормативные документы</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="http://217.107.102.71:90/kk/" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Контроль качества</div>
+                            </div>
+                            <div class="link-meta">Нормативные документы по КК</div>
+                        </a>
+                        <a href="legislation.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Обновления законодательства</div>
+                            </div>
+                        </a>
+                        <a href="https://1drv.ms/f/s!AgHonOA1SYONg6V9QJOtmDuNuSpnrw?e=jXOO9r" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Приказы МОКПТД</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div class="link-list">
-                    <a href="https://www.rlsnet.ru/" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">РЛС</div>
-                        </div>
-                    </a>
-                    <a href="https://www.vidal.ru/" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">ВИДАЛЬ</div>
-                        </div>
-                    </a>
-                    <a href="https://www.vidal.ru/drugs/interaction/new" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Проверка взаимодействия ЛС</div>
-                        </div>
-                        <div class="link-meta">Анализ лекарственных взаимодействий</div>
-                    </a>
-                    <a href="https://www.cardioneurology.ru/skf/" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Калькулятор СКФ</div>
-                        </div>
-                        <div class="link-meta">Скорость клубочковой фильтрации</div>
-                    </a>
+                
+                <!-- Клинические рекомендации -->
+                <div class="card card-2" id="clinical-recommendations">
+                    <div class="card-header">
+                        <div class="card-icon">📚</div>
+                        <h2>Клинические рекомендации</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="https://cr.minzdrav.gov.ru/clin-rec" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Все рекомендации МЗ РФ</div>
+                            </div>
+                        </a>
+                        <a href="https://cr.minzdrav.gov.ru/view-cr/16_3" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Туберкулез (Взрослые)</div>
+                            </div>
+                        </a>
+                        <a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Туберкулез (Дети)</div>
+                            </div>
+                        </a>
+                        <a href="https://1drv.ms/b/c/8d834935e09ce801/EXfoaQoPodRFlFCwYQF30E4BOpcXAQ02t2QHElCyODukjA?e=xysaif" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Терапия туберкулеза у взрослых</div>
+                            </div>
+                            <div class="link-meta">Подробный справочник по режимам ХТ</div>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Нормативные документы -->
-            <div class="card card-2">
-                <div class="card-header">
-                    <div class="card-icon">📋</div>
-                    <h2>Нормативные документы</h2>
+                
+                <!-- Лекарственные справочники -->
+                <div class="card card-3" id="drugs-reference">
+                    <div class="card-header">
+                        <div class="card-icon">💊</div>
+                        <h2>Лекарственные справочники</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="https://www.rlsnet.ru/" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">РЛС</div>
+                            </div>
+                        </a>
+                        <a href="https://www.vidal.ru/" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">ВИДАЛЬ</div>
+                            </div>
+                        </a>
+                        <a href="calculator_doz.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Калькулятор дозировок</div>
+                            </div>
+                        </a>
+                        <a href="side_effects.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Справочник по побочным эффектам</div>
+                            </div>
+                        </a>
+                        <a href="https://www.vidal.ru/drugs/interaction/new" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Проверка взаимодействия ЛС</div>
+                            </div>
+                            <div class="link-meta">Анализ лекарственных взаимодействий</div>
+                        </a>
+                        <a href="https://www.cardioneurology.ru/skf/" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Калькулятор СКФ</div>
+                            </div>
+                            <div class="link-meta">Скорость клубочковой фильтрации</div>
+                        </a>
+                    </div>
                 </div>
-                <div class="link-list">
-                    <a href="http://217.107.102.71:90/kk/" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Контроль качества</div>
-                        </div>
-                        <div class="link-meta">Нормативные документы по КК</div>
-                    </a>
-                    <a href="https://1drv.ms/f/s!AgHonOA1SYONg6V9QJOtmDuNuSpnrw?e=jXOO9r" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Приказы МОКПТД</div>
-                        </div>
-                    </a>
-                    <a href="https://1drv.ms/w/s!AgHonOA1SYONg_tUOgiWd54EJ6t0hA?e=S78Iq2" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Информирование пациентов</div>
-                        </div>
-                        <div class="link-meta">Ответы на вопросы, нормативная документация</div>
-                    </a>
+
+                <!-- Работа с пациентами -->
+                <div class="card card-4" id="patient-work">
+                    <div class="card-header">
+                        <div class="card-icon">👥</div>
+                        <h2>Работа с пациентами</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="patient_info.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Информация для пациентов</div>
+                            </div>
+                        </a>
+                        <a href="passport.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Паспорт участка</div>
+                            </div>
+                        </a>
+                        <a href="clinical_cases.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Клинические случаи</div>
+                            </div>
+                        </a>
+                        <a href="patient_surveys.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Анкетирование пациентов</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Клинические рекомендации -->
-            <div class="card card-3">
-                <div class="card-header">
-                    <div class="card-icon">📚</div>
-                    <h2>Клинические рекомендации</h2>
+                
+                <!-- Рабочие системы -->
+                <div class="card card-5" id="work-systems">
+                    <div class="card-header">
+                        <div class="card-icon">⚙️</div>
+                        <h2>Рабочие системы</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">ЕМИАС</div>
+                            </div>
+                        </a>
+                        <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">DIGIPAX</div>
+                            </div>
+                        </a>
+                        <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">ФРБТ</div>
+                            </div>
+                        </a>
+                        <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">1С-мокрота</div>
+                            </div>
+                        </a>
+                        <a href="https://pyrus.com/t#inbox" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Pyrus</div>
+                            </div>
+                        </a>
+                        <a href="vks.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">ВКС</div>
+                            </div>
+                        </a>
+                        <a href="tmk_folder.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Папка ТМК</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div class="link-list">
-                    <a href="https://cr.minzdrav.gov.ru/clin-rec" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Все рекомендации МЗ РФ</div>
-                        </div>
-                    </a>
-                    <a href="https://cr.minzdrav.gov.ru/view-cr/16_3" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Туберкулез (Взрослые)</div>
-                        </div>
-                    </a>
-                    <a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Туберкулез (Дети)</div>
-                        </div>
-                    </a>
-                    <a href="https://1drv.ms/b/c/8d834935e09ce801/EXfoaQoPodRFlFCwYQF30E4BOpcXAQ02t2QHElCyODukjA?e=xysaif" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Терапия туберкулеза у взрослых</div>
-                        </div>
-                        <div class="link-meta">Подробный справочник по режимам ХТ</div>
-                    </a>
+                
+                <!-- Дополнительные ресурсы -->
+                <div class="card card-6" id="additional-resources">
+                    <div class="card-header">
+                        <div class="card-icon">🔗</div>
+                        <h2>Дополнительные ресурсы</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Шаблоны и образцы</div>
+                            </div>
+                            <div class="link-meta">Логин: klin_tbc@mail.ru | Пароль: Aa5..831</div>
+                        </a>
+                        <a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Нежелательные события</div>
+                            </div>
+                            <div class="link-meta">Цифровая платформа для учета</div>
+                        </a>
+                        <a href="https://1drv.ms/x/c/8d834935e09ce801/ETRB57lESrFEuvrIH6A-7ZQB8oGKqomMyLTRWU3LdJRsbw?e=pZ7lQh" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Сигнальная картотека</div>
+                            </div>
+                        </a>
+                        <a href="https://www.mofoms.ru/polis/" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Проверка полиса ОМС</div>
+                            </div>
+                        </a>
+                        <a href="https://1drv.ms/f/c/8d834935e09ce801/Equbs6WBjiVOgQr38OI_a24BYBttmeBF6ZxINRlAcMzIxQ?e=ZNTqoH" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Гид участкового фтизиатра</div>
+                            </div>
+                        </a>
+                        <a href="https://drive.google.com/drive/folders/1QBk3bPDDm6Sw6Iyyg20hgGpfGPc9Z2ua?usp=sharing" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">КТ для врачебных комиссий</div>
+                            </div>
+                            <div class="link-meta">Создавайте отдельные папки для каждого пациента</div>
+                        </a>
+                        <a href="checklists.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Чек-листы</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Образовательные материалы -->
-            <div class="card card-7">
-                <div class="card-header">
-                    <div class="card-icon">🎓</div>
-                    <h2>Образовательные материалы</h2>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-toggle" onclick="toggleDropdown(this)">
-                        Показать образовательные ресурсы
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="https://rof-tb.ru/" target="_blank" class="dropdown-link">
-                            <div class="dropdown-link-content">
+
+                <!-- Образовательные ресурсы -->
+                <div class="card card-7" id="educational-resources">
+                    <div class="card-header">
+                        <div class="card-icon">🎓</div>
+                        <h2>Образовательные ресурсы</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="https://rof-tb.ru/" target="_blank" class="link-item">
+                            <div class="link-content">
                                 <div class="link-icon">→</div>
-                                <div class="dropdown-link-text">Российское Общество Фтизиатров (РОФ)</div>
+                                <div class="link-text">Российское общество фтизиатров</div>
                             </div>
-                            <div class="dropdown-link-meta">Официальное сообщество специалистов по диагностике и лечению туберкулёза в России. Публикует клинические рекомендации, организует школы и конференции, выпускает журнал «Туберкулёз и болезни лёгких».</div>
                         </a>
-                        <a href="https://nmrc.ru/" target="_blank" class="dropdown-link">
-                            <div class="dropdown-link-content">
+                        <a href="https://nmrc.ru/" target="_blank" class="link-item">
+                            <div class="link-content">
                                 <div class="link-icon">→</div>
-                                <div class="dropdown-link-text">Национальный медицинский исследовательский центр фтизиопульмонологии и инфекционных заболеваний (НМИЦ Фтизиопульмонологии)</div>
+                                <div class="link-text">Национальный центр фтизиопульмонологии</div>
                             </div>
-                            <div class="dropdown-link-meta">Ведущий научно-практический центр России по туберкулёзу и инфекционным заболеваниям. Проводит исследования, обучающие вебинары и предоставляет методические материалы.</div>
                         </a>
-                        <a href="https://www.who.int/teams/global-tuberculosis-programme" target="_blank" class="dropdown-link">
-                            <div class="dropdown-link-content">
+                        <a href="https://www.who.int/teams/global-tuberculosis-programme" target="_blank" class="link-item">
+                            <div class="link-content">
                                 <div class="link-icon">→</div>
-                                <div class="dropdown-link-text">Всемирная организация здравоохранения (ВОЗ) — Программа по туберкулёзу</div>
+                                <div class="link-text">ВОЗ - программа по туберкулёзу</div>
                             </div>
-                            <div class="dropdown-link-meta">Международные стандарты диагностики, лечения и профилактики туберкулёза, а также актуальная статистика по странам.</div>
                         </a>
-                        <a href="https://www.tb-journal.ru/" target="_blank" class="dropdown-link">
-                            <div class="dropdown-link-content">
+                        <a href="https://www.tb-journal.ru/" target="_blank" class="link-item">
+                            <div class="link-content">
                                 <div class="link-icon">→</div>
-                                <div class="dropdown-link-text">Журнал «Туберкулёз и болезни лёгких»</div>
+                                <div class="link-text">Журнал "Туберкулёз и болезни лёгких"</div>
                             </div>
-                            <div class="dropdown-link-meta">Научно-практическое издание, публикующее статьи по актуальным вопросам фтизиатрии и пульмонологии.</div>
                         </a>
-                        <a href="https://www.cdc.gov/tb" target="_blank" class="dropdown-link">
-                            <div class="dropdown-link-content">
+                        <a href="international_resources.html" class="link-item">
+                            <div class="link-content">
                                 <div class="link-icon">→</div>
-                                <div class="dropdown-link-text">CDC — Tuberculosis (США)</div>
+                                <div class="link-text">Международные ресурсы</div>
                             </div>
-                            <div class="dropdown-link-meta">Центры по контролю и профилактике заболеваний США. Подробные рекомендации по диагностике, лечению и профилактике туберкулёза, включая устойчивые формы.</div>
-                        </a>
-                        <a href="https://www.ecdc.europa.eu/en/tuberculosis" target="_blank" class="dropdown-link">
-                            <div class="dropdown-link-content">
-                                <div class="link-icon">→</div>
-                                <div class="dropdown-link-text">European Centre for Disease Prevention and Control (ECDC) — Tuberculosis</div>
-                            </div>
-                            <div class="dropdown-link-meta">Европейский центр профилактики и контроля заболеваний. Содержит отчёты по эпидемиологии, стандарты лечения и профилактики TB в Европе.</div>
-                        </a>
-                        <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" class="dropdown-link">
-                            <div class="dropdown-link-content">
-                                <div class="link-icon">→</div>
-                                <div class="dropdown-link-text">PubMed</div>
-                            </div>
-                            <div class="dropdown-link-meta">Международная база медицинских и биомедицинских публикаций. Позволяет искать последние исследования по туберкулёзу, лекарственной устойчивости и клиническим протоколам.</div>
-                        </a>
-                        <a href="https://www.thelancet.com/journals/lanres" target="_blank" class="dropdown-link">
-                            <div class="dropdown-link-content">
-                                <div class="link-icon">→</div>
-                                <div class="dropdown-link-text">Lancet Respiratory Medicine</div>
-                            </div>
-                            <div class="dropdown-link-meta">Ведущий международный журнал по заболеваниям дыхательной системы, включая туберкулёз.</div>
-                        </a>
-                        <a href="http://www.stoptb.org" target="_blank" class="dropdown-link">
-                            <div class="dropdown-link-content">
-                                <div class="link-icon">→</div>
-                                <div class="dropdown-link-text">Stop TB Partnership</div>
-                            </div>
-                            <div class="dropdown-link-meta">Международная организация по борьбе с туберкулёзом. Предоставляет отчёты, статистику и материалы для профессионалов здравоохранения.</div>
-                        </a>
-                        <a href="https://theunion.org" target="_blank" class="dropdown-link">
-                            <div class="dropdown-link-content">
-                                <div class="link-icon">→</div>
-                                <div class="dropdown-link-text">The Union (International Union Against Tuberculosis and Lung Disease)</div>
-                            </div>
-                            <div class="dropdown-link-meta">Международная организация, публикует практические руководства, исследования и образовательные программы для специалистов по туберкулёзу и заболеваниям лёгких.</div>
                         </a>
                     </div>
                 </div>
             </div>
             
-            <!-- Системы и платформы -->
-            <div class="card card-4">
-                <div class="card-header">
-                    <div class="card-icon">⚙️</div>
-                    <h2>Рабочие системы</h2>
-                </div>
-                <div class="link-list">
-                    <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">DIGIPAX</div>
-                        </div>
-                    </a>
-                    <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">ЕМИАС</div>
-                        </div>
-                    </a>
-                    <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">ФРБТ</div>
-                        </div>
-                    </a>
-                    <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">1С-мокрота</div>
-                        </div>
-                    </a>
-                    <a href="https://pyrus.com/t#inbox" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Pyrus</div>
-                        </div>
-                    </a>
-                    <a href="https://conf.mokptd.ru:553/c/8257285451" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">ВКС</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Дополнительные ресурсы -->
-            <div class="card card-5">
-                <div class="card-header">
-                    <div class="card-icon">🔗</div>
-                    <h2>Дополнительные ресурсы</h2>
-                </div>
-                <div class="link-list">
-                    <a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Нежелательные события</div>
-                        </div>
-                        <div class="link-meta">Цифровая платформа для учета</div>
-                    </a>
-                    <a href="https://1drv.ms/x/c/8d834935e09ce801/ETRB57lESrFEuvrIH6A-7ZQB8oGKqomMyLTRWU3LdJRsbw?e=pZ7lQh" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Сигнальная картотека</div>
-                        </div>
-                    </a>
-                    <a href="https://www.mofoms.ru/polis/" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Проверка полиса ОМС</div>
-                        </div>
-                    </a>
-                    <a href="https://1drv.ms/f/c/8d834935e09ce801/Equbs6WBjiVOgQr38OI_a24BYBttmeBF6ZxINRlAcMzIxQ?e=ZNTqoH" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Гид по работе участкового фтизиатра</div>
-                        </div>
-                    </a>
-                    <a href="https://drive.google.com/drive/folders/1QBk3bPDDm6Sw6Iyyg20hgGpfGPc9Z2ua?usp=sharing" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">КТ для врачебных комиссий</div>
-                        </div>
-                        <div class="link-meta">Создавайте отдельные папки для каждого пациента</div>
-                    </a>
-                    <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="link-item">
-                        <div class="link-content">
-                            <div class="link-icon">→</div>
-                            <div class="link-text">Шаблоны и образцы</div>
-                        </div>
-                        <div class="link-meta">Логин: klin_tbc@mail.ru | Пароль: Aa5..831</div>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Сетевое подключение -->
-            <div class="card card-6">
-                <div class="card-header">
-                    <div class="card-icon">🌐</div>
-                    <h2>Сетевое подключение</h2>
-                </div>
-                <div class="network-info">
-                    <h3>Папка ТМК (телемедицинская консультация)</h3>
-                    <div class="network-step">
-                        <div class="step-number">1</div>
-                        <div>Откройте "Этот компьютер"</div>
-                    </div>
-                    <div class="network-step">
-                        <div class="step-number">2</div>
-                        <div>Выберите "Подключить сетевой диск"</div>
-                    </div>
-                    <div class="network-step">
-                        <div class="step-number">3</div>
-                        <div>В поле папка введите:</div>
-                    </div>
-                    <a href="http://217.107.102.71:90/tmk/" target="_blank" class="link-item" style="margin-top: 12px;">
-                        <div class="link-content">
-                            <div class="link-icon">🔗</div>
-                            <div class="link-text">http://217.107.102.71:90/tmk/</div>
-                        </div>
-                    </a>
-                    <div style="margin-top: 16px; color: var(--text-secondary); font-size: 0.9rem; padding-left: 12px;">
-                        Имя пользователя: mosklin | Пароль: узнайте у IT-специалиста
-                    </div>
-                </div>
-            </div>
+            <footer class="footer">
+                <p>Страница создана для удобства медицинских работников</p>
+                <p class="year">2024</p>
+            </footer>
         </div>
-        
-        <footer class="footer">
-            <p>Страница создана для удобства медицинских работников</p>
-            <p class="year">2024</p>
-        </footer>
-    </div>
+    </main>
 
     <script>
-        function toggleDropdown(button) {
-            const dropdownContent = button.nextElementSibling;
-            button.classList.toggle('open');
-            dropdownContent.classList.toggle('show');
+        // Состояние бокового меню
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            
+            if (isCollapsed) {
+                sidebar.classList.remove('collapsed');
+                mainContent.classList.remove('expanded');
+                localStorage.setItem('sidebarCollapsed', 'false');
+            } else {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('expanded');
+                localStorage.setItem('sidebarCollapsed', 'true');
+            }
         }
+
+        // Восстановление состояния при загрузке - по умолчанию меню открыто
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const hamburger = document.getElementById('hamburgerButton');
+            
+            // По умолчанию меню открыто на всех устройствах
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            
+            if (isCollapsed) {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('expanded');
+            } else {
+                sidebar.classList.remove('collapsed');
+                mainContent.classList.remove('expanded');
+            }
+
+            // Простой обработчик для кнопки - работает от одного клика на всех устройствах
+            if (hamburger) {
+                hamburger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleSidebar();
+                });
+            }
+        });
+
+        // Плавная прокрутка к блокам
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Закрытие sidebar при клике вне его на мобильных устройствах
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (window.innerWidth <= 1024 && 
+                !sidebar.classList.contains('collapsed') && 
+                !sidebar.contains(event.target) && 
+                !hamburger.contains(event.target)) {
+                sidebar.classList.add('collapsed');
+                document.querySelector('.main-content').classList.add('expanded');
+                localStorage.setItem('sidebarCollapsed', 'true');
+            }
+        });
+
+        // Активация пункта меню при скролле
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.card');
+            const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = '#' + section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>
