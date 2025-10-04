@@ -32,7 +32,6 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            --sidebar-width: 300px;
         }
         
         body {
@@ -40,111 +39,7 @@
             color: var(--text-primary);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            display: flex;
             min-height: 100vh;
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--surface);
-            border-right: 1px solid var(--border);
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .sidebar.collapsed {
-            transform: translateX(-100%);
-        }
-        
-        .sidebar-header {
-            padding: 35px 20px 25px 20px;
-            border-bottom: 1px solid var(--border);
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            text-align: center;
-            position: relative;
-        }
-        
-        .institution {
-            font-size: 0.85rem;
-            opacity: 0.9;
-            margin-bottom: 8px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-        
-        .sidebar-title {
-            font-size: 1.2rem;
-            font-weight: 800;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .nav-menu {
-            list-style: none;
-            padding: 15px 0;
-        }
-
-        .nav-group {
-            margin-bottom: 6px;
-        }
-
-        .nav-group-title {
-            padding: 10px 20px;
-            color: var(--primary);
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary-light), transparent);
-            border-left: 3px solid var(--primary);
-        }
-        
-        .nav-item {
-            margin-bottom: 1px;
-        }
-        
-        .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--text-primary);
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-left: 3px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .nav-link:hover {
-            background: var(--primary-light);
-            border-left-color: var(--primary);
-            transform: translateX(3px);
-        }
-        
-        .nav-link.active {
-            background: var(--primary-light);
-            border-left-color: var(--primary);
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: var(--sidebar-width);
-            transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .main-content.expanded {
-            margin-left: 0;
         }
         
         .content-header {
@@ -197,37 +92,6 @@
             flex: 1;
             padding: 35px;
             overflow-y: auto;
-        }
-        
-        /* Hamburger Menu */
-        .hamburger {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 1001;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            width: 44px;
-            height: 44px;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: var(--shadow-lg);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-touch-callout: none;
-            touch-action: manipulation;
-        }
-
-        .hamburger:hover {
-            transform: scale(1.1);
         }
         
         /* Grid Layout */
@@ -323,6 +187,7 @@
             background: var(--primary-very-light);
             margin-bottom: 10px;
             flex-direction: column;
+            cursor: pointer;
         }
         
         .link-item:hover {
@@ -374,44 +239,44 @@
             font-weight: 400;
             line-height: 1.4;
         }
-        
-        /* Network Info */
-        .network-info {
-            background: #f0f9ff;
-            border-radius: 16px;
-            padding: 24px;
-            margin-top: 16px;
-            border-left: 5px solid var(--accent);
-        }
-        
-        .network-info h3 {
-            color: var(--text-primary);
-            font-size: 1.1rem;
-            margin-bottom: 14px;
-            font-weight: 700;
-        }
-        
-        .network-step {
-            display: flex;
-            align-items: center;
+
+        /* Dropdown styles */
+        .dropdown-content {
+            display: none;
+            background: var(--primary-very-light);
+            border-left: 3px solid var(--primary);
+            border-radius: 0 0 12px 12px;
+            margin-top: -10px;
             margin-bottom: 10px;
-            color: var(--text-secondary);
         }
         
-        .step-number {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent) 0%, #0891b2 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-right: 14px;
-            flex-shrink: 0;
-            box-shadow: 0 4px 8px rgba(6, 182, 212, 0.3);
+        .dropdown-content.show {
+            display: block;
+        }
+        
+        .dropdown-link {
+            padding: 12px 18px 12px 40px;
+            display: block;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .dropdown-link:hover {
+            background: var(--primary-light);
+        }
+        
+        .dropdown-link:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            font-weight: 400;
+            line-height: 1.4;
         }
         
         /* Footer */
@@ -439,14 +304,6 @@
         
         /* Responsive */
         @media (max-width: 1024px) {
-            .sidebar:not(.collapsed) {
-                transform: translateX(0);
-            }
-            
-            .main-content:not(.expanded) {
-                margin-left: var(--sidebar-width);
-            }
-            
             .grid {
                 grid-template-columns: 1fr;
             }
@@ -496,271 +353,10 @@
             .grid {
                 grid-template-columns: 1fr;
             }
-            
-            .hamburger {
-                top: 10px;
-                left: 10px;
-                width: 40px;
-                height: 40px;
-                font-size: 1.1rem;
-            }
-        }
-
-        /* iOS специфичные исправления */
-        @supports (-webkit-touch-callout: none) {
-            .hamburger {
-                cursor: pointer;
-                -webkit-tap-highlight-color: transparent;
-            }
-            
-            .hamburger:active {
-                background: var(--primary-dark);
-                transform: scale(0.95);
-            }
-            
-            /* Улучшаем отзывчивость на тач */
-            .nav-link, .link-item {
-                -webkit-tap-highlight-color: rgba(37, 99, 235, 0.1);
-            }
-        }
-
-        /* Гарантированно убираем выделение при тапе */
-        .hamburger, .nav-link, .link-item {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
         }
     </style>
 </head>
 <body>
-    <!-- Hamburger Menu -->
-    <button class="hamburger" id="hamburgerButton">☰</button>
-    
-    <!-- Sidebar -->
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="institution">Филиал Клинский</div>
-            <div class="sidebar-title">Навигатор фтизиатра</div>
-        </div>
-        <ul class="nav-menu">
-            <!-- НОРМАТИВНЫЕ ДОКУМЕНТЫ -->
-            <li class="nav-group">
-                <div class="nav-group-title">НОРМАТИВНЫЕ ДОКУМЕНТЫ</div>
-            </li>
-            <li class="nav-item">
-                <a href="http://217.107.102.71:90/kk/" target="_blank" class="nav-link">
-                    <span>Контроль качества</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="legislation.html" class="nav-link">
-                    <span>Изменения в нормативах</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://1drv.ms/f/s!AgHonOA1SYONg6V9QJOtmDuNuSpnrw?e=jXOO9r" target="_blank" class="nav-link">
-                    <span>Приказы МОКПТД</span>
-                </a>
-            </li>
-
-            <!-- КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ -->
-            <li class="nav-group">
-                <div class="nav-group-title">КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ</div>
-            </li>
-            <li class="nav-item">
-                <a href="https://cr.minzdrav.gov.ru/clin-rec" target="_blank" class="nav-link">
-                    <span>Все рекомендации МЗ РФ</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://cr.minzdrav.gov.ru/view-cr/16_3" target="_blank" class="nav-link">
-                    <span>Туберкулез (Взрослые)</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="nav-link">
-                    <span>Туберкулез (Дети)</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://1drv.ms/b/c/8d834935e09ce801/EXfoaQoPodRFlFCwYQF30E4BOpcXAQ02t2QHElCyODukjA?e=xysaif" target="_blank" class="nav-link">
-                    <span>Терапия туберкулеза у взрослых</span>
-                </a>
-            </li>
-
-            <!-- ЛЕКАРСТВА И РАСЧЕТЫ -->
-            <li class="nav-group">
-                <div class="nav-group-title">ЛЕКАРСТВА И РАСЧЕТЫ</div>
-            </li>
-            <li class="nav-item">
-                <a href="https://www.rlsnet.ru/" target="_blank" class="nav-link">
-                    <span>РЛС</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://www.vidal.ru/" target="_blank" class="nav-link">
-                    <span>ВИДАЛЬ</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="calculator_doz.html" class="nav-link">
-                    <span>Калькулятор дозировок</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="side_effects.html" class="nav-link">
-                    <span>Справочник по побочным эффектам</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://www.vidal.ru/drugs/interaction/new" target="_blank" class="nav-link">
-                    <span>Проверка взаимодействия ЛС</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://www.cardioneurology.ru/skf/" target="_blank" class="nav-link">
-                    <span>Калькулятор СКФ</span>
-                </a>
-            </li>
-
-            <!-- РАБОТА С ПАЦИЕНТАМИ -->
-            <li class="nav-group">
-                <div class="nav-group-title">РАБОТА С ПАЦИЕНТАМИ</div>
-            </li>
-            <li class="nav-item">
-                <a href="patient_info.html" class="nav-link">
-                    <span>Информация для пациентов</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="passport.html" class="nav-link">
-                    <span>Паспорт участка</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="clinical_cases.html" class="nav-link">
-                    <span>Клинические случаи</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="patient_surveys.html" class="nav-link">
-                    <span>Анкетирование пациентов</span>
-                </a>
-            </li>
-
-            <!-- РАБОЧИЕ СИСТЕМЫ -->
-            <li class="nav-group">
-                <div class="nav-group-title">РАБОЧИЕ СИСТЕМЫ</div>
-            </li>
-            <li class="nav-item">
-                <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="nav-link">
-                    <span>ЕМИАС</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="nav-link">
-                    <span>DIGIPAX</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="nav-link">
-                    <span>ФРБТ</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="nav-link">
-                    <span>1С-мокрота</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://pyrus.com/t#inbox" target="_blank" class="nav-link">
-                    <span>Pyrus</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="vks.html" class="nav-link">
-                    <span>ВКС</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="tmk_folder.html" class="nav-link">
-                    <span>Папка ТМК</span>
-                </a>
-            </li>
-
-            <!-- ДОПОЛНИТЕЛЬНЫЕ РЕСУРСЫ -->
-            <li class="nav-group">
-                <div class="nav-group-title">ДОПОЛНИТЕЛЬНЫЕ РЕСУРСЫ</div>
-            </li>
-            <li class="nav-item">
-                <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="nav-link">
-                    <span>Шаблоны и образцы</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="nav-link">
-                    <span>Нежелательные события</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://1drv.ms/x/c/8d834935e09ce801/ETRB57lESrFEuvrIH6A-7ZQB8oGKqomMyLTRWU3LdJRsbw?e=pZ7lQh" target="_blank" class="nav-link">
-                    <span>Сигнальная картотека</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://www.mofoms.ru/polis/" target="_blank" class="nav-link">
-                    <span>Проверка полиса ОМС</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://1drv.ms/f/c/8d834935e09ce801/Equbs6WBjiVOgQr38OI_a24BYBttmeBF6ZxINRlAcMzIxQ?e=ZNTqoH" target="_blank" class="nav-link">
-                    <span>Гид участкового фтизиатра</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://drive.google.com/drive/folders/1QBk3bPDDm6Sw6Iyyg20hgGpfGPc9Z2ua?usp=sharing" target="_blank" class="nav-link">
-                    <span>КТ для врачебных комиссий</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="checklists.html" class="nav-link">
-                    <span>Чек-листы</span>
-                </a>
-            </li>
-
-            <!-- ОБРАЗОВАТЕЛЬНЫЕ РЕСУРСЫ -->
-            <li class="nav-group">
-                <div class="nav-group-title">ОБРАЗОВАТЕЛЬНЫЕ РЕСУРСЫ</div>
-            </li>
-            <li class="nav-item">
-                <a href="https://rof-tb.ru/" target="_blank" class="nav-link">
-                    <span>Российское общество фтизиатров</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://nmrc.ru/" target="_blank" class="nav-link">
-                    <span>Национальный центр фтизиопульмонологии</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://www.who.int/teams/global-tuberculosis-programme" target="_blank" class="nav-link">
-                    <span>ВОЗ - программа по туберкулёзу</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://www.tb-journal.ru/" target="_blank" class="nav-link">
-                    <span>Журнал "Туберкулёз и болезни лёгких"</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="international_resources.html" class="nav-link">
-                    <span>Международные ресурсы</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    
     <!-- Main Content -->
     <main class="main-content" id="main-content">
         <header class="content-header">
@@ -836,10 +432,10 @@
                 </div>
                 
                 <!-- Лекарственные справочники -->
-                <div class="card card-3" id="drugs-reference">
+                <div class="card card-3" id="drugs">
                     <div class="card-header">
                         <div class="card-icon">💊</div>
-                        <h2>Лекарственные справочники</h2>
+                        <h2>Лекарства и расчеты</h2>
                     </div>
                     <div class="link-list">
                         <a href="https://www.rlsnet.ru/" target="_blank" class="link-item">
@@ -871,56 +467,20 @@
                                 <div class="link-icon">→</div>
                                 <div class="link-text">Проверка взаимодействия ЛС</div>
                             </div>
-                            <div class="link-meta">Анализ лекарственных взаимодействий</div>
                         </a>
                         <a href="https://www.cardioneurology.ru/skf/" target="_blank" class="link-item">
                             <div class="link-content">
                                 <div class="link-icon">→</div>
                                 <div class="link-text">Калькулятор СКФ</div>
                             </div>
-                            <div class="link-meta">Скорость клубочковой фильтрации</div>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Работа с пациентами -->
-                <div class="card card-4" id="patient-work">
-                    <div class="card-header">
-                        <div class="card-icon">👥</div>
-                        <h2>Работа с пациентами</h2>
-                    </div>
-                    <div class="link-list">
-                        <a href="patient_info.html" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Информация для пациентов</div>
-                            </div>
-                        </a>
-                        <a href="passport.html" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Паспорт участка</div>
-                            </div>
-                        </a>
-                        <a href="clinical_cases.html" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Клинические случаи</div>
-                            </div>
-                        </a>
-                        <a href="patient_surveys.html" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Анкетирование пациентов</div>
-                            </div>
                         </a>
                     </div>
                 </div>
                 
                 <!-- Рабочие системы -->
-                <div class="card card-5" id="work-systems">
+                <div class="card card-4" id="work-systems">
                     <div class="card-header">
-                        <div class="card-icon">⚙️</div>
+                        <div class="card-icon">🖥️</div>
                         <h2>Рабочие системы</h2>
                     </div>
                     <div class="link-list">
@@ -960,7 +520,7 @@
                                 <div class="link-text">ВКС</div>
                             </div>
                         </a>
-                        <a href="tmk_folder.html" class="link-item">
+                        <a href="https://1drv.ms/w/c/8d834935e09ce801/EfmUE9okE1RKvExQiwJrC7sB3e4_hVw17f8jIXyme61KFQ?e=hR6aPs" target="_blank" class="link-item">
                             <div class="link-content">
                                 <div class="link-icon">→</div>
                                 <div class="link-text">Папка ТМК</div>
@@ -969,10 +529,52 @@
                     </div>
                 </div>
                 
+                <!-- Работа с пациентами -->
+                <div class="card card-5" id="patient-work">
+                    <div class="card-header">
+                        <div class="card-icon">👨‍⚕️</div>
+                        <h2>Работа с пациентами</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="patient_info.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Информация для пациентов</div>
+                            </div>
+                        </a>
+                        <a href="passport.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Паспорт участка</div>
+                            </div>
+                        </a>
+                        <a href="clinical_cases.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Клинические случаи</div>
+                            </div>
+                        </a>
+                        <div class="link-item dropdown-toggle">
+                            <div class="link-content">
+                                <div class="link-icon">⌄</div>
+                                <div class="link-text">Анкетирование</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="https://docs.google.com/spreadsheets/d/1Glrzuh7XDZaUWrw0NpZghD0jSXGBSwEAbnhQfmsUeMY/edit?usp=sharing" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Опросник выявления НР</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Дополнительные ресурсы -->
                 <div class="card card-6" id="additional-resources">
                     <div class="card-header">
-                        <div class="card-icon">🔗</div>
+                        <div class="card-icon">📁</div>
                         <h2>Дополнительные ресурсы</h2>
                     </div>
                     <div class="link-list">
@@ -981,14 +583,12 @@
                                 <div class="link-icon">→</div>
                                 <div class="link-text">Шаблоны и образцы</div>
                             </div>
-                            <div class="link-meta">Логин: klin_tbc@mail.ru | Пароль: Aa5..831</div>
                         </a>
                         <a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="link-item">
                             <div class="link-content">
                                 <div class="link-icon">→</div>
                                 <div class="link-text">Нежелательные события</div>
                             </div>
-                            <div class="link-meta">Цифровая платформа для учета</div>
                         </a>
                         <a href="https://1drv.ms/x/c/8d834935e09ce801/ETRB57lESrFEuvrIH6A-7ZQB8oGKqomMyLTRWU3LdJRsbw?e=pZ7lQh" target="_blank" class="link-item">
                             <div class="link-content">
@@ -1005,7 +605,7 @@
                         <a href="https://1drv.ms/f/c/8d834935e09ce801/Equbs6WBjiVOgQr38OI_a24BYBttmeBF6ZxINRlAcMzIxQ?e=ZNTqoH" target="_blank" class="link-item">
                             <div class="link-content">
                                 <div class="link-icon">→</div>
-                                <div class="link-text">Гид участкового фтизиатра</span>
+                                <div class="link-text">Гид по работе врача-фтизиатра</div>
                             </div>
                         </a>
                         <a href="https://drive.google.com/drive/folders/1QBk3bPDDm6Sw6Iyyg20hgGpfGPc9Z2ua?usp=sharing" target="_blank" class="link-item">
@@ -1013,7 +613,6 @@
                                 <div class="link-icon">→</div>
                                 <div class="link-text">КТ для врачебных комиссий</div>
                             </div>
-                            <div class="link-meta">Создавайте отдельные папки для каждого пациента</div>
                         </a>
                         <a href="checklists.html" class="link-item">
                             <div class="link-content">
@@ -1023,7 +622,7 @@
                         </a>
                     </div>
                 </div>
-
+                
                 <!-- Образовательные ресурсы -->
                 <div class="card card-7" id="educational-resources">
                     <div class="card-header">
@@ -1043,131 +642,93 @@
                                 <div class="link-text">Национальный центр фтизиопульмонологии</div>
                             </div>
                         </a>
-                        <a href="https://www.who.int/teams/global-tuberculosis-programme" target="_blank" class="link-item">
+                        <div class="link-item dropdown-toggle">
                             <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">ВОЗ - программа по туберкулёзу</div>
-                            </div>
-                        </a>
-                        <a href="https://www.tb-journal.ru/" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Журнал "Туберкулёз и болезни лёгких"</div>
-                            </div>
-                        </a>
-                        <a href="international_resources.html" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
+                                <div class="link-icon">⌄</div>
                                 <div class="link-text">Международные ресурсы</div>
                             </div>
-                        </a>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="https://www.who.int/teams/global-tuberculosis-programme" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Всемирная организация здравоохранения (ВОЗ) — Программа по туберкулёзу</div>
+                                </div>
+                                <div class="dropdown-meta">Международные стандарты диагностики, лечения и профилактики туберкулёза, а также актуальная статистика по странам.</div>
+                            </a>
+                            <a href="https://www.cdc.gov/tb" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">CDC — Tuberculosis (США)</div>
+                                </div>
+                                <div class="dropdown-meta">Центры по контролю и профилактике заболеваний США. Подробные рекомендации по диагностике, лечению и профилактике туберкулёза, включая устойчивые формы.</div>
+                            </a>
+                            <a href="https://www.ecdc.europa.eu/en/tuberculosis" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">European Centre for Disease Prevention and Control (ECDC) — Tuberculosis</div>
+                                </div>
+                                <div class="dropdown-meta">Европейский центр профилактики и контроля заболеваний. Содержит отчёты по эпидемиологии, стандарты лечения и профилактики TB в Европе.</div>
+                            </a>
+                            <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">PubMed</div>
+                                </div>
+                                <div class="dropdown-meta">Международная база медицинских и биомедицинских публикаций. Позволяет искать последние исследования по туберкулёзу, лекарственной устойчивости и клиническим протоколам.</div>
+                            </a>
+                            <a href="https://www.thelancet.com/journals/lanres" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Lancet Respiratory Medicine</div>
+                                </div>
+                                <div class="dropdown-meta">Ведущий международный журнал по заболеваниям дыхательной системы, включая туберкулёз.</div>
+                            </a>
+                            <a href="http://www.stoptb.org" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Stop TB Partnership</div>
+                                </div>
+                                <div class="dropdown-meta">Международная организация по борьбе с туберкулёзом. Предоставляет отчёты, статистику и материалы для профессионалов здравоохранения.</div>
+                            </a>
+                            <a href="https://theunion.org" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">The Union (International Union Against Tuberculosis and Lung Disease)</div>
+                                </div>
+                                <div class="dropdown-meta">Международная организация, публикует практические руководства, исследования и образовательные программы для специалистов по туберкулёзу и заболеваниям лёгких.</div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <footer class="footer">
-                <p>Страница создана для удобства медицинских работников</p>
-                <p class="year">2024</p>
-            </footer>
+            <!-- Footer -->
+            <div class="footer">
+                <p><span class="year">2024</span></p>
+            </div>
         </div>
     </main>
 
     <script>
-        // Состояние бокового меню
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.querySelector('.main-content');
-            const isCollapsed = sidebar.classList.contains('collapsed');
-            
-            if (isCollapsed) {
-                sidebar.classList.remove('collapsed');
-                mainContent.classList.remove('expanded');
-                localStorage.setItem('sidebarCollapsed', 'false');
-            } else {
-                sidebar.classList.add('collapsed');
-                mainContent.classList.add('expanded');
-                localStorage.setItem('sidebarCollapsed', 'true');
-            }
-        }
-
-        // Восстановление состояния при загрузке - по умолчанию меню открыто
-        document.addEventListener('DOMContentLoaded', function() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.querySelector('.main-content');
-            const hamburger = document.getElementById('hamburgerButton');
-            
-            // По умолчанию меню открыто на всех устройствах
-            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-            
-            if (isCollapsed) {
-                sidebar.classList.add('collapsed');
-                mainContent.classList.add('expanded');
-            } else {
-                sidebar.classList.remove('collapsed');
-                mainContent.classList.remove('expanded');
-            }
-
-            // Простой обработчик для кнопки - работает от одного клика на всех устройствах
-            if (hamburger) {
-                hamburger.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleSidebar();
-                });
-            }
-        });
-
-        // Плавная прокрутка к блокам
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    e.preventDefault();
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        // Dropdown functionality
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+        
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const dropdown = this.nextElementSibling;
+                dropdown.classList.toggle('show');
             });
         });
         
-        // Закрытие sidebar при клике вне его на мобильных устройствах
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const hamburger = document.querySelector('.hamburger');
-            
-            if (window.innerWidth <= 1024 && 
-                !sidebar.classList.contains('collapsed') && 
-                !sidebar.contains(event.target) && 
-                !hamburger.contains(event.target)) {
-                sidebar.classList.add('collapsed');
-                document.querySelector('.main-content').classList.add('expanded');
-                localStorage.setItem('sidebarCollapsed', 'true');
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown-toggle')) {
+                document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                });
             }
-        });
-
-        // Активация пункта меню при скролле
-        window.addEventListener('scroll', function() {
-            const sections = document.querySelectorAll('.card');
-            const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
-            
-            let currentSection = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                if (window.scrollY >= sectionTop) {
-                    currentSection = '#' + section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === currentSection) {
-                    link.classList.add('active');
-                }
-            });
         });
     </script>
 </body>
