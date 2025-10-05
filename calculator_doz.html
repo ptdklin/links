@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор доз препаратов для лечения туберкулеза</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .calculator {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select, input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #005a87;
+        }
+        .result {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #007cba;
+            margin-top: 20px;
+            display: none;
+        }
+        .warning {
+            color: #d63638;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .note {
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Калькулятор доз препаратов для лечения туберкулеза</h1>
+    
+    <div class="calculator">
+        <div class="form-group">
+            <label for="drug">Выберите препарат:</label>
+            <select id="drug">
+                <option value="">-- Выберите препарат --</option>
+                <!-- Препараты будут добавлены через JavaScript -->
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="weight">Вес пациента (кг):</label>
+            <input type="number" id="weight" min="1" max="200" placeholder="Введите вес в кг">
+        </div>
+        
+        <button onclick="calculateDose()">Рассчитать дозу</button>
+        
+        <div id="result" class="result"></div>
+    </div>
+    
+    <div class="note">
+        <p><strong>Примечание:</strong> Окончательное решение о дозе препарата должно быть согласовано с инструкцией по медицинскому применению лекарственного препарата.</p>
+    </div>
+
+    <script>
+        // Данные о препаратах
+        const drugs = [
+            {
+                name: "Амикацин (Am)",
+                averageDose: "15–20 мг/кг",
+                maxDose: "1000 мг",
+                weightDoses: {
+                    "<50": "500 мг",
+                    "50-69": "750–1000 мг",
+                    ">70": "1000 мг"
+                }
+            },
+            {
+                name: "Аминосалициловая кислота (PAS)",
+                averageDose: "8000 мг",
+                maxDose: "12000 мг",
+                weightDoses: {
+                    "<50": "8000 мг",
+                    "50-69": "8000 мг",
+                    ">70": "8000 мг"
+                }
+            },
+            {
+                name: "Бедаквилин (Bq)",
+                averageDose: "4 таблетки (400 мг) ежедневно 2 недели, затем по 2 таблетки (200 мг) 3 раза в неделю 22 недели",
+                maxDose: "",
+                weightDoses: {
+                    "<50": "См. схему приема",
+                    "50-69": "См. схему приема",
+                    ">70": "См. схему приема"
+                }
+            },
+            {
+                name: "Деламанид (Dim)",
+                averageDose: "200 мг",
+                maxDose: "200 мг",
+                weightDoses: {
+                    "<50": "100 мг 2 раза в день",
+                    "50-69": "100 мг 2 раза в день",
+                    ">70": "100 мг 2 раза в день"
+                }
+            },
+            {
+                name: "Изониазид (H)",
+                averageDose: "5–10 мг/кг",
+                maxDose: "600 мг",
+                weightDoses: {
+                    "<50": "300 мг",
+                    "50-69": "450–600 мг",
+                    ">70": "600 мг"
+                }
+            },
+            {
+                name: "Имипенем-циластатин (Imp) + клавулановая кислота (Amx/Civ)",
+                averageDose: "1000 мг + 1000 мг 2 раза в день, в/в капельно + 500/125 мг 2 раза в день",
+                maxDose: "",
+                weightDoses: {
+                    "<50": "См. схему приема",
+                    "50-69": "См. схему приема",
+                    ">70": "См. схему приема"
+                }
+            },
+            {
+                name: "Канамицин (Km)",
+                averageDose: "15–20 мг/кг",
+                maxDose: "1000 мг",
+                weightDoses: {
+                    "<50": "500 мг",
+                    "50-69": "750–1000 мг",
+                    ">70": "1000 мг"
+                }
+            },
+            {
+                name: "Капреомицин (Cm)",
+                averageDose: "15–20 мг/кг",
+                maxDose: "1000 мг",
+                weightDoses: {
+                    "<50": "500 мг",
+                    "50-69": "750–1000 мг",
+                    ">70": "1000 мг"
+                }
+            },
+            {
+                name: "Клофазимин (Cfz)",
+                averageDose: "100 мг",
+                maxDose: "100 мг",
+                weightDoses: {
+                    "<50": "100 мг",
+                    "50-69": "100 мг",
+                    ">70": "100 мг"
+                }
+            },
+            {
+                name: "Левофлоксацин (Lfx)",
+                averageDose: "10–15 мг/кг",
+                maxDose: "1000 мг",
+                weightDoses: {
+                    "<50": "750–1000 мг",
+                    "50-69": "750 мг (1000 мг при пре-ШЛУ/ШЛУ)",
+                    ">70": "1000 мг"
+                }
+            },
+            {
+                name: "Линезолид (Lzd)",
+                averageDose: "600 мг",
+                maxDose: "1200 мг",
+                weightDoses: {
+                    "<50": "300–600 мг",
+                    "50-69": "600 мг",
+                    ">70": "600 мг"
+                }
+            },
+            {
+                name: "Меропенем (Мp) + клавулановая кислота (Amx/Civ)",
+                averageDose: "1000 мг 3 раза в день, в/в капельно + 500/125 мг 3 раза в день",
+                maxDose: "",
+                weightDoses: {
+                    "<50": "См. схему приема",
+                    "50-69": "См. схему приема",
+                    ">70": "См. схему приема"
+                }
+            },
+            {
+                name: "Моксифлоксацин (Mfx)",
+                averageDose: "400 мг 800 мг",
+                maxDose: "800 мг",
+                weightDoses: {
+                    "<50": "400 мг",
+                    "50-69": "400 мг (800 мг при пре-ШЛУ/ШЛУ)",
+                    ">70": "400 мг (800 мг при пре-ШЛУ/ШЛУ)"
+                }
+            },
+            {
+                name: "Пиразинамид (Z)",
+                averageDose: "20–30 мг/кг",
+                maxDose: "2500 мг",
+                weightDoses: {
+                    "<50": "1500 мг",
+                    "50-69": "1500 мг",
+                    ">70": "2000 мг"
+                }
+            },
+            {
+                name: "Протионамид (Pto)",
+                averageDose: "15–20 мг/кг",
+                maxDose: "1000 мг",
+                weightDoses: {
+                    "<50": "500–750 мг",
+                    "50-69": "750 мг",
+                    ">70": "750 мг"
+                }
+            },
+            {
+                name: "Рифабутин (Rb)",
+                averageDose: "5 мг/кг",
+                maxDose: "300 мг",
+                weightDoses: {
+                    "<50": "300 мг",
+                    "50-69": "300 мг",
+                    ">70": "300 мг"
+                }
+            },
+            {
+                name: "Рифапентин (Rpt) в коротком режиме",
+                averageDose: "20 мг/кг Ежедневно (короткий режим ЛЧТ)",
+                maxDose: "1200 мг Ежедневно (короткий режим ЛЧТ)",
+                weightDoses: {
+                    "<50": "1200 мг Ежедневно (короткий режим ЛЧТ)",
+                    "50-69": "1200 мг Ежедневно (короткий режим ЛЧТ)",
+                    ">70": "1200 мг Ежедневно (короткий режим ЛЧТ)"
+                }
+            },
+            {
+                name: "Рифапентин (Rpt) для ФП в длительном режиме",
+                averageDose: "10 мг/кг 2–3 раза в неделю",
+                maxDose: "600 мг 3 раза в неделю",
+                weightDoses: {
+                    "<50": "600 мг 2–3 раза в неделю",
+                    "50-69": "600 мг 2–3 раза в неделю",
+                    ">70": "600 мг 2–3 раза в неделю"
+                }
+            },
+            {
+                name: "Рифампицин (R)",
+                averageDose: "10 мг/кг",
+                maxDose: "600 мг",
+                weightDoses: {
+                    "<50": "450 мг",
+                    "50-69": "600 мг",
+                    ">70": "600 мг"
+                }
+            },
+            {
+                name: "Спарфлоксацин (Sfx)",
+                averageDose: "200 мг",
+                maxDose: "400 мг",
+                weightDoses: {
+                    "<50": "400 мг в первый день, затем по 200 мг в сутки",
+                    "50-69": "400 мг в первый день, затем по 200 мг в сутки",
+                    ">70": "400 мг в первый день, затем по 200 мг в сутки"
+                }
+            },
+            {
+                name: "Стрептомицин (S)",
+                averageDose: "12–18 мг/кг",
+                maxDose: "1000 мг",
+                weightDoses: {
+                    "<50": "500 мг",
+                    "50-69": "750–1000 мг",
+                    ">70": "1000 мг"
+                }
+            },
+            {
+                name: "Теризидон (Trd)",
+                averageDose: "10–15 мг/кг",
+                maxDose: "1000 мг",
+                weightDoses: {
+                    "<50": "500 мг",
+                    "50-69": "500–750 мг",
+                    ">70": "750 мг"
+                }
+            },
+            {
+                name: "Тиоурендомино-метилпиридиния перхлорат (Tpp)",
+                averageDose: "9,5–12,5 мг/кг",
+                maxDose: "1200 мг",
+                weightDoses: {
+                    "<50": "400 мг",
+                    "50-69": "400–600 мг",
+                    ">70": "600 мг"
+                }
+            },
+            {
+                name: "Циклосерин (Cs)",
+                averageDose: "10–15 мг/кг",
+                maxDose: "1000 мг",
+                weightDoses: {
+                    "<50": "500 мг",
+                    "50-69": "500–750 мг",
+                    ">70": "750 мг"
+                }
+            },
+            {
+                name: "Этамбутол (E)",
+                averageDose: "15–25 мг/кг",
+                maxDose: "2000 мг",
+                weightDoses: {
+                    "<50": "1200 мг",
+                    "50-69": "1600 мг",
+                    ">70": "2000 мг"
+                }
+            },
+            {
+                name: "Этионамид (Eto)",
+                averageDose: "15–20 мг/кг",
+                maxDose: "1000 мг",
+                weightDoses: {
+                    "<50": "500–750 мг",
+                    "50-69": "750 мг",
+                    ">70": "750 мг"
+                }
+            }
+        ];
+
+        // Заполняем выпадающий список препаратами
+        const drugSelect = document.getElementById('drug');
+        drugs.sort((a, b) => a.name.localeCompare(b.name, 'ru')).forEach(drug => {
+            const option = document.createElement('option');
+            option.value = drug.name;
+            option.textContent = drug.name;
+            drugSelect.appendChild(option);
+        });
+
+        // Функция расчета дозы
+        function calculateDose() {
+            const selectedDrugName = document.getElementById('drug').value;
+            const weight = parseFloat(document.getElementById('weight').value);
+            const resultDiv = document.getElementById('result');
+            
+            if (!selectedDrugName) {
+                resultDiv.innerHTML = '<div class="warning">Пожалуйста, выберите препарат</div>';
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            if (!weight || weight <= 0) {
+                resultDiv.innerHTML = '<div class="warning">Пожалуйста, введите корректный вес пациента</div>';
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            const drug = drugs.find(d => d.name === selectedDrugName);
+            
+            let weightCategory;
+            if (weight < 50) weightCategory = "<50";
+            else if (weight <= 69) weightCategory = "50-69";
+            else weightCategory = ">70";
+            
+            const recommendedDose = drug.weightDoses[weightCategory];
+            
+            resultDiv.innerHTML = `
+                <h3>Результат расчета для: ${drug.name}</h3>
+                <p><strong>Вес пациента:</strong> ${weight} кг</p>
+                <p><strong>Средняя терапевтическая доза:</strong> ${drug.averageDose}</p>
+                <p><strong>Максимальная суточная доза:</strong> ${drug.maxDose}</p>
+                <p><strong>Рекомендуемая суточная доза:</strong> ${recommendedDose}</p>
+                <div class="warning">Окончательное решение о дозе препарата должно быть согласовано с инструкцией по медицинскому применению лекарственного препарата</div>
+            `;
+            resultDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
