@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Справочник по побочным эффектам ПТП</title>
     <style>
+        /* Все стили остаются без изменений */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -640,36 +641,89 @@
             }
         ];
 
-        // АВТОМАТИЧЕСКОЕ СОЗДАНИЕ СПИСКА СИМПТОМОВ ИЗ РЕАЛЬНЫХ ДАННЫХ
-        function generateSymptomsList() {
-            const allSymptoms = new Set();
-            
-            drugsData.forEach(drug => {
-                drug.effects.forEach(effect => {
-                    const effectName = effect.name.toLowerCase();
-                    const effectSymptoms = effect.symptoms.toLowerCase();
-                    
-                    if (effectName.includes('гепатит') || effectSymptoms.includes('гепатит') || effectSymptoms.includes('печен')) allSymptoms.add('гепатит');
-                    if (effectName.includes('нейропат') || effectName.includes('неврит') || effectSymptoms.includes('онемен') || effectSymptoms.includes('покалыван')) allSymptoms.add('нейропатия');
-                    if (effectName.includes('нефротоксичн') || effectSymptoms.includes('почк') || effectSymptoms.includes('олигури')) allSymptoms.add('нефротоксичность');
-                    if (effectName.includes('ототоксичн') || effectSymptoms.includes('слух') || effectSymptoms.includes('ушах')) allSymptoms.add('ототоксичность');
-                    if (effectName.includes('аритми') || effectName.includes('qt') || effectName.includes('сердц') || effectSymptoms.includes('аритми')) allSymptoms.add('аритмия');
-                    if (effectName.includes('артралг') || effectName.includes('сустав') || effectSymptoms.includes('сустав')) allSymptoms.add('артралгия');
-                    if (effectName.includes('тошнота') || effectName.includes('рвота') || effectSymptoms.includes('тошнот') || effectSymptoms.includes('рвот')) allSymptoms.add('тошнота');
-                    if (effectName.includes('диарея') || effectSymptoms.includes('диаре') || effectSymptoms.includes('стул')) allSymptoms.add('диарея');
-                    if (effectName.includes('кожн') || effectName.includes('сыпь') || effectName.includes('зуд') || effectSymptoms.includes('кож') || effectSymptoms.includes('сып')) allSymptoms.add('кожные');
-                    if (effectName.includes('психоз') || effectSymptoms.includes('психоз') || effectSymptoms.includes('бред') || effectSymptoms.includes('галлюцин')) allSymptoms.add('психоз');
-                    if (effectName.includes('депрессия') || effectSymptoms.includes('депресси') || effectSymptoms.includes('подавлен')) allSymptoms.add('депрессия');
-                    if (effectName.includes('судорог') || effectSymptoms.includes('судорог')) allSymptoms.add('судороги');
-                    if (effectName.includes('гипотиреоз') || effectSymptoms.includes('гипотиреоз')) allSymptoms.add('гипотиреоз');
-                    if (effectName.includes('миелосупрес') || effectName.includes('анемия') || effectName.includes('тромбоцитопения') || effectSymptoms.includes('анеми') || effectSymptoms.includes('кровоточивость')) allSymptoms.add('миелосупрессия');
-                    if (effectName.includes('гиперурикемия') || effectName.includes('мочевая кислот') || effectSymptoms.includes('мочевая')) allSymptoms.add('гиперурикемия');
-                    if (effectName.includes('зрен') || effectName.includes('офталь') || effectName.includes('глаз') || effectSymptoms.includes('зрен') || effectSymptoms.includes('зрительн')) allSymptoms.add('зрение');
-                });
-            });
-            
-            return Array.from(allSymptoms);
-        }
+        // РУЧНОЙ СПИСОК СИМПТОМОВ С ПРЕПАРАТАМИ, КОТОРЫЕ ИХ ВЫЗЫВАЮТ
+        const symptomsData = [
+            {
+                id: 'аритмия',
+                name: '1. Аритмия',
+                drugIds: ['bedaquiline', 'levofloxacin'] // 2 препарата
+            },
+            {
+                id: 'артралгия',
+                name: '2. Артралгия (боли в суставах)',
+                drugIds: ['bedaquiline', 'levofloxacin', 'pyrazinamide', 'pas'] // 4 препарата
+            },
+            {
+                id: 'гепатит',
+                name: '3. Гепатит (поражение печени)',
+                drugIds: ['bedaquiline', 'ethionamide', 'isoniazid', 'pas', 'protionamide', 'pyrazinamide', 'rifampicin'] // 7 препаратов
+            },
+            {
+                id: 'гиперурикемия',
+                name: '4. Гиперурикемия',
+                drugIds: ['pyrazinamide'] // 1 препарат
+            },
+            {
+                id: 'гипотиреоз',
+                name: '5. Гипотиреоз',
+                drugIds: ['ethionamide', 'pas', 'protionamide'] // 3 препарата
+            },
+            {
+                id: 'депрессия',
+                name: '6. Депрессия',
+                drugIds: ['cycloserine', 'ethionamide', 'protionamide', 'terizidone'] // 4 препарата
+            },
+            {
+                id: 'диарея',
+                name: '7. Диарея',
+                drugIds: ['amoxicillin_clavulanate', 'levofloxacin', 'linezolid', 'pas', 'protionamide', 'rifampicin'] // 6 препаратов
+            },
+            {
+                id: 'кожные',
+                name: '8. Кожные реакции',
+                drugIds: ['bedaquiline', 'ethionamide', 'isoniazid', 'levofloxacin', 'linezolid', 'pas', 'protionamide', 'pyrazinamide', 'rifampicin'] // 9 препаратов
+            },
+            {
+                id: 'миелосупрессия',
+                name: '9. Миелосупрессия',
+                drugIds: ['linezolid'] // 1 препарат
+            },
+            {
+                id: 'зрение',
+                name: '10. Нарушение зрения',
+                drugIds: ['ethambutol', 'linezolid'] // 2 препарата
+            },
+            {
+                id: 'нейропатия',
+                name: '11. Нейропатия периферическая',
+                drugIds: ['cycloserine', 'isoniazid', 'linezolid', 'terizidone'] // 4 препарата
+            },
+            {
+                id: 'нефротоксичность',
+                name: '12. Нефротоксичность (поражение почек)',
+                drugIds: ['amikacin', 'kanamycin', 'streptomycin'] // 3 препарата
+            },
+            {
+                id: 'ототоксичность',
+                name: '13. Ототоксичность (поражение слуха)',
+                drugIds: ['amikacin', 'kanamycin', 'streptomycin'] // 3 препарата
+            },
+            {
+                id: 'психоз',
+                name: '14. Психоз',
+                drugIds: ['cycloserine'] // 1 препарат
+            },
+            {
+                id: 'судороги',
+                name: '15. Судороги',
+                drugIds: ['cycloserine', 'isoniazid', 'levofloxacin'] // 3 препарата
+            },
+            {
+                id: 'тошнота',
+                name: '16. Тошнота и рвота',
+                drugIds: ['amoxicillin_clavulanate', 'bedaquiline', 'ethambutol', 'ethionamide', 'isoniazid', 'pas', 'protionamide', 'pyrazinamide', 'rifampicin'] // 9 препаратов
+            }
+        ];
 
         // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
@@ -681,60 +735,13 @@
         // Инициализация выпадающего списка симптомов
         function initializeSymptomsDropdown() {
             const symptomsSelect = document.getElementById('symptomsSelect');
-            const symptoms = generateSymptomsList();
             
-            // СОРТИРОВКА ПО АЛФАВИТУ
-            symptoms.sort((a, b) => a.localeCompare(b, 'ru'));
-            
-            // Определяем порядок симптомов согласно вашему запросу
-            const symptomOrder = {
-                'аритмия': '1. Аритмия',
-                'артралгия': '2. Артралгия (боли в суставах)',
-                'гепатит': '3. Гепатит (поражение печени)',
-                'гиперурикемия': '4. Гиперурикемия',
-                'гипотиреоз': '5. Гипотиреоз',
-                'депрессия': '6. Депрессия',
-                'диарея': '7. Диарея',
-                'кожные': '8. Кожные реакции',
-                'миелосупрессия': '9. Миелосупрессия',
-                'зрение': '10. Нарушение зрения',
-                'нейропатия': '11. Нейропатия периферическая',
-                'нефротоксичность': '12. Нефротоксичность (поражение почек)',
-                'ототоксичность': '13. Ототоксичность (поражение слуха)',
-                'психоз': '14. Психоз',
-                'судороги': '15. Судороги',
-                'тошнота': '16. Тошнота и рвота'
-            };
-            
-            symptoms.forEach(symptom => {
+            symptomsData.forEach(symptom => {
                 const option = document.createElement('option');
-                option.value = symptom;
-                option.textContent = symptomOrder[symptom] || getSymptomDisplayName(symptom);
+                option.value = symptom.id;
+                option.textContent = symptom.name;
                 symptomsSelect.appendChild(option);
             });
-        }
-
-        // Получить отображаемое название симптома
-        function getSymptomDisplayName(symptomKey) {
-            const displayNames = {
-                'гепатит': 'Гепатит (поражение печени)',
-                'нейропатия': 'Нейропатия периферическая',
-                'нефротоксичность': 'Нефротоксичность (поражение почек)',
-                'ототоксичность': 'Ототоксичность (поражение слуха)',
-                'аритмия': 'Аритмия',
-                'артралгия': 'Артралгия (боли в суставах)',
-                'тошнота': 'Тошнота и рвота',
-                'диарея': 'Диарея',
-                'кожные': 'Кожные реакции',
-                'психоз': 'Психоз',
-                'депрессия': 'Депрессия',
-                'судороги': 'Судороги',
-                'гипотиреоз': 'Гипотиреоз',
-                'миелосупрессия': 'Миелосупрессия',
-                'гиперурикемия': 'Гиперурикемия',
-                'зрение': 'Нарушение зрения'
-            };
-            return displayNames[symptomKey] || symptomKey;
         }
 
         // Рендер карточек препаратов
@@ -816,13 +823,16 @@
             
             searchInput.addEventListener('input', function() {
                 const searchTerm = this.value.toLowerCase();
-                filterDrugs();
+                filterDrugs(searchTerm);
             });
             
             symptomsSelect.addEventListener('change', function() {
-                const selectedSymptom = this.value;
-                if (selectedSymptom) {
-                    showSymptomsView(selectedSymptom);
+                const selectedSymptomId = this.value;
+                if (selectedSymptomId) {
+                    const symptom = symptomsData.find(s => s.id === selectedSymptomId);
+                    if (symptom) {
+                        showSymptomsView(symptom);
+                    }
                 } else {
                     showDrugList();
                 }
@@ -841,26 +851,26 @@
             symptomsView.style.display = 'block';
             
             const drugsForSymptom = drugsData.filter(drug => 
-                drug.effects.some(effect => 
-                    effect.name.toLowerCase().includes(symptom) || 
-                    effect.symptoms.toLowerCase().includes(symptom)
-                )
+                symptom.drugIds.includes(drug.id)
             );
             
             symptomsContent.innerHTML = `
-                <h2>Препараты, вызывающие: ${getSymptomDisplayName(symptom)}</h2>
+                <h2>Препараты, вызывающие: ${symptom.name}</h2>
                 <div style="margin: 20px 0; padding: 15px; background: #e8f6f3; border-radius: 8px;">
                     <strong>Всего препаратов:</strong> ${drugsForSymptom.length}
                 </div>
                 
-                ${drugsForSymptom.map(drug => `
+                ${drugsForSymptom.map(drug => {
+                    const relevantEffects = drug.effects.filter(effect => {
+                        // Показываем все эффекты препарата, так как мы уже знаем, что он вызывает этот симптом
+                        return true;
+                    });
+                    
+                    return `
                     <div class="symptom-group">
                         <div class="symptom-title">${drug.name} (${drug.abbr})</div>
                         
-                        ${drug.effects.filter(effect => 
-                            effect.name.toLowerCase().includes(symptom) || 
-                            effect.symptoms.toLowerCase().includes(symptom)
-                        ).map(effect => `
+                        ${relevantEffects.map(effect => `
                             <div style="margin-top: 10px;">
                                 <div><strong>Проявление:</strong> ${effect.name}</div>
                                 <div><strong>Симптомы:</strong> ${effect.symptoms}</div>
@@ -872,7 +882,7 @@
                             Подробнее о препарате
                         </button>
                     </div>
-                `).join('')}
+                `}).join('')}
                 
                 ${drugsForSymptom.length === 0 ? `
                     <div class="no-results">
@@ -884,22 +894,25 @@
             symptomsView.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Фильтрация препаратов
-        function filterDrugs() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
-            let filteredDrugs = drugsData;
-            
-            if (searchTerm) {
-                filteredDrugs = drugsData.filter(drug => 
-                    drug.name.toLowerCase().includes(searchTerm) ||
-                    drug.abbr.toLowerCase().includes(searchTerm) ||
-                    drug.effects.some(effect => 
-                        effect.name.toLowerCase().includes(searchTerm) ||
-                        effect.symptoms.toLowerCase().includes(searchTerm)
-                    )
-                );
+        // Фильтрация препаратов по поисковому запросу
+        function filterDrugs(searchTerm) {
+            if (!searchTerm) {
+                renderDrugCards(drugsData);
+                return;
             }
+            
+            const filteredDrugs = drugsData.filter(drug => {
+                // Поиск по названию препарата и аббревиатуре
+                if (drug.name.toLowerCase().includes(searchTerm) || drug.abbr.toLowerCase().includes(searchTerm)) {
+                    return true;
+                }
+                
+                // Поиск по всем эффектам препарата
+                return drug.effects.some(effect => {
+                    const effectText = (effect.name + ' ' + effect.symptoms + ' ' + effect.monitoring + ' ' + effect.prevention).toLowerCase();
+                    return effectText.includes(searchTerm);
+                });
+            });
             
             renderDrugCards(filteredDrugs);
         }
