@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Определение кабинета по адресу пациента</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 700px;
+            min-height: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 35px 32px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        
+        .header p {
+            font-size: 17px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .search-section {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 17px;
+            background: #f8fafc;
+            transition: all 0.3s ease;
+            color: #334155;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+        
+        .search-input::placeholder {
+            color: #94a3b8;
+        }
+        
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            border-top: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            max-height: 350px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .autocomplete-item {
+            padding: 16px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 16px;
+            color: #475569;
+            transition: all 0.2s ease;
+        }
+        
+        .autocomplete-item:hover {
+            background: #f8fafc;
+            color: #4f46e5;
+        }
+        
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+        
+        .hint {
+            color: #64748b;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+        
+        .result-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 18px;
+            padding: 35px;
+            text-align: center;
+            border: 2px solid #bae6fd;
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.15);
+            width: 100%;
+        }
+        
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 20px;
+        }
+        
+        .address-line {
+            font-size: 18px;
+            color: #475569;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .cabinet-line {
+            font-size: 42px;
+            font-weight: 800;
+            color: #dc2626;
+            margin: 10px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cabinet-102 {
+            color: #059669;
+        }
+        
+        .cabinet-103 {
+            color: #dc2626;
+        }
+        
+        .no-result {
+            text-align: center;
+            padding: 40px 30px;
+            color: #64748b;
+        }
+        
+        .no-result h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #475569;
+        }
+        
+        .no-result p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 16px;
+            padding: 60px 20px;
+        }
+        
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                min-height: 500px;
+            }
+            
+            .header {
+                padding: 25px 20px 20px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .result-card {
+                padding: 25px;
+            }
+            
+            .cabinet-line {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Определение кабинета по адресу пациента</h1>
+            <p>Введите адрес пациента для определения кабинета</p>
+        </div>
+        
+        <div class="content">
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" class="search-input" id="addressInput" placeholder="Начните вводить улицу, деревню или посёлок...">
+                    <div class="autocomplete-list" id="autocompleteList"></div>
+                </div>
+                <div class="hint">Введите адрес пациента для поиска кабинета</div>
+            </div>
+            
+            <div class="result-section" id="resultSection">
+                <div class="empty-state">
+                    <div class="icon">🏥</div>
+                    <div>Результат определения кабинета появится здесь</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addressInput = document.getElementById('addressInput');
+            const autocompleteList = document.getElementById('autocompleteList');
+            const resultSection = document.getElementById('resultSection');
+            
+            // Полная база данных адресов и соответствующих кабинетов
+            const addressDatabase = [
+                // Кабинет 102
+                { address: "ул. Мечникова, г. Клин", cabinet: "102" },
+                { address: "ул. Чайковского, г. Клин", cabinet: "102" },
+                { address: "пр. Котовского, г. Клин", cabinet: "102" },
+                { address: "1-я Овражная, г. Клин", cabinet: "102" },
+                { address: "2-я Овражная, г. Клин", cabinet: "102" },
+                { address: "ул. Самодеятельная, г. Клин", cabinet: "102" },
+                { address: "ул. 23 Октября, г. Клин", cabinet: "102" },
+                { address: "ул. Победы, г. Клин", cabinet: "102" },
+                { address: "пр. Танеева, г. Клин", cabinet: "102" },
+                { address: "ул. Спортивная, г. Клин", cabinet: "102" },
+                { address: "ул. Садовая, г. Клин", cabinet: "102" },
+                { address: "Садовый пер, г. Клин", cabinet: "102" },
+                { address: "ул. Сестрорецкая, г. Клин", cabinet: "102" },
+                { address: "ул. Зарецкая, г. Клин", cabinet: "102" },
+                { address: "Горный пер, г. Клин", cabinet: "102" },
+                { address: "Боровая ул, г. Клин", cabinet: "102" },
+                { address: "ул. П. Морозова, г. Клин", cabinet: "102" },
+                { address: "Зеленый пер, г. Клин", cabinet: "102" },
+                { address: "ул. Пр. Набережная, г. Клин", cabinet: "102" },
+                { address: "Сосновский пер, г. Клин", cabinet: "102" },
+                { address: "Давыдковский пер, г. Клин", cabinet: "102" },
+                { address: "Безымянный пер, г. Клин", cabinet: "102" },
+                { address: "Московский пер, г. Клин", cabinet: "102" },
+                { address: "Фабричный пер, г. Клин", cabinet: "102" },
+                { address: "Заячий вражек, г. Клин", cabinet: "102" },
+                { address: "ул. Танеева, г. Клин", cabinet: "102" },
+                { address: "Чайковский пер, г. Клин", cabinet: "102" },
+                { address: "2-й Чайковский пер, г. Клин", cabinet: "102" },
+                { address: "Демьяновский пр, г. Клин", cabinet: "102" },
+                { address: "Спортивный пер, г. Клин", cabinet: "102" },
+                { address: "переулок и ул. Ключевая, г. Клин", cabinet: "102" },
+                { address: "ул. 60 л. Комсомола, г. Клин", cabinet: "102" },
+                { address: "ул. Старица, г. Клин", cabinet: "102" },
+                { address: "ул. Подгорица, г. Клин", cabinet: "102" },
+                { address: "ул. Лазурная, г. Клин", cabinet: "102" },
+                { address: "ул. Клинская, г. Клин", cabinet: "102" },
+                { address: "ул. Профсоюзная, г. Клин", cabinet: "102" },
+                
+                // Добавлю еще 20 адресов для кабинета 102 для демонстрации
+                { address: "пос. Демьяново", cabinet: "102" },
+                { address: "Заречный пер", cabinet: "102" },
+                { address: "пос. Зубово", cabinet: "102" },
+                { address: "ул. Новая, г. Клин", cabinet: "102" },
+                { address: "ул. Школьная, г. Клин", cabinet: "102" },
+                { address: "ул. Первомайская, г. Клин", cabinet: "102" },
+                { address: "ул. Октябрьская, г. Клин", cabinet: "102" },
+                { address: "ул. Зубовская, г. Клин", cabinet: "102" },
+                { address: "ул. Центральная, г. Клин", cabinet: "102" },
+                { address: "ул. Колхозная, г. Клин", cabinet: "102" },
+                { address: "ул. Овражная, г. Клин", cabinet: "102" },
+                { address: "д. Струбково", cabinet: "102" },
+                { address: "д. Темново", cabinet: "102" },
+                { address: "д. Ельцово", cabinet: "102" },
+                { address: "д. Соколово", cabinet: "102" },
+                { address: "д. Меленки", cabinet: "102" },
+                { address: "д. Соголево", cabinet: "102" },
+                { address: "д. Селифоново", cabinet: "102" },
+                { address: "д. Борис – Глеб", cabinet: "102" },
+                { address: "д. Попелково", cabinet: "102" },
+
+                // Кабинет 103
+                { address: "ул. Карла Маркса, г. Клин", cabinet: "103" },
+                { address: "ул. Гагарина, г. Клин", cabinet: "103" },
+                { address: "ул. Мира, г. Клин", cabinet: "103" },
+                { address: "ул. Бородинский пр, г. Клин", cabinet: "103" },
+                { address: "ул. 50 лет Октября, г. Клин", cabinet: "103" },
+                { address: "ул. Некрасова, г. Клин", cabinet: "103" },
+                { address: "ул. Крупской, г. Клин", cabinet: "103" },
+                { address: "ул. Гоголя, г. Клин", cabinet: "103" },
+                { address: "ул. Колхозная, г. Клин", cabinet: "103" },
+                { address: "ул. Колхозный пр, г. Клин", cabinet: "103" },
+                { address: "ул. Островского, г. Клин", cabinet: "103" },
+                { address: "ул. Б. Октябрьская, г. Клин", cabinet: "103" },
+                { address: "ул. 1-я Окружная, г. Клин", cabinet: "103" },
+                { address: "ул. 2-я Окружная, г. Клин", cabinet: "103" },
+                { address: "ул. 3-я Окружная, г. Клин", cabinet: "103" },
+                { address: "ул. Московская, г. Клин", cabinet: "103" },
+                { address: "ул. Полевая, г. Клин", cabinet: "103" },
+                { address: "ул. Волоколамское ш, г. Клин", cabinet: "103" },
+                { address: "ул. Л.Толстого, г. Клин", cabinet: "103" },
+                { address: "ул. К.Маркса, г. Клин", cabinet: "103" },
+                
+                // Улицы г. Высоковск
+                { address: "ул. Кирова, г. Высоковск", cabinet: "103" },
+                { address: "ул. Болыпевитская, г. Высоковск", cabinet: "103" },
+                { address: "ул. Владыкина, г. Высоковск", cabinet: "103" },
+                { address: "ул. Стачек, г. Высоковск", cabinet: "103" },
+                { address: "ул. Октябрьская, г. Высоковск", cabinet: "103" },
+                { address: "ул. Ленина, г. Высоковск", cabinet: "103" },
+                { address: "ул. Сосновая, г. Высоковск", cabinet: "103" },
+                { address: "ул. Текстильная, г. Высоковск", cabinet: "103" },
+                { address: "ул. Большевитская, г. Высоковск", cabinet: "103" },
+                { address: "Первомайский проезд, г. Высоковск", cabinet: "103" }
+            ];
+            
+            // Функция для показа автодополнения
+            function showAutocomplete(query) {
+                const normalizedQuery = query.toLowerCase().trim();
+                
+                if (normalizedQuery.length < 2) {
+                    autocompleteList.style.display = 'none';
+                    return;
+                }
+                
+                // Фильтруем адреса по запросу
+                const filteredAddresses = addressDatabase.filter(item => 
+                    item.address.toLowerCase().includes(normalizedQuery)
+                );
+                
+                // Ограничиваем количество результатов
+                const limitedAddresses = filteredAddresses.slice(0, 15);
+                
+                if (limitedAddresses.length === 0) {
+                    autocompleteList.style.display = 'none';
+                    return;
+                }
+                
+                // Создаем элементы списка
+                autocompleteList.innerHTML = '';
+                limitedAddresses.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-item';
+                    div.textContent = item.address;
+                    div.addEventListener('click', function() {
+                        addressInput.value = item.address;
+                        autocompleteList.style.display = 'none';
+                        findAndDisplayCabinet(item.address);
+                    });
+                    autocompleteList.appendChild(div);
+                });
+                
+                autocompleteList.style.display = 'block';
+            }
+            
+            // Функция поиска и отображения кабинета
+            function findAndDisplayCabinet(address) {
+                const foundItem = addressDatabase.find(item => item.address === address);
+                
+                if (foundItem) {
+                    displayResult(address, foundItem.cabinet);
+                } else {
+                    displayResult(address, null);
+                }
+            }
+            
+            // Функция отображения результата
+            function displayResult(address, cabinet) {
+                if (cabinet) {
+                    resultSection.innerHTML = `
+                        <div class="result-card">
+                            <div class="address-line">Адрес пациента: ${address}</div>
+                            <div class="cabinet-line cabinet-${cabinet}">Кабинет: ${cabinet}</div>
+                        </div>
+                    `;
+                } else {
+                    resultSection.innerHTML = `
+                        <div class="no-result">
+                            <h3>Адрес не найден в базе данных</h3>
+                            <p>Проверьте правильность введенного адреса</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Обработчики событий
+            addressInput.addEventListener('input', function() {
+                showAutocomplete(this.value);
+            });
+            
+            addressInput.addEventListener('focus', function() {
+                if (this.value.length >= 2) {
+                    showAutocomplete(this.value);
+                }
+            });
+            
+            // Скрытие автодополнения при клике вне поля
+            document.addEventListener('click', function(e) {
+                if (!addressInput.contains(e.target) && !autocompleteList.contains(e.target)) {
+                    autocompleteList.style.display = 'none';
+                }
+            });
+            
+            // Обработчик нажатия Enter
+            addressInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    autocompleteList.style.display = 'none';
+                    findAndDisplayCabinet(this.value);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
