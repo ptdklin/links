@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список приказов и их разъяснений для пациента</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .search-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        #search {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 16px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        #search:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .order-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .order-header {
+            padding: 15px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            min-height: 80px;
+        }
+        
+        .order-theme {
+            flex: 1;
+            font-weight: 600;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+        
+        .order-number {
+            font-weight: bold;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-left: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .order-title {
+            padding: 15px 20px;
+            font-weight: 500;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+            color: #555;
+        }
+        
+        .order-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+            background-color: #f9f9f9;
+        }
+        
+        .order-card.active .order-content {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 15px 20px;
+        }
+        
+        .content-text {
+            opacity: 0;
+            transition: opacity 0.3s ease 0.2s;
+        }
+        
+        .order-card.active .content-text {
+            opacity: 1;
+        }
+        
+        .order-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            opacity: 0;
+        }
+        
+        .order-card.active .order-link {
+            opacity: 1;
+        }
+        
+        .order-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .expand-icon {
+            transition: transform 0.3s ease;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+        
+        .order-card.active .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: #7f8c8d;
+            grid-column: 1 / -1;
+        }
+        
+        .page-info {
+            opacity: 0;
+            transition: opacity 0.3s ease 0.2s;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .order-card.active .page-info {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .orders-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            h1 {
+                margin-bottom: 15px;
+            }
+            
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .order-number {
+                margin-left: 0;
+                margin-top: 8px;
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Список приказов и их разъяснений для пациента</h1>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Поиск по названию или теме приказа...">
+        </div>
+        
+        <div class="orders-grid" id="orders-container">
+            <!-- Приказы будут добавлены с помощью JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Данные приказов
+        const orders = [
+            {
+                id: 1,
+                number: "1",
+                title: "Федеральный закон от 21 ноября 2011 г N 323 ФЗ \"Об основах охраны здоровья граждан в РФ\"",
+                theme: "Бесплатная медицинская помощь: что нужно знать",
+                content: "Все граждане имеют право на бесплатную медицинскую помощь. Это закреплено законом — государство гарантирует, что услуги, включённые в программу государственных гарантий, пациент не оплачивает.<br><br><strong>Есть федеральная и региональная помощь:</strong><br>Федеральная — базовые услуги, бесплатные для всех по всей России (например, первичная помощь, скорая помощь).<br>Региональная — специализированная помощь, которую финансирует конкретный регион.",
+                link: "https://1drv.ms/w/s!AgHonOA1SYONhIJHc93d7p3I7VNeLw?e=8nTxf7",
+                page: "Статья 19. пункт. 2 (стр. 31-32)"
+            },
+            {
+                id: 2,
+                number: "2",
+                title: "Постановление Правительства РФ от 27.12.2024 г. № 1940 О программе государственных гарантий",
+                theme: "Региональная привязка бесплатной помощи",
+                content: "Виды бесплатной медицинской помощи в РФ определяются Программой государственных гарантий бесплатного оказания медицинской помощи. Некоторые направления, в частности лечение туберкулёза и психические расстройства, финансируются исключительно за счёт средств конкретного региона.",
+                link: "https://1drv.ms/b/s!AgHonOA1SYONhIJJwiZ4w-XZ9W08Vg?e=jeGuTd",
+                page: "На странице 26 (базовая программа)"
+            },
+            {
+                id: 3,
+                number: "3",
+                title: "Постановление правительства Московской области от 28.12.2024 № 1764-ПП",
+                theme: "Московская областная программа государственных гарантий",
+                content: "Все положения, о которых говорилось выше — федеральная программа и принципы региональной специализированной помощи — отражены в Московской областной программе государственных гарантий на 2025 год и плановый период.",
+                link: "https://1drv.ms/b/s!AgHonOA1SYONg_1ApTFEWmoRBD2kCA?e=vy4gm9",
+                page: "Стр. 4. пункт 2"
+            },
+            {
+                id: 4,
+                number: "4",
+                title: "Федеральный закон от 29.11.2010 N 326-ФЗ \"Об обязательном медицинском страховании в РФ\"",
+                theme: "Права и обязанности застрахованного лица",
+                content: "Застрахованные лица имеют право на бесплатное оказание им медицинской помощи медицинскими организациями при наступлении страхового случая на всей территории Российской Федерации в объеме, установленном базовой программой обязательного медицинского страхования.",
+                link: "https://1drv.ms/b/s!AgHonOA1SYONhIJKQnLsq_M2rvolHQ?e=6wXqeF",
+                page: "Глава 4"
+            },
+            {
+                id: 5,
+                number: "5",
+                title: "Закон РФ от 07.02.1992 N 2300-1 \"О защите прав потребителей\"",
+                theme: "Реализация закона в противотуберкулёзном диспансере",
+                content: "<strong>1. Информированность пациентов:</strong><br>Обеспечить полную и понятную информацию о медицинских услугах: перечень процедур и методов диагностики туберкулёза; порядок бесплатного получения медицинской помощи в рамках программы государственных гарантий; возможные риски, побочные эффекты лечения и длительность терапии; права пациента на информацию и выбор специалиста.",
+                link: "https://1drv.ms/b/s!AgHonOA1SYONhIJLqUhmRcfb9F22Ag?e=75aaQm",
+                page: ""
+            },
+            {
+                id: 6,
+                number: "6",
+                title: "Приказ Министерства здравоохранения РФ от 19 ноября 2021 г. N 1079н",
+                theme: "Медицинское освидетельствование в противотуберкулёзном диспансере",
+                content: "Приказ Минздрава РФ от 19.11.2021 № 1079н устанавливает порядок проведения медицинского освидетельствования граждан. Он нужен не для направления к фтизиатру, а для того, чтобы формализовать сам процесс обследования: как проводить, документировать и фиксировать результаты.",
+                link: "https://1drv.ms/w/s!AgHonOA1SYONg_x7vEkuHPhF5INjYw?e=b37wXt",
+                page: ""
+            },
+            {
+                id: 7,
+                number: "7",
+                title: "Трудовой кодекс статьи 212-214",
+                theme: "Получение справки о том, состоит или не состоит гражданин на учете",
+                content: "Получение справки о том, состоит или не состоит гражданин на учете, является частью обязательного медицинского осмотра. Согласно 213-й статье Трудового кодекса РФ, все обязательные предварительные и периодические медосмотры полностью оплачиваются работодателем.",
+                link: "https://1drv.ms/b/s!AgHonOA1SYONg6hWGmyMymPsRmnQ0A?e=kLusf0",
+                page: "Статья 213"
+            },
+            {
+                id: 8,
+                number: "8",
+                title: "Письмо Минздрава РФ от 07.04.2017 N 15-2/10/2-2343",
+                theme: "О направлении клинических рекомендаций по выявлению и диагностике туберкулеза у детей",
+                content: "Разъясняет порядок допуска детей в образовательные организации при отказе от иммунодиагностики. При отказе родителей (законных представителей) ребенка от внутрикожных проб (Манту, АТР), возможно назначение альтернативных методов обследования с целью исключения туберкулеза у ребенка.",
+                link: "https://1drv.ms/b/s!AgHonOA1SYONhIJbbU-6Ifmzx6uJZA?e=omQp8K",
+                page: "Стр 8 Стр 9"
+            },
+            {
+                id: 9,
+                number: "9",
+                title: "Конституция РФ Статья 41",
+                theme: "Право на охрану здоровья и медицинскую помощь",
+                content: "Каждый гражданин РФ имеет право на охрану здоровья и медицинскую помощь. Государство обязано обеспечивать охрану здоровья граждан; создавать условия для профилактики заболеваний; гарантировать бесплатную медицинскую помощь в рамках программ государственных гарантий.",
+                link: "https://1drv.ms/w/s!AgHonOA1SYONgtN1E9Kpd4CJkNV-YQ?e=RXHdAh",
+                page: "Ст.41"
+            },
+            {
+                id: 10,
+                number: "10",
+                title: "Постановление правительства РФ от 29.03.2019 № 363",
+                theme: "Об утверждении государственной программы РФ Доступная среда",
+                content: "",
+                link: "https://1drv.ms/b/s!AgHonOA1SYONgtN4JqSQWc2o5r8yQw?e=tfOJUO",
+                page: ""
+            },
+            {
+                id: 11,
+                number: "11",
+                title: "Федеральный закон от 02.05.2006 № 59-ФЗ",
+                theme: "О порядке рассмотрения обращений граждан РФ",
+                content: "",
+                link: "https://1drv.ms/w/s!AgHonOA1SYONgtN3xXMB8poqzHW6oQ?e=VoplKu",
+                page: ""
+            },
+            {
+                id: 12,
+                number: "12",
+                title: "Приказ МЗ РФ от 10.08.2017 № 514н",
+                theme: "О порядке проведения профилактических медицинских осмотров несовершеннолетних",
+                content: "",
+                link: "https://1drv.ms/b/s!AgHonOA1SYONhIJcCWRDNcoV4eMEOQ?e=wFQNaG",
+                page: ""
+            },
+            {
+                id: 13,
+                number: "13",
+                title: "Федеральный закон от 24.11.1995 № 181-ФЗ",
+                theme: "О социальных гарантиях инвалидам в РФ",
+                content: "",
+                link: "https://1drv.ms/b/s!AgHonOA1SYONgtN6hAffTHQd82fpAA?e=6LbVFL",
+                page: ""
+            },
+            {
+                id: 14,
+                number: "14",
+                title: "Приказ Министерства Здравоохранения РФ от 6.12.2021 № 1122н",
+                theme: "Об утверждении национального календаря профилактических прививок",
+                content: "",
+                link: "https://1drv.ms/b/s!AgHonOA1SYONgtN7S0p4oplDKw5now?e=E5pUIS",
+                page: ""
+            },
+            {
+                id: 15,
+                number: "15",
+                title: "ФЗ РФ от 25.12.2008 г № 273-ФЗ",
+                theme: "О противодействии коррупции",
+                content: "",
+                link: "https://1drv.ms/b/s!AgHonOA1SYONhIJefNzuvf5tYtEzkQ?e=bq7Lav",
+                page: ""
+            }
+        ];
+
+        // Функция для отображения приказов
+        function renderOrders(ordersToRender) {
+            const container = document.getElementById('orders-container');
+            container.innerHTML = '';
+            
+            if (ordersToRender.length === 0) {
+                container.innerHTML = '<div class="no-results">По вашему запросу ничего не найдено</div>';
+                return;
+            }
+            
+            ordersToRender.forEach(order => {
+                const card = document.createElement('div');
+                card.className = 'order-card';
+                card.innerHTML = `
+                    <div class="order-header">
+                        <div class="order-theme">${order.theme}</div>
+                        <div style="display: flex; align-items: flex-start;">
+                            <div class="order-number">${order.number}</div>
+                            <div class="expand-icon">▼</div>
+                        </div>
+                    </div>
+                    <div class="order-title">${order.title}</div>
+                    <div class="order-content">
+                        ${order.content ? `<div class="content-text">${order.content}</div>` : ''}
+                        ${order.page ? `<div class="page-info"><strong>Страница:</strong> ${order.page}</div>` : ''}
+                        <a href="${order.link}" target="_blank" class="order-link">Открыть документ →</a>
+                    </div>
+                `;
+                
+                card.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Функция для поиска
+        function setupSearch() {
+            const searchInput = document.getElementById('search');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                if (searchTerm.trim() === '') {
+                    renderOrders(orders);
+                    return;
+                }
+                
+                const filteredOrders = orders.filter(order => 
+                    order.title.toLowerCase().includes(searchTerm) || 
+                    order.theme.toLowerCase().includes(searchTerm) ||
+                    (order.content && order.content.toLowerCase().includes(searchTerm))
+                );
+                
+                renderOrders(filteredOrders);
+            });
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            renderOrders(orders);
+            setupSearch();
+        });
+    </script>
+</body>
+</html>
