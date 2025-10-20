@@ -64,6 +64,10 @@
             margin-top: 5px;
             font-style: italic;
         }
+        .shlu-comment {
+            color: #d63638;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -217,7 +221,7 @@
                 maxDose: "1000 мг",
                 weightDoses: {
                     "<50": "750–1000 мг",
-                    "50-69": "750 мг (1000 мг при пре-ШЛУ/ШЛУ)",
+                    "50-69": "750 мг <span class='shlu-comment'>(1000 мг при пре-ШЛУ/ШЛУ)</span>",
                     ">70": "1000 мг"
                 },
                 hasWeightCalculation: true
@@ -250,8 +254,8 @@
                 maxDose: "800 мг",
                 weightDoses: {
                     "<50": "400 мг",
-                    "50-69": "400 мг (800 мг при пре-ШЛУ/ШЛУ)",
-                    ">70": "400 мг (800 мг при пре-ШЛУ/ШЛУ)"
+                    "50-69": "400 мг <span class='shlu-comment'>(800 мг при пре-ШЛУ/ШЛУ)</span>",
+                    ">70": "400 мг <span class='shlu-comment'>(800 мг при пре-ШЛУ/ШЛУ)</span>"
                 },
                 hasWeightCalculation: false
             },
@@ -510,9 +514,8 @@
             // Блок с максимальной дозой
             if (drugData.maxDose) {
                 resultHTML += `
-                    <p><strong>Максимальная суточная доза ${drug.name.split(' (')[0]}:</strong></p>
+                    <p><strong>Максимальная суточная доза:</strong></p>
                     <p>${drugData.maxDose}</p>
-                    <p class="explanation">Верхний предел дозы, который не следует превышать ни при каких условиях. ${drug.hasWeightCalculation && !drug.hasRegimens ? 'Актуален как ограничивающий фактор для пациентов с большой массой тела.' : 'Для данного препарата максимальная доза определяется установленной схемой лечения.'}</p>
                 `;
             }
             
