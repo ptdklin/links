@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор доз препаратов для лечения туберкулез Филиал</title>
+    <title>Калькулятор доз препаратов для лечения туберкулеза у взрослых Филиал</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,16 +58,16 @@
             font-weight: bold;
             margin-top: 10px;
         }
-        .note {
+        .explanation {
             font-size: 14px;
-            color: #666;
-            margin-top: 20px;
+            color: #555;
+            margin-top: 5px;
             font-style: italic;
         }
     </style>
 </head>
 <body>
-    <h1>Калькулятор доз препаратов для лечения туберкулеза</h1>
+    <h1 style="text-align: center;">Калькулятор доз препаратов для лечения туберкулеза у взрослых</h1>
     <p style="text-align: center; font-weight: bold;">Филиал Клинский</p>
     
     <div class="calculator">
@@ -79,6 +79,15 @@
             </select>
         </div>
         
+        <div class="form-group" id="regimen-group" style="display: none;">
+            <label for="regimen">Выберите режим лечения:</label>
+            <select id="regimen">
+                <option value="">-- Выберите режим --</option>
+                <option value="long">Длительный режим (ФП)</option>
+                <option value="short">Короткий режим (ЛЧТ)</option>
+            </select>
+        </div>
+        
         <div class="form-group">
             <label for="weight">Вес пациента (кг):</label>
             <input type="number" id="weight" min="1" max="200" placeholder="Введите вес в кг">
@@ -87,10 +96,6 @@
         <button onclick="calculateDose()">Рассчитать дозу</button>
         
         <div id="result" class="result"></div>
-    </div>
-    
-    <div class="note">
-        <p><strong>Примечание:</strong> Окончательное решение о дозе препарата должно быть согласовано с инструкцией по медицинскому применению лекарственного препарата.</p>
     </div>
 
     <script>
@@ -104,7 +109,8 @@
                     "<50": "500 мг",
                     "50-69": "750–1000 мг",
                     ">70": "1000 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Аминосалициловая кислота (PAS)",
@@ -114,7 +120,19 @@
                     "<50": "8000 мг",
                     "50-69": "8000 мг",
                     ">70": "8000 мг"
-                }
+                },
+                hasWeightCalculation: false
+            },
+            {
+                name: "Амоксициллин + клавулановая кислота (Amx/Clv)",
+                averageDose: "500/125 мг 3 раза в день перед каждым введением меропенема",
+                maxDose: "",
+                weightDoses: {
+                    "<50": "См. схему приема",
+                    "50-69": "См. схему приема",
+                    ">70": "См. схему приема"
+                },
+                hasWeightCalculation: false
             },
             {
                 name: "Бедаквилин (Bq)",
@@ -124,7 +142,8 @@
                     "<50": "См. схему приема",
                     "50-69": "См. схему приема",
                     ">70": "См. схему приема"
-                }
+                },
+                hasWeightCalculation: false
             },
             {
                 name: "Деламанид (Dim)",
@@ -134,7 +153,8 @@
                     "<50": "100 мг 2 раза в день",
                     "50-69": "100 мг 2 раза в день",
                     ">70": "100 мг 2 раза в день"
-                }
+                },
+                hasWeightCalculation: false
             },
             {
                 name: "Изониазид (H)",
@@ -144,17 +164,19 @@
                     "<50": "300 мг",
                     "50-69": "450–600 мг",
                     ">70": "600 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
-                name: "Имипенем-циластатин (Imp) + клавулановая кислота (Amx/Civ)",
-                averageDose: "1000 мг + 1000 мг 2 раза в день, в/в капельно + 500/125 мг 2 раза в день",
+                name: "Имипенем-циластатин (Imp) + клавулановая кислота (Amx/Clv)",
+                averageDose: "1000 мг + 1000 мг 2 раза в день, в/в капельно + 500/125 мг 2 раза в день перед каждым введением имипенема",
                 maxDose: "",
                 weightDoses: {
                     "<50": "См. схему приема",
                     "50-69": "См. схему приема",
                     ">70": "См. схему приема"
-                }
+                },
+                hasWeightCalculation: false
             },
             {
                 name: "Канамицин (Km)",
@@ -164,7 +186,8 @@
                     "<50": "500 мг",
                     "50-69": "750–1000 мг",
                     ">70": "1000 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Капреомицин (Cm)",
@@ -174,7 +197,8 @@
                     "<50": "500 мг",
                     "50-69": "750–1000 мг",
                     ">70": "1000 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Клофазимин (Cfz)",
@@ -184,7 +208,8 @@
                     "<50": "100 мг",
                     "50-69": "100 мг",
                     ">70": "100 мг"
-                }
+                },
+                hasWeightCalculation: false
             },
             {
                 name: "Левофлоксацин (Lfx)",
@@ -194,7 +219,8 @@
                     "<50": "750–1000 мг",
                     "50-69": "750 мг (1000 мг при пре-ШЛУ/ШЛУ)",
                     ">70": "1000 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Линезолид (Lzd)",
@@ -204,27 +230,30 @@
                     "<50": "300–600 мг",
                     "50-69": "600 мг",
                     ">70": "600 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
-                name: "Меропенем (Мp) + клавулановая кислота (Amx/Civ)",
-                averageDose: "1000 мг 3 раза в день, в/в капельно + 500/125 мг 3 раза в день",
+                name: "Меропенем (Мp) + клавулановая кислота (Amx/Clv)",
+                averageDose: "1000 мг 3 раза в день, в/в капельно + 500/125 мг 3 раза в день перед каждым введением меропенема",
                 maxDose: "",
                 weightDoses: {
                     "<50": "См. схему приема",
                     "50-69": "См. схему приема",
                     ">70": "См. схему приема"
-                }
+                },
+                hasWeightCalculation: false
             },
             {
                 name: "Моксифлоксацин (Mfx)",
-                averageDose: "400 мг 800 мг",
+                averageDose: "400 мг/800 мг",
                 maxDose: "800 мг",
                 weightDoses: {
                     "<50": "400 мг",
                     "50-69": "400 мг (800 мг при пре-ШЛУ/ШЛУ)",
                     ">70": "400 мг (800 мг при пре-ШЛУ/ШЛУ)"
-                }
+                },
+                hasWeightCalculation: false
             },
             {
                 name: "Пиразинамид (Z)",
@@ -234,7 +263,8 @@
                     "<50": "1500 мг",
                     "50-69": "1500 мг",
                     ">70": "2000 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Протионамид (Pto)",
@@ -244,7 +274,8 @@
                     "<50": "500–750 мг",
                     "50-69": "750 мг",
                     ">70": "750 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Рифабутин (Rb)",
@@ -254,27 +285,33 @@
                     "<50": "300 мг",
                     "50-69": "300 мг",
                     ">70": "300 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
-                name: "Рифапентин (Rpt) в коротком режиме",
-                averageDose: "20 мг/кг Ежедневно (короткий режим ЛЧТ)",
-                maxDose: "1200 мг Ежедневно (короткий режим ЛЧТ)",
-                weightDoses: {
-                    "<50": "1200 мг Ежедневно (короткий режим ЛЧТ)",
-                    "50-69": "1200 мг Ежедневно (короткий режим ЛЧТ)",
-                    ">70": "1200 мг Ежедневно (короткий режим ЛЧТ)"
-                }
-            },
-            {
-                name: "Рифапентин (Rpt) для ФП в длительном режиме",
-                averageDose: "10 мг/кг 2–3 раза в неделю",
-                maxDose: "600 мг 3 раза в неделю",
-                weightDoses: {
-                    "<50": "600 мг 2–3 раза в неделю",
-                    "50-69": "600 мг 2–3 раза в неделю",
-                    ">70": "600 мг 2–3 раза в неделю"
-                }
+                name: "Рифапентин (Rpt)",
+                hasRegimens: true,
+                regimens: {
+                    "long": {
+                        averageDose: "10 мг/кг 2–3 раза в неделю",
+                        maxDose: "600 мг 3 раза в неделю",
+                        weightDoses: {
+                            "<50": "600 мг 2–3 раза в неделю",
+                            "50-69": "600 мг 2–3 раза в неделю",
+                            ">70": "600 мг 2–3 раза в неделю"
+                        }
+                    },
+                    "short": {
+                        averageDose: "20 мг/кг Ежедневно (короткий режим ЛЧТ)",
+                        maxDose: "1200 мг Ежедневно (короткий режим ЛЧТ)",
+                        weightDoses: {
+                            "<50": "1200 мг Ежедневно (короткий режим ЛЧТ)",
+                            "50-69": "1200 мг Ежедневно (короткий режим ЛЧТ)",
+                            ">70": "1200 мг Ежедневно (короткий режим ЛЧТ)"
+                        }
+                    }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Рифампицин (R)",
@@ -284,7 +321,8 @@
                     "<50": "450 мг",
                     "50-69": "600 мг",
                     ">70": "600 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Спарфлоксацин (Sfx)",
@@ -294,7 +332,8 @@
                     "<50": "400 мг в первый день, затем по 200 мг в сутки",
                     "50-69": "400 мг в первый день, затем по 200 мг в сутки",
                     ">70": "400 мг в первый день, затем по 200 мг в сутки"
-                }
+                },
+                hasWeightCalculation: false
             },
             {
                 name: "Стрептомицин (S)",
@@ -304,7 +343,8 @@
                     "<50": "500 мг",
                     "50-69": "750–1000 мг",
                     ">70": "1000 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Теризидон (Trd)",
@@ -314,7 +354,8 @@
                     "<50": "500 мг",
                     "50-69": "500–750 мг",
                     ">70": "750 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Тиоурендомино-метилпиридиния перхлорат (Tpp)",
@@ -324,7 +365,8 @@
                     "<50": "400 мг",
                     "50-69": "400–600 мг",
                     ">70": "600 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Циклосерин (Cs)",
@@ -334,7 +376,8 @@
                     "<50": "500 мг",
                     "50-69": "500–750 мг",
                     ">70": "750 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Этамбутол (E)",
@@ -344,7 +387,8 @@
                     "<50": "1200 мг",
                     "50-69": "1600 мг",
                     ">70": "2000 мг"
-                }
+                },
+                hasWeightCalculation: true
             },
             {
                 name: "Этионамид (Eto)",
@@ -354,12 +398,16 @@
                     "<50": "500–750 мг",
                     "50-69": "750 мг",
                     ">70": "750 мг"
-                }
+                },
+                hasWeightCalculation: true
             }
         ];
 
         // Заполняем выпадающий список препаратами
         const drugSelect = document.getElementById('drug');
+        const regimenGroup = document.getElementById('regimen-group');
+        const regimenSelect = document.getElementById('regimen');
+        
         drugs.sort((a, b) => a.name.localeCompare(b.name, 'ru')).forEach(drug => {
             const option = document.createElement('option');
             option.value = drug.name;
@@ -367,10 +415,30 @@
             drugSelect.appendChild(option);
         });
 
+        // Обработчик смены препарата
+        drugSelect.addEventListener('change', function() {
+            const selectedDrugName = this.value;
+            const selectedDrug = drugs.find(d => d.name === selectedDrugName);
+            
+            // Показываем/скрываем выбор режима для Рифапентина
+            if (selectedDrug && selectedDrug.hasRegimens) {
+                regimenGroup.style.display = 'block';
+            } else {
+                regimenGroup.style.display = 'none';
+                regimenSelect.value = '';
+            }
+            
+            // Очищаем результаты
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'none';
+            resultDiv.innerHTML = '';
+        });
+
         // Функция расчета дозы
         function calculateDose() {
             const selectedDrugName = document.getElementById('drug').value;
             const weight = parseFloat(document.getElementById('weight').value);
+            const regimen = document.getElementById('regimen').value;
             const resultDiv = document.getElementById('result');
             
             if (!selectedDrugName) {
@@ -387,22 +455,84 @@
             
             const drug = drugs.find(d => d.name === selectedDrugName);
             
+            // Проверка режима для Рифапентина
+            if (drug.hasRegimens && !regimen) {
+                resultDiv.innerHTML = '<div class="warning">Пожалуйста, выберите режим лечения для Рифапентина</div>';
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
             let weightCategory;
             if (weight < 50) weightCategory = "<50";
             else if (weight <= 69) weightCategory = "50-69";
             else weightCategory = ">70";
             
-            const recommendedDose = drug.weightDoses[weightCategory];
+            // Получаем данные в зависимости от наличия режимов
+            let drugData = drug;
+            if (drug.hasRegimens) {
+                drugData = drug.regimens[regimen];
+            }
             
-            resultDiv.innerHTML = `
-                <h3>Результат расчета для: ${drug.name}</h3>
+            const recommendedDose = drugData.weightDoses[weightCategory];
+            
+            // Формируем результат
+            let resultHTML = `
+                <h3>Расчет дозы для: ${drug.name}</h3>
                 <p><strong>Вес пациента:</strong> ${weight} кг</p>
-                <p><strong>Средняя терапевтическая доза:</strong> ${drug.averageDose}</p>
-                <p><strong>Максимальная суточная доза:</strong> ${drug.maxDose}</p>
-                <p><strong>Рекомендуемая суточная доза:</strong> ${recommendedDose}</p>
-                <div class="warning">Окончательное решение о дозе препарата должно быть согласовано с инструкцией по медицинскому применению лекарственного препарата</div>
             `;
+            
+            if (drug.hasRegimens) {
+                resultHTML += `<p><strong>Режим лечения:</strong> ${regimen === 'long' ? 'Длительный режим (ФП)' : 'Короткий режим (ЛЧТ)'}</p>`;
+            }
+            
+            resultHTML += `
+                <p><strong>Стандартная рекомендуемая доза:</strong></p>
+                <p>${recommendedDose}</p>
+            `;
+            
+            if (drug.hasWeightCalculation && !drug.hasRegimens) {
+                resultHTML += `
+                    <p class="explanation">Оптимальная доза для данной весовой категории, обеспечивающая баланс эффективности и переносимости. Рекомендуется к назначению в стандартных ситуациях.</p>
+                    
+                    <p><strong>Терапевтический диапазон (терапевтическое окно):</strong></p>
+                    <p>${calculateTherapeuticRange(drug.averageDose, weight)}</p>
+                    <p class="explanation">Диапазон эффективных и безопасных доз, рассчитанный по массе тела пациента. Рекомендуется подбирать дозу в этих пределах с учетом клинической картины.</p>
+                `;
+            } else {
+                resultHTML += `
+                    <p class="explanation">${drug.hasRegimens ? 'Доза установлена для выбранного режима лечения.' : 'Препарат применяется по фиксированной схеме, не зависящей от веса пациента. Эффективность и безопасность обеспечиваются соблюдением утвержденной схемы приема.'}</p>
+                    
+                    <p><strong>Рекомендуемая схема приема:</strong></p>
+                    <p>${drugData.averageDose}</p>
+                `;
+            }
+            
+            // Блок с максимальной дозой
+            if (drugData.maxDose) {
+                resultHTML += `
+                    <p><strong>Максимальная суточная доза ${drug.name.split(' (')[0]}:</strong></p>
+                    <p>${drugData.maxDose}</p>
+                    <p class="explanation">Верхний предел дозы, который не следует превышать ни при каких условиях. ${drug.hasWeightCalculation && !drug.hasRegimens ? 'Актуален как ограничивающий фактор для пациентов с большой массой тела.' : 'Для данного препарата максимальная доза определяется установленной схемой лечения.'}</p>
+                `;
+            }
+            
+            resultHTML += `<div class="warning">Окончательное решение о дозе препарата должно быть согласовано с инструкцией по медицинскому применению лекарственного препарата</div>`;
+            
+            resultDiv.innerHTML = resultHTML;
             resultDiv.style.display = 'block';
+        }
+
+        // Функция для расчета терапевтического диапазона
+        function calculateTherapeuticRange(doseRange, weight) {
+            const matches = doseRange.match(/(\d+)\s*[–-]\s*(\d+)/);
+            if (matches) {
+                const minDosePerKg = parseInt(matches[1]);
+                const maxDosePerKg = parseInt(matches[2]);
+                const minDose = minDosePerKg * weight;
+                const maxDose = maxDosePerKg * weight;
+                return `${Math.round(minDose)} - ${Math.round(maxDose)} мг (рассчитано на основе ${doseRange})`;
+            }
+            return `На основе ${doseRange} (точный расчет требует уточнения)`;
         }
     </script>
 </body>
