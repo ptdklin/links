@@ -1,312 +1,110 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Справочник по терапии туберкулеза у взрослых</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
-        }
-
-        .top-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-            transition: transform 0.3s ease;
-            position: sticky;
-            top: 0;
-            z-index: 200;
-        }
-
-        .top-header.hidden {
-            transform: translateY(-100%);
-        }
-
-        .main-title {
-            font-size: 2.2em;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            font-size: 1.4em;
-            font-weight: 300;
-            margin-bottom: 15px;
-            opacity: 0.95;
-        }
-
-        .info-text {
-            font-size: 1.1em;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        thead {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            font-weight: 600;
-            font-size: 1.1em;
-            transition: top 0.3s ease;
-            z-index: 150;
-        }
-
-        th, td {
-            border: 1px solid #e1e5e9;
-            padding: 16px;
-            text-align: left;
-            vertical-align: top;
-        }
-
-        th {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
-
-        thead.fixed {
-            position: sticky;
-        }
-
-        .column-info {
-            font-size: 0.85em;
-            font-weight: 300;
-            display: block;
-            margin-top: 8px;
-            opacity: 0.95;
-            line-height: 1.4;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-
-        tr:hover {
-            background-color: #e8f4fc;
-            transition: background-color 0.2s ease;
-        }
-
-        .note {
-            margin-top: 30px;
-            color: #e74c3c;
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: 600;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-left: 4px solid #e74c3c;
-        }
-
-        .calculator {
-            background-color: #e8f4fc;
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-            border: 1px solid #bde0fe;
-        }
-
-        .calculator input {
-            padding: 8px 12px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 100%;
-            font-size: 1em;
-        }
-
-        .calculator button {
-            padding: 8px 16px;
-            margin: 5px 0;
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1em;
-            width: 100%;
-            transition: all 0.2s ease;
-        }
-
-        .calculator button:hover {
-            background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
-            transform: translateY(-1px);
-        }
-
-        .result {
-            margin-top: 8px;
-            font-weight: bold;
-            color: #2c3e50;
-            text-align: center;
-            padding: 5px;
-            border-radius: 4px;
-            background-color: rgba(255,255,255,0.7);
-        }
-
-        .dosage-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: flex-start;
-        }
-
-        .dosage-range {
-            flex: 1;
-            min-width: 120px;
-            font-weight: 500;
-        }
-
-        .dosage-calculator {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .scheme {
-            font-size: 0.95em;
-            color: #5d6d7e;
-            line-height: 1.5;
-        }
-
-        ul {
-            padding-left: 20px;
-        }
-
-        li {
-            margin-bottom: 5px;
-            line-height: 1.4;
-        }
-
-        @media (max-width: 768px) {
-            .top-header {
-                padding: 20px 15px;
-            }
-
-            .main-title {
-                font-size: 1.8em;
-            }
-
-            .subtitle {
-                font-size: 1.2em;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            table {
-                display: block;
-                overflow-x: auto;
-            }
-
-            .dosage-info {
-                flex-direction: column;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Справочник по терапии туберкулеза у взрослых</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;line-height:1.6;color:#333;background:#f8f9fa}
+.top-header{background:linear-gradient(135deg,#2c3e50 0%,#3498db 100%);color:#fff;padding:30px 20px;text-align:center;position:sticky;top:0;z-index:200;transition:transform .3s ease}
+.top-header.hidden{transform:translateY(-100%)}
+.main-title{font-size:2.2em;font-weight:600;margin-bottom:10px}
+.subtitle{font-size:1.4em;font-weight:300;margin-bottom:15px;opacity:.95}
+.info-text{font-size:1.1em;opacity:.9;max-width:600px;margin:0 auto}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+table{width:100%;border-collapse:collapse;margin-bottom:40px;box-shadow:0 2px 8px rgba(0,0,0,.1);background:#fff;border-radius:8px;overflow:hidden}
+thead{background:linear-gradient(135deg,#3498db 0%,#2980b9 100%);color:#fff;font-weight:600;font-size:1.1em;transition:top .3s ease,box-shadow .3s ease;z-index:150}
+thead.fixed{position:sticky;top:0;box-shadow:0 4px 8px rgba(0,0,0,.15)}
+th,td{border:1px solid #e1e5e9;padding:16px;text-align:left;vertical-align:top}
+th{background:linear-gradient(135deg,#3498db 0%,#2980b9 100%);color:#fff;font-weight:600;font-size:1.1em}
+.column-info{font-size:.85em;font-weight:300;display:block;margin-top:8px;opacity:.95;line-height:1.4}
+tr:nth-child(even){background:#f8f9fa}
+tr:hover{background:#e8f4fc;transition:background .2s ease}
+.note{margin-top:30px;color:#e74c3c;text-align:center;font-size:1.2em;font-weight:600;padding:20px;background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);border-left:4px solid #e74c3c}
+.calculator{background:#e8f4fc;padding:12px;border-radius:6px;margin-top:10px;border:1px solid #bde0fe}
+.calculator input{padding:8px 12px;margin:5px 0;border:1px solid #ccc;border-radius:4px;width:100%;font-size:1em}
+.calculator button{padding:8px 16px;margin:5px 0;background:linear-gradient(135deg,#3498db 0%,#2980b9 100%);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:1em;width:100%;transition:all .2s ease}
+.calculator button:hover{background:linear-gradient(135deg,#2980b9 0%,#21618c 100%);transform:translateY(-1px)}
+.result{margin-top:8px;font-weight:bold;color:#2c3e50;text-align:center;padding:5px;border-radius:4px;background:rgba(255,255,255,.7)}
+.dosage-info{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
+.dosage-range{flex:1;min-width:120px;font-weight:500}
+.dosage-calculator{flex:1;min-width:200px}
+.scheme{font-size:.95em;color:#5d6d7e;line-height:1.5}
+ul{padding-left:20px}
+li{margin-bottom:5px;line-height:1.4}
+@media(max-width:768px){
+.top-header{padding:20px 15px}
+.main-title{font-size:1.8em}
+.subtitle{font-size:1.2em}
+.container{padding:15px}
+table{display:block;overflow-x:auto}
+.dosage-info{flex-direction:column}
+}
+</style>
 </head>
 <body>
-    <div class="top-header" id="topHeader">
-        <div class="main-title">Справочник по терапии туберкулеза у взрослых</div>
-        <div class="subtitle">Рекомендуемые суточные дозы лекарственных препаратов</div>
-        <div class="info-text">Используйте калькуляторы для расчета индивидуальной дозировки на основе веса пациента</div>
-    </div>
+<div class="top-header" id="topHeader">
+  <div class="main-title">Справочник по терапии туберкулеза у взрослых</div>
+  <div class="subtitle">Рекомендуемые суточные дозы лекарственных препаратов</div>
+  <div class="info-text">Используйте калькуляторы для расчета индивидуальной дозировки на основе веса пациента</div>
+</div>
 
-    <div class="container">
-        <!-- таблица оставлена как есть -->
-        <!-- твои строки и калькуляторы дозировок -->
-        <!-- ... (всю таблицу я не дублирую ради краткости, она остаётся идентичной твоей) -->
-    </div>
+<div class="container">
+<table>
+<thead>
+<tr>
+<th>Препарат</th>
+<th>Средняя терапевтическая доза (терапевтическое окно)
+<span class="column-info">Диапазон эффективных и безопасных доз, рассчитанный по массе тела пациента.</span></th>
+<th>Максимальная суточная доза
+<span class="column-info">Верхний предел дозы, который не следует превышать.</span></th>
+<th>Суточная доза в зависимости от массы тела
+<span class="column-info">Оптимальные дозы для весовых категорий.</span></th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Амикацин (Am)</td><td><div class="dosage-info"><div class="dosage-range">15–20 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-am" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('am',15,20)">Рассчитать</button><div class="result" id="result-am"></div></div></div></div></td><td>1000 мг</td><td><ul><li>&lt;50 кг:500 мг</li><li>50–69 кг:750–1000 мг</li><li>&gt;70 кг:1000 мг</li></ul></td></tr>
+<tr><td>Аминосалициловая кислота (PAS)</td><td><div class="dosage-info"><div class="dosage-range">8000 мг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-pas" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateFixedDosage('pas',8000)">Рассчитать</button><div class="result" id="result-pas"></div></div></div></div></td><td>12000 мг</td><td><ul><li>все категории:8000 мг</li></ul></td></tr>
+<tr><td>Изониазид (H)</td><td><div class="dosage-info"><div class="dosage-range">5–10 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-h" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('h',5,10)">Рассчитать</button><div class="result" id="result-h"></div></div></div></div></td><td>600 мг</td><td><ul><li>&lt;50 кг:300 мг</li><li>50–69 кг:450–600 мг</li><li>&gt;70 кг:600 мг</li></ul></td></tr>
+<tr><td>Рифампицин (R)</td><td><div class="dosage-info"><div class="dosage-range">10 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-r" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('r',10,10)">Рассчитать</button><div class="result" id="result-r"></div></div></div></div></td><td>600 мг</td><td><ul><li>&lt;50 кг:450 мг</li><li>50–69 кг:600 мг</li><li>&gt;70 кг:600 мг</li></ul></td></tr>
+<tr><td>Этамбутол (E)</td><td><div class="dosage-info"><div class="dosage-range">15–25 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-e" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('e',15,25)">Рассчитать</button><div class="result" id="result-e"></div></div></div></div></td><td>2000 мг</td><td><ul><li>&lt;50 кг:1200 мг</li><li>50–69 кг:1600 мг</li><li>&gt;70 кг:2000 мг</li></ul></td></tr>
+<tr><td>Левофлоксацин (Lfx)</td><td><div class="dosage-info"><div class="dosage-range">10–15 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-lfx" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('lfx',10,15)">Рассчитать</button><div class="result" id="result-lfx"></div></div></div></div></td><td>1000 мг</td><td><ul><li>&lt;50 кг:750–1000 мг</li><li>50–69 кг:750 мг</li><li>&gt;70 кг:1000 мг</li></ul></td></tr>
+<tr><td>Стрептомицин (S)</td><td><div class="dosage-info"><div class="dosage-range">12–18 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-s" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('s',12,18)">Рассчитать</button><div class="result" id="result-s"></div></div></div></div></td><td>1000 мг</td><td><ul><li>&lt;50 кг:500 мг</li><li>50–69 кг:750–1000 мг</li><li>&gt;70 кг:1000 мг</li></ul></td></tr>
+<tr><td>Пиразинамид (Z)</td><td><div class="dosage-info"><div class="dosage-range">20–30 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-z" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('z',20,30)">Рассчитать</button><div class="result" id="result-z"></div></div></div></div></td><td>2500 мг</td><td><ul><li>&lt;50 кг:1500 мг</li><li>50–69 кг:1500 мг</li><li>&gt;70 кг:2000 мг</li></ul></td></tr>
+</tbody>
+</table>
+<div class="note">Окончательное решение о дозе препарата должно быть согласовано с инструкцией по медицинскому применению</div>
+</div>
 
-    <script>
-        function calculateDosage(drugId, minDose, maxDose) {
-            const weightInput = document.getElementById(`weight-${drugId}`);
-            const resultDiv = document.getElementById(`result-${drugId}`);
-            if (!weightInput || !resultDiv) return;
-
-            const weight = parseFloat(weightInput.value);
-            if (isNaN(weight) || weight <= 0) {
-                resultDiv.textContent = "Введите корректный вес";
-                resultDiv.style.color = "#e74c3c";
-                return;
-            }
-
-            const minTotal = weight * minDose;
-            const maxTotal = weight * maxDose;
-            resultDiv.textContent = `Рекомендуемая доза: ${minTotal.toFixed(0)} - ${maxTotal.toFixed(0)} мг`;
-            resultDiv.style.color = "#27ae60";
-        }
-
-        function calculateFixedDosage(drugId, dose) {
-            const weightInput = document.getElementById(`weight-${drugId}`);
-            const resultDiv = document.getElementById(`result-${drugId}`);
-            if (!weightInput || !resultDiv) return;
-
-            const weight = parseFloat(weightInput.value);
-            if (isNaN(weight) || weight <= 0) {
-                resultDiv.textContent = "Введите корректный вес";
-                resultDiv.style.color = "#e74c3c";
-                return;
-            }
-
-            resultDiv.textContent = `Рекомендуемая доза: ${dose} мг`;
-            resultDiv.style.color = "#27ae60";
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const table = document.querySelector('table');
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            const topHeader = document.getElementById('topHeader');
-            const thead = table.querySelector('thead');
-
-            // сортировка строк по алфавиту
-            rows.sort((a, b) => a.cells[0].textContent.trim().localeCompare(b.cells[0].textContent.trim(), 'ru'));
-            tbody.innerHTML = "";
-            rows.forEach(r => tbody.appendChild(r));
-
-            // управление прилипанием шапки
-            window.addEventListener('scroll', () => {
-                const headerHeight = topHeader.offsetHeight;
-                if (window.scrollY > headerHeight) {
-                    topHeader.classList.add('hidden');
-                    thead.classList.add('fixed');
-                    thead.style.top = '0';
-                } else {
-                    topHeader.classList.remove('hidden');
-                    thead.classList.remove('fixed');
-                    thead.style.top = 'unset';
-                }
-            });
-        });
-    </script>
+<script>
+function calculateDosage(drugId,minDose,maxDose){
+const weightInput=document.getElementById(`weight-${drugId}`);
+const resultDiv=document.getElementById(`result-${drugId}`);
+if(!weightInput||!resultDiv)return;
+const w=parseFloat(weightInput.value);
+if(isNaN(w)||w<=0){resultDiv.textContent="Введите корректный вес";resultDiv.style.color="#e74c3c";return;}
+const min=w*minDose,max=w*maxDose;
+resultDiv.textContent=`Рекомендуемая доза: ${min.toFixed(0)} - ${max.toFixed(0)} мг`;
+resultDiv.style.color="#27ae60";
+}
+function calculateFixedDosage(drugId,dose){
+const w=parseFloat(document.getElementById(`weight-${drugId}`).value);
+const r=document.getElementById(`result-${drugId}`);
+if(isNaN(w)||w<=0){r.textContent="Введите корректный вес";r.style.color="#e74c3c";return;}
+r.textContent=`Рекомендуемая доза: ${dose} мг`;r.style.color="#27ae60";
+}
+document.addEventListener('DOMContentLoaded',()=>{
+const table=document.querySelector('table'),tbody=table.querySelector('tbody'),rows=Array.from(tbody.querySelectorAll('tr'));
+rows.sort((a,b)=>a.cells[0].textContent.trim().localeCompare(b.cells[0].textContent.trim(),'ru'));
+tbody.innerHTML="";rows.forEach(r=>tbody.appendChild(r));
+const topHeader=document.getElementById('topHeader'),thead=table.querySelector('thead');
+window.addEventListener('scroll',()=>{
+const h=topHeader.offsetHeight;
+if(window.scrollY>h){topHeader.classList.add('hidden');thead.classList.add('fixed');}
+else{topHeader.classList.remove('hidden');thead.classList.remove('fixed');}
+});
+});
+</script>
 </body>
 </html>
