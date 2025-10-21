@@ -1,189 +1,55 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Рекомендуемые суточные дозы лекарственных препаратов для взрослых</title>
-<style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Segoe UI',Arial,sans-serif;line-height:1.6;color:#333;background:#f8f9fa}
-
-  /* Верхний блок с названием */
-  .top-header{
-    background:linear-gradient(135deg,#2c3e50 0%,#3498db 100%);
-    color:#fff;
-    padding:25px 20px;
-    text-align:center;
-    font-size:1.8em;
-    font-weight:600;
-    position:sticky;
-    top:0;
-    z-index:300;
-    transition:transform .3s ease;
-  }
-  .top-header.hidden{transform:translateY(-100%)}
-
-  /* Второй блок — шапка таблицы */
-  .table-header{
-    display:grid;
-    grid-template-columns:1fr 2.5fr 1.5fr 2fr;
-    gap:0;
-    background:linear-gradient(135deg,#3498db 0%,#2980b9 100%);
-    color:#fff;
-    font-weight:600;
-    font-size:1em;
-    padding:14px 10px;
-    position:sticky;
-    top:0;
-    z-index:200;
-    transition:top .3s ease, box-shadow .3s ease;
-  }
-  .table-header.sticky{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    box-shadow:0 4px 10px rgba(0,0,0,0.15);
-  }
-  .table-header div{
-    padding:0 10px;
-  }
-  .column-info{
-    display:block;
-    font-size:.8em;
-    font-weight:300;
-    opacity:.9;
-    margin-top:4px;
-  }
-
-  .container{max-width:1200px;margin:0 auto;padding:0 20px 40px}
-
-  table{
-    width:100%;
-    border-collapse:collapse;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
-    background:#fff;
-    border-radius:8px;
-    overflow:hidden;
-  }
-  td{
-    border:1px solid #e1e5e9;
-    padding:16px;
-    vertical-align:top;
-    text-align:left;
-  }
-  tr:nth-child(even){background:#f8f9fa}
-  tr:hover{background:#e8f4fc;transition:background .15s ease}
-
-  .calculator{background:#e8f4fc;padding:10px;border-radius:6px;margin-top:8px;border:1px solid #bde0fe}
-  .calculator input{padding:8px 12px;margin:5px 0;border:1px solid #ccc;border-radius:4px;width:100%}
-  .calculator button{padding:8px 16px;margin:5px 0;background:linear-gradient(135deg,#3498db 0%,#2980b9 100%);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:1em;width:100%;transition:all .15s ease}
-  .calculator button:hover{transform:translateY(-1px)}
-  .result{margin-top:6px;font-weight:600;color:#2c3e50;text-align:center}
-  .dosage-info{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
-  .dosage-range{flex:1;min-width:120px;font-weight:500}
-  .dosage-calculator{flex:1;min-width:200px}
-  ul{padding-left:20px}
-  li{margin-bottom:4px}
-  .note{margin-top:30px;color:#e74c3c;text-align:center;font-weight:600;padding:18px;background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);border-left:4px solid #e74c3c}
-
-  @media(max-width:768px){
-    .table-header{grid-template-columns:1fr}
-    .container{padding:0 10px}
-  }
-</style>
-</head>
-<body>
-
-<div class="top-header" id="topHeader">
-  Рекомендуемые суточные дозы лекарственных препаратов для взрослых
-</div>
-
-<div class="table-header" id="tableHeader">
-  <div>Препарат</div>
-  <div>Средняя терапевтическая доза (терапевтическое окно)
-    <span class="column-info">Диапазон эффективных и безопасных доз, рассчитанный по массе тела пациента.</span>
-  </div>
-  <div>Максимальная суточная доза
-    <span class="column-info">Верхний предел дозы, который не следует превышать.</span>
-  </div>
-  <div>Суточная доза в зависимости от массы тела
-    <span class="column-info">Оптимальные дозы для данных весовых категорий.</span>
-  </div>
-</div>
-
-<div class="container">
-  <table id="drugTable">
-    <tbody>
-      <tr>
-        <td>Амикацин (Am)</td>
-        <td><div class="dosage-info"><div class="dosage-range">15–20 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-am" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('am',15,20)">Рассчитать</button><div class="result" id="result-am"></div></div></div></div></td>
-        <td>1000 мг</td>
-        <td><ul><li>&lt;50 кг:500 мг</li><li>50–69 кг:750–1000 мг</li><li>&gt;70 кг:1000 мг</li></ul></td>
-      </tr>
-      <tr>
-        <td>Изониазид (H)</td>
-        <td><div class="dosage-info"><div class="dosage-range">5–10 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-h" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('h',5,10)">Рассчитать</button><div class="result" id="result-h"></div></div></div></div></td>
-        <td>600 мг</td>
-        <td><ul><li>&lt;50 кг:300 мг</li><li>50–69 кг:450–600 мг</li><li>&gt;70 кг:600 мг</li></ul></td>
-      </tr>
-      <tr>
-        <td>Рифампицин (R)</td>
-        <td><div class="dosage-info"><div class="dosage-range">10 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-r" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('r',10,10)">Рассчитать</button><div class="result" id="result-r"></div></div></div></div></td>
-        <td>600 мг</td>
-        <td><ul><li>&lt;50 кг:450 мг</li><li>50–69 кг:600 мг</li><li>&gt;70 кг:600 мг</li></ul></td>
-      </tr>
-      <tr>
-        <td>Этамбутол (E)</td>
-        <td><div class="dosage-info"><div class="dosage-range">15–25 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-e" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('e',15,25)">Рассчитать</button><div class="result" id="result-e"></div></div></div></div></td>
-        <td>2000 мг</td>
-        <td><ul><li>&lt;50 кг:1200 мг</li><li>50–69 кг:1600 мг</li><li>&gt;70 кг:2000 мг</li></ul></td>
-      </tr>
-      <tr>
-        <td>Левофлоксацин (Lfx)</td>
-        <td><div class="dosage-info"><div class="dosage-range">10–15 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-lfx" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('lfx',10,15)">Рассчитать</button><div class="result" id="result-lfx"></div></div></div></div></td>
-        <td>1000 мг</td>
-        <td><ul><li>&lt;50 кг:750–1000 мг</li><li>50–69 кг:750 мг</li><li>&gt;70 кг:1000 мг</li></ul></td>
-      </tr>
-      <tr>
-        <td>Пиразинамид (Z)</td>
-        <td><div class="dosage-info"><div class="dosage-range">20–30 мг/кг</div><div class="dosage-calculator"><div class="calculator"><input type="number" id="weight-z" placeholder="Вес (кг)" min="1" max="200"><button onclick="calculateDosage('z',20,30)">Рассчитать</button><div class="result" id="result-z"></div></div></div></div></td>
-        <td>2500 мг</td>
-        <td><ul><li>&lt;50 кг:1500 мг</li><li>50–69 кг:1500 мг</li><li>&gt;70 кг:2000 мг</li></ul></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="note">
-    Окончательное решение о дозе препарата должно быть согласовано с инструкцией по медицинскому применению лекарственного препарата
-  </div>
-</div>
-
-<script>
-function calculateDosage(id,min,max){
-  const w=parseFloat(document.getElementById(`weight-${id}`).value);
-  const r=document.getElementById(`result-${id}`);
-  if(isNaN(w)||w<=0){r.textContent="Введите корректный вес";r.style.color="#e74c3c";return;}
-  const a=(w*min).toFixed(0),b=(w*max).toFixed(0);
-  r.textContent=`Рекомендуемая доза: ${a} - ${b} мг`;
-  r.style.color="#27ae60";
-}
-
-document.addEventListener("DOMContentLoaded",()=>{
-  const topHeader=document.getElementById("topHeader");
-  const tableHeader=document.getElementById("tableHeader");
-
-  window.addEventListener("scroll",()=>{
-    const h=topHeader.offsetHeight;
-    if(window.scrollY>h){
-      topHeader.classList.add("hidden");
-      tableHeader.classList.add("sticky");
-    }else{
-      topHeader.classList.remove("hidden");
-      tableHeader.classList.remove("sticky");
-    }
-  });
-});
-</script>
-</body>
-</html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Справочник по терапии туберкулеза у взрослых</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .top-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .top-header.hidden {
+            transform: translateY(-100%);
+        }
+        
+        .top-header.returning {
+            transform: translateY(0);
+            top: 80px; /* Размещаем под закрепленным заголовком таблицы */
+        }
+        
+        .main-title {
+            font-size: 1.6em;
+            font-weight: 600;
+        }
+        
+        .table-header-wrapper {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            z-index: 90;
+            background: white;
+            box
