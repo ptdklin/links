@@ -3,942 +3,375 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Справочник по терапии туберкулеза у взрослых</title>
+    <title>Рекомендуемые суточные дозы препаратов для лечения туберкулеза</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-        
-        .top-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             padding: 20px;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            transition: transform 0.3s ease;
-            width: 1200px;
-            max-width: 100%;
+            min-height: 100vh;
         }
-        
-        .top-header.hidden {
-            transform: translateY(-100%) translateX(-50%);
-        }
-        
-        .main-title {
-            font-size: 1.6em;
-            font-weight: 600;
-        }
-        
-        .table-header-wrapper {
-    position: fixed;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 90;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: top 0.3s ease;
-    width: 1200px;
-    max-width: 100%;
-    height: fit-content; /* Добавляем эту строку */
-}
-        
-        .table-header-wrapper.fixed {
-            top: 0;
-        }
-        
+
         .container {
-            max-width: 1200px;
-            margin: 100px auto 0;
-            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 40px);
         }
-        
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .table-wrapper {
+            flex: 1;
+            overflow: auto;
+            position: relative;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
+            font-size: 14px;
+            background: white;
         }
-        
+
         thead {
             position: sticky;
-            top: 160px;
-            z-index: 80;
+            top: 0;
+            z-index: 100;
         }
-        
-        th, td {
-            border: 1px solid #e1e5e9;
-            padding: 16px;
-            text-align: left;
-            vertical-align: top;
-            width: 25%;
-            font-weight: 600;
-        }
-        
+
         th {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
             color: white;
             font-weight: 600;
-            font-size: 1.1em;
-        }
-        
-        .column-info {
-            font-size: 0.85em;
-            font-weight: 600;
-            display: block;
-            margin-top: 8px;
-            opacity: 0.95;
-            line-height: 1.4;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-        
-        tr:hover {
-            background-color: #e8f4fc;
-            transition: background-color 0.2s ease;
-        }
-        
-        .note {
-            margin-top: 30px;
-            color: #e74c3c;
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: 600;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-left: 4px solid #e74c3c;
-            position: sticky;
-            bottom: 20px;
-            z-index: 110;
-        }
-        
-        .calculator {
-            background-color: #e8f4fc;
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-            border: 1px solid #bde0fe;
-        }
-        
-        .calculator input {
-            padding: 8px 12px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 100%;
-            font-size: 1em;
-            font-weight: 600;
-        }
-        
-        .calculator button {
-            padding: 8px 16px;
-            margin: 5px 0;
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
+            padding: 16px 12px;
+            text-align: left;
             border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1em;
-            width: 100%;
-            transition: all 0.2s ease;
-            font-weight: 600;
+            position: relative;
         }
-        
-        .calculator button:hover {
-            background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
-            transform: translateY(-1px);
+
+        th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
         }
-        
-        .result {
-            margin-top: 8px;
-            font-weight: 600;
-            color: #2c3e50;
+
+        .sub-header th {
+            background: linear-gradient(135deg, #81ecec 0%, #00cec9 100%);
+            font-size: 13px;
+        }
+
+        .weight-header {
             text-align: center;
-            padding: 5px;
-            border-radius: 4px;
-            background-color: rgba(255,255,255,0.7);
+            font-size: 15px;
         }
-        
-        .dosage-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: flex-start;
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e1e8ed;
+            vertical-align: top;
+            background: rgba(255,255,255,0.8);
         }
-        
-        .dosage-range {
-            flex: 1;
-            min-width: 120px;
-            font-weight: 600;
+
+        tbody tr:nth-child(even) td {
+            background: rgba(245, 247, 250, 0.8);
         }
-        
-        .dosage-calculator {
-            flex: 1;
-            min-width: 200px;
+
+        tbody tr:hover td {
+            background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
+            transition: all 0.2s ease;
         }
-        
-        .scheme {
-            font-size: 0.95em;
-            color: #333;
+
+        .footer {
+            background: #f8f9fa;
+            border-top: 1px solid #e1e8ed;
+            padding: 20px 30px;
+            flex-shrink: 0;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 16px 20px;
+            color: #856404;
+            font-size: 14px;
             line-height: 1.5;
-            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        
-        ul {
-            padding-left: 20px;
+
+        .table-wrapper::-webkit-scrollbar {
+            width: 8px;
         }
-        
-        li {
-            margin-bottom: 5px;
-            line-height: 1.4;
-            font-weight: 600;
+
+        .table-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
         }
-        
-        @media (max-width: 768px) {
-            .top-header {
-                padding: 15px;
-                left: 0;
-                transform: none;
-                width: 100%;
-            }
-            
-            .top-header.hidden {
-                transform: translateY(-100%);
-            }
-            
-            .main-title {
-                font-size: 1.4em;
-            }
-            
-            .table-header-wrapper {
-                top: 70px;
-                position: relative;
-                left: 0;
-                transform: none;
-                width: 100%;
-            }
-            
-            .table-header-wrapper.fixed {
-                position: fixed;
-                top: 0;
-                left: 0;
-                transform: none;
-                width: 100%;
-            }
-            
-            .container {
-                margin-top: 0;
-                padding: 15px;
-            }
-            
-            table {
-                display: block;
-                overflow-x: auto;
-            }
-            
-            .dosage-info {
-                flex-direction: column;
-            }
-            
-            th, td {
-                width: auto;
-            }
-            
-            .note {
-                font-size: 1em;
-                padding: 15px;
-                position: relative;
-                bottom: 0;
-            }
+
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            border-radius: 4px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #0984e3 0%, #074a8f 100%);
         }
     </style>
 </head>
 <body>
-    <div class="top-header" id="topHeader">
-        <div class="main-title">Рекомендуемые суточные дозы лекарственных препаратов для лечения туберкулеза у взрослых</div>
-    </div>
-    
-    <div class="table-header-wrapper" id="tableHeaderWrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Препарат</th>
-                    <th>
-                        Средняя терапевтическая доза (терапевтическое окно)
-                        <span class="column-info">Диапазон эффективных и безопасных доз, рассчитанный по массе тела пациента. Рекомендуется подбирать дозу в этих пределах с учетом клинической картины.</span>
-                    </th>
-                    <th>
-                        Максимальная суточная доза
-                        <span class="column-info">Верхний предел дозы, который не следует превышать ни при каких условиях. Актуален как ограничивающий фактор для пациентов с большой массой тела.</span>
-                    </th>
-                    <th>
-                        Суточная доза в зависимости от массы тела
-                        <span class="column-info">Оптимальные дозы для данных весовых категорий, обеспечивающие баланс эффективности и переносимости. Рекомендуется к назначению в стандартных ситуациях.</span>
-                    </th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-    
     <div class="container">
-        <table>
-            <tbody>
-                <tr>
-                    <td>Амикацин (Am)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">15–20 мг/кг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-am" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateDosage('am', 15, 20)">Рассчитать</button>
-                                    <div class="result" id="result-am"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>1000 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 500 мг</li>
-                            <li>50–69 кг: 750–1000 мг</li>
-                            <li>&gt; 70 кг: 1000 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Аминосалициловая кислота (PAS)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">8000 мг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-pas" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateFixedDosage('pas', 8000)">Рассчитать</button>
-                                    <div class="result" id="result-pas"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>12000 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 8000 мг</li>
-                            <li>50–69 кг: 8000 мг</li>
-                            <li>&gt; 70 кг: 8000 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Бедаквилин (Bq)</td>
-                    <td>
-                        <div class="scheme">
-                            4 таблетки (400 мг) ежедневно 2 недели, затем по 2 таблетки (200 мг) 3 раза в неделю 22 недели (с 3 недели перерыв между приемом препарата не менее 48 часов)
-                        </div>
-                    </td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td>Деламанид (Dim)</td>
-                    <td>
-                        <div class="dosage-range">200 мг</div>
-                    </td>
-                    <td>200 мг</td>
-                    <td>
-                        <ul>
-                            <li>100 мг 2 раза в день</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Изониазид (H)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">5–10 мг/кг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-h" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateDosage('h', 5, 10)">Рассчитать</button>
-                                    <div class="result" id="result-h"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>600 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 300 мг</li>
-                            <li>50–69 кг: 450–600 мг</li>
-                            <li>&gt; 70 кг: 600 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Канамицин (Km)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">15–20 мг/кг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-km" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateDosage('km', 15, 20)">Рассчитать</button>
-                                    <div class="result" id="result-km"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>1000 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 500 мг</li>
-                            <li>50–69 кг: 750–1000 мг</li>
-                            <li>&gt; 70 кг: 1000 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Капреомицин (Cm)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">15–20 мг/кг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-cm" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateDosage('cm', 15, 20)">Рассчитать</button>
-                                    <div class="result" id="result-cm"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>1000 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 500 мг</li>
-                            <li>50–69 кг: 750–1000 мг</li>
-                            <li>&gt; 70 кг: 1000 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Клофазимин (Cfz)</td>
-                    <td>
-                        <div class="dosage-range">100 мг</div>
-                    </td>
-                    <td>100 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 100 мг</li>
-                            <li>50–69 кг: 100 мг</li>
-                            <li>&gt; 70 кг: 100 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Левофлоксацин (Lfx)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">10–15 мг/кг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-lfx" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateDosage('lfx', 10, 15)">Рассчитать</button>
-                                    <div class="result" id="result-lfx"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>1000 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 750–1000 мг</li>
-                            <li>50–69 кг: 750 мг (1000 мг при пре-ШЛУ/ШЛУ)</li>
-                            <li>&gt; 70 кг: 1000 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Линезолид (Lzd)</td>
-                    <td>
-                        <div class="dosage-range">600 мг</div>
-                    </td>
-                    <td>1200 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 300–600 мг</li>
-                            <li>50–69 кг: 600 мг</li>
-                            <li>&gt; 70 кг: 600 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Моксифлоксацин (Mfx)</td>
-                    <td>
-                        <div class="dosage-range">400 мг / 800 мг</div>
-                    </td>
-                    <td>800 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 400 мг</li>
-                            <li>50–69 кг: 400 мг (800 мг при пре-ШЛУ/ШЛУ)</li>
-                            <li>&gt; 70 кг: 400 мг (800 мг при пре-ШЛУ/ШЛУ)</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Пиразинамид (Z)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">20–30 мг/кг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-z" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateDosage('z', 20, 30)">Рассчитать</button>
-                                    <div class="result" id="result-z"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>2500 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 1500 мг</li>
-                            <li>50–69 кг: 1500 мг</li>
-                            <li>&gt; 70 кг: 2000 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Протионамид (Pto)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">15–20 мг/кг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-pto" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateDosage('pto', 15, 20)">Рассчитать</button>
-                                    <div class="result" id="result-pto"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>1000 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 500–750 мг</li>
-                            <li>50–69 кг: 750 мг</li>
-                            <li>&gt; 70 кг: 750 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Рифабутин (Rb)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">5 мг/кг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-rb" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateDosage('rb', 5, 5)">Рассчитать</button>
-                                    <div class="result" id="result-rb"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>300 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 300 мг</li>
-                            <li>50–69 кг: 300 мг</li>
-                            <li>&gt; 70 кг: 300 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Рифапентин (Rpt)</td>
-                    <td>
-                        <div class="scheme">
-                            <strong>Для ФП в длительном режиме:</strong> 10 мг/кг 2–3 раза в неделю<br>
-                            <strong>В коротком режиме ЛЧТ:</strong> 20 мг/кг ежедневно
-                        </div>
-                    </td>
-                    <td>
-                        <strong>Для ФП в длительном режиме:</strong> 600 мг 3 раза в неделю<br>
-                        <strong>В коротком режиме ЛЧТ:</strong> 1200 мг ежедневно
-                    </td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 600 мг 2–3 раза в неделю / 1200 мг ежедневно (ЛЧТ)</li>
-                            <li>50–69 кг: 600 мг 2–3 раза в неделю / 1200 мг ежедневно (ЛЧТ)</li>
-                            <li>&gt; 70 кг: 600 мг 2–3 раза в неделю / 1200 мг ежедневно (ЛЧТ)</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Рифампицин (R)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">10 мг/кг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-r" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateDosage('r', 10, 10)">Рассчитать</button>
-                                    <div class="result" id="result-r"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>600 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 450 мг</li>
-                            <li>50–69 кг: 600 мг</li>
-                            <li>&gt; 70 кг: 600 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Стрептомицин (S)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">12–18 мг/кг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-s" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateDosage('s', 12, 18)">Рассчитать</button>
-                                    <div class="result" id="result-s"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>1000 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 500 мг</li>
-                            <li>50–69 кг: 750–1000 мг</li>
-                            <li>&gt; 70 кг: 1000 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Этамбутол (E)</td>
-                    <td>
-                        <div class="dosage-info">
-                            <div class="dosage-range">15–25 мг/кг</div>
-                            <div class="dosage-calculator">
-                                <div class="calculator">
-                                    <input type="number" id="weight-e" placeholder="Вес (кг)" min="1" max="200">
-                                    <button onclick="calculateDosage('e', 15, 25)">Рассчитать</button>
-                                    <div class="result" id="result-e"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>2000 мг</td>
-                    <td>
-                        <ul>
-                            <li>&lt; 50 кг: 1200 мг</li>
-                            <li>50–69 кг: 1600 мг</li>
-                            <li>&gt; 70 кг: 2000 мг</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="header">
+            <h1>Рекомендуемые суточные дозы лекарственных препаратов для лечения туберкулеза у взрослых</h1>
+        </div>
 
-        <div class="note">
-            Окончательное решение о дозе препарата должно быть согласовано с инструкцией по медицинскому применению лекарственного препарата
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2">Препарат</th>
+                        <th rowspan="2">Средняя терапевти-<br>ческая доза</th>
+                        <th rowspan="2">Максимальная<br>суточная доза</th>
+                        <th colspan="3" class="weight-header">Суточная доза в зависимости от массы тела</th>
+                    </tr>
+                    <tr class="sub-header">
+                        <th>&lt; 50 кг</th>
+                        <th>50–69 кг</th>
+                        <th>&gt; 70 кг</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Изониазид (H)</td>
+                        <td>5–10 мг/кг</td>
+                        <td>600 мг</td>
+                        <td>300 мг</td>
+                        <td>450–600 мг</td>
+                        <td>600 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Рифампицин (R)</td>
+                        <td>10 мг/кг</td>
+                        <td>600 мг</td>
+                        <td>450 мг</td>
+                        <td>600 мг</td>
+                        <td>600 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Рифабутин (Rb)</td>
+                        <td>5 мг/кг</td>
+                        <td>300 мг</td>
+                        <td>300 мг</td>
+                        <td>300 мг</td>
+                        <td>300 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Рифапентин (Rpt) для ФП в длительном режиме</td>
+                        <td>10 мг/кг 2–3 раза в неделю</td>
+                        <td>600 мг 3 раза в неделю</td>
+                        <td>600 мг 2–3 раза в неделю</td>
+                        <td>600 мг 2–3 раза в неделю</td>
+                        <td>600 мг 2–3 раза в неделю</td>
+                    </tr>
+                    <tr>
+                        <td>Рифапентин (Rpt) в коротком режиме</td>
+                        <td>20 мг/кг Ежедневно (короткий режим ЛЧТ)</td>
+                        <td>1200 мг Ежедневно (короткий режим ЛЧТ)</td>
+                        <td>1200 мг Ежедневно (короткий режим ЛЧТ)</td>
+                        <td>1200 мг Ежедневно (короткий режим ЛЧТ)</td>
+                        <td>1200 мг Ежедневно (короткий режим ЛЧТ)</td>
+                    </tr>
+                    <tr>
+                        <td>Пиразинамид (Z)</td>
+                        <td>20–30 мг/кг</td>
+                        <td>2500 мг</td>
+                        <td>1500 мг</td>
+                        <td>1500 мг</td>
+                        <td>2000 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Стрептомицин (S)</td>
+                        <td>12–18 мг/кг</td>
+                        <td>1000 мг</td>
+                        <td>500 мг</td>
+                        <td>750–1000 мг</td>
+                        <td>1000 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Этамбутол (E)</td>
+                        <td>15–25 мг/кг</td>
+                        <td>2000 мг</td>
+                        <td>1200 мг</td>
+                        <td>1600 мг</td>
+                        <td>2000 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Левофлоксацин (Lfx)</td>
+                        <td>10–15 мг/кг</td>
+                        <td>1000 мг</td>
+                        <td>750–1000 мг</td>
+                        <td>750 мг (1000 мг при пре-ШЛУ/ШЛУ)</td>
+                        <td>1000 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Моксифлоксацин (Mfx)</td>
+                        <td>400 мг<br>800 мг</td>
+                        <td>800 мг</td>
+                        <td>400 мг</td>
+                        <td>400 мг (800 мг при пре-ШЛУ/ ШЛУ)</td>
+                        <td>400 мг (800 мг при пре-ШЛУ/ ШЛУ)</td>
+                    </tr>
+                    <tr>
+                        <td>Спарфлоксацин (Sfx)</td>
+                        <td>200 мг</td>
+                        <td>400 мг</td>
+                        <td colspan="3">400 мг в первый день, затем по 200 мг в сутки</td>
+                    </tr>
+                    <tr>
+                        <td>Бедаквилин (Bq)</td>
+                        <td colspan="5">4 таблетки (400 мг) ежедневно 2 недели, затем по 2 таблетки (200 мг) 3 раза в неделю 22 недели (с 3 недели перерыв между приемом препарата не менее 48 часов)</td>
+                    </tr>
+                    <tr>
+                        <td>Линезолид (Lzd)</td>
+                        <td>600 мг</td>
+                        <td>1200 мг</td>
+                        <td>300–600 мг</td>
+                        <td>600 мг</td>
+                        <td>600 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Клофазимин (Cfz)</td>
+                        <td>100 мг</td>
+                        <td>100 мг</td>
+                        <td>100 мг</td>
+                        <td>100 мг</td>
+                        <td>100 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Циклосерин (Cs)</td>
+                        <td>10–15 мг/кг</td>
+                        <td>1000 мг</td>
+                        <td>500 мг</td>
+                        <td>500–750 мг</td>
+                        <td>750 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Теризидон (Trd)</td>
+                        <td>10–15 мг/кг</td>
+                        <td>1000 мг</td>
+                        <td>500 мг</td>
+                        <td>500–750 мг</td>
+                        <td>750 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Деламанид (Dim)</td>
+                        <td>200 мг</td>
+                        <td>200 мг</td>
+                        <td colspan="3">100 мг 2 раза в день</td>
+                    </tr>
+                    <tr>
+                        <td>Этионамид (Eto)</td>
+                        <td>15–20 мг/кг</td>
+                        <td>1000 мг</td>
+                        <td>500–750 мг</td>
+                        <td>750 мг</td>
+                        <td>750 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Протионамид (Pto)</td>
+                        <td>15–20 мг/кг</td>
+                        <td>1000 мг</td>
+                        <td>500–750 мг</td>
+                        <td>750 мг</td>
+                        <td>750 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Меропенем (Мp) + клавулановая кислота (Amx/Civ)</td>
+                        <td colspan="5">1000 мг 3 раза в день, в/в капельно + 500/125 мг 3 раза в день перед каждым введением Mp</td>
+                    </tr>
+                    <tr>
+                        <td>Имипенем- циластатин (Imp) + клавулановая кислота (Amx/Civ)</td>
+                        <td colspan="5">1000 мг + 1000 мг 2 раза в день, в/в капельно + 500/125 мг 2 раза в день перед каждым введением Imp</td>
+                    </tr>
+                    <tr>
+                        <td>Амикацин (Am)</td>
+                        <td>15–20 мг/кг</td>
+                        <td>1000 мг</td>
+                        <td>500 мг</td>
+                        <td>750–1000 мг</td>
+                        <td>1000 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Канамицин (Km)</td>
+                        <td>15–20 мг/кг</td>
+                        <td>1000 мг</td>
+                        <td>500 мг</td>
+                        <td>750–1000 мг</td>
+                        <td>1000 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Капреомицин (Cm)</td>
+                        <td>15–20 мг/кг</td>
+                        <td>1000 мг</td>
+                        <td>500 мг</td>
+                        <td>750–1000 мг</td>
+                        <td>1000 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Аминосалициловая кислота (PAS)</td>
+                        <td>8000 мг</td>
+                        <td>12000 мг</td>
+                        <td>8000 мг</td>
+                        <td>8000 мг</td>
+                        <td>8000 мг</td>
+                    </tr>
+                    <tr>
+                        <td>Тиоурендомино- метилпиридиния перхлорат (Tpp)</td>
+                        <td>9,5–12,5 мг/кг</td>
+                        <td>1200 мг</td>
+                        <td>400 мг</td>
+                        <td>400–600 мг</td>
+                        <td>600 мг</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <div class="warning">
+                ⚠️ Окончательное решение о дозе препарата должно быть согласовано с инструкцией по медицинскому применению лекарственного препарата
+            </div>
         </div>
     </div>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-        
-        .top-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            transition: transform 0.3s ease;
-            width: 1200px;
-            max-width: 100%;
-        }
-        
-        .top-header.hidden {
-            transform: translateY(-100%) translateX(-50%);
-        }
-        
-        .main-title {
-            font-size: 1.6em;
-            font-weight: 600;
-        }
-        
-        .table-header-wrapper {
-            position: fixed;
-            top: 78px; /* Изменено с 80px */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 90;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: top 0.3s ease;
-            width: 1200px;
-            max-width: 100%;
-        }
-        
-        .table-header-wrapper.fixed {
-            top: 0;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 98px auto 0; /* Изменено с 100px */
-            padding: 20px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        thead {
-            position: sticky;
-            top: 160px;
-            z-index: 80;
-        }
-        
-        th, td {
-            border: 1px solid #e1e5e9;
-            padding: 16px;
-            text-align: left;
-            vertical-align: top;
-            width: 25%;
-            font-weight: 600;
-        }
-        
-        th {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
-        
-        .column-info {
-            font-size: 0.85em;
-            font-weight: 600;
-            display: block;
-            margin-top: 8px;
-            opacity: 0.95;
-            line-height: 1.4;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-        
-        tr:hover {
-            background-color: #e8f4fc;
-            transition: background-color 0.2s ease;
-        }
-        
-        .note {
-            margin-top: 30px;
-            color: #e74c3c;
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: 600;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-left: 4px solid #e74c3c;
-            position: sticky;
-            bottom: 20px;
-            z-index: 110;
-        }
-        
-        .calculator {
-            background-color: #e8f4fc;
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-            border: 1px solid #bde0fe;
-        }
-        
-        .calculator input {
-            padding: 8px 12px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 100%;
-            font-size: 1em;
-            font-weight: 600;
-        }
-        
-        .calculator button {
-            padding: 8px 16px;
-            margin: 5px 0;
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1em;
-            width: 100%;
-            transition: all 0.2s ease;
-            font-weight: 600;
-        }
-        
-        .calculator button:hover {
-            background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
-            transform: translateY(-1px);
-        }
-        
-        .result {
-            margin-top: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-            text-align: center;
-            padding: 5px;
-            border-radius: 4px;
-            background-color: rgba(255,255,255,0.7);
-        }
-        
-        .dosage-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: flex-start;
-        }
-        
-        .dosage-range {
-            flex: 1;
-            min-width: 120px;
-            font-weight: 600;
-        }
-        
-        .dosage-calculator {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .scheme {
-            font-size: 0.95em;
-            color: #333;
-            line-height: 1.5;
-            font-weight: 600;
-        }
-        
-        ul {
-            padding-left: 20px;
-        }
-        
-        li {
-            margin-bottom: 5px;
-            line-height: 1.4;
-            font-weight: 600;
-        }
-        
-        @media (max-width: 768px) {
-            .top-header {
-                padding: 15px;
-                left: 0;
-                transform: none;
-                width: 100%;
-            }
-            
-            .top-header.hidden {
-                transform: translateY(-100%);
-            }
-            
-            .main-title {
-                font-size: 1.4em;
-            }
-            
-            .table-header-wrapper {
-                top: 68px; /* Изменено для мобильных */
-                position: relative;
-                left: 0;
-                transform: none;
-                width: 100%;
-            }
-            
-            .table-header-wrapper.fixed {
-                position: fixed;
-                top: 0;
-                left: 0;
-                transform: none;
-                width: 100%;
-            }
-            
-            .container {
-                margin-top: 0;
-                padding: 15px;
-            }
-            
-            table {
-                display: block;
-                overflow-x: auto;
-            }
-            
-            .dosage-info {
-                flex-direction: column;
-            }
-            
-            th, td {
-                width: auto;
-            }
-            
-            .note {
-                font-size: 1em;
-                padding: 15px;
-                position: relative;
-                bottom: 0;
-            }
-        }
-    </style>
 </body>
 </html>
