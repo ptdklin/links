@@ -6,7 +6,7 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <title>Навигатор врача-фтизиатра | ГБУЗ МО МОКПТД</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
+        <style>
         * {
             margin: 0;
             padding: 0;
@@ -155,43 +155,52 @@
         }
         
         /* Цветовые схемы для каждого блока */
-.card-1 {
-    --block-color: #2563eb;
-    --block-color-light: #eff6ff;
-}
+        .card-1 {
+            --block-color: #2563eb;
+            --block-color-light: #eff6ff;
+        }
+        
+        .card-2 {
+            --block-color: #dc2626;
+            --block-color-light: #fef2f2;
+        }
+        
+        .card-3 {
+            --block-color: #dc2626;
+            --block-color-light: #fef2f2;
+        }
+        
+        .card-4 {
+            --block-color: #7c3aed;
+            --block-color-light: #faf5ff;
+        }
+        
+        .card-5 {
+            --block-color: #059669;
+            --block-color-light: #f0fdf4;
+        }
+        
+        .card-6 {
+            --block-color: #ea580c;
+            --block-color-light: #fff7ed;
+        }
+        
+        .card-7 {
+            --block-color: #0891b2;
+            --block-color-light: #f0fdff;
+        }
 
-.card-2 {
-    --block-color: #dc2626;
-    --block-color-light: #fef2f2;
-}
-
-.card-3 {
-    --block-color: #dc2626;
-    --block-color-light: #fef2f2;
-}
-
-.card-4 {
-    --block-color: #7c3aed;
-    --block-color-light: #faf5ff;
-}
-
-.card-5 {
-    --block-color: #059669;
-    --block-color-light: #f0fdf4;
-}
-
-.card-6 {
-    --block-color: #ea580c;
-    --block-color-light: #fff7ed;
-}
-
-.card-7 {
-    --block-color: #0891b2;
-    --block-color-light: #f0fdff;
-}
+        /* Применяем цвета к карточкам */
+        .card-1 .card-icon { background: var(--block-color-light); }
+        .card-2 .card-icon { background: var(--block-color-light); }
+        .card-3 .card-icon { background: var(--block-color-light); }
+        .card-4 .card-icon { background: var(--block-color-light); }
+        .card-5 .card-icon { background: var(--block-color-light); }
+        .card-6 .card-icon { background: var(--block-color-light); }
+        .card-7 .card-icon { background: var(--block-color-light); }
         
         .card h2 {
-            color: var(--text-primary);
+            color: var(--block-color);
             font-size: 1.4rem;
             font-weight: 700;
             margin: 0;
@@ -210,7 +219,7 @@
             border-radius: 12px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
-            color: var(--text-primary);
+            color: var(--block-color);
             border: 1px solid transparent;
             background: var(--primary-very-light);
             margin-bottom: 10px;
@@ -220,7 +229,7 @@
         
         .link-item:hover {
             background: var(--surface);
-            border-color: var(--primary);
+            border-color: var(--block-color);
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.12);
             transform: translateX(6px);
         }
@@ -242,7 +251,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary);
+            color: var(--block-color);
             font-weight: 700;
             flex-shrink: 0;
             transition: all 0.3s ease;
@@ -257,11 +266,13 @@
             flex: 1;
             font-weight: 600;
             font-size: 1rem;
+            color: var(--block-color);
         }
         
         .link-meta {
             font-size: 0.85rem;
-            color: var(--text-secondary);
+            color: var(--block-color);
+            opacity: 0.8;
             margin-top: 6px;
             margin-left: 34px;
             font-weight: 400;
@@ -272,7 +283,7 @@
         .dropdown-content {
             display: none;
             background: var(--primary-very-light);
-            border-left: 3px solid var(--primary);
+            border-left: 3px solid var(--block-color);
             border-radius: 0 0 12px 12px;
             margin-top: -10px;
             margin-bottom: 10px;
@@ -285,7 +296,7 @@
         .dropdown-link {
             padding: 12px 18px 12px 40px;
             display: block;
-            color: var(--text-primary);
+            color: var(--block-color);
             text-decoration: none;
             transition: all 0.3s ease;
             border-bottom: 1px solid var(--border);
@@ -301,7 +312,8 @@
         
         .dropdown-meta {
             font-size: 0.85rem;
-            color: var(--text-secondary);
+            color: var(--block-color);
+            opacity: 0.7;
             margin-top: 4px;
             font-weight: 400;
             line-height: 1.4;
