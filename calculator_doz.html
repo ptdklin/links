@@ -44,17 +44,18 @@
         }
         
         .table-header-wrapper {
-            position: fixed;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 90;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: top 0.3s ease;
-            width: 1200px;
-            max-width: 100%;
-        }
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 90;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: top 0.3s ease;
+    width: 1200px;
+    max-width: 100%;
+    height: fit-content; /* Добавляем эту строку */
+}
         
         .table-header-wrapper.fixed {
             top: 0;
