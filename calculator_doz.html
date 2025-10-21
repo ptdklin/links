@@ -35,11 +35,6 @@
             transform: translateY(-100%);
         }
         
-        .top-header.returning {
-            transform: translateY(0);
-            top: 80px; /* Размещаем под закрепленным заголовком таблицы */
-        }
-        
         .main-title {
             font-size: 1.6em;
             font-weight: 600;
@@ -52,4 +47,654 @@
             right: 0;
             z-index: 90;
             background: white;
-            box
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: top 0.3s ease;
+        }
+        
+        .table-header-wrapper.fixed {
+            top: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 0;
+            padding: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        thead {
+            position: sticky;
+            top: 160px;
+            z-index: 80;
+        }
+        
+        th, td {
+            border: 1px solid #e1e5e9;
+            padding: 16px;
+            text-align: left;
+            vertical-align: top;
+            width: 25%;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .column-info {
+            font-size: 0.85em;
+            font-weight: 300;
+            display: block;
+            margin-top: 8px;
+            opacity: 0.95;
+            line-height: 1.4;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e8f4fc;
+            transition: background-color 0.2s ease;
+        }
+        
+        .note {
+            margin-top: 30px;
+            color: #e74c3c;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .calculator {
+            background-color: #e8f4fc;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 1px solid #bde0fe;
+        }
+        
+        .calculator input {
+            padding: 8px 12px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            font-size: 1em;
+        }
+        
+        .calculator button {
+            padding: 8px 16px;
+            margin: 5px 0;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        
+        .calculator button:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
+            transform: translateY(-1px);
+        }
+        
+        .result {
+            margin-top: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            padding: 5px;
+            border-radius: 4px;
+            background-color: rgba(255,255,255,0.7);
+        }
+        
+        .dosage-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        
+        .dosage-range {
+            flex: 1;
+            min-width: 120px;
+            font-weight: 500;
+        }
+        
+        .dosage-calculator {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .scheme {
+            font-size: 0.95em;
+            color: #5d6d7e;
+            line-height: 1.5;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 768px) {
+            .top-header {
+                padding: 15px;
+            }
+            
+            .main-title {
+                font-size: 1.4em;
+            }
+            
+            .table-header-wrapper {
+                top: 70px;
+                position: relative;
+            }
+            
+            .table-header-wrapper.fixed {
+                position: fixed;
+                top: 0;
+            }
+            
+            .container {
+                margin-top: 0;
+                padding: 15px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .dosage-info {
+                flex-direction: column;
+            }
+            
+            th, td {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header" id="topHeader">
+        <div class="main-title">Рекомендуемые суточные дозы лекарственных препаратов для лечения туберкулеза у взрослых</div>
+    </div>
+    
+    <div class="table-header-wrapper" id="tableHeaderWrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Препарат</th>
+                    <th>
+                        Средняя терапевтическая доза (терапевтическое окно)
+                        <span class="column-info">Диапазон эффективных и безопасных доз, рассчитанный по массе тела пациента. Рекомендуется подбирать дозу в этих пределах с учетом клинической картины.</span>
+                    </th>
+                    <th>
+                        Максимальная суточная доза
+                        <span class="column-info">Верхний предел дозы, который не следует превышать ни при каких условиях. Актуален как ограничивающий фактор для пациентов с большой массой тела.</span>
+                    </th>
+                    <th>
+                        Суточная доза в зависимости от массы тела
+                        <span class="column-info">Оптимальные дозы для данных весовых категорий, обеспечивающие баланс эффективности и переносимости. Рекомендуется к назначению в стандартных ситуациях.</span>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    
+    <div class="container">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Амикацин (Am)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">15–20 мг/кг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-am" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateDosage('am', 15, 20)">Рассчитать</button>
+                                    <div class="result" id="result-am"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>1000 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 500 мг</li>
+                            <li>50–69 кг: 750–1000 мг</li>
+                            <li>&gt; 70 кг: 1000 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Аминосалициловая кислота (PAS)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">8000 мг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-pas" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateFixedDosage('pas', 8000)">Рассчитать</button>
+                                    <div class="result" id="result-pas"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>12000 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 8000 мг</li>
+                            <li>50–69 кг: 8000 мг</li>
+                            <li>&gt; 70 кг: 8000 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Бедаквилин (Bq)</td>
+                    <td>
+                        <div class="scheme">
+                            4 таблетки (400 мг) ежедневно 2 недели, затем по 2 таблетки (200 мг) 3 раза в неделю 22 недели (с 3 недели перерыв между приемом препарата не менее 48 часов)
+                        </div>
+                    </td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>Деламанид (Dim)</td>
+                    <td>
+                        <div class="dosage-range">200 мг</div>
+                    </td>
+                    <td>200 мг</td>
+                    <td>
+                        <ul>
+                            <li>100 мг 2 раза в день</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Изониазид (H)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">5–10 мг/кг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-h" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateDosage('h', 5, 10)">Рассчитать</button>
+                                    <div class="result" id="result-h"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>600 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 300 мг</li>
+                            <li>50–69 кг: 450–600 мг</li>
+                            <li>&gt; 70 кг: 600 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Канамицин (Km)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">15–20 мг/кг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-km" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateDosage('km', 15, 20)">Рассчитать</button>
+                                    <div class="result" id="result-km"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>1000 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 500 мг</li>
+                            <li>50–69 кг: 750–1000 мг</li>
+                            <li>&gt; 70 кг: 1000 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Капреомицин (Cm)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">15–20 мг/кг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-cm" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateDosage('cm', 15, 20)">Рассчитать</button>
+                                    <div class="result" id="result-cm"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>1000 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 500 мг</li>
+                            <li>50–69 кг: 750–1000 мг</li>
+                            <li>&gt; 70 кг: 1000 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Клофазимин (Cfz)</td>
+                    <td>
+                        <div class="dosage-range">100 мг</div>
+                    </td>
+                    <td>100 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 100 мг</li>
+                            <li>50–69 кг: 100 мг</li>
+                            <li>&gt; 70 кг: 100 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Левофлоксацин (Lfx)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">10–15 мг/кг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-lfx" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateDosage('lfx', 10, 15)">Рассчитать</button>
+                                    <div class="result" id="result-lfx"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>1000 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 750–1000 мг</li>
+                            <li>50–69 кг: 750 мг (1000 мг при пре-ШЛУ/ШЛУ)</li>
+                            <li>&gt; 70 кг: 1000 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Линезолид (Lzd)</td>
+                    <td>
+                        <div class="dosage-range">600 мг</div>
+                    </td>
+                    <td>1200 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 300–600 мг</li>
+                            <li>50–69 кг: 600 мг</li>
+                            <li>&gt; 70 кг: 600 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Моксифлоксацин (Mfx)</td>
+                    <td>
+                        <div class="dosage-range">400 мг / 800 мг</div>
+                    </td>
+                    <td>800 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 400 мг</li>
+                            <li>50–69 кг: 400 мг (800 мг при пре-ШЛУ/ШЛУ)</li>
+                            <li>&gt; 70 кг: 400 мг (800 мг при пре-ШЛУ/ШЛУ)</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Пиразинамид (Z)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">20–30 мг/кг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-z" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateDosage('z', 20, 30)">Рассчитать</button>
+                                    <div class="result" id="result-z"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>2500 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 1500 мг</li>
+                            <li>50–69 кг: 1500 мг</li>
+                            <li>&gt; 70 кг: 2000 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Протионамид (Pto)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">15–20 мг/кг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-pto" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateDosage('pto', 15, 20)">Рассчитать</button>
+                                    <div class="result" id="result-pto"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>1000 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 500–750 мг</li>
+                            <li>50–69 кг: 750 мг</li>
+                            <li>&gt; 70 кг: 750 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Рифабутин (Rb)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">5 мг/кг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-rb" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateDosage('rb', 5, 5)">Рассчитать</button>
+                                    <div class="result" id="result-rb"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>300 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 300 мг</li>
+                            <li>50–69 кг: 300 мг</li>
+                            <li>&gt; 70 кг: 300 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Рифапентин (Rpt)</td>
+                    <td>
+                        <div class="scheme">
+                            <strong>Для ФП в длительном режиме:</strong> 10 мг/кг 2–3 раза в неделю<br>
+                            <strong>В коротком режиме ЛЧТ:</strong> 20 мг/кг ежедневно
+                        </div>
+                    </td>
+                    <td>
+                        <strong>Для ФП в длительном режиме:</strong> 600 мг 3 раза в неделю<br>
+                        <strong>В коротком режиме ЛЧТ:</strong> 1200 мг ежедневно
+                    </td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 600 мг 2–3 раза в неделю / 1200 мг ежедневно (ЛЧТ)</li>
+                            <li>50–69 кг: 600 мг 2–3 раза в неделю / 1200 мг ежедневно (ЛЧТ)</li>
+                            <li>&gt; 70 кг: 600 мг 2–3 раза в неделю / 1200 мг ежедневно (ЛЧТ)</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Рифампицин (R)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">10 мг/кг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-r" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateDosage('r', 10, 10)">Рассчитать</button>
+                                    <div class="result" id="result-r"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>600 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 450 мг</li>
+                            <li>50–69 кг: 600 мг</li>
+                            <li>&gt; 70 кг: 600 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Стрептомицин (S)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">12–18 мг/кг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-s" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateDosage('s', 12, 18)">Рассчитать</button>
+                                    <div class="result" id="result-s"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>1000 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 500 мг</li>
+                            <li>50–69 кг: 750–1000 мг</li>
+                            <li>&gt; 70 кг: 1000 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Этамбутол (E)</td>
+                    <td>
+                        <div class="dosage-info">
+                            <div class="dosage-range">15–25 мг/кг</div>
+                            <div class="dosage-calculator">
+                                <div class="calculator">
+                                    <input type="number" id="weight-e" placeholder="Вес (кг)" min="1" max="200">
+                                    <button onclick="calculateDosage('e', 15, 25)">Рассчитать</button>
+                                    <div class="result" id="result-e"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>2000 мг</td>
+                    <td>
+                        <ul>
+                            <li>&lt; 50 кг: 1200 мг</li>
+                            <li>50–69 кг: 1600 мг</li>
+                            <li>&gt; 70 кг: 2000 мг</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            Окончательное решение о дозе препарата должно быть согласовано с инструкцией по медицинскому применению лекарственного препарата
+        </div>
+    </div>
+
+    <script>
+        // Функция для расчета дозировки на основе веса
+        function calculateDosage(drugId, minDose, maxDose) {
+            const weightInput = document.getElementById(`weight-${drugId}`);
+            const resultDiv = document.getElementById(`result-${drugId}`);
+            
+            if (!weightInput || !resultDiv) return;
+            
+            const weight = parseFloat(weightInput.value);
+            
+            if (isNaN(weight) || weight <= 0) {
+                resultDiv.textContent = "Введите корректный вес";
+                resultDiv.style.color = "#e74c3c";
+                return;
+            }
+            
+            const minTotal = weight * minDose;
+            const maxTotal = weight * maxDose;
+            
+            resultDiv.textContent = `Рекомендуемая доза: ${minTotal.toFixed(0)} - ${maxTotal.toFixed(0)} мг`;
+            resultDiv.style.color = "#27ae60";
+        }
+        
+        // Функция для препаратов с фиксированной дозировкой
+        function calculateFixedDosage(drugId, dose) {
+            const weightInput = document.getElementById(`weight-${drugId}`);
+            const resultDiv = document.getElementById(`result-${drugId}`);
+            
+            if (!weightInput || !resultDiv) return;
+            
+            const weight = parseFloat(weightInput.value);
+            
+            if (isNaN(weight) || weight <= 0) {
+                resultDiv.textContent = "Введите корректный вес";
+                resultDiv.style.color = "#e74c3c";
+                return;
+            }
+            
+            resultDiv.textContent = `Рекомендуемая доза: ${dose} мг`;
+            resultDiv.style.color = "#27ae60";
+        }
+        
+        // Обработка прокрутки
+        document.addEventListener('DOMContentLoaded', function() {
+            const topHeader = document.getElementById('topHeader');
+            const tableHeaderWrapper = document.getElementById('tableHeaderWrapper');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    topHeader.classList.add('hidden');
+                    tableHeaderWrapper.classList.add('fixed');
+                } else {
+                    topHeader.classList.remove('hidden');
+                    tableHeaderWrapper.classList.remove('fixed');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
