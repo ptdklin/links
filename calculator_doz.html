@@ -671,60 +671,273 @@
         </div>
     </div>
 
-    <script>
-        function calculateDosage(drugId, minDose, maxDose) {
-            const weightInput = document.getElementById(`weight-${drugId}`);
-            const resultDiv = document.getElementById(`result-${drugId}`);
-            
-            if (!weightInput || !resultDiv) return;
-            
-            const weight = parseFloat(weightInput.value);
-            
-            if (isNaN(weight) || weight <= 0) {
-                resultDiv.textContent = "Введите корректный вес";
-                resultDiv.style.color = "#e74c3c";
-                return;
-            }
-            
-            const minTotal = weight * minDose;
-            const maxTotal = weight * maxDose;
-            
-            resultDiv.textContent = `Рекомендуемая доза: ${minTotal.toFixed(0)} - ${maxTotal.toFixed(0)} мг`;
-            resultDiv.style.color = "#27ae60";
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        function calculateFixedDosage(drugId, dose) {
-            const weightInput = document.getElementById(`weight-${drugId}`);
-            const resultDiv = document.getElementById(`result-${drugId}`);
-            
-            if (!weightInput || !resultDiv) return;
-            
-            const weight = parseFloat(weightInput.value);
-            
-            if (isNaN(weight) || weight <= 0) {
-                resultDiv.textContent = "Введите корректный вес";
-                resultDiv.style.color = "#e74c3c";
-                return;
-            }
-            
-            resultDiv.textContent = `Рекомендуемая доза: ${dose} мг`;
-            resultDiv.style.color = "#27ae60";
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            font-weight: 600;
         }
         
-        document.addEventListener('DOMContentLoaded', function() {
-            const topHeader = document.getElementById('topHeader');
-            const tableHeaderWrapper = document.getElementById('tableHeaderWrapper');
+        .top-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            transition: transform 0.3s ease;
+            width: 1200px;
+            max-width: 100%;
+        }
+        
+        .top-header.hidden {
+            transform: translateY(-100%) translateX(-50%);
+        }
+        
+        .main-title {
+            font-size: 1.6em;
+            font-weight: 600;
+        }
+        
+        .table-header-wrapper {
+            position: fixed;
+            top: 78px; /* Изменено с 80px */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 90;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: top 0.3s ease;
+            width: 1200px;
+            max-width: 100%;
+        }
+        
+        .table-header-wrapper.fixed {
+            top: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 98px auto 0; /* Изменено с 100px */
+            padding: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        thead {
+            position: sticky;
+            top: 160px;
+            z-index: 80;
+        }
+        
+        th, td {
+            border: 1px solid #e1e5e9;
+            padding: 16px;
+            text-align: left;
+            vertical-align: top;
+            width: 25%;
+            font-weight: 600;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .column-info {
+            font-size: 0.85em;
+            font-weight: 600;
+            display: block;
+            margin-top: 8px;
+            opacity: 0.95;
+            line-height: 1.4;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e8f4fc;
+            transition: background-color 0.2s ease;
+        }
+        
+        .note {
+            margin-top: 30px;
+            color: #e74c3c;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #e74c3c;
+            position: sticky;
+            bottom: 20px;
+            z-index: 110;
+        }
+        
+        .calculator {
+            background-color: #e8f4fc;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 1px solid #bde0fe;
+        }
+        
+        .calculator input {
+            padding: 8px 12px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            font-size: 1em;
+            font-weight: 600;
+        }
+        
+        .calculator button {
+            padding: 8px 16px;
+            margin: 5px 0;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+        
+        .calculator button:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
+            transform: translateY(-1px);
+        }
+        
+        .result {
+            margin-top: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: center;
+            padding: 5px;
+            border-radius: 4px;
+            background-color: rgba(255,255,255,0.7);
+        }
+        
+        .dosage-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        
+        .dosage-range {
+            flex: 1;
+            min-width: 120px;
+            font-weight: 600;
+        }
+        
+        .dosage-calculator {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .scheme {
+            font-size: 0.95em;
+            color: #333;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 5px;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .top-header {
+                padding: 15px;
+                left: 0;
+                transform: none;
+                width: 100%;
+            }
             
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 100) {
-                    topHeader.classList.add('hidden');
-                    tableHeaderWrapper.classList.add('fixed');
-                } else {
-                    topHeader.classList.remove('hidden');
-                    tableHeaderWrapper.classList.remove('fixed');
-                }
-            });
-        });
-    </script>
+            .top-header.hidden {
+                transform: translateY(-100%);
+            }
+            
+            .main-title {
+                font-size: 1.4em;
+            }
+            
+            .table-header-wrapper {
+                top: 68px; /* Изменено для мобильных */
+                position: relative;
+                left: 0;
+                transform: none;
+                width: 100%;
+            }
+            
+            .table-header-wrapper.fixed {
+                position: fixed;
+                top: 0;
+                left: 0;
+                transform: none;
+                width: 100%;
+            }
+            
+            .container {
+                margin-top: 0;
+                padding: 15px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .dosage-info {
+                flex-direction: column;
+            }
+            
+            th, td {
+                width: auto;
+            }
+            
+            .note {
+                font-size: 1em;
+                padding: 15px;
+                position: relative;
+                bottom: 0;
+            }
+        }
+    </style>
 </body>
 </html>
