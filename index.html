@@ -558,8 +558,7 @@
                     <div class="link-text">ВИДАЛЬ</div>
                 </div>
             </a>
-            <a href="#" onclick="openWithTranslator(event)" class="dropdown-link">
-
+            <a href="https://www.drugs.com/drug_interactions.html" target="_blank" class="dropdown-link">
                 <div class="link-content">
                     <div class="link-icon">→</div>
                     <div class="link-text">Drugs.com</div>
@@ -838,54 +837,38 @@
     </main>
 
     <script>
-// Раскрытие выпадающих списков
-const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-
-dropdownToggles.forEach(toggle => {
-    toggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        const dropdown = this.nextElementSibling;
-        dropdown.classList.toggle('show');
-    });
-});
-
-// Закрытие выпадающих списков при клике вне их
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.dropdown-toggle')) {
-        document.querySelectorAll('.dropdown-content').forEach(dropdown => {
-            dropdown.classList.remove('show');
+    // Dropdown functionality
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            const dropdown = this.nextElementSibling;
+            dropdown.classList.toggle('show');
         });
-    }
-});
-
-// Функция для открытия сайта Drugs.com и Google Переводчика
-function openWithTranslator(event) {
-    event.preventDefault();
-
-    // Открываем Google Переводчик (слева)
-    const translatorWin = window.open(
-        'https://translate.google.com/?sl=en&tl=ru&op=translate',
-        'translator',
-        'width=800,height=900,left=0,top=0'
-    );
-
-    // Через короткую задержку открываем Drugs.com (справа)
-    setTimeout(() => {
-        const drugsWin = window.open(
-            'https://www.drugs.com/drug_interactions.html',
-            'drugs',
-            'width=900,height=900,left=820,top=0'
-        );
-
-        // Проверяем, открылось ли второе окно
-        if (!drugsWin) {
-            alert("Браузер заблокировал второе окно.\nРазрешите всплывающие окна для этого сайта и повторите попытку.");
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown-toggle')) {
+            document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
         }
-    }, 500);
-}
+    });
+
+    // Функция для открытия с переводчиком
+    function openWithTranslator(event) {
+        event.preventDefault();
+        
+        // Открываем переводчик
+        window.open('https://translate.google.com/?sl=en&tl=ru&op=translate', 'translator');
+        
+        // Открываем drugs.com
+        window.open('https://www.drugs.com/drug_interactions.html', 'drugs');
+        
+        return false;
+    }
 </script>
-
-
-
 </body>
 </html>
