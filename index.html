@@ -857,39 +857,18 @@
         }
     });
 
-    // Функция для открытия Drugs.com с переводчиком
-    function openDrugsWithTranslator(event) {
-        // Предотвращаем стандартное открытие ссылки
+    // Функция для открытия с переводчиком
+    function openWithTranslator(event) {
         event.preventDefault();
         
-        // Рассчитываем размеры окон
-        const screenWidth = window.screen.width;
-        const screenHeight = window.screen.height;
-        const windowWidth = Math.floor(screenWidth / 2);
+        // Открываем переводчик
+        window.open('https://translate.google.com/?sl=en&tl=ru&op=translate', 'translator');
         
-        // Открываем Google Переводчик слева
-        const translatorUrl = 'https://translate.google.com/?sl=en&tl=ru&op=translate';
-        window.open(translatorUrl, 'translator', `width=${windowWidth},height=${screenHeight-100},left=0,top=0`);
+        // Открываем drugs.com
+        window.open('https://www.drugs.com/drug_interactions.html', 'drugs');
         
-        // Открываем Drugs.com справа
-        const drugsUrl = 'https://www.drugs.com/drug_interactions.html';
-        window.open(drugsUrl, 'drugs_com', `width=${windowWidth},height=${screenHeight-100},left=${windowWidth},top=0`);
-        
-        console.log('Оба окна должны открыться!');
+        return false;
     }
-
-    // Находим ссылку Drugs.com и добавляем обработчик
-    document.addEventListener('DOMContentLoaded', function() {
-        // Ищем все ссылки, которые содержат drugs.com
-        const drugsLinks = document.querySelectorAll('a[href*="drugs.com"]');
-        
-        console.log('Найдено ссылок drugs.com:', drugsLinks.length);
-        
-        drugsLinks.forEach(link => {
-            link.addEventListener('click', openDrugsWithTranslator);
-            console.log('Обработчик добавлен для:', link.href);
-        });
-    });
 </script>
 </body>
 </html>
