@@ -858,25 +858,28 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Функция для открытия сайта Drugs.com и Google Переводчика
+// Функция для открытия Drugs.com и Google Переводчика
 function openWithTranslator(event) {
     event.preventDefault();
 
-    // Открываем Google Переводчик слева
+    // Открываем Google Переводчик (слева)
     window.open(
         'https://translate.google.com/?sl=en&tl=ru&op=translate',
         'translator',
         'width=800,height=900,left=0,top=0'
     );
 
-    // Открываем Drugs.com справа
-    window.open(
-        'https://www.drugs.com/drug_interactions.html',
-        'drugs',
-        'width=900,height=900,left=820,top=0'
-    );
+    // Через короткую задержку открываем Drugs.com (справа)
+    setTimeout(() => {
+        window.open(
+            'https://www.drugs.com/drug_interactions.html',
+            'drugs',
+            'width=900,height=900,left=820,top=0'
+        );
+    }, 500);
 }
 </script>
+
 
 </body>
 </html>
