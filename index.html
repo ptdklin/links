@@ -837,25 +837,54 @@
     </main>
 
     <script>
-        // Dropdown functionality
-        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-        
-        dropdownToggles.forEach(toggle => {
-            toggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                const dropdown = this.nextElementSibling;
-                dropdown.classList.toggle('show');
+    // Dropdown functionality
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            const dropdown = this.nextElementSibling;
+            dropdown.classList.toggle('show');
+        });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown-toggle')) {
+            document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                dropdown.classList.remove('show');
             });
-        });
+        }
+    });
+
+    // Функция для открытия Drugs.com с переводчиком
+    function openDrugsWithTranslator(event) {
+        // Предотвращаем стандартное открытие ссылки
+        event.preventDefault();
         
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.dropdown-toggle')) {
-                document.querySelectorAll('.dropdown-content').forEach(dropdown => {
-                    dropdown.classList.remove('show');
-                });
-            }
+        // Рассчитываем размеры окон
+        const screenWidth = window.screen.width;
+        const screenHeight = window.screen.height;
+        const windowWidth = Math.floor(screenWidth / 2);
+        
+        // Открываем Google Переводчик слева
+        const translatorUrl = 'https://translate.google.com/?sl=en&tl=ru&op=translate';
+        window.open(translatorUrl, 'translator', `width=${windowWidth},height=${screenHeight-100},left=0,top=0`);
+        
+        // Открываем Drugs.com справа
+        const drugsUrl = 'https://www.drugs.com/drug_interactions.html';
+        window.open(drugsUrl, 'drugs_com', `width=${windowWidth},height=${screenHeight-100},left=${windowWidth},top=0`);
+    }
+
+    // Находим ссылку Drugs.com и добавляем обработчик
+    document.addEventListener('DOMContentLoaded', function() {
+        // Ищем все ссылки, которые содержат drugs.com
+        const drugsLinks = document.querySelectorAll('a[href*="drugs.com"]');
+        
+        drugsLinks.forEach(link => {
+            link.addEventListener('click', openDrugsWithTranslator);
         });
-    </script>
+    });
+</script>
 </body>
 </html>
