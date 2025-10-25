@@ -194,6 +194,22 @@
             margin-left: 20px;
         }
         
+        .qt-details-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        
+        .qt-details-btn:hover {
+            background: #c0392b;
+        }
+        
         .footer {
             text-align: center;
             padding: 20px;
@@ -201,6 +217,108 @@
             color: #7f8c8d;
             font-size: 0.9rem;
             border-top: 1px solid #e9ecef;
+        }
+        
+        /* Модальное окно */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .modal-header {
+            background: #e74c3c;
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .qt-section {
+            margin-bottom: 25px;
+        }
+        
+        .qt-section h3 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        .qt-section p {
+            margin-bottom: 12px;
+        }
+        
+        .qt-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .qt-table th, .qt-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .qt-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .qt-table tr:nth-child(even) {
+            background: #f8f9fa;
         }
         
         @media (max-width: 768px) {
@@ -212,6 +330,15 @@
             .drug-code {
                 margin-left: 0;
                 margin-top: 8px;
+            }
+            
+            .modal-content {
+                max-height: 95vh;
+            }
+            
+            .qt-table {
+                display: block;
+                overflow-x: auto;
             }
         }
     </style>
@@ -235,6 +362,92 @@
         
         <div class="footer">
             <p>Данные приведены в соответствии с клиническими рекомендациями. Решение о назначении исследований принимает лечащий врач с учетом индивидуальной клинической ситуации.</p>
+        </div>
+    </div>
+
+    <!-- Модальное окно с информацией о QT-удлиняющих препаратах -->
+    <div class="modal-overlay" id="qtModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Противотуберкулёзные препараты, удлиняющие интервал QT</h2>
+                <button class="close-btn" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="qt-section">
+                    <h3>1. Общие сведения</h3>
+                    <p>Интервал QT на электрокардиограмме отражает продолжительность деполяризации и реполяризации желудочков.</p>
+                    <p>Его удлинение, особенно при QTc ≥ 500 мс или приросте > 60 мс от исходного уровня, ассоциируется с повышенным риском развития полиморфной желудочковой тахикардии типа torsades de pointes и внезапной сердечной смерти.</p>
+                    <p>Удлинение QT при противотуберкулёзной терапии чаще имеет дозозависимый и обратимый характер.</p>
+                </div>
+                
+                <div class="qt-section">
+                    <h3>2. Противотуберкулёзные препараты с потенциалом удлинения QT</h3>
+                    <table class="qt-table">
+                        <thead>
+                            <tr>
+                                <th>Препарат / класс</th>
+                                <th>Механизм / особенности</th>
+                                <th>Клинические наблюдения</th>
+                                <th>Комбинированное применение / предосторожности</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Bq (Бедаквилин)</strong></td>
+                                <td>Блокада калиевых каналов (I<sub>Kr</sub> / hERG) за счёт метаболита M2.</td>
+                                <td>Удлинение QTc чаще ≤ 20–30 мс; при отдельных случаях > 500 мс. Тяжёлые аритмии редки.</td>
+                                <td>Эффект усиливается при сочетании с фторхинолонами или клозамифином.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Деламанид (Delamanid)</strong></td>
+                                <td>Влияние на реполяризацию за счёт метаболита DM-6705.</td>
+                                <td>Наблюдается удлинение QTc, преимущественно при сочетании с Bq или другими QT-продлевающими препаратами.</td>
+                                <td>Совместное применение с Bq вызывает аддитивный эффект.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Фторхинолоны (Левофлоксацин, Моксифлоксацин, Гатифлоксацин и др.)</strong></td>
+                                <td>Блокада калиевых каналов I<sub>Kr</sub>, замедление реполяризации.</td>
+                                <td>Моксифлоксацин обладает наибольшим потенциалом удлинения QT среди группы.</td>
+                                <td>При сочетании с Bq или Деламанидом эффект удлинения QT усиливается.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Клозамифин (Clofazimine)</strong></td>
+                                <td>Предположительно влияет на процессы реполяризации миокарда.</td>
+                                <td>Комбинация Bq + Клозамифин сопровождается более частым удлинением QT.</td>
+                                <td>Требует учёта суммарного эффекта при включении в многокомпонентные схемы.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="qt-section">
+                    <h3>3. Частота и выраженность эффекта</h3>
+                    <p>Удлинение QTc при терапии Bq или Деламанидом чаще умеренное (≤ 30 мс).</p>
+                    <p>Клинически значимое удлинение QTc (≥ 500 мс или > 60 мс от исходного) отмечается редко и преимущественно в первые месяцы лечения.</p>
+                    <p>Случаи аритмий, связанных непосредственно с применением этих препаратов, описываются крайне редко.</p>
+                    <p>Наибольшая вероятность выраженного эффекта наблюдается при комбинации Bq + фторхинолон + Клозамифин.</p>
+                </div>
+                
+                <div class="qt-section">
+                    <h3>4. Факторы, усиливающие риск удлинения QT</h3>
+                    <p>Совместное применение нескольких препаратов с QT-продлевающим действием.</p>
+                    <p>Электролитные нарушения (гипокалиемия, гипомагниемия, гипокальциемия).</p>
+                    <p>Сердечно-сосудистые заболевания, включая ишемическую болезнь сердца и нарушения ритма.</p>
+                    <p>Печёночная и почечная недостаточность, влияющая на выведение лекарств.</p>
+                    <p>Лекарственные взаимодействия и генетические особенности метаболизма.</p>
+                    <p>Возраст, женский пол, исходно удлинённый QTc.</p>
+                    <p>Сопутствующий приём диуретиков, антиаритмиков, психотропных средств.</p>
+                    <p>Повышенная частота событий в первые 3–6 месяцев терапии.</p>
+                </div>
+                
+                <div class="qt-section">
+                    <h3>5. Контроль и наблюдение</h3>
+                    <p><strong>До начала терапии:</strong> регистрация ЭКГ (QTc), определение электролитов (K⁺, Mg²⁺, Ca²⁺), оценка функции печени и почек, анализ возможных лекарственных взаимодействий.</p>
+                    <p><strong>Во время терапии:</strong> регулярное ЭКГ-наблюдение, лабораторный контроль электролитов, наблюдение за симптомами (головокружение, обмороки, сердцебиение).</p>
+                    <p><strong>При выявлении значимого удлинения QT:</strong> временная отмена или замена одного из препаратов, коррекция электролитных нарушений, консультация кардиолога.</p>
+                    <p><strong>Особенности длительных схем:</strong> при применении Bq или Деламанида свыше 6 месяцев большинство случаев удлинения QT регистрируется в первые полгода. Комбинации с фторхинолонами требуют усиленного наблюдения.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -708,6 +921,14 @@
                         }
                     });
                     
+                    // Добавляем кнопку только для определенных препаратов и реакций
+                    let qtButtonHTML = '';
+                    if ((drug.code === 'Lfx/Mfx/Sfx' && reaction.title === 'Удлинение интервала QTc. Нарушение ритма сердца') ||
+                        (drug.code === 'Dlm' && reaction.title === 'Удлинение интервала QT') ||
+                        (drug.code === 'Cfz' && reaction.title === 'Нарушение ритма сердца, удлинение интервала QT')) {
+                        qtButtonHTML = `<button class="qt-details-btn" data-drug="${drug.name}">Подробнее о препаратах, удлиняющих интервал QT</button>`;
+                    }
+                    
                     reactionsHTML += `
                         <div class="reaction-group">
                             <div class="reaction-title">${reaction.title}</div>
@@ -715,6 +936,7 @@
                                 <ul class="monitoring-list">
                                     ${monitoringHTML}
                                 </ul>
+                                ${qtButtonHTML}
                             </div>
                         </div>
                     `;
@@ -739,6 +961,14 @@
                 const header = drugItem.querySelector('.drug-header');
                 header.addEventListener('click', () => {
                     drugItem.classList.toggle('active');
+                });
+            });
+
+            // Добавляем обработчики для кнопок "Подробнее"
+            document.querySelectorAll('.qt-details-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openQtModal();
                 });
             });
         }
@@ -792,10 +1022,45 @@
             });
         }
 
+        // Функции для работы с модальным окном
+        function openQtModal() {
+            const qtModal = document.getElementById('qtModal');
+            qtModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function setupModal() {
+            const qtModal = document.getElementById('qtModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            
+            // Закрытие модального окна
+            closeModalBtn.addEventListener('click', () => {
+                qtModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Закрытие при клике вне модального окна
+            qtModal.addEventListener('click', (e) => {
+                if (e.target === qtModal) {
+                    qtModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Закрытие по клавише Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && qtModal.style.display === 'flex') {
+                    qtModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', () => {
             renderDrugsList(drugsData);
             setupSearch();
+            setupModal();
         });
     </script>
 </body>
