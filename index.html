@@ -505,33 +505,43 @@
         <h2>Лекарства и расчеты</h2>
     </div>
     <div class="link-list">
-        <a href="https://www.rlsnet.ru/" target="_blank" class="link-item">
+        <!-- Справочники лекарственных препаратов (выпадающий список) -->
+        <div class="link-item dropdown-toggle">
             <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">РЛС</div>
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Справочники лекарственных препаратов</div>
             </div>
-        </a>
-        <a href="https://www.vidal.ru/" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">ВИДАЛЬ</div>
-            </div>
-        </a>
-        <!-- Калькулятор СКФ (теперь выше) -->
+        </div>
+        <div class="dropdown-content">
+            <a href="https://www.rlsnet.ru/" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">РЛС</div>
+                </div>
+            </a>
+            <a href="https://www.vidal.ru/" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">ВИДАЛЬ</div>
+                </div>
+            </a>
+        </div>
+        
+        <!-- Калькулятор СКФ -->
         <a href="https://www.cardioneurology.ru/skf/" target="_blank" class="link-item">
             <div class="link-content">
                 <div class="link-icon">→</div>
                 <div class="link-text">Калькулятор СКФ</div>
             </div>
         </a>
-        <!-- Калькулятор дозировок (теперь ниже) -->
+        <!-- Калькулятор дозировок -->
         <a href="calculator_doz.html" class="link-item">
             <div class="link-content">
                 <div class="link-icon">→</div>
                 <div class="link-text">Калькулятор дозировок</div>
             </div>
         </a>
-        <!-- ИСПРАВЛЕННАЯ ССЫЛКА НА МОНИТОРИНГ НПР -->
+        <!-- Мониторинг НПР -->
         <a href="monitoring_npr.html" class="link-item">
             <div class="link-content">
                 <div class="link-icon">→</div>
@@ -544,7 +554,7 @@
                 <div class="link-text">Справочник по НПР и их коррекции</div>
             </div>
         </a>
-        <!-- Проверка взаимодействия ЛС (теперь выпадающий список) -->
+        <!-- Проверка взаимодействия ЛС -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
@@ -564,7 +574,7 @@
                     <div class="link-text">Drugs.com</div>
                 </div>
             </a>
-            <!-- ДОБАВЛЕН GOOGLE ПЕРЕВОДЧИК -->
+            <!-- Google Переводчик -->
             <a href="https://translate.google.com/?sl=ru&tl=en&op=translate" target="_blank" class="dropdown-link">
                 <div class="link-content">
                     <div class="link-icon">→</div>
@@ -573,7 +583,7 @@
                 <div class="dropdown-meta">Для перевода англоязычных ресурсов</div>
             </a>
         </div>
-        <!-- Анкетирование с комментарием -->
+        <!-- Анкетирование -->
         <a href="https://docs.google.com/spreadsheets/d/1MqnrLh4yU9PO3dzlznTngd8kuIhMlv9gQPOMQPpoGsw/edit?usp=sharing" target="_blank" class="link-item">
             <div class="link-content">
                 <div class="link-icon">→</div>
