@@ -689,6 +689,9 @@
                 <button class="btn btn-primary" id="calculateBtn">
                     <span class="btn-icon">📈</span> Рассчитать результат
                 </button>
+                <button class="btn btn-success" id="downloadBottomBtn">
+                    <span class="btn-icon">📊</span> Скачать в Excel
+                </button>
                 <button class="btn btn-primary" id="resetBtn">
                     <span class="btn-icon">🔄</span> Сбросить ответы
                 </button>
@@ -712,7 +715,7 @@
                 <button class="btn btn-success" id="saveResultsBtn">
                     <span class="btn-icon">💾</span> Сохранить результаты
                 </button>
-                <button class="btn btn-success" id="downloadBottomBtn">
+                <button class="btn btn-success" id="downloadResultsBtn">
                     <span class="btn-icon">📊</span> Скачать в Excel
                 </button>
             </div>
@@ -822,8 +825,17 @@
                 downloadToExcel();
             });
             
-            // Кнопка скачивания в Excel (нижняя)
+            // Кнопка скачивания в Excel (в разделе вопросов)
             document.getElementById('downloadBottomBtn').addEventListener('click', function() {
+                if (!validateAllFields()) {
+                    alert('Пожалуйста, заполните все обязательные поля перед скачиванием файла.');
+                    return;
+                }
+                downloadToExcel();
+            });
+            
+            // Кнопка скачивания в Excel (в разделе результатов)
+            document.getElementById('downloadResultsBtn').addEventListener('click', function() {
                 if (!validateAllFields()) {
                     alert('Пожалуйста, заполните все обязательные поля перед скачиванием файла.');
                     return;
