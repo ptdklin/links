@@ -229,6 +229,12 @@
             border-radius: 8px;
             background-color: #f8f9fa;
             border-left: 4px solid var(--primary-color);
+            position: relative;
+        }
+        
+        .question-block.error {
+            border-left-color: var(--danger-color);
+            background-color: rgba(220, 53, 69, 0.05);
         }
         
         .question-text {
@@ -251,6 +257,13 @@
         .option input {
             margin-right: 8px;
             width: auto;
+        }
+        
+        .question-error {
+            color: var(--danger-color);
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: none;
         }
         
         .results-section {
@@ -521,6 +534,7 @@
                         <label>Не знаю (0)</label>
                     </div>
                 </div>
+                <div class="question-error" id="q1Error">Пожалуйста, выберите ответ на этот вопрос</div>
             </div>
             
             <div class="question-block" id="question2">
@@ -539,6 +553,7 @@
                         <label>Не знаю (0)</label>
                     </div>
                 </div>
+                <div class="question-error" id="q2Error">Пожалуйста, выберите ответ на этот вопрос</div>
             </div>
             
             <div class="question-block" id="question3">
@@ -557,6 +572,7 @@
                         <label>Не знаю (0)</label>
                     </div>
                 </div>
+                <div class="question-error" id="q3Error">Пожалуйста, выберите ответ на этот вопрос</div>
             </div>
             
             <div class="question-block" id="question4">
@@ -575,6 +591,7 @@
                         <label>Не знаю (0)</label>
                     </div>
                 </div>
+                <div class="question-error" id="q4Error">Пожалуйста, выберите ответ на этот вопрос</div>
             </div>
             
             <div class="question-block" id="question5">
@@ -593,6 +610,7 @@
                         <label>Не знаю (0)</label>
                     </div>
                 </div>
+                <div class="question-error" id="q5Error">Пожалуйста, выберите ответ на этот вопрос</div>
             </div>
             
             <div class="question-block" id="question6">
@@ -611,6 +629,7 @@
                         <label>Не знаю (0)</label>
                     </div>
                 </div>
+                <div class="question-error" id="q6Error">Пожалуйста, выберите ответ на этот вопрос</div>
             </div>
             
             <div class="question-block" id="question7">
@@ -629,6 +648,7 @@
                         <label>Не знаю (0)</label>
                     </div>
                 </div>
+                <div class="question-error" id="q7Error">Пожалуйста, выберите ответ на этот вопрос</div>
             </div>
             
             <div class="question-block" id="question8">
@@ -647,6 +667,7 @@
                         <label>Не знаю (0)</label>
                     </div>
                 </div>
+                <div class="question-error" id="q8Error">Пожалуйста, выберите ответ на этот вопрос</div>
             </div>
             
             <div class="question-block" id="question9">
@@ -665,6 +686,7 @@
                         <label>Не знаю (0)</label>
                     </div>
                 </div>
+                <div class="question-error" id="q9Error">Пожалуйста, выберите ответ на этот вопрос</div>
             </div>
             
             <div class="question-block" id="question10">
@@ -683,11 +705,12 @@
                         <label>Не знаю (0)</label>
                     </div>
                 </div>
+                <div class="question-error" id="q10Error">Пожалуйста, выберите ответ на этот вопрос</div>
             </div>
             
             <div class="actions">
-                <button class="btn btn-success" id="saveResultsBtn">
-                    <span class="btn-icon">💾</span> Посмотреть результаты
+                <button class="btn btn-primary" id="calculateBtn">
+                    <span class="btn-icon">📈</span> Посмотреть результаты
                 </button>
                 <button class="btn btn-success" id="downloadBottomBtn">
                     <span class="btn-icon">📊</span> Скачать в Excel
@@ -709,7 +732,7 @@
             <p id="recommendationText"></p>
             
             <div class="actions">
-                <button class="btn btn-success" id="saveResultsBottomBtn">
+                <button class="btn btn-success" id="saveResultsBtn">
                     <span class="btn-icon">💾</span> Сохранить результаты
                 </button>
                 <button class="btn btn-success" id="downloadResultsBtn">
@@ -783,6 +806,28 @@
                 return isValid;
             }
             
+            // Функция проверки ответов на вопросы
+            function validateQuestions() {
+                let allQuestionsAnswered = true;
+                
+                for (let i = 1; i <= 10; i++) {
+                    const questionBlock = document.getElementById(`question${i}`);
+                    const errorElement = document.getElementById(`q${i}Error`);
+                    const selectedOption = questionBlock.querySelector('input[type="radio"]:checked');
+                    
+                    if (!selectedOption) {
+                        questionBlock.classList.add('error');
+                        errorElement.style.display = 'block';
+                        allQuestionsAnswered = false;
+                    } else {
+                        questionBlock.classList.remove('error');
+                        errorElement.style.display = 'none';
+                    }
+                }
+                
+                return allQuestionsAnswered;
+            }
+            
             // Обработчики для вопросов
             const radioButtons = document.querySelectorAll('input[type="radio"]');
             radioButtons.forEach(radio => {
@@ -791,6 +836,13 @@
                     const questionBlock = this.closest('.question-block');
                     questionBlock.style.backgroundColor = '#e8f4fd';
                     questionBlock.style.borderLeftColor = '#2c7fb8';
+                    questionBlock.classList.remove('error');
+                    
+                    // Скрываем ошибку при выборе ответа
+                    const questionId = questionBlock.id;
+                    const questionNumber = questionId.replace('question', '');
+                    const errorElement = document.getElementById(`q${questionNumber}Error`);
+                    errorElement.style.display = 'none';
                 });
             });
             
@@ -799,13 +851,19 @@
                 resetForm();
             });
             
-            // Кнопка сохранения результатов (в разделе вопросов)
-            document.getElementById('saveResultsBtn').addEventListener('click', function() {
+            // Кнопка просмотра результатов
+            document.getElementById('calculateBtn').addEventListener('click', function() {
                 if (!validateAllFields()) {
-                    alert('Пожалуйста, заполните все обязательные поля перед сохранением результатов.');
+                    alert('Пожалуйста, заполните все обязательные поля перед просмотром результатов.');
                     return;
                 }
-                saveResults();
+                
+                if (!validateQuestions()) {
+                    alert('Пожалуйста, ответьте на все вопросы шкалы Наранжо.');
+                    return;
+                }
+                
+                calculateScore();
             });
             
             // Кнопка скачивания в Excel (в разделе вопросов)
@@ -814,24 +872,22 @@
                     alert('Пожалуйста, заполните все обязательные поля перед скачиванием файла.');
                     return;
                 }
+                
+                if (!validateQuestions()) {
+                    alert('Пожалуйста, ответьте на все вопросы шкалы Наранжо перед скачиванием файла.');
+                    return;
+                }
+                
                 downloadToExcel();
             });
             
             // Кнопка сохранения результатов (в разделе результатов)
-            document.getElementById('saveResultsBottomBtn').addEventListener('click', function() {
-                if (!validateAllFields()) {
-                    alert('Пожалуйста, заполните все обязательные поля перед сохранением результатов.');
-                    return;
-                }
+            document.getElementById('saveResultsBtn').addEventListener('click', function() {
                 saveResults();
             });
             
             // Кнопка скачивания в Excel (в разделе результатов)
             document.getElementById('downloadResultsBtn').addEventListener('click', function() {
-                if (!validateAllFields()) {
-                    alert('Пожалуйста, заполните все обязательные поля перед скачиванием файла.');
-                    return;
-                }
                 downloadToExcel();
             });
             
@@ -914,7 +970,13 @@
                 questions.forEach(question => {
                     question.style.backgroundColor = '#f8f9fa';
                     question.style.borderLeftColor = '#2c7fb8';
+                    question.classList.remove('error');
                 });
+                
+                // Скрываем ошибки вопросов
+                for (let i = 1; i <= 10; i++) {
+                    document.getElementById(`q${i}Error`).style.display = 'none';
+                }
                 
                 // Скрываем секцию результатов
                 document.getElementById('resultsSection').style.display = 'none';
