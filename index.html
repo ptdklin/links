@@ -166,9 +166,9 @@
         }
         
         .card-3 {
-            --block-color: #dc2626;
-            --block-color-light: #fef2f2;
-        }
+    --block-color: #dc2626;
+    --block-color-light: #fef2f2;
+}
         
         .card-4 {
             --block-color: #7c3aed;
@@ -189,6 +189,11 @@
             --block-color: #0891b2;
             --block-color-light: #f0fdff;
         }
+        
+        .card-8 {
+            --block-color: #B45309;
+            --block-color-light: #fefce8;
+        }
 
         /* Применяем цвета к карточкам */
         .card-1 .card-icon { background: var(--block-color-light); }
@@ -198,6 +203,7 @@
         .card-5 .card-icon { background: var(--block-color-light); }
         .card-6 .card-icon { background: var(--block-color-light); }
         .card-7 .card-icon { background: var(--block-color-light); }
+        .card-8 .card-icon { background: var(--block-color-light); }
         
         .card h2 {
             color: var(--block-color);
@@ -501,11 +507,11 @@
                     </div>
                 </div>
                 
-                <!-- Лекарственные справочники -->
+                <!-- Справочник -->
 <div class="card card-3" id="drugs">
     <div class="card-header">
         <div class="card-icon">💊</div>
-        <h2>Лекарства и расчеты</h2>
+        <h2>Справочник</h2>
     </div>
     <div class="link-list">
         <!-- Справочники лекарственных препаратов (выпадающий список) -->
@@ -575,54 +581,7 @@
             </a>
         </div>
         
-        <!-- Нежелательные реакции на ЛС -->
-        <div class="link-item dropdown-toggle">
-            <div class="link-content">
-                <div class="link-icon">⌄</div>
-                <div class="link-text">Нежелательные реакции на ЛС</div>
-            </div>
-        </div>
-        <div class="dropdown-content">
-            <a href="registration.html" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Классификация и регистрация НПР</div>
-                </div>
-            </a>
-            <a href="monitoring_npr.html" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Лабораторный и инструментальный мониторинг</div>
-                </div>
-            </a>
-            <a href="assessment_complaints.html" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Мониторинг по оценке жалоб</div>
-                </div>
-            </a>
-            <a href="naranjo.html" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Шкала Наранжо</div>
-                </div>
-                <div class="dropdown-meta">Оценка причинно-следственной связи НПР</div>
-            </a>
-            <a href="https://1drv.ms/x/c/8d834935e09ce801/EVdJemGlT35IqKO8SQrr9dkBhyIxGMn2HXF45kmNPXQgfw?e=6mUyKm" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Приложения КР по мониторингу и коррекции НПР в формате Excel</div>
-                </div>
-            </a>
-            <a href="https://docs.google.com/spreadsheets/d/1MqnrLh4yU9PO3dzlznTngd8kuIhMlv9gQPOMQPpoGsw/edit?usp=sharing" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Анкетирование</div>
-                </div>
-            </a>
-        </div>
-
-                <!-- Рекомендации по образу жизни -->
+        <!-- Рекомендации по образу жизни -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
@@ -640,10 +599,53 @@
         </div>
     </div>
 </div>
-                
-                
-                <!-- Рабочие системы -->
-                
+
+<!-- Нежелательные реакции на ЛС -->
+<div class="card card-8" id="adverse-reactions">
+    <div class="card-header">
+        <div class="card-icon">⚠️</div>
+        <h2>Нежелательные реакции на ЛС</h2>
+    </div>
+    <div class="link-list">
+        <a href="registration.html" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Классификация и регистрация НПР</div>
+            </div>
+        </a>
+        <a href="monitoring_npr.html" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Лабораторный и инструментальный мониторинг</div>
+            </div>
+        </a>
+        <a href="assessment_complaints.html" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Мониторинг по оценке жалоб</div>
+            </div>
+        </a>
+        <a href="naranjo.html" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Шкала Наранжо</div>
+            </div>
+            <div class="link-meta">Оценка причинно-следственной связи НПР</div>
+        </a>
+        <a href="https://1drv.ms/x/c/8d834935e09ce801/EVdJemGlT35IqKO8SQrr9dkBhyIxGMn2HXF45kmNPXQgfw?e=6mUyKm" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Приложения КР по мониторингу и коррекции НПР в формате Excel</div>
+            </div>
+        </a>
+        <a href="https://docs.google.com/spreadsheets/d/1MqnrLh4yU9PO3dzlznTngd8kuIhMlv9gQPOMQPpoGsw/edit?usp=sharing" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Анкетирование</div>
+            </div>
+        </a>
+    </div>
+</div>
                 
                 <!-- Рабочие системы -->
                 <div class="card card-4" id="work-systems">
