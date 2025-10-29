@@ -16,6 +16,10 @@
             --success-color: #28a745;
             --warning-color: #ffc107;
             --danger-color: #dc3545;
+            --definite-color: #28a745;
+            --probable-color: #17a2b8;
+            --possible-color: #ffc107;
+            --doubtful-color: #6c757d;
         }
         
         * {
@@ -293,17 +297,29 @@
             font-weight: 700;
         }
         
-        .score-display {
-    text-align: center;
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 10px;
-    font-size: 1.5rem;
-    font-weight: 700;
-    background-color: #e8f4fd;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-}
+        .score-definite {
+            background-color: #d4edda;
+            color: var(--definite-color);
+            border: 2px solid var(--definite-color);
+        }
+        
+        .score-probable {
+            background-color: #d1ecf1;
+            color: var(--probable-color);
+            border: 2px solid var(--probable-color);
+        }
+        
+        .score-possible {
+            background-color: #fff3cd;
+            color: var(--possible-color);
+            border: 2px solid var(--possible-color);
+        }
+        
+        .score-doubtful {
+            background-color: #e2e3e5;
+            color: var(--doubtful-color);
+            border: 2px solid var(--doubtful-color);
+        }
         
         .actions {
             display: flex;
@@ -403,43 +419,13 @@
                 </div>
                 <div class="header-actions">
                     <button class="btn btn-primary" id="resetHeaderBtn">
-                        <span class="btn-icon">🔄</span> Сбросить предыдущие данные
+                        <span class="btn-icon">🔄</span> Сбросить все данные
                     </button>
                 </div>
             </div>
         </header>
         
-        <section class="patient-info">
-            <h2>Информация о пациенте</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="patientFIO" class="required">ФИО пациента</label>
-                    <input type="text" id="patientFIO" placeholder="Введите фамилию, имя и отчество" required>
-                    <div class="error-message" id="fioError">Поле ФИО обязательно для заполнения</div>
-                </div>
-                <div class="form-group">
-                    <label for="patientBirthDate" class="required">Дата рождения</label>
-                    <input type="date" id="patientBirthDate" required>
-                    <div class="error-message" id="birthDateError">Поле даты рождения обязательно для заполнения</div>
-                </div>
-                <div class="form-group">
-                    <label for="fillingDate" class="required">Дата заполнения</label>
-                    <input type="date" id="fillingDate" required>
-                    <div class="error-message" id="fillingDateError">Поле даты заполнения обязательно для заполнения</div>
-                </div>
-                <div class="form-group">
-                    <label for="suspectedDrug" class="required">Подозреваемый препарат</label>
-                    <input type="text" id="suspectedDrug" placeholder="Название препарата" required>
-                    <div class="error-message" id="drugError">Поле препарата обязательно для заполнения</div>
-                </div>
-                <div class="form-group">
-                    <label for="adverseReaction" class="required">Нежелательная реакция</label>
-                    <input type="text" id="adverseReaction" placeholder="Описание реакции" required>
-                    <div class="error-message" id="reactionError">Поле реакции обязательно для заполнения</div>
-                </div>
-            </div>
-        </section>
-        
+        <!-- ВСЯ ТЕОРЕТИЧЕСКАЯ ИНФОРМАЦИЯ -->
         <section class="info-section">
             <h2>📝 Общие сведения о шкале Наранжо</h2>
             <p><strong>Шкала Наранжо (The Naranjo Adverse Drug Reaction Probability Scale)</strong> — это стандартизированный алгоритм, разработанный в 1991 году группой ученых под руководством Цезаря Наранжо (Cesar A. Naranjo) в Университете Торонто для оценки причинно-следственной связи между приемом лекарственного препарата и возникновением нежелательной лекарственной реакции (НЛР).</p>
@@ -515,6 +501,38 @@
             <p><strong>→ Требует критического осмысления</strong> → Результат должен интерпретироваться в контексте конкретного клинического случая с учетом всех ограничений метода.</p>
             
             <p><strong>→ Выбор инструмента</strong> → Для определенных типов НЛР (идиосинкразических, отсроченных, иммуноопосредованных) могут быть предпочтительны другие, более специализированные шкалы.</p>
+        </section>
+        
+        <!-- БЛОК ПАЦИЕНТА + ОПРОСНИК (ПЕРЕМЕЩЕН ВНИЗ) -->
+        <section class="patient-info">
+            <h2>Информация о пациенте</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="patientFIO" class="required">ФИО пациента</label>
+                    <input type="text" id="patientFIO" placeholder="Введите фамилию, имя и отчество" required>
+                    <div class="error-message" id="fioError">Поле ФИО обязательно для заполнения</div>
+                </div>
+                <div class="form-group">
+                    <label for="patientBirthDate" class="required">Дата рождения</label>
+                    <input type="date" id="patientBirthDate" required>
+                    <div class="error-message" id="birthDateError">Поле даты рождения обязательно для заполнения</div>
+                </div>
+                <div class="form-group">
+                    <label for="fillingDate" class="required">Дата заполнения</label>
+                    <input type="date" id="fillingDate" required>
+                    <div class="error-message" id="fillingDateError">Поле даты заполнения обязательно для заполнения</div>
+                </div>
+                <div class="form-group">
+                    <label for="suspectedDrug" class="required">Подозреваемый препарат</label>
+                    <input type="text" id="suspectedDrug" placeholder="Название препарата" required>
+                    <div class="error-message" id="drugError">Поле препарата обязательно для заполнения</div>
+                </div>
+                <div class="form-group">
+                    <label for="adverseReaction" class="required">Нежелательная реакция</label>
+                    <input type="text" id="adverseReaction" placeholder="Описание реакции" required>
+                    <div class="error-message" id="reactionError">Поле реакции обязательно для заполнения</div>
+                </div>
+            </div>
         </section>
         
         <section class="assessment-section">
@@ -597,7 +615,7 @@
             </div>
             
             <div class="question-block" id="question5">
-                <div class="question-text">5. Есть ли другие причины (кроме лекарства), которые могли вызвать реакцию?</div>
+                <div class="question-text">5. Существуют ли альтернативные причины (другие лекарства или химические вещества, основные заболевания), которые могли бы сами по себе вызвать реакцию?</div>
                 <div class="options">
                     <div class="option">
                         <input type="radio" name="q5" value="1" data-score="-1">
@@ -734,9 +752,6 @@
             <p id="recommendationText"></p>
             
             <div class="actions">
-                <button class="btn btn-success" id="saveResultsBtn">
-                    <span class="btn-icon">💾</span> Сохранить результаты
-                </button>
                 <button class="btn btn-success" id="downloadResultsBtn">
                     <span class="btn-icon">🖨️</span> Печать отчета
                 </button>
@@ -808,6 +823,37 @@
                 return isValid;
             }
             
+            // Функция проверки дат
+            function validateDates() {
+                const birthDate = document.getElementById('patientBirthDate').value;
+                const fillingDate = document.getElementById('fillingDate').value;
+                const today = new Date().toISOString().split('T')[0];
+                
+                if (birthDate > today) {
+                    alert('Дата рождения не может быть в будущем');
+                    return false;
+                }
+                
+                if (fillingDate > today) {
+                    alert('Дата заполнения не может быть в будущем');
+                    return false;
+                }
+                
+                // Проверка возраста
+                if (birthDate) {
+                    const birth = new Date(birthDate);
+                    const todayObj = new Date();
+                    const age = todayObj.getFullYear() - birth.getFullYear();
+                    
+                    if (age < 0 || age > 120) {
+                        alert('Пожалуйста, проверьте корректность даты рождения');
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+            
             // Функция проверки ответов на вопросы
             function validateQuestions() {
                 let allQuestionsAnswered = true;
@@ -871,6 +917,10 @@
                     return;
                 }
                 
+                if (!validateDates()) {
+                    return;
+                }
+                
                 if (!validateQuestions()) {
                     alert('Пожалуйста, ответьте на все вопросы шкалы Наранжо.');
                     return;
@@ -884,11 +934,6 @@
                 downloadToExcel();
             });
             
-            // Кнопка сохранения результатов (в разделе результатов)
-            document.getElementById('saveResultsBtn').addEventListener('click', function() {
-                saveResults();
-            });
-            
             // Кнопка печати отчета (в разделе результатов)
             document.getElementById('downloadResultsBtn').addEventListener('click', function() {
                 downloadToExcel();
@@ -896,6 +941,12 @@
             
             // Функция расчета баллов
             function calculateScore() {
+                const totalScore = calculateTotalScore();
+                displayResults(totalScore);
+            }
+            
+            // Вынесенная функция расчета общего балла
+            function calculateTotalScore() {
                 let totalScore = 0;
                 const questions = document.querySelectorAll('.question-block');
                 
@@ -906,7 +957,7 @@
                     }
                 });
                 
-                displayResults(totalScore);
+                return totalScore;
             }
             
             // Функция отображения результатов
@@ -923,28 +974,32 @@
                 scoreDisplay.textContent = `Сумма баллов: ${score}`;
                 
                 // Определяем категорию и устанавливаем соответствующий стиль
-                let category, interpretation, recommendation;
+                let category, interpretation, recommendation, scoreClass;
                 
                 if (score >= 9) {
                     category = 'definite';
+                    scoreClass = 'score-definite';
                     interpretation = 'Определенная. Реакция имеет временную связь, соответствует известному действию препарата, подтверждена позитивной реакцией на отмену и повторным появлением при возобновлении приема.';
                     recommendation = 'Рекомендуется рассмотреть вопрос о внесении препарата в список противопоказаний для данного пациента и сообщить о случае в регуляторные органы.';
                 } else if (score >= 5) {
                     category = 'probable';
-                    interpretation = 'Вероятная. Реакция имеет временную связь и соответствует известному действию препарата, подтверждена позитивной реакцией на отмену, но не подтверждена повторным введением.';
+                    scoreClass = 'score-probable';
+                    interpretation = 'Вероятная. Реакция имеет временную связь и соответствует известному действию препарата, подтверждена позитивной реакцией на отмену. Подтверждена повторным введением препарата.';
                     recommendation = 'Следует рассмотреть возможность замены препарата на альтернативный и продолжить наблюдение за пациентом.';
                 } else if (score >= 1) {
                     category = 'possible';
+                    scoreClass = 'score-possible';
                     interpretation = 'Возможная. Реакция имеет временную связь, но может быть объяснена другими причинами (болезнью, другими препаратами).';
                     recommendation = 'Необходимо продолжить наблюдение и сбор дополнительной информации для уточнения причинно-следственной связи.';
                 } else {
                     category = 'doubtful';
+                    scoreClass = 'score-doubtful';
                     interpretation = 'Сомнительная. Реакция, скорее всего, связана с иными факторами, а не с препаратом.';
                     recommendation = 'Следует продолжить диагностический поиск других возможных причин возникшей реакции.';
                 }
                 
                 // Устанавливаем класс для стилизации
-                scoreDisplay.className = 'score-display ';
+                scoreDisplay.className = `score-display ${scoreClass}`;
                 
                 // Устанавливаем тексты
                 interpretationText.textContent = interpretation;
@@ -961,6 +1016,9 @@
                 document.getElementById('patientBirthDate').value = '';
                 document.getElementById('suspectedDrug').value = '';
                 document.getElementById('adverseReaction').value = '';
+                
+                // Устанавливаем текущую дату
+                document.getElementById('fillingDate').value = today;
                 
                 // Сбрасываем радиокнопки
                 const radioButtons = document.querySelectorAll('input[type="radio"]');
@@ -995,17 +1053,16 @@
                 alert('Все данные сброшены. Форма готова к заполнению заново.');
             }
             
-            // Функция сохранения результатов
-            function saveResults() {
-                alert('Результаты сохранены в базе данных.');
-                // В реальном приложении здесь был бы код для отправки данных на сервер
-            }
-            
             // Функция создания и печати отчета
             function downloadToExcel() {
                 // Проверяем, заполнены ли обязательные поля
                 if (!validateAllFields()) {
                     alert('Пожалуйста, заполните все обязательные поля перед созданием отчета.');
+                    return;
+                }
+                
+                // Проверяем даты
+                if (!validateDates()) {
                     return;
                 }
                 
@@ -1031,7 +1088,7 @@
                 
                 // Собираем ответы на вопросы
                 const answers = [];
-                let totalScore = 0;
+                const totalScore = calculateTotalScore();
                 
                 for (let i = 1; i <= 10; i++) {
                     const question = document.getElementById(`question${i}`);
@@ -1045,7 +1102,6 @@
                             if (label.previousElementSibling.checked) {
                                 answerText = label.textContent.trim();
                                 score = parseInt(selectedOption.getAttribute('data-score'));
-                                totalScore += score;
                             }
                         });
                     }
@@ -1057,16 +1113,16 @@
                     });
                 }
                 
-                // Определяем категорию
+                // Определяем категорию (ТОЛЬКО НА РУССКОМ)
                 let category;
                 if (totalScore >= 9) {
-                    category = 'Определенная (Definite)';
+                    category = 'Определенная';
                 } else if (totalScore >= 5) {
-                    category = 'Вероятная (Probable)';
+                    category = 'Вероятная';
                 } else if (totalScore >= 1) {
-                    category = 'Возможная (Possible)';
+                    category = 'Возможная';
                 } else {
-                    category = 'Сомнительная (Doubtful)';
+                    category = 'Сомнительная';
                 }
                 
                 // Создаем компактный отчет
@@ -1097,8 +1153,8 @@
                         
                         <div class="patient">
                             <strong>Пациент:</strong> ${patientData.fio}<br>
-                            <strong>Дата рожд.:</strong> ${patientData.birthDate} | 
-                            <strong>Заполнено:</strong> ${patientData.fillingDate}<br>
+                            <strong>Дата рожд.:</strong> ${new Date(patientData.birthDate).toLocaleDateString('ru-RU')} | 
+                            <strong>Заполнено:</strong> ${new Date(patientData.fillingDate).toLocaleDateString('ru-RU')}<br>
                             <strong>Препарат:</strong> ${patientData.suspectedDrug}<br>
                             <strong>Реакция:</strong> ${patientData.adverseReaction}
                         </div>
