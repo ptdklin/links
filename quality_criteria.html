@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Критерии оценки качества специализированной медицинской помощи при туберкулезе</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.3;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 8px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 1.6rem;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .clear-btn-top {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 5px 10px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .clear-btn-top:hover {
+            background: #c0392b;
+        }
+        
+        .content {
+            padding: 12px 15px;
+        }
+        
+        .status {
+            margin: 8px 0;
+            padding: 8px;
+            text-align: center;
+            font-weight: 600;
+            background: #e8f4fd;
+            border-radius: 4px;
+            border: 1px solid #3498db;
+            color: #2c3e50;
+            font-size: 0.85rem;
+        }
+        
+        .progress {
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            height: 5px;
+            background: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 4px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #27ae60 0%, #219955 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.85rem;
+        }
+        
+        h2 {
+            font-size: 1.2rem;
+            margin: 15px 0 8px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 3px solid #3498db;
+            border-radius: 4px;
+            color: #2c3e50;
+        }
+        
+        .section {
+            margin-bottom: 10px;
+        }
+        
+        .question-block {
+            margin-bottom: 4px;
+            padding: 8px 10px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            border-left: 2px solid transparent;
+        }
+        
+        .question-block.checked {
+            background-color: #f0f9f0;
+            border-left-color: #27ae60;
+        }
+        
+        .question-block:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 4px;
+        }
+        
+        input[type="checkbox"] {
+            margin-right: 8px;
+            margin-top: 2px;
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+        
+        .question-label {
+            flex: 1;
+            font-size: 1.05rem;
+            cursor: pointer;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+        
+        .comment-area {
+            width: 100%;
+            padding: 5px 6px;
+            border: 1px solid #e0e0e0;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 35px;
+            transition: all 0.2s ease;
+        }
+        
+        .comment-area:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.1);
+        }
+        
+        .comment-label {
+            display: block;
+            margin: 4px 0 2px;
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .bottom-controls {
+            text-align: center;
+            margin-top: 15px;
+            padding: 12px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .save-excel-btn {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #27ae60 0%, #219955 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .save-excel-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(39, 174, 96, 0.3);
+        }
+
+        .checklist-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+        
+        .checklist-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .checklist-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(52, 152, 219, 0.3);
+        }
+        
+        .checklist-btn.active {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                border-radius: 6px;
+            }
+            
+            header {
+                padding: 12px;
+            }
+            
+            h1 {
+                font-size: 1.4rem;
+            }
+            
+            .clear-btn-top {
+                position: static;
+                margin-top: 6px;
+                width: 100%;
+            }
+            
+            .content {
+                padding: 10px;
+            }
+            
+            .question-block {
+                padding: 6px 8px;
+            }
+            
+            h2 {
+                font-size: 1.1rem;
+                padding: 6px 10px;
+                margin: 12px 0 6px;
+            }
+            
+            .question-label {
+                font-size: 1rem;
+            }
+            
+            .save-excel-btn {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .checklist-selector {
+                flex-direction: column;
+            }
+
+            .bottom-controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Критерии оценки качества специализированной медицинской помощи при туберкулезе</h1>
+            <p class="subtitle">На основании Приказа Минздрава России от 14.04.2025 N 203н</p>
+            <button type="button" class="clear-btn-top" id="clearBtn">Очистить форму</button>
+        </header>
+
+        <div class="content">
+            <div class="checklist-selector">
+                <button type="button" class="checklist-btn active" id="adultsBtn">Для взрослых (раздел 1.11)</button>
+                <button type="button" class="checklist-btn" id="childrenBtn">Для детей (раздел 1.13)</button>
+            </div>
+
+            <div class="status" id="statusMessage">Готов к работе • Автосохранение каждые 10 секунд</div>
+            
+            <div class="progress">
+                <div class="progress-text">Прогресс проверки: <span id="progressPercent">0%</span></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div>Проверено: <span id="completedCount">0</span> из <span id="totalCount">0</span> пунктов</div>
+            </div>
+
+            <!-- Чек-лист для взрослых -->
+            <form id="checklistFormAdults">
+                <div class="section">
+                    <h2>1.11. Критерии оценки качества специализированной медицинской помощи взрослым при туберкулезе (коды по МКБ-10: А15 - А19)</h2>
+                    
+                    <div class="question-block" data-id="1.11.1">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.11.1" name="1.11.1">
+                            <label for="1.11.1" class="question-label">
+                                <strong>1.</strong> Выполнена рентгенография грудной клетки прицельная или томография легких аналоговая, или томография легких цифровая - томосинтез, или спиральная компьютерная томография легких
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.11.1" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.11.2">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.11.2" name="1.11.2">
+                            <label for="1.11.2" class="question-label">
+                                <strong>2.</strong> Выполнено микроскопическое исследование мокроты на микобактерии (Mycobacterium spp.) или микроскопическое исследование бронхоальвеолярной лаважной жидкости на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование плевральной жидкости на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование мочи на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование гнойного отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование раневого отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование синовиальной жидкости на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование отделяемого женских половых органов на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование спинномозговой жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование отделяемого конъюнктивы на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование биоптата бронхолегочной ткани на микобактерии туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование желчи на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование пунктата пролежня кожи на микобактерий туберкулеза (Mycobacterium tuberculosis) (при установлении диагноза в зависимости от предполагаемой локализации)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.11.2" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.11.3">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.11.3" name="1.11.3">
+                            <label for="1.11.3" class="question-label">
+                                <strong>3.</strong> Выполнено микробиологическое (культуральное) исследование мокроты на микобактерии туберкулеза (Mycobacterium tuberculosis complex) или микробиологическое (культуральное) исследование отделяемого женских половых органов на микобактерий туберкулеза (Mycobacterium tuberculosis), или микробиологическое (культуральное) исследование плевральной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование пунктата пролежня кожи на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование спинномозговой жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) отделяемого конъюнктивы на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование бронхоальвеолярной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование бронхолегочной ткани на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование синовиальной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование гнойного отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование раневого отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование синовиальной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование костной ткани на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование крови на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) выявление микобактерии туберкулеза (Mycobacterium tuberculosis complex) в секрете простаты, или микробиологическое (культуральное) выявление микобактерии туберкулеза (Mycobacterium tuberculosis complex) в эякуляте (в зависимости от предполагаемой локализации)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.11.3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.11.4">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.11.4" name="1.11.4">
+                            <label for="1.11.4" class="question-label">
+                                <strong>4.</strong> Выполнено микробиологическое (культуральное) исследование для определения чувствительности (Mycobacterium tuberculosis complex) к противотуберкулезным лекарственным препаратам первого ряда на жидких питательных средах или микробиологическое (культуральное) исследование для определения чувствительности (Mycobacterium tuberculosis complex) к противотуберкулезным лекарственным препаратам второго ряда на жидких питательных средах, или микробиологическое (культуральное) исследование для определения чувствительности (Mycobacterium tuberculosis complex) к одному лекарственному препарату включая резервные на жидких питательных средах, или микробиологическое (культуральное) исследование для определения чувствительности (Mycobacterium tuberculosis complex) к противотуберкулезным лекарственным препаратам первого ряда на плотных питательных средах, или микробиологическое (культуральное) исследование для определения чувствительности (Mycobacterium tuberculosis complex) к противотуберкулезным лекарственным препаратам второго ряда на плотных питательных средах (при установлении диагноза в зависимости от предполагаемой локализации)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.11.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.11.5">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.11.5" name="1.11.5">
+                            <label for="1.11.5" class="question-label">
+                                <strong>5.</strong> Выполнено молекулярно-биологическое исследование плевральной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex) или молекулярно-биологическое исследование мокроты, бронхоальвеолярной лаважной жидкости или промывных вод бронхов на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или определение ДНК микобактерии туберкулеза (Mycobacterium tuberculosis complex) в моче (в том числе после массажа простаты), или молекулярно-биологическое исследование кала на микобактерии туберкулеза (Mycobacterium tuberculosis), или молекулярно-биологическое исследование синовиальной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование на микобактерии туберкулеза (Mycobacterium tuberculosis complex) в крови, или молекулярно-биологическое исследование препарата нативной подкожной жировой клетчатки или парафинового блока на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование нативного препарата костной ткани или парафинового блока на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование нативного препарата верхних дыхательных путей или парафинового блока на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование нативного препарата тканей трахеи и бронхов или парафинового блока на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование перикардиальной жидкости на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование нативного препарата тканей средостения или внутригрудных лимфоузлов или парафинового блока на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или исследование гнойного отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis) методом полимеразной цепной реакции, или молекулярно-биологическое исследование раневого отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis) методом полимеразной цепной реакции, или молекулярно-биологическое исследование отделяемого женских половых органов на микобактерий туберкулеза (Mycobacterium tuberculosis) методом полимеразной цепной реакции, или молекулярно-биологическое исследование отделяемого конъюнктивы на микобактерий туберкулеза (Mycobacterium tuberculosis) методом полимеразной цепной реакции, или молекулярно-биологическое исследование нативного препарата тканей лимфоузла или парафинового блока на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование для подтверждения принадлежности культуры микобактерий к Mycobacterium tuberculosis complex или нетуберкулезным микобактериям (при установлении диагноза в зависимости от предполагаемой локализации)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.11.5" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.11.6">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.11.6" name="1.11.6">
+                            <label for="1.11.6" class="question-label">
+                                <strong>6.</strong> Выполнено определение мутаций ассоциированных с лекарственной устойчивостью в ДНК микобактерий туберкулеза (Mycobacterium tuberculosis complex) методом полимеразной цепной реакции в режиме реального времени к лекарственным препаратам первого ряда или определение мутаций ассоциированных с лекарственной устойчивостью в ДНК микобактерий туберкулеза (Mycobacterium tuberculosis complex) методом полимеразной цепной реакции с дальнейшей гибридизацией к лекарственным препаратам первого ряда, или определение мутаций ассоциированных с лекарственной устойчивостью в ДНК микобактерий туберкулеза (Mycobacterium tuberculosis complex) методом полимеразной цепной реакции в режиме реального времени к лекарственным препаратам второго ряда, или определение мутаций ассоциированных с лекарственной устойчивостью в ДНК микобактерий туберкулеза (Mycobacterium tuberculosis complex) методом полимеразной цепной реакции с дальнейшей гибридизацией к лекарственным препаратам второго ряда (при установлении диагноза в зависимости от предполагаемой локализации)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.11.6" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.11.7">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.11.7" name="1.11.7">
+                            <label for="1.11.7" class="question-label">
+                                <strong>7.</strong> Выполнено лечение противотуберкулезными лекарственными препаратами, в том числе изониазидом и рифампицином, при лекарственной чувствительности Mycobacterium tuberculosis, в том числе клинически установленной или выполнено лечение противотуберкулезными лекарственными препаратами, в том числе рифампицином и одним из лекарственных препаратов группы фторхинолонов, при лекарственной устойчивости Mycobacterium tuberculosis к изониазиду и чувствительности к рифампицину, подтвержденной бактериологическими или молекулярно-генетическими методами, или выполнено лечение противотуберкулезными лекарственными препаратами, в том числе бедаквилином, линезолидом, при множественной и пре-широкой лекарственной устойчивости Mycobacterium tuberculosis, в том числе клинически установленной, или выполнено лечение противотуберкулезными лекарственными препаратами, в том числе бедаквилином или линезолидом, при широкой лекарственной устойчивости Mycobacterium tuberculosis
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.11.7" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.11.8">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.11.8" name="1.11.8">
+                            <label for="1.11.8" class="question-label">
+                                <strong>8.</strong> Выполнено патогенетическое лечение с использованием одного или нескольких лекарственных препаратов
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.11.8" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.11.9">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.11.9" name="1.11.9">
+                            <label for="1.11.9" class="question-label">
+                                <strong>9.</strong> Выполнено симптоматическое лечение для коррекции побочных реакций и (или) купирования симптомов заболевания
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.11.9" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.11.10">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.11.10" name="1.11.10">
+                            <label for="1.11.10" class="question-label">
+                                <strong>10.</strong> Выполнен прием (консультация) врача-торакального хирурга для решения вопроса о своевременном хирургическом лечении
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.11.10" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Чек-лист для детей -->
+            <form id="checklistFormChildren" style="display: none;">
+                <div class="section">
+                    <h2>1.13. Критерии оценки качества специализированной медицинской помощи детям при туберкулезе (коды по МКБ-10: А15 - А19)</h2>
+                    
+                    <div class="question-block" data-id="1.13.1">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.13.1" name="1.13.1">
+                            <label for="1.13.1" class="question-label">
+                                <strong>1.</strong> Выполнена спиральная компьютерная томография легких или компьютерная томография грудной клетки (при положительных результатах пробы с аллергеном туберкулезным рекомбинантным или исследования интерферона-гамма на антигены микобактерий туберкулеза (внутрикожная проба или исследование крови)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.13.1" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.13.2">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.13.2" name="1.13.2">
+                            <label for="1.13.2" class="question-label">
+                                <strong>2.</strong> Выполнено микроскопическое исследование мокроты на микобактерии (Mycobacterium spp.) или микроскопическое исследование бронхоальвеолярной лаважной жидкости на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование плевральной жидкости на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование мочи на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование гнойного отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование раневого отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование синовиальной жидкости на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование отделяемого женских половых органов на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование спинномозговой жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование отделяемого конъюнктивы на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование биоптата бронхолегочной ткани на микобактерии туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование желчи на микобактерий туберкулеза (Mycobacterium tuberculosis), или микроскопическое исследование пунктата пролежня кожи на микобактерий туберкулеза (Mycobacterium tuberculosis) (при установлении диагноза в зависимости от предполагаемой локализации)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.13.2" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.13.3">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.13.3" name="1.13.3">
+                            <label for="1.13.3" class="question-label">
+                                <strong>3.</strong> Выполнено молекулярно-биологическое исследование плевральной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex) или молекулярно-биологическое исследование мокроты, бронхоальвеолярной лаважной жидкости или промывных вод бронхов на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или определение ДНК микобактерии туберкулеза (Mycobacterium tuberculosis complex) в моче (в том числе после массажа простаты), или молекулярно-биологическое исследование кала на микобактерии туберкулеза (Mycobacterium tuberculosis), или молекулярно-биологическое исследование синовиальной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование на микобактерии туберкулеза (Mycobacterium tuberculosis complex) в крови, или молекулярно-биологическое исследование препарата нативной подкожной жировой клетчатки или парафинового блока на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование нативного препарата костной ткани или парафинового блока на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование нативного препарата верхних дыхательных путей или парафинового блока на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование нативного препарата тканей трахеи и бронхов или парафинового блока на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование перикардиальной жидкости на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование нативного препарата тканей средостения или внутригрудных лимфоузлов или парафинового блока на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или исследование гнойного отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis) методом полимеразной цепной реакции или молекулярно-биологическое исследование раневого отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis) методом полимеразной цепной реакции, или молекулярно-биологическое исследование отделяемого женских половых органов на микобактерий туберкулеза (Mycobacterium tuberculosis) методом полимеразной цепной реакции, или молекулярно-биологическое исследование отделяемого конъюнктивы на микобактерий туберкулеза (Mycobacterium tuberculosis) методом полимеразной цепной реакции, или молекулярно-биологическое исследование нативного препарата тканей лимфоузла или парафинового блока на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или молекулярно-биологическое исследование для подтверждения принадлежности культуры микобактерий к Mycobacterium tuberculosis complex или нетуберкулезным микобактериям (при установлении диагноза в зависимости от предполагаемой локализации)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.13.3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.13.4">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.13.4" name="1.13.4">
+                            <label for="1.13.4" class="question-label">
+                                <strong>4.</strong> Выполнено определение мутаций ассоциированных с лекарственной устойчивостью в ДНК микобактерий туберкулеза (Mycobacterium tuberculosis complex) методом полимеразной цепной реакции в режиме реального времени к лекарственным препаратам первого ряда или определение мутаций ассоциированных с лекарственной устойчивостью в ДНК микобактерий туберкулеза (Mycobacterium tuberculosis complex) методом полимеразной цепной реакции с дальнейшей гибридизацией к лекарственным препаратам первого ряда, или определение мутаций ассоциированных с лекарственной устойчивостью в ДНК микобактерий туберкулеза (Mycobacterium tuberculosis complex) методом полимеразной цепной реакции в режиме реального времени к лекарственным препаратам второго ряда, или определение мутаций ассоциированных с лекарственной устойчивостью в ДНК микобактерий туберкулеза (Mycobacterium tuberculosis complex) методом полимеразной цепной реакции с дальнейшей гибридизацией к лекарственным препаратам второго ряда (при установлении диагноза в зависимости от предполагаемой локализации)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.13.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.13.5">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.13.5" name="1.13.5">
+                            <label for="1.13.5" class="question-label">
+                                <strong>5.</strong> Выполнено микробиологическое (культуральное) исследование мокроты на микобактерии туберкулеза (Mycobacterium tuberculosis complex) или микробиологическое (культуральное) исследование отделяемого женских половых органов на микобактерий туберкулеза (Mycobacterium tuberculosis), или микробиологическое (культуральное) исследование плевральной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование пунктата пролежня кожи на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование спинномозговой жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) отделяемого конъюнктивы на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование бронхоальвеолярной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование бронхолегочной ткани на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование синовиальной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование гнойного отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование раневого отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование синовиальной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование костной ткани на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование крови на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) выявление микобактерии туберкулеза (Mycobacterium tuberculosis complex) в секрете простаты, или микробиологическое (культуральное) выявление микобактерии туберкулеза (Mycobacterium tuberculosis complex) в эякуляте (в зависимости от предполагаемой локализации)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.13.5" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.13.6">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.13.6" name="1.13.6">
+                            <label for="1.13.6" class="question-label">
+                                <strong>6.</strong> Выполнено микробиологическое (культуральное) исследование для определения чувствительности (Mycobacterium tuberculosis complex) к противотуберкулезным лекарственным препаратам первого ряда на жидких питательных средах или микробиологическое (культуральное) исследование для определения чувствительности (Mycobacterium tuberculosis complex) к противотуберкулезным лекарственным препаратам второго ряда на жидких питательных средах, или микробиологическое (культуральное) исследование для определения чувствительности (Mycobacterium tuberculosis complex) к одному лекарственному препарату включая резервные на жидких питательных средах, или микробиологическое (культуральное) исследование для определения чувствительности (Mycobacterium tuberculosis complex) к противотуберкулезным лекарственным препаратам первого ряда на плотных питательных средах, или микробиологическое (культуральное) исследование для определения чувствительности (Mycobacterium tuberculosis complex) к противотуберкулезным лекарственным препаратам второго ряда на плотных питательных средах (при установлении диагноза в зависимости от предполагаемой локализации)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.13.6" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.13.7">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.13.7" name="1.13.7">
+                            <label for="1.13.7" class="question-label">
+                                <strong>7.</strong> Выполнено лечение противотуберкулезными лекарственными препаратами, в том числе изониазидом и рифампицином, при лекарственной чувствительности Mycobacterium tuberculosis, в том числе клинически установленной или назначено лечение противотуберкулезными лекарственными препаратами, в том числе рифампицином и одним из лекарственных препаратов группы фторхинолонов, при лекарственной устойчивости Mycobacterium tuberculosis к изониазиду и чувствительности к рифампицину, подтвержденной бактериологическими или молекулярно-генетическими методами, или назначено лечение противотуберкулезными лекарственными препаратами, в том числе бедаквилином, линезолидом, при множественной и пре-широкой лекарственной устойчивости Mycobacterium tuberculosis, в том числе клинически установленной, или назначено лечение противотуберкулезными лекарственными препаратами, в том числе бедаквилином или линезолидом, при широкой лекарственной устойчивости Mycobacterium tuberculosis
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.13.7" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.13.8">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.13.8" name="1.13.8">
+                            <label for="1.13.8" class="question-label">
+                                <strong>8.</strong> Выполнены электрокардиография, расшифровка, описание и интерпретация электрокардиографических данных не реже 1 раза в 1 месяц (при лечении моксифлоксацином и (или) бедаквилином и (или) деламанидом)
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.13.8" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                </div>
+            </form>
+
+            <div class="bottom-controls">
+                <button type="button" class="save-excel-btn" id="saveExcelBtn">Сохранить в Excel</button>
+                <button type="button" class="clear-btn-top" id="clearCurrentBtn">Очистить текущий раздел</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const adultsForm = document.getElementById('checklistFormAdults');
+            const childrenForm = document.getElementById('checklistFormChildren');
+            const adultsBtn = document.getElementById('adultsBtn');
+            const childrenBtn = document.getElementById('childrenBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            const clearBtn = document.getElementById('clearBtn');
+            const clearCurrentBtn = document.getElementById('clearCurrentBtn');
+            const saveExcelBtn = document.getElementById('saveExcelBtn');
+            const progressFill = document.getElementById('progressFill');
+            const progressPercent = document.getElementById('progressPercent');
+            const completedCount = document.getElementById('completedCount');
+            const totalCount = document.getElementById('totalCount');
+            
+            let currentForm = adultsForm;
+            let currentFormName = "взрослым";
+            let autoSaveInterval;
+            
+            // Инициализация переключения между формами
+            function initFormSwitcher() {
+                adultsBtn.addEventListener('click', function() {
+                    adultsForm.style.display = 'block';
+                    childrenForm.style.display = 'none';
+                    adultsBtn.classList.add('active');
+                    childrenBtn.classList.remove('active');
+                    currentForm = adultsForm;
+                    currentFormName = "взрослым";
+                    updateProgress();
+                    showStatus('Переключено на раздел для взрослых', 'success');
+                });
+                
+                childrenBtn.addEventListener('click', function() {
+                    adultsForm.style.display = 'none';
+                    childrenForm.style.display = 'block';
+                    childrenBtn.classList.add('active');
+                    adultsBtn.classList.remove('active');
+                    currentForm = childrenForm;
+                    currentFormName = "детям";
+                    updateProgress();
+                    showStatus('Переключено на раздел для детей', 'success');
+                });
+            }
+            
+            function initCounters() {
+                updateProgress();
+            }
+            
+            function updateProgress() {
+                const checkboxes = currentForm.querySelectorAll('input[type="checkbox"]');
+                const checked = currentForm.querySelectorAll('input[type="checkbox"]:checked');
+                const percent = checkboxes.length > 0 ? Math.round((checked.length / checkboxes.length) * 100) : 0;
+                
+                progressFill.style.width = percent + '%';
+                progressPercent.textContent = percent + '%';
+                completedCount.textContent = checked.length;
+                totalCount.textContent = checkboxes.length;
+                
+                checkboxes.forEach(checkbox => {
+                    const block = checkbox.closest('.question-block');
+                    if (checkbox.checked) {
+                        block.classList.add('checked');
+                    } else {
+                        block.classList.remove('checked');
+                    }
+                });
+            }
+            
+            function setupCommentAutoCheck() {
+                const commentAreas = document.querySelectorAll('.comment-area');
+                commentAreas.forEach(area => {
+                    area.addEventListener('input', function() {
+                        if (this.value.trim() !== '') {
+                            const questionId = this.id.replace('comment_', '');
+                            const checkbox = document.getElementById(questionId);
+                            if (checkbox && !checkbox.checked) {
+                                checkbox.checked = true;
+                                updateProgress();
+                                saveData();
+                            }
+                        }
+                    });
+                });
+            }
+            
+            function loadSavedData() {
+                const savedData = localStorage.getItem('checklistData');
+                const savedComments = localStorage.getItem('checklistComments');
+                
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    for (const key in data) {
+                        const checkbox = document.getElementById(key);
+                        if (checkbox) {
+                            checkbox.checked = data[key];
+                        }
+                    }
+                }
+                
+                if (savedComments) {
+                    const comments = JSON.parse(savedComments);
+                    for (const key in comments) {
+                        const commentArea = document.getElementById('comment_' + key);
+                        if (commentArea) {
+                            commentArea.value = comments[key];
+                        }
+                    }
+                }
+                
+                updateProgress();
+                showStatus('Данные загружены', 'success');
+            }
+            
+            function saveData() {
+                const data = {};
+                const comments = {};
+                
+                const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+                allCheckboxes.forEach(checkbox => {
+                    data[checkbox.id] = checkbox.checked;
+                    
+                    const commentArea = document.getElementById('comment_' + checkbox.id);
+                    if (commentArea) {
+                        comments[checkbox.id] = commentArea.value;
+                    }
+                });
+                
+                localStorage.setItem('checklistData', JSON.stringify(data));
+                localStorage.setItem('checklistComments', JSON.stringify(comments));
+            }
+            
+            function startAutoSave() {
+                autoSaveInterval = setInterval(saveData, 10000);
+            }
+            
+            function showStatus(message, type = 'info') {
+                statusMessage.textContent = message;
+                statusMessage.style.background = type === 'success' ? '#e8f5e8' : 
+                                               type === 'error' ? '#fde8e8' : '#e8f4fd';
+                statusMessage.style.borderColor = type === 'success' ? '#27ae60' : 
+                                                type === 'error' ? '#e74c3c' : '#3498db';
+                
+                setTimeout(() => {
+                    statusMessage.textContent = 'Готов к работе • Автосохранение каждые 10 секунд';
+                    statusMessage.style.background = '#e8f4fd';
+                    statusMessage.style.borderColor = '#3498db';
+                }, 3000);
+            }
+            
+            function clearCurrentForm() {
+                if (confirm('Вы уверены, что хотите очистить текущий раздел?')) {
+                    const checkboxes = currentForm.querySelectorAll('input[type="checkbox"]');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    
+                    const commentAreas = currentForm.querySelectorAll('.comment-area');
+                    commentAreas.forEach(area => {
+                        area.value = '';
+                    });
+                    
+                    saveData();
+                    updateProgress();
+                    showStatus('Текущий раздел очищен', 'success');
+                }
+            }
+            
+            function clearAllForms() {
+                if (confirm('Вы уверены, что хотите очистить ВСЕ разделы?')) {
+                    const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+                    allCheckboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    
+                    const allCommentAreas = document.querySelectorAll('.comment-area');
+                    allCommentAreas.forEach(area => {
+                        area.value = '';
+                    });
+                    
+                    localStorage.removeItem('checklistData');
+                    localStorage.removeItem('checklistComments');
+                    updateProgress();
+                    showStatus('Все разделы очищены', 'success');
+                }
+            }
+            
+            function saveToExcel() {
+                try {
+                    const data = [];
+                    
+                    data.push(['Критерии оценки качества специализированной медицинской помощи при туберкулезе']);
+                    data.push(['На основании Приказа Минздрава России от 14.04.2025 N 203н']);
+                    data.push(['Дата проверки:', new Date().toLocaleDateString('ru-RU')]);
+                    data.push(['Проверка выполнена для:', currentFormName === "взрослым" ? "взрослых (раздел 1.11)" : "детей (раздел 1.13)"]);
+                    data.push(['']);
+                    
+                    // Заголовки таблицы
+                    data.push(['№', 'Критерий', 'Статус проверки', 'Комментарий']);
+                    
+                    // Только активный раздел
+                    const questions = currentForm.querySelectorAll('.question-block');
+                    questions.forEach(question => {
+                        const checkbox = question.querySelector('input[type="checkbox"]');
+                        const label = question.querySelector('.question-label');
+                        const commentArea = question.querySelector('.comment-area');
+                        
+                        const status = checkbox.checked ? 'ПРОВЕРЕНО' : 'НЕ ПРОВЕРЕНО';
+                        const comment = commentArea ? commentArea.value : '';
+                        const number = checkbox.id.split('.')[2]; // Получаем номер пункта
+                        
+                        data.push([number, label.textContent.trim(), status, comment]);
+                    });
+                    
+                    const ws = XLSX.utils.aoa_to_sheet(data);
+                    const wb = XLSX.utils.book_new();
+                    
+                    // Настройки ширины колонок как в оригинальном HTML
+                    const colWidths = [
+                        { wch: 5 },    // №
+                        { wch: 80 },   // Критерий
+                        { wch: 15 },   // Статус
+                        { wch: 40 }    // Комментарий
+                    ];
+                    ws['!cols'] = colWidths;
+                    
+                    // Настройки форматирования ячеек
+                    const range = XLSX.utils.decode_range(ws['!ref']);
+                    for (let R = range.s.r; R <= range.e.r; ++R) {
+                        for (let C = range.s.c; C <= range.e.c; ++C) {
+                            const cell_address = {c: C, r: R};
+                            const cell_ref = XLSX.utils.encode_cell(cell_address);
+                            
+                            if (ws[cell_ref]) {
+                                if (!ws[cell_ref].s) ws[cell_ref].s = {};
+                                ws[cell_ref].s.alignment = {
+                                    horizontal: 'left',
+                                    vertical: 'top',
+                                    wrapText: true
+                                };
+                            }
+                        }
+                    }
+                    
+                    XLSX.utils.book_append_sheet(wb, ws, "Критерии помощи");
+                    
+                    // Генерация имени файла
+                    const fileName = `критерии_помощи_${currentFormName}_${new Date().toISOString().split('T')[0]}.xlsx`;
+                    XLSX.writeFile(wb, fileName);
+                    showStatus('Файл Excel успешно сохранен!', 'success');
+                    
+                } catch (error) {
+                    console.error('Ошибка при сохранении в Excel:', error);
+                    showStatus('Ошибка при сохранении файла', 'error');
+                }
+            }
+            
+            function init() {
+                initFormSwitcher();
+                initCounters();
+                setupCommentAutoCheck();
+                loadSavedData();
+                startAutoSave();
+                
+                // Обработчики событий
+                clearBtn.addEventListener('click', clearAllForms);
+                clearCurrentBtn.addEventListener('click', clearCurrentForm);
+                saveExcelBtn.addEventListener('click', saveToExcel);
+                
+                // Обработчики изменений в формах
+                adultsForm.addEventListener('change', function() {
+                    updateProgress();
+                    saveData();
+                });
+                
+                childrenForm.addEventListener('change', function() {
+                    updateProgress();
+                    saveData();
+                });
+            }
+            
+            init();
+        });
+    </script>
+</body>
+</html>
