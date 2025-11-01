@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Алгоритмы обследования пациента при лечении туберкулёза</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1d1d1f;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .app-header {
+            background: #ffffff;
+            padding: 40px 60px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .document-meta {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        
+        .document-meta h1 {
+            font-size: 14px;
+            color: #86868b;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .document-meta h2 {
+            font-size: 12px;
+            color: #86868b;
+            font-weight: 400;
+        }
+        
+        .main-title {
+            text-align: center;
+            font-size: 32px;
+            color: #1d1d1f;
+            margin-bottom: 40px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: -1px;
+        }
+        
+        .tab {
+            padding: 16px 32px;
+            background: #f5f5f7;
+            border: 1px solid #f0f0f0;
+            border-bottom: none;
+            border-radius: 12px 12px 0 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #86868b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background: #ffffff;
+            color: #007AFF;
+            border-bottom: 1px solid #ffffff;
+        }
+        
+        .tab:hover {
+            background: #ffffff;
+            color: #007AFF;
+        }
+        
+        .content-area {
+            padding: 60px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .page-header {
+            margin-bottom: 40px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            color: #1d1d1f;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        .page-subtitle {
+            font-size: 17px;
+            color: #86868b;
+            line-height: 1.4;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 15px;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: #f8f9fa;
+            color: #1d1d1f;
+            font-weight: 600;
+            text-align: left;
+            padding: 20px;
+            border-bottom: 2px solid #e9ecef;
+            font-size: 15px;
+        }
+        
+        td {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: top;
+            background: #ffffff;
+            color: #1d1d1f;
+            transition: background-color 0.2s ease;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover td {
+            background: #f8f9fa;
+        }
+        
+        .regimen-cell {
+            font-weight: 500;
+            color: #1d1d1f;
+            background: #f8f9fa !important;
+        }
+        
+        .empty-cell {
+            background: #fafafa;
+        }
+        
+        .note {
+            font-size: 14px;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            color: #666;
+            line-height: 1.5;
+            border-left: 4px solid #007AFF;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            color: #856404;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 16px;
+            }
+            
+            .app-header {
+                padding: 20px 20px 0;
+            }
+            
+            .content-area {
+                padding: 30px 20px;
+            }
+            
+            .main-title {
+                font-size: 24px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                border-radius: 8px;
+                margin-bottom: 8px;
+                border: 1px solid #f0f0f0;
+            }
+            
+            th, td {
+                padding: 16px 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <div class="document-meta">
+                <h1>Приложение 3, 4</h1>
+                <h2>к письму ГБУЗ МО «МОКПТД» от 29.07.2025 № 04-594/25</h2>
+            </div>
+            
+            <div class="main-title">Алгоритмы обследования пациента при лечении туберкулёза</div>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('intensive')">Интенсивная фаза</div>
+                <div class="tab" onclick="switchTab('continuation')">Фаза продолжения</div>
+            </div>
+        </div>
+        
+        <div class="content-area">
+            <!-- Интенсивная фаза -->
+            <div id="intensive" class="tab-content active">
+                <div class="page-header">
+                    <div class="page-title">Интенсивная фаза лечения</div>
+                    <div class="page-subtitle">Алгоритм обследования пациента в интенсивной фазе лечения туберкулёза</div>
+                </div>
+                
+                <table>
+                    <tr>
+                        <th class="regimen-cell">Режимы лечения Обследования</th>
+                        <th>Перед назначением курса ХТ</th>
+                        <th>Режимы ЛЧ-ТБ, Н-резистентного ТБ</th>
+                        <th>Режимы МЛУ-ТБ, Пре ШЛУ-ТБ, ШЛУ- ТБ</th>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Общий анализ крови, биохимический анализ крови (общий белок, АЛТ, АСТ, креатинин, мочевина, общий билирубин, глюкоза)</td>
+                        <td>ОАК, ОАМ, Биохимический анализ крови, Исследование мокроты на МБТ методами люминесцентной микроскопия + ЖПС+ ППС+МГМ</td>
+                        <td>не реже 1 раза в месяц</td>
+                        <td>Не реже 1 раза в месяц</td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Исследование мокроги на МБТ (бактериоскопия, посев на ППС)</td>
+                        <td>1 раз до назначения Z</td>
+                        <td>Не реже 1 раза в месяц при лечении <span class="highlight">пиразинамидом (Z)</span></td>
+                        <td>Не реже 1 раза в месяц при лечении <span class="highlight">пиразинамидом (Z)</span></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Исследование мочевой кислоты</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Исследование уровня калия</td>
+                        <td>МЛУ-ТБ, пре-ШЛУ ТБ, ШЛУ -ТБ</td>
+                        <td>-</td>
+                        <td>Не реже 1 раза в месяц</td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Исследование уровня альбумина при лечении деламанидом (Dlm)</td>
+                        <td>Перед назначением Dlm</td>
+                        <td>-</td>
+                        <td>Не реже 1 раза в месяц при лечении <span class="highlight">Dlm</span></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Исследование уровня ТТГ Трр</td>
+                        <td>Перед назначением Трр</td>
+                        <td>-</td>
+                        <td>Не реже 1 раза в 2 мес при лечении <span class="highlight">Трр</span></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">ЭКГ</td>
+                        <td>Перед началом лечения с расчетом QT</td>
+                        <td>Не реже 1 раза в месяц</td>
+                        <td>Не реже 1 раза в месяц с расчетом QT</td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Компьютерная томография (рентгенографическое исследование)</td>
+                        <td>Перед началом лечения</td>
+                        <td>Не реже 1 раза в 2 месяца</td>
+                        <td>Не реже 1 раза в 2 месяца</td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Осмотр офтальмолога</td>
+                        <td>1 раз (до назначения Е и/или Lzd</td>
+                        <td>не реже 1 раза в месяц при лечении <span class="highlight">Е и/или Lzd</span></td>
+                        <td>не реже 1 раза в месяц при лечении <span class="highlight">Е и/или Lzd</span></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Осмотр оториноларинголога, аудиограмма</td>
+                        <td>1 раз (до назначения Кm, Am, Cm)</td>
+                        <td>не реже 1 раза в месяц при назначении <span class="highlight">Кm, Am, Cm)</span></td>
+                        <td>не реже 1 раза в месяц при назначении <span class="highlight">Кm, Am, Cm)</span></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Осмотр невролога</td>
+                        <td>1раз (до назначения Lzd)</td>
+                        <td>-</td>
+                        <td>По показаниям</td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">консультация торакального хирурга</td>
+                        <td>через 2 месяца от начала ХТ, через 4 месяца от начала ХТ, в конце ИФ при отсутствии положительной динамики, выявление жидкости в плевральной полости или перикарде</td>
+                        <td class="empty-cell"></td>
+                        <td class="empty-cell"></td>
+                    </tr>
+                </table>
+
+                <p class="note">-  при одновременном назначении трех и более кардиотоксичных препаратов ЭКГ выполняют 1 раз в 5 дней в течении месяца, далее 2 раза в месяц.</p>
+            </div>
+            
+            <!-- Фаза продолжения -->
+            <div id="continuation" class="tab-content">
+                <div class="page-header">
+                    <div class="page-title">Фаза продолжения лечения</div>
+                    <div class="page-subtitle">Алгоритм обследование пациента в фазе продолжения при лечении туберкулёза</div>
+                </div>
+                
+                <table>
+                    <tr>
+                        <th rowspan="2" class="regimen-cell">Режимы лечения</th>
+                        <th>Режимы ЛЧ-ТБ, Н-резистентного ТБ</th>
+                        <th>Режимы МЛУ-ТБ, Пре ШЛУ-ТБ, ШЛУ- ТБ</th>
+                    </tr>
+                    <tr>
+                        <td>Обследования</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Общий анализ крови, биохимический анализ крови (общий белок, АЛТ, АСТ, креатинин, мочевина, общий билирубин, глюкоза)</td>
+                        <td>не реже 1 раза в 3 месяца</td>
+                        <td>Не реже 1 раза в 3 месяца</td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Общий анализ мочи, исследование мокроты на МБГ (бактериоскопия, посев на ППС)</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Исследование мочевой кислоты</td>
+                        <td>Не реже 1 раза в 2 месяца при лечении <span class="highlight">пиразинамидом (Z)</span></td>
+                        <td>Не реже 1 раза в 2 месяца при лечении <span class="highlight">пиразинамидом (Z)</span></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Исследование уровня калия</td>
+                        <td></td>
+                        <td>Не реже 1 раза в 2 месяца</td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Исследование уровня альбумина при лечении деламанидом (Dim)</td>
+                        <td>-</td>
+                        <td>Не реже 1 раза в месяц при лечении <span class="highlight">Dim</span></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Исследование уровня TTT Трр</td>
+                        <td>-</td>
+                        <td>Не реже 1 раза в 2 мес при лечении <span class="highlight">Трр</span></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">ЭКГ</td>
+                        <td>Не реже 1 раза в 3 месяца</td>
+                        <td>Не реже 1 раза в месяц с расчетом QT</td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Компьютерная томография (рентгенографическое исследование)</td>
+                        <td>Не реже 1 раза в 2 месяца</td>
+                        <td>Не реже 1 раза в 2 месяца</td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Осмотр офтальмолога</td>
+                        <td>не реже 1 раза в месяц при лечении <span class="highlight">E и/или Lzd</span></td>
+                        <td>не реже 1 раза в месяц при лечении <span class="highlight">E и/или Lzd</span></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Осмотр оториноларинголога, аудиограмма</td>
+                        <td>не реже 1 раза в месяц при назначении <span class="highlight">Km, Am, Cm)</span></td>
+                        <td>не реже 1 раза в месяц при назначении <span class="highlight">Km, Am, Cm)</span></td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Осмотр невролога</td>
+                        <td>-</td>
+                        <td>По показаниям</td>
+                    </tr>
+                    <tr>
+                        <td class="regimen-cell">Консультация торакального хирурга</td>
+                        <td colspan="2">при отсутствии положительной клинико-рентгенологической динамики (сохранение/появление бактериовыделения, сохранение полости распада)</td>
+                    </tr>
+                </table>
+
+                <p class="note">* при одновременном назначении трех и более кардиотоксичных (бедаквилин, моксифлоксацин, левофлоксацин, спарфлоксацин, деламанид) препаратов ЭКГ выполняют 1 раз в 5 дней в течении месяца, далее 2 раза в месяц.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Скрыть все вкладки
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Убрать активный класс со всех кнопок
+            document.querySelectorAll('.tab').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Показать выбранную вкладку
+            document.getElementById(tabName).classList.add('active');
+            
+            // Активировать соответствующую кнопку
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
