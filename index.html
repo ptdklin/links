@@ -666,65 +666,100 @@
 </div>
                 
                 <!-- Рабочие системы -->
-                <div class="card card-4" id="work-systems">
-                    <div class="card-header">
-                        <div class="card-icon">🖥️</div>
-                        <h2>Рабочие системы</h2>
-                    </div>
-                    <div class="link-list">
-                        <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">ЕМИАС</div>
-                            </div>
-                        </a>
-                        <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">DIGIPAX</div>
-                            </div>
-                        </a>
-                        <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">ФРБТ</div>
-                            </div>
-                        </a>
-                        <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">1С-мокрота</div>
-                            </div>
-                        </a>
-                        <a href="https://pyrus.com/t#inbox" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Pyrus</div>
-                            </div>
-                        </a>
-                        <!-- Сигнальная картотека -->
-                        <a href="https://1drv.ms/x/c/8d834935e09ce801/ETRB57lESrFEuvrIH6A-7ZQB8oGKqomMyLTRWU3LdJRsbw?e=pZ7lQh" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Сигнальная картотека</div>
-                            </div>
-                        </a>
-                        <!-- Нежелательные события -->
-                        <a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Нежелательные события</div>
-                            </div>
-                        </a>
-                        <!-- Проверка полиса ОМС -->
-                        <a href="https://www.mofoms.ru/proverit-strakhovuyu-prinadlezhnost/" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Проверка полиса ОМС</div>
-                            </div>
-                        </a>
-                    </div>
+<div class="card card-4" id="work-systems">
+    <div class="card-header">
+        <div class="card-icon">🖥️</div>
+        <h2>Рабочие системы</h2>
+    </div>
+    <div class="link-list">
+        <!-- Сигнальная картотека -->
+        <a href="https://1drv.ms/x/c/8d834935e09ce801/ETRB57lESrFEuvrIH6A-7ZQB8oGKqomMyLTRWU3LdJRsbw?e=pZ7lQh" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Сигнальная картотека</div>
+            </div>
+        </a>
+        
+        <!-- Анализы -->
+        <a href="https://analysis.mokptd.ru" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Анализы</div>
+            </div>
+            <div class="link-meta">Лаборатория "МедТест Аналитика"</div>
+        </a>
+        
+        <!-- 1С-мокрота -->
+        <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">1С-мокрота</div>
+            </div>
+        </a>
+        
+        <!-- Pyrus -->
+        <a href="https://pyrus.com/t#inbox" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Pyrus</div>
+            </div>
+        </a>
+        
+        <!-- Нежелательные события -->
+        <a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Нежелательные события</div>
+            </div>
+        </a>
+        
+        <!-- Проверка полиса ОМС (выпадающий список) -->
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Проверка полиса ОМС</div>
+            </div>
+        </div>
+        <div class="dropdown-content">
+            <a href="https://www.mofoms.ru/proverit-strakhovuyu-prinadlezhnost/" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Вариант 1 - МОФОМС</div>
                 </div>
+            </a>
+            <a href="https://www.mofoms.ru/proverit-strakhovuyu-prinadlezhnost/" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Вариант 2 - Резервный сервис</div>
+                </div>
+            </a>
+        </div>
+        
+        <!-- DIGIPAX -->
+        <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">DIGIPAX</div>
+            </div>
+        </a>
+        
+        <!-- ЕМИАС -->
+        <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">ЕМИАС</div>
+            </div>
+        </a>
+        
+        <!-- ФРБТ -->
+        <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">ФРБТ</div>
+            </div>
+        </a>
+    </div>
+</div>
                 
                 <!-- Работа с пациентами -->
                 <div class="card card-5" id="patient-work">
