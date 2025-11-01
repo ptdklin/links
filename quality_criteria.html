@@ -68,6 +68,64 @@
         .content {
             padding: 12px 15px;
         }
+
+        .patient-info {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #e9ecef;
+        }
+
+        .patient-info h3 {
+            margin-bottom: 12px;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+        }
+
+        .optional-text {
+            font-size: 0.8rem;
+            color: #666;
+            font-style: italic;
+            margin-top: 3px;
+        }
         
         .status {
             margin: 8px 0;
@@ -261,6 +319,15 @@
             .content {
                 padding: 10px;
             }
+
+            .form-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .form-group {
+                min-width: 100%;
+            }
             
             .question-block {
                 padding: 6px 8px;
@@ -300,6 +367,35 @@
         </header>
 
         <div class="content">
+            <!-- Блок информации о пациенте -->
+            <div class="patient-info">
+                <h3>Информация о пациенте</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="patientName">ФИО пациента</label>
+                        <input type="text" id="patientName" placeholder="Введите ФИО">
+                        <div class="optional-text">Не обязательно для заполнения</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientBirthDate">Дата рождения</label>
+                        <input type="date" id="patientBirthDate">
+                        <div class="optional-text">Не обязательно для заполнения</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="patientId">ID пациента / Номер карты</label>
+                        <input type="text" id="patientId" placeholder="Введите ID или номер карты">
+                        <div class="optional-text">Не обязательно для заполнения</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkDate">Дата проверки</label>
+                        <input type="date" id="checkDate">
+                        <div class="optional-text">Автоматически установлена сегодняшняя дата</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="checklist-selector">
                 <button type="button" class="checklist-btn active" id="adultsBtn">Для взрослых (раздел 1.11)</button>
                 <button type="button" class="checklist-btn" id="childrenBtn">Для детей (раздел 1.13)</button>
@@ -485,7 +581,7 @@
                         <div class="question-header">
                             <input type="checkbox" id="1.13.5" name="1.13.5">
                             <label for="1.13.5" class="question-label">
-                                <strong>5.</strong> Выполнено микробиологическое (культуральное) исследование мокроты на микобактерии туберкулеза (Mycobacterium tuberculosis complex) или микробиологическое (культуральное) исследование отделяемого женских половых органов на микобактерий туберкулеза (Mycobacterium tuberculosis), или микробиологическое (культуральное) исследование плевральной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование пунктата пролежня кожи на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование спинномозговой жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) отделяемого конъюнктивы на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование бронхоальвеолярной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование бронхолегочной ткани на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование синовиальной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование гнойного отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование раневого отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование синовиальной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование костной ткани на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование крови на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) выявление микобактерии туберкулеза (Mycobacterium tuberculosis complex) в секрете простаты, или микробиологическое (культуральное) выявление микобактерии туберкулеза (Mycobacterium tuberculosis complex) в эякуляте (в зависимости от предполагаемой локализации)
+                                <strong>5.</strong> Выполнено микробиологическое (культуральное) исследование мокроты на микобактерии туберкулеза (Mycobacterium tuberculosis complex) или микробиологическое (культуральное) исследование отделяемого женских половых органов на микобактерий туберкулеза (Mycobacterium tuberculosis), или микробиологическое (культуральное) исследование плевральной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование пунктата пролежня кожи на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микрбиологическое (культуральное) исследование спинномозговой жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) отделяемого конъюнктивы на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование бронхоальвеолярной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование бронхолегочной ткани на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование синовиальной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование гнойного отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование раневого отделяемого на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование синовиальной жидкости на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование костной ткани на микобактерии туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) исследование крови на микобактерий туберкулеза (Mycobacterium tuberculosis complex), или микробиологическое (культуральное) выявление микобактерии туберкулеза (Mycobacterium tuberculosis complex) в секрете простаты, или микробиологическое (культуральное) выявление микобактерии туберкулеза (Mycobacterium tuberculosis complex) в эякуляте (в зависимости от предполагаемой локализации)
                             </label>
                         </div>
                         <label class="comment-label">Комментарий:</label>
@@ -547,9 +643,22 @@
             const completedCount = document.getElementById('completedCount');
             const totalCount = document.getElementById('totalCount');
             
+            // Поля информации о пациенте
+            const patientName = document.getElementById('patientName');
+            const patientBirthDate = document.getElementById('patientBirthDate');
+            const patientId = document.getElementById('patientId');
+            const checkDate = document.getElementById('checkDate');
+            
             let currentForm = adultsForm;
             let currentFormName = "взрослым";
             let autoSaveInterval;
+            
+            // Установка сегодняшней даты по умолчанию
+            function setDefaultDate() {
+                const today = new Date();
+                const formattedDate = today.toISOString().split('T')[0];
+                checkDate.value = formattedDate;
+            }
             
             // Инициализация переключения между формами
             function initFormSwitcher() {
@@ -620,6 +729,7 @@
             function loadSavedData() {
                 const savedData = localStorage.getItem('checklistData');
                 const savedComments = localStorage.getItem('checklistComments');
+                const savedPatientInfo = localStorage.getItem('patientInfo');
                 
                 if (savedData) {
                     const data = JSON.parse(savedData);
@@ -641,6 +751,14 @@
                     }
                 }
                 
+                if (savedPatientInfo) {
+                    const patientInfo = JSON.parse(savedPatientInfo);
+                    patientName.value = patientInfo.name || '';
+                    patientBirthDate.value = patientInfo.birthDate || '';
+                    patientId.value = patientInfo.id || '';
+                    checkDate.value = patientInfo.checkDate || '';
+                }
+                
                 updateProgress();
                 showStatus('Данные загружены', 'success');
             }
@@ -648,6 +766,12 @@
             function saveData() {
                 const data = {};
                 const comments = {};
+                const patientInfo = {
+                    name: patientName.value,
+                    birthDate: patientBirthDate.value,
+                    id: patientId.value,
+                    checkDate: checkDate.value
+                };
                 
                 const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
                 allCheckboxes.forEach(checkbox => {
@@ -661,6 +785,7 @@
                 
                 localStorage.setItem('checklistData', JSON.stringify(data));
                 localStorage.setItem('checklistComments', JSON.stringify(comments));
+                localStorage.setItem('patientInfo', JSON.stringify(patientInfo));
             }
             
             function startAutoSave() {
@@ -693,8 +818,15 @@
                         area.value = '';
                     });
                     
+                    // Очистка полей пациента
+                    patientName.value = '';
+                    patientBirthDate.value = '';
+                    patientId.value = '';
+                    setDefaultDate(); // Устанавливаем сегодняшнюю дату
+                    
                     localStorage.removeItem('checklistData');
                     localStorage.removeItem('checklistComments');
+                    localStorage.removeItem('patientInfo');
                     updateProgress();
                     showStatus('Все разделы очищены', 'success');
                 }
@@ -704,16 +836,30 @@
                 try {
                     const data = [];
                     
+                    // Заголовок и основная информация
                     data.push(['Критерии оценки качества специализированной медицинской помощи при туберкулезе']);
                     data.push(['На основании Приказа Минздрава России от 14.04.2025 N 203н']);
-                    data.push(['Дата проверки:', new Date().toLocaleDateString('ru-RU')]);
-                    data.push(['Проверка выполнена для:', currentFormName === "взрослым" ? "взрослых (раздел 1.11)" : "детей (раздел 1.13)"]);
                     data.push(['']);
                     
-                    // Заголовки таблицы
+                    // Информация о пациенте
+                    data.push(['ИНФОРМАЦИЯ О ПАЦИЕНТЕ']);
+                    data.push(['ФИО пациента:', patientName.value || 'Не указано']);
+                    data.push(['Дата рождения:', patientBirthDate.value || 'Не указано']);
+                    data.push(['ID пациента / Номер карты:', patientId.value || 'Не указано']);
+                    data.push(['Дата проверки:', checkDate.value || 'Не указано']);
+                    data.push(['']);
+                    
+                    // Информация о проверке
+                    data.push(['ИНФОРМАЦИЯ О ПРОВЕРКЕ']);
+                    data.push(['Проверка выполнена для:', currentFormName === "взрослым" ? "взрослых (раздел 1.11)" : "детей (раздел 1.13)"]);
+                    data.push(['Дата создания отчета:', new Date().toLocaleDateString('ru-RU')]);
+                    data.push(['']);
+                    
+                    // Заголовки таблицы с критериями
+                    data.push(['КРИТЕРИИ ПРОВЕРКИ']);
                     data.push(['№', 'Критерий', 'Статус проверки', 'Комментарий']);
                     
-                    // Только активный раздел
+                    // Данные критериев
                     const questions = currentForm.querySelectorAll('.question-block');
                     questions.forEach(question => {
                         const checkbox = question.querySelector('input[type="checkbox"]');
@@ -722,7 +868,7 @@
                         
                         const status = checkbox.checked ? 'ПРОВЕРЕНО' : 'НЕ ПРОВЕРЕНО';
                         const comment = commentArea ? commentArea.value : '';
-                        const number = checkbox.id.split('.')[2]; // Получаем номер пункта
+                        const number = checkbox.id.split('.')[2];
                         
                         data.push([number, label.textContent.trim(), status, comment]);
                     });
@@ -730,7 +876,7 @@
                     const ws = XLSX.utils.aoa_to_sheet(data);
                     const wb = XLSX.utils.book_new();
                     
-                    // Настройки ширины колонок как в оригинальном HTML
+                    // Настройки ширины колонок
                     const colWidths = [
                         { wch: 5 },    // №
                         { wch: 80 },   // Критерий
@@ -771,6 +917,7 @@
             }
             
             function init() {
+                setDefaultDate();
                 initFormSwitcher();
                 initCounters();
                 setupCommentAutoCheck();
@@ -791,6 +938,12 @@
                     updateProgress();
                     saveData();
                 });
+                
+                // Автосохранение при изменении полей пациента
+                patientName.addEventListener('input', saveData);
+                patientBirthDate.addEventListener('change', saveData);
+                patientId.addEventListener('input', saveData);
+                checkDate.addEventListener('change', saveData);
             }
             
             init();
