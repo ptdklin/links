@@ -3,1020 +3,1517 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <title>Навигатор врача-фтизиатра | ГБУЗ МО МОКПТД</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Чек-лист проверки медицинской карты - BETA</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-        
-        :root {
-            --primary: #2563eb;
-            --primary-light: #eff6ff;
-            --primary-dark: #1e40af;
-            --primary-very-light: #f8faff;
-            --secondary: #64748b;
-            --accent: #06b6d4;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
-            --background: #ffffff;
-            --surface: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        
-        body {
-            background: var(--background);
-            color: var(--text-primary);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            min-height: 100vh;
-        }
-        
-        .content-header {
-            background: var(--surface);
-            padding: 35px 40px;
-            border-bottom: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            text-align: center;
-            position: relative;
-        }
-
-        .content-header::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--success));
-        }
-        
-        .institution-main {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            margin-bottom: 8px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-        
-        .page-title {
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-        
-        .page-description {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            font-weight: 400;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
-        
-        .content-area {
-            flex: 1;
-            padding: 35px;
-            overflow-y: auto;
-        }
-        
-        /* Grid Layout */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        
-        /* Cards */
-        .card {
-            background: var(--surface);
-            border-radius: 20px;
-            padding: 28px;
-            box-shadow: var(--shadow-lg);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
-        
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-xl);
-        }
-        
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 22px;
-        }
-        
-        .card-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 16px;
-            font-size: 1.4rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .card:hover .card-icon {
-            transform: scale(1.05);
-        }
-        
-        /* Цветовые схемы для каждого блока */
-        .card-1 {
-            --block-color: #2563eb;
-            --block-color-light: #eff6ff;
-        }
-        
-        .card-2 {
-            --block-color: #dc2626;
-            --block-color-light: #fef2f2;
-        }
-        
-        .card-3 {
-    --block-color: #B45309;
-    --block-color-light: #fefce8;
-}
-        
-        .card-4 {
-            --block-color: #7c3aed;
-            --block-color-light: #faf5ff;
-        }
-        
-        .card-5 {
-            --block-color: #059669;
-            --block-color-light: #f0fdf4;
-        }
-        
-        .card-6 {
-            --block-color: #ea580c;
-            --block-color-light: #fff7ed;
-        }
-        
-        .card-7 {
-            --block-color: #0891b2;
-            --block-color-light: #f0fdff;
-        }
-        
-        .card-8 {
-    --block-color: #dc2626;
-    --block-color-light: #fef2f2;
-}
-
-        /* Применяем цвета к карточкам */
-        .card-1 .card-icon { background: var(--block-color-light); }
-        .card-2 .card-icon { background: var(--block-color-light); }
-        .card-3 .card-icon { background: var(--block-color-light); }
-        .card-4 .card-icon { background: var(--block-color-light); }
-        .card-5 .card-icon { background: var(--block-color-light); }
-        .card-6 .card-icon { background: var(--block-color-light); }
-        .card-7 .card-icon { background: var(--block-color-light); }
-        .card-8 .card-icon { background: var(--block-color-light); }
-        
-        .card h2 {
-            color: var(--block-color);
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin: 0;
-        }
-        
-        /* Links */
-        .link-list {
-            list-style: none;
-            flex: 1;
-        }
-        
-        .link-item {
-            display: flex;
-            align-items: flex-start;
-            padding: 14px 18px;
-            border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-            color: var(--block-color);
-            border: 1px solid transparent;
-            background: var(--primary-very-light);
-            margin-bottom: 10px;
-            flex-direction: column;
-            cursor: pointer;
-        }
-        
-        .link-item:hover {
-            background: var(--surface);
-            border-color: var(--block-color);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.12);
-            transform: translateX(6px);
-        }
-        
-        .link-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .link-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-        
-        .link-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--block-color);
-            font-weight: 700;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-        }
-
-        .link-item:hover .link-icon {
-            transform: scale(1.15);
-            color: var(--accent);
-        }
-        
-        .link-text {
-            flex: 1;
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--block-color);
-        }
-        
-        .link-meta {
-            font-size: 0.85rem;
-            color: var(--block-color);
-            opacity: 0.8;
-            margin-top: 6px;
-            margin-left: 34px;
-            font-weight: 400;
-            line-height: 1.4;
-        }
-
-        /* Dropdown styles */
-        .dropdown-content {
-            display: none;
-            background: var(--primary-very-light);
-            border-left: 3px solid var(--block-color);
-            border-radius: 0 0 12px 12px;
-            margin-top: -10px;
-            margin-bottom: 10px;
-        }
-        
-        .dropdown-content.show {
-            display: block;
-        }
-        
-        .dropdown-link {
-            padding: 12px 18px 12px 40px;
-            display: block;
-            color: var(--block-color);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .dropdown-link:hover {
-            background: var(--primary-light);
-        }
-        
-        .dropdown-link:last-child {
-            border-bottom: none;
-        }
-        
-        .dropdown-meta {
-            font-size: 0.85rem;
-            color: var(--block-color);
-            opacity: 0.7;
-            margin-top: 4px;
-            font-weight: 400;
-            line-height: 1.4;
-        }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 35px;
-            color: var(--text-secondary);
-            background: var(--surface);
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-lg);
-            margin-top: 35px;
-        }
-        
-        .footer p {
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-        
-        .year {
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 1.05rem;
-        }
-        
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.3; color: #333; background: #667eea; min-height: 100vh; padding: 8px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; }
+        header { background: #2c3e50; color: white; padding: 15px 20px; text-align: center; position: relative; }
+        h1 { font-size: 1.6rem; margin-bottom: 4px; font-weight: 600; }
+        .subtitle { font-size: 0.9rem; opacity: 0.9; }
+        .clear-btn-top { position: absolute; top: 12px; right: 12px; padding: 5px 10px; background: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+        .clear-btn-top:hover { background: #c0392b; }
+        .content { padding: 12px 15px; }
+        .patient-info { background: #f8f9fa; border-radius: 6px; padding: 12px 15px; margin: 12px 0; border: 1px solid #e9ecef; }
+        .info-row { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 8px; }
+        .info-field { flex: 1; min-width: 200px; }
+        .info-field label { display: block; font-size: 0.85rem; font-weight: 600; color: #2c3e50; margin-bottom: 4px; }
+        .info-field label .optional { font-weight: normal; color: #666; font-size: 0.75rem; }
+        .info-field input { width: 100%; padding: 6px 8px; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 0.9rem; font-family: inherit; }
+        .info-field input:focus { outline: none; border-color: #3498db; }
+        .check-date { text-align: center; font-weight: 600; color: #2c3e50; margin: 8px 0; padding: 6px; background: #e8f4fd; border-radius: 4px; border: 1px solid #3498db; }
+        .status { margin: 8px 0; padding: 8px; text-align: center; font-weight: 600; background: #e8f4fd; border-radius: 4px; border: 1px solid #3498db; color: #2c3e50; font-size: 0.85rem; }
+        .progress { margin: 8px 0; background: #f8f9fa; border-radius: 4px; padding: 10px; text-align: center; }
+        .progress-bar { height: 5px; background: #e9ecef; border-radius: 2px; overflow: hidden; margin: 4px 0; }
+        .progress-fill { height: 100%; background: #27ae60; transition: width 0.3s ease; }
+        .progress-text { font-weight: 600; color: #2c3e50; font-size: 0.85rem; }
+        h2 { font-size: 1.2rem; margin: 15px 0 8px; padding: 8px 12px; background: #f8f9fa; border-left: 3px solid #3498db; border-radius: 4px; color: #2c3e50; }
+        .section { margin-bottom: 10px; }
+        .question-block { margin-bottom: 4px; padding: 8px 10px; border-radius: 4px; transition: background-color 0.2s ease; border-left: 2px solid transparent; cursor: pointer; }
+        .question-block.checked { background-color: #f0f9f0; border-left-color: #27ae60; }
+        .question-block:hover { background-color: #f8f9fa; }
+        .question-header { display: flex; align-items: flex-start; margin-bottom: 4px; }
+        input[type="checkbox"] { margin-right: 8px; margin-top: 2px; transform: scale(1.1); cursor: pointer; pointer-events: none; }
+        .question-label { flex: 1; font-size: 1.05rem; cursor: pointer; font-weight: 500; line-height: 1.3; pointer-events: none; }
+        .comment-area { width: 100%; padding: 5px 6px; border: 1px solid #e0e0e0; border-radius: 3px; font-size: 0.85rem; font-family: inherit; resize: vertical; min-height: 35px; }
+        .comment-area:focus { outline: none; border-color: #3498db; }
+        .comment-label { display: block; margin: 4px 0 2px; font-size: 0.8rem; color: #666; font-weight: 500; pointer-events: none; }
+        .section-comment { margin: 10px 0; padding: 8px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #3498db; }
+        .section-comment-label { display: block; font-size: 0.75rem; color: #666; font-weight: 600; margin-bottom: 4px; }
+        .section-comment-area { width: 100%; padding: 6px 8px; border: 1px solid #e0e0e0; border-radius: 3px; font-size: 0.8rem; font-family: inherit; resize: vertical; min-height: 40px; }
+        .bottom-controls { text-align: center; margin-top: 15px; padding: 12px; }
+        .save-excel-btn { padding: 8px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+        .save-excel-btn:hover { background: #219955; }
         @media (max-width: 768px) {
-            .content-header {
-                padding: 25px 20px;
-            }
-            
-            .content-area {
-                padding: 25px;
-            }
-            
-            .page-title {
-                font-size: 2.2rem;
-            }
-            
-            .card {
-                padding: 22px;
-                min-height: 280px;
-            }
-            
-            .link-meta {
-                margin-left: 0;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .content-header {
-                padding: 20px 15px;
-            }
-            
-            .content-area {
-                padding: 20px;
-            }
-            
-            .page-title {
-                font-size: 1.8rem;
-            }
-            
-            .card {
-                padding: 18px;
-                min-height: 260px;
-            }
-            
-            .grid {
-                grid-template-columns: 1fr;
-            }
+            body { padding: 5px; }
+            .container { border-radius: 6px; }
+            header { padding: 12px; }
+            h1 { font-size: 1.4rem; }
+            .clear-btn-top { position: static; margin-top: 6px; width: 100%; }
+            .content { padding: 10px; }
+            .question-block { padding: 6px 8px; }
+            h2 { font-size: 1.1rem; padding: 6px 10px; margin: 12px 0 6px; }
+            .question-label { font-size: 1rem; }
+            .save-excel-btn { width: 100%; padding: 10px; }
+            .info-field { min-width: 100%; }
         }
     </style>
 </head>
 <body>
-    <!-- Main Content -->
-    <main class="main-content" id="main-content">
-        <header class="content-header">
-    <div class="institution-main">ГБУЗ МО МОКПТД филиал Клинский</div>
-    <h1 class="page-title">Навигатор врача-фтизиатра</h1>
-    <p class="page-description">Система доступа к профессиональным ресурсам</p>
-    <p class="page-description" style="margin-top: 20px; font-size: 1.8rem; font-weight: 700; color: #dc2626; text-align: center; line-height: 1.3;">
-        
-    </p>
-</header>
-        
-        <div class="content-area">
-            <div class="grid">
-                <!-- Нормативные документы и руководства -->
-                <div class="card card-1" id="normative-documents">
-                    <div class="card-header">
-                        <div class="card-icon">📋</div>
-                        <h2>Нормативные документы и руководства</h2>
-                    </div>
-                    <div class="link-list">
-                        <!-- Клинические рекомендации (выпадающий список) -->
-                        <div class="link-item dropdown-toggle">
-                            <div class="link-content">
-                                <div class="link-icon">⌄</div>
-                                <div class="link-text">Клинические рекомендации</div>
-                            </div>
-                        </div>
-                        <div class="dropdown-content">
-                            <a href="https://cr.minzdrav.gov.ru/clin-rec" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Все рекомендации МЗ РФ</div>
-                                </div>
-                            </a>
-                            <a href="https://cr.minzdrav.gov.ru/view-cr/16_3" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Туберкулез (Взрослые)</div>
-                                </div>
-                            </a>
-                            <a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Туберкулез (Дети)</div>
-                                </div>
-                            </a>
-                            <a href="https://1drv.ms/b/c/8d834935e09ce801/EXfoaQoPodRFlFCwYQF30E4BOpcXAQ02t2QHElCyODukjA?e=xysaif" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Терапия туберкулеза у взрослых</div>
-                                </div>
-                                <div class="dropdown-meta">Подробный справочник по режимам ХТ</div>
-                            </a>
-                            <a href="https://1drv.ms/b/c/8d834935e09ce801/EbEu8ZIm4sJDphnusFoGcNsB6qunIguEoDTWNKzO1xqAjg?e=SjH49f" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Латентная туберкулезная инфекция у детей</div>
-                                </div>
-                            </a>
-                        </div>
+    <div class="container">
+        <header>
+            <h1>Чек-лист проверки медицинской карты - BETA</h1>
+            <p class="subtitle">Форма № 025/у - амбулаторное ведение пациента</p>
+            <button type="button" class="clear-btn-top" id="clearBtn">Очистить форму</button>
+        </header>
 
-                        <a href="http://217.107.102.71:90/kk/" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Контроль качества</div>
-                            </div>
-                            <div class="link-meta">Нормативные документы по КК</div>
-                        </a>
-                        <a href="legislation.html" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Изменения в нормативах</div>
-                            </div>
-                        </a>
-                        <a href="https://1drv.ms/f/s!AgHonOA1SYONg6V9QJOtmDuNuSpnrw?e=jXOO9r" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Приказы МОКПТД</div>
-                            </div>
-                        </a>
-                        <a href="https://1drv.ms/x/c/8d834935e09ce801/EQHonOA1SYMggI18_gAAAAABdstLdOmwQ6U6_s1A2Bq1og?e=aJm6HP" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Практические рекомендации Росздравнадзора</div>
-                            </div>
-                        </a>
-                        <!-- Правовая навигация -->
-                        <a href="https://1drv.ms/x/c/8d834935e09ce801/EbYfGwSPzF9MtGn1UVFjnsMBhAXrSZKlGIJvQa1m348HsA?e=H4TUz7" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Правовая навигация</div>
-                            </div>
-                            <div class="link-meta">Разбор нормативных документов</div>
-                        </a>
-                        <!-- Гид по работе врача-фтизиатра -->
-                        <a href="https://1drv.ms/f/c/8d834935e09ce801/Equbs6WBjiVOgQr38OI_a24BYBttmeBF6ZxINRlAcMzIxQ?e=ZNTqoH" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Гид по работе врача-фтизиатра</div>
-                            </div>
-                        </a>
+        <div class="content">
+            <div class="patient-info">
+                <div class="info-row">
+                    <div class="info-field">
+                        <label>ФИО пациента <span class="optional">(необязательно)</span></label>
+                        <input type="text" id="patientName" placeholder="Введите ФИО пациента">
+                    </div>
+                    <div class="info-field">
+                        <label>Дата рождения пациента <span class="optional">(необязательно)</span></label>
+                        <input type="date" id="patientBirthDate">
                     </div>
                 </div>
-                
-                <!-- Справочники -->
-<div class="card card-3" id="drugs">
-    <div class="card-header">
-        <div class="card-icon">💊</div>
-        <h2>Справочники</h2>
-    </div>
-    <div class="link-list">
-        <!-- Справочники лекарственных препаратов (выпадающий список) -->
-        <div class="link-item dropdown-toggle">
-            <div class="link-content">
-                <div class="link-icon">⌄</div>
-                <div class="link-text">Справочники лекарственных препаратов</div>
+                <div class="info-row">
+                    <div class="info-field">
+                        <label>ID/номер карты <span class="optional">(необязательно)</span></label>
+                        <input type="text" id="patientId" placeholder="Номер карты или ID">
+                    </div>
+                    <div class="info-field">
+                        <label>Дата проверки</label>
+                        <input type="date" id="checkDate">
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="dropdown-content">
-            <a href="https://www.rlsnet.ru/" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">РЛС</div>
-                </div>
-            </a>
-            <a href="https://www.vidal.ru/" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">ВИДАЛЬ</div>
-                </div>
-            </a>
-        </div>
-        
-        <!-- Калькулятор СКФ -->
-        <a href="https://www.cardioneurology.ru/skf/" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Калькулятор СКФ</div>
-            </div>
-        </a>
-        
-        <!-- Рекомендуемые дозы ПТП -->
-        <a href="calculator_doz.html" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Калькулятор дозировок</div>
-            </div>
-        </a>
-        
-        <!-- Взаимодействия ЛС -->
-        <div class="link-item dropdown-toggle">
-            <div class="link-content">
-                <div class="link-icon">⌄</div>
-                <div class="link-text">Взаимодействия ЛС</div>
-            </div>
-        </div>
-        <div class="dropdown-content">
-            <a href="https://www.vidal.ru/drugs/interaction/new" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">ВИДАЛЬ</div>
-                </div>
-            </a>
-            <a href="https://www.drugs.com/drug_interactions.html" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Drugs.com</div>
-                </div>
-            </a>
-            <a href="https://translate.google.com/?sl=ru&tl=en&op=translate" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Google Переводчик</div>
-                </div>
-                <div class="dropdown-meta">Для перевода англоязычных ресурсов</div>
-            </a>
-        </div>
-        
-        <!-- Рекомендации по образу жизни -->
-        <div class="link-item dropdown-toggle">
-    <div class="link-content">
-        <div class="link-icon">⌄</div>
-        <div class="link-text">Рекомендации</div>
-    </div>
-    <div class="link-meta">по взаимодействию с пищей, образу жизни и другие</div>
-</div>
-<div class="dropdown-content">
-    <a href="drugs.html" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Drugs.com</div>
-        </div>
-    </a>
-</div>
-    </div>
-</div>
 
-<!-- Нежелательные реакции на ЛС -->
-<div class="card card-8" id="adverse-reactions">
-    <div class="card-header">
-        <div class="card-icon">⚠️</div>
-        <h2>Нежелательные реакции на ЛС</h2>
-    </div>
-    <div class="link-list">
-        <a href="registration.html" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Классификация и регистрация НПР</div>
-            </div>
-        </a>
-        
-        <!-- НОВЫЙ ВЫПАДАЮЩИЙ РАЗДЕЛ: Мониторинг НПР -->
-        <div class="link-item dropdown-toggle">
-            <div class="link-content">
-                <div class="link-icon">⌄</div>
-                <div class="link-text">Мониторинг нежелательных лекарственных реакций</div>
-            </div>
-        </div>
-        <div class="dropdown-content">
-            <a href="monitoring_npr.html" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Лабораторный и инструментальный мониторинг</div>
-                </div>
-            </a>
-            <a href="assessment_complaints.html" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Мониторинг по оценке жалоб</div>
-                </div>
-            </a>
-            <a href="monitoring_regimen_phase.html" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Мониторинг НПР в зависимости от режима и фазы ХТ</div>
-                </div>
-            </a>
-        </div>
-        <!-- КОНЕЦ НОВОГО РАЗДЕЛА -->
-        
-        <a href="naranjo.html" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Шкала Наранжо</div>
-            </div>
-            <div class="link-meta">Оценка причинно-следственной связи НПР</div>
-        </a>
-        <a href="https://1drv.ms/x/c/8d834935e09ce801/EVdJemGlT35IqKO8SQrr9dkBhyIxGMn2HXF45kmNPXQgfw?e=6mUyKm" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Приложения КР по мониторингу и коррекции НПР в формате Excel</div>
-            </div>
-        </a>
-        <a href="https://docs.google.com/spreadsheets/d/1MqnrLh4yU9PO3dzlznTngd8kuIhMlv9gQPOMQPpoGsw/edit?usp=sharing" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Анкетирование</div>
-            </div>
-        </a>
-    </div>
-</div>
-                
-                <!-- Рабочие системы -->
-<div class="card card-4" id="work-systems">
-    <div class="card-header">
-        <div class="card-icon">🖥️</div>
-        <h2>Рабочие системы</h2>
-    </div>
-    <div class="link-list">
-        <!-- Сигнальная картотека -->
-        <a href="https://1drv.ms/x/c/8d834935e09ce801/ETRB57lESrFEuvrIH6A-7ZQB8oGKqomMyLTRWU3LdJRsbw?e=pZ7lQh" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Сигнальная картотека</div>
-            </div>
-        </a>
-        
-        <!-- Анализы -->
-        <a href="https://results.dnkom.ru/cabinet/partner/login" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Анализы</div>
-            </div>
-            <div class="link-meta">Лаборатория "ДНКОМ"</div>
-        </a>
-        
-        <!-- 1С-мокрота -->
-        <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">1С-мокрота</div>
-            </div>
-        </a>
-        
-        <!-- Pyrus -->
-        <a href="https://pyrus.com/t#inbox" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Pyrus</div>
-            </div>
-        </a>
-        
-        <!-- Нежелательные события -->
-        <a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Нежелательные события</div>
-            </div>
-        </a>
-        
-        <!-- Проверка полиса ОМС (выпадающий список) -->
-        <div class="link-item dropdown-toggle">
-            <div class="link-content">
-                <div class="link-icon">⌄</div>
-                <div class="link-text">Проверка полиса ОМС</div>
-            </div>
-        </div>
-        <div class="dropdown-content">
-            <a href="https://www.mofoms.ru/proverit-strakhovuyu-prinadlezhnost/" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Вариант 1 - МОФОМС</div>
-                </div>
-            </a>
-            <a href="https://www.mofoms.ru/proverit-strakhovuyu-prinadlezhnost/" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Вариант 2 - Резервный сервис</div>
-                </div>
-            </a>
-        </div>
-        
-        <!-- DIGIPAX -->
-        <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">DIGIPAX</div>
-            </div>
-        </a>
-        
-        <!-- ЕМИАС -->
-        <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">ЕМИАС</div>
-            </div>
-        </a>
-        
-        <!-- ФРБТ -->
-        <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">ФРБТ</div>
-            </div>
-        </a>
-    </div>
-</div>
-                
-                <!-- Работа с пациентами -->
-                <div class="card card-5" id="patient-work">
-                    <div class="card-header">
-                        <div class="card-icon">👨‍⚕️</div>
-                        <h2>Работа с пациентами</h2>
-                    </div>
-                    <div class="link-list">
-                        <!-- ИЗМЕНЕННАЯ ССЫЛКА НА ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ -->
-                        <a href="faq.html" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Часто задаваемые и вопросы</div>
-                            </div>
-                        </a>
-                        <!-- Информация для пациентов с выпадающим списком -->
-                        <div class="link-item dropdown-toggle">
-                            <div class="link-content">
-                                <div class="link-icon">⌄</div>
-                                <div class="link-text">Информация для пациентов</div>
-                            </div>
-                        </div>
-                        <div class="dropdown-content">
-                            <a href="https://1drv.ms/f/c/8d834935e09ce801/Emti6N9yOZtEumAvqGHK3bIBfT4AlRBLiDhD5TkeybZ6Tg?e=Rcw0Wv" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Раздел разработке</div>
-                                </div>
-                            </a>
-                        </div>
-                        
-                        <!-- Паспорт участка с выпадающим списком -->
-                        <div class="link-item dropdown-toggle">
-    <div class="link-content">
-        <div class="link-icon">⌄</div>
-        <div class="link-text">Работа на участке</div>
-    </div>
-</div>
-<div class="dropdown-content">
-    <a href="address.html" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Поиск по адресу</div>
-        </div>
-    </a>
-    <a href="https://1drv.ms/f/c/8d834935e09ce801/Eh3G9C4VxUZKnfglaOwTQlIBXwXqBByDfRc8ljcJm3Ir6g?e=Tf3AFY" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Паспорта участков</div>
-        </div>
-    </a>
-</div>
-                        
-                        <a href="clinical_cases.html" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Клинические случаи</div>
-                            </div>
-                        </a>
-                        <!-- Анкетирование с комментарием -->
-                        <a href="https://docs.google.com/spreadsheets/d/1IqDCNdMeW3Qavc7ajgeq8ueR1wVBnr17CajXz29tje4/edit?usp=sharing" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Анкетирование</div>
-                            </div>
-                            <div class="link-meta">Удовлетворенность</div>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Дополнительные ресурсы -->
-                <div class="card card-6" id="additional-resources">
-                    <div class="card-header">
-                        <div class="card-icon">📁</div>
-                        <h2>Дополнительные ресурсы</h2>
-                    </div>
-                    <div class="link-list">
-                        <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="link-item">
-    <div class="link-content">
-        <div class="link-icon">→</div>
-        <div class="link-text">Бланки</div>
-    </div>
-    <div class="link-meta">Шаблоны и образцы</div>
-</a>
-                        <!-- Папка ТМК -->
-                        <a href="https://1drv.ms/w/c/8d834935e09ce801/EfmUE9okE1RKvExQiwJrC7sB3e4_hVw17f8jIXyme61KFQ?e=hR6aPs" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Папка ТМК</div>
-                            </div>
-                        </a>
-                        <a href="https://drive.google.com/drive/folders/1GIHw6MCzqTaXVXDJVER19kBEBvvk_81f?usp=drive_link" target="_blank" class="link-item">
-    <div class="link-content">
-        <div class="link-icon">→</div>
-        <div class="link-text">Быстрый обмен данными</div>
-    </div>
-    <div class="link-meta">Общая папка для файлов</div>
-</a>
-                        <a href="https://drive.google.com/drive/folders/1QBk3bPDDm6Sw6Iyyg20hgGpfGPc9Z2ua?usp=sharing" target="_blank" class="link-item">
-    <div class="link-content">
-        <div class="link-icon">→</div>
-        <div class="link-text">КТ для врачебных комиссий</div>
-    </div>
-    <div class="link-meta">Требуется вход со своей учетной записью или klinmokptd@gmail.com / Aa...831</div>
-</a>
-                        <div class="link-item dropdown-toggle">
-    <div class="link-content">
-        <div class="link-icon">⌄</div>
-        <div class="link-text">Чек-листы</div>
-    </div>
-</div>
-<div class="dropdown-content">
-    <a href="medical_record_guidelines.html" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Порядок ведения и оформления медицинской карты</div>
-        </div>
-        <div class="dropdown-meta">Письмо ГБУЗ МО «МОКПТД» от 29.07.2025 № 04-594/25</div>
-    </a>
-    <a href="quality_criteria.html" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Критерии оценки качества</div>
-        </div>
-        <div class="dropdown-meta">Приказ Минздрава России от 14.04.2025 N 203н</div>
-    </a>
-</div>
-                    </div>
-                </div>
-                
-                <!-- Образовательные ресурсы -->
-                <div class="card card-7" id="educational-resources">
-                    <div class="card-header">
-                        <div class="card-icon">🎓</div>
-                        <h2>Образовательные ресурсы</h2>
-                    </div>
-                    <div class="link-list">
-                        <a href="https://rof-tb.ru/" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Российское общество фтизиатров</div>
-                            </div>
-                        </a>
-                        <a href="https://nmrc.ru/" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Национальный центр фтизиопульмонологии</div>
-                            </div>
-                        </a>
-                        <a href="https://www.tibl-journal.com/jour?locale=ru_RU" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Туберкулез и болезни легких</div>
-                            </div>
-                            <div class="link-meta">Журнал</div>
-                        </a>
-                        <div class="link-item dropdown-toggle">
-                            <div class="link-content">
-                                <div class="link-icon">⌄</div>
-                                <div class="link-text">Международные ресурсы</div>
-                            </div>
-                        </div>
-                        <div class="dropdown-content">
-                            <a href="https://www.who.int/teams/global-tuberculosis-programme" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Всемирная организация здравоохранения (ВОЗ) — Программа по туберкулёзу</div>
-                                </div>
-                                <div class="dropdown-meta">Международные стандарты диагностики, лечения и профилактики туберкулёза, а также актуальная статистика по странам.</div>
-                            </a>
-                            <a href="https://www.cdc.gov/tb" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">CDC — Tuberculosis (США)</div>
-                                </div>
-                                <div class="dropdown-meta">Центры по контролю и профилактике заболеваний США. Подробные рекомендации по диагностике, лечению и профилактике туберкулёза, включая устойчивые формы.</div>
-                            </a>
-                            <a href="https://www.ecdc.europa.eu/en/tuberculosis" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">European Centre for Disease Prevention and Control (ECDC) — Tuberculosis</div>
-                                </div>
-                                <div class="dropdown-meta">Европейский центр профилактики и контроля заболеваний. Содержит отчёты по эпидемиологии, стандарты лечения и профилактики TB в Европе.</div>
-                            </a>
-                            <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">PubMed</div>
-                                </div>
-                                <div class="dropdown-meta">Международная база медицинских и биомедицинских публикаций. Позволяет искать последние исследования по туберкулёзу, лекарственной устойчивости и клиническим протоколам.</div>
-                            </a>
-                            <a href="https://www.thelancet.com/journals/lanres" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Lancet Respiratory Medicine</div>
-                                </div>
-                                <div class="dropdown-meta">Ведущий международный журнал по заболеваниям дыхательной системы, включая туберкулёз.</div>
-                            </a>
-                            <a href="http://www.stoptb.org" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Stop TB Partnership</div>
-                                </div>
-                                <div class="dropdown-meta">Международная организация по борьбе с туберкулёзом. Предоставляет отчёты, статистику и материалы для профессионалов здравоохранения.</div>
-                            </a>
-                            <a href="https://theunion.org" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">The Union (International Union Against Tuberculosis and Lung Disease)</div>
-                                </div>
-                                <div class="dropdown-meta">Международная организация, публикует практические руководства, исследования и образовательные программы для специалистов по туберкулёзу и заболеваниям лёгких.</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="check-date" id="currentDateDisplay"></div>
+
+            <div class="status" id="statusMessage">Готов к работе • Автосохранение каждые 10 секунд</div>
             
-            <!-- Footer -->
-            <div class="footer">
-                <p><span class="year">2024</span></p>
+            <div class="progress">
+                <div class="progress-text">Прогресс проверки: <span id="progressPercent">0%</span></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div>Проверено: <span id="completedCount">0</span> из <span id="totalCount">0</span> пунктов</div>
+            </div>
+
+            <form id="checklistForm">
+                <!-- Раздел 1 -->
+                <div class="section">
+                    <h2>Раздел 1: Оформление титульного листа и паспортных данных</h2>
+                    
+                    <div class="question-block" data-id="1.1">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.1" name="1.1">
+                            <label for="1.1" class="question-label">
+                                <strong>1.1.</strong> В левом верхнем углу указаны название и адрес медицинской организации.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.1" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.2">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.2" name="1.2">
+                            <label for="1.2" class="question-label">
+                                <strong>1.2.</strong> Полностью (без сокращений) указаны ФИО, дата рождения пациента.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.2" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.3">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.3" name="1.3">
+                            <label for="1.3" class="question-label">
+                                <strong>1.3.</strong> В п.5 указаны адреса: постоянной и временной регистрации, фактический.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.4">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.4" name="1.4">
+                            <label for="1.4" class="question-label">
+                                <strong>1.4.</strong> Полис ОМС (номер, серия, дата выдачи, страховая компания).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.5">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.5" name="1.5">
+                            <label for="1.5" class="question-label">
+                                <strong>1.5.</strong> СНИЛС.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.5" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.6">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.6" name="1.6">
+                            <label for="1.6" class="question-label">
+                                <strong>1.6.</strong> Документ, удостоверяющий личность (сведения о дате и органе выдачи).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.6" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.7">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.7" name="1.7">
+                            <label for="1.7" class="question-label">
+                                <strong>1.7.</strong> В правом верхнем углу указаны № участка и № ФРБТ.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.7" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.8">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.8" name="1.8">
+                            <label for="1.8" class="question-label">
+                                <strong>1.8.</strong> В п.6 указан контактный телефон пациента и/или доверенного лица.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.8" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="1.9">
+                        <div class="question-header">
+                            <input type="checkbox" id="1.9" name="1.9">
+                            <label for="1.9" class="question-label">
+                                <strong>1.9.</strong> Копии документов приобщаются к карте ТОЛЬКО с письменного согласия пациента. На копиях делается отметка о согласии.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_1.9" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 1:</label>
+                        <textarea class="section-comment-area" id="section_comment_1" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Раздел 2 -->
+                <div class="section">
+                    <h2>Раздел 2: Диагноз, информированные согласия, извещения</h2>
+                    
+                    <div class="question-block" data-id="2.1">
+                        <div class="question-header">
+                            <input type="checkbox" id="2.1" name="2.1">
+                            <label for="2.1" class="question-label">
+                                <strong>2.1.</strong> В п.20 (ЕМИАС) указан клинический диагноз и коды по МКБ.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_2.1" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="2.2">
+                        <div class="question-header">
+                            <input type="checkbox" id="2.2" name="2.2">
+                            <label for="2.2" class="question-label">
+                                <strong>2.2.</strong> В п.23 (оборотная сторона) внесены данные об аллергических и нежелательных реакциях (либо прописано в любом месте на оборотной стороны обложки).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_2.2" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="2.3">
+                        <div class="question-header">
+                            <input type="checkbox" id="2.3" name="2.3">
+                            <label for="2.3" class="question-label">
+                                <strong>2.3.</strong> Приложен корешок извещения об установлении/прекращении диспансерного наблюдения (форма соответствует утвержденной).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_2.3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="2.4">
+                        <div class="question-header">
+                            <input type="checkbox" id="2.4" name="2.4">
+                            <label for="2.4" class="question-label">
+                                <strong>2.4.</strong> Приложено информированное добровольное согласие (ИДС) на мед. вмешательство (форма по Приказу №1051н).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_2.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="2.5">
+                        <div class="question-header">
+                            <input type="checkbox" id="2.5" name="2.5">
+                            <label for="2.5" class="question-label">
+                                <strong>2.5.</strong> Заполнено, подписано пациентом/представителем и медработником с расшифровкой ФИО.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_2.5" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="2.6">
+                        <div class="question-header">
+                            <input type="checkbox" id="2.6" name="2.6">
+                            <label for="2.6" class="question-label">
+                                <strong>2.6.</strong> В случае отказа -- сделана запись о разъяснении последствий с указанием ФИО и должности специалиста.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_2.6" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="2.7">
+                        <div class="question-header">
+                            <input type="checkbox" id="2.7" name="2.7">
+                            <label for="2.7" class="question-label">
+                                <strong>2.7.</strong> Приложено ИДС на обработку персональных данных (форма по Распоряжению №144-Р).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_2.7" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="2.8">
+                        <div class="question-header">
+                            <input type="checkbox" id="2.8" name="2.8">
+                            <label for="2.8" class="question-label">
+                                <strong>2.8.</strong> Заполнено, подписано пациентом/представителем и медработником с расшифровкой ФИО.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_2.8" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="2.9">
+                        <div class="question-header">
+                            <input type="checkbox" id="2.9" name="2.9">
+                            <label for="2.9" class="question-label">
+                                <strong>2.9.</strong> Строка о предоставлении сведений о состоянии здоровья другому лицу заполнена.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_2.9" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="2.10">
+                        <div class="question-header">
+                            <input type="checkbox" id="2.10" name="2.10">
+                            <label for="2.10" class="question-label">
+                                <strong>2.10.</strong> Приложено согласие на пробу с Диаскинтестом (форма по Приказу №89/25).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_2.10" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="2.11">
+                        <div class="question-header">
+                            <input type="checkbox" id="2.11" name="2.11">
+                            <label for="2.11" class="question-label">
+                                <strong>2.11.</strong> Проверить четкость печати в бланках согласий, отсутствие обрезки текста.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_2.11" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 2:</label>
+                        <textarea class="section-comment-area" id="section_comment_2" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Раздел 3 -->
+                <div class="section">
+                    <h2>Раздел 3: Полнота записей в типовых шаблонах (анамнез, осмотр)</h2>
+                    
+                    <div class="question-block" data-id="3.1">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.1" name="3.1">
+                            <label for="3.1" class="question-label">
+                                <strong>3.1.</strong> Указаны жалобы пациента.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.1" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="3.2">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.2" name="3.2">
+                            <label for="3.2" class="question-label">
+                                <strong>3.2.</strong> Указано направление на консультацию или «самообращение».
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.2" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="3.3">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.3" name="3.3">
+                            <label for="3.3" class="question-label">
+                                <strong>3.3.</strong> Эпидемиологический анамнез (контакты, перенесенный туберкулез).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="3.4">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.4" name="3.4">
+                            <label for="3.4" class="question-label">
+                                <strong>3.4.</strong> Сведения о детях в очаге, семейных и производственных контактах.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="3.5">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.5" name="3.5">
+                            <label for="3.5" class="question-label">
+                                <strong>3.5.</strong> Сопутствующие заболевания, вредные привычки, пребывание в ФСИН.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.5" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="3.6">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.6" name="3.6">
+                            <label for="3.6" class="question-label">
+                                <strong>3.6.</strong> Указаны сведения о направляющем специалисте, дате и обстоятельствах выявления патологии.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.6" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="3.7">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.7" name="3.7">
+                            <label for="3.7" class="question-label">
+                                <strong>3.7.</strong> Заполнен клинико-экспертный анамнез (даже для неработающих).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.7" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="3.8">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.8" name="3.8">
+                            <label for="3.8" class="question-label">
+                                <strong>3.8.</strong> Указаны перенесенные инфекции, переливания крови, поездки за последние 6 месяцев.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.8" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="3.9">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.9" name="3.9">
+                            <label for="3.9" class="question-label">
+                                <strong>3.9.</strong> Внесены все результаты: иммунодиагностики, бактериограммы, лабораторных и инструментальных исследований.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.9" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="3.10">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.10" name="3.10">
+                            <label for="3.10" class="question-label">
+                                <strong>3.10.</strong> Отражены данные объективного осмотра и оценка тяжести состояния.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.10" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="3.11">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.11" name="3.11">
+                            <label for="3.11" class="question-label">
+                                <strong>3.11.</strong> Имеется обоснование предварительного диагноза.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.11" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="3.12">
+                        <div class="question-header">
+                            <input type="checkbox" id="3.12" name="3.12">
+                            <label for="3.12" class="question-label">
+                                <strong>3.12.</strong> Указаны сведения о лучевой нагрузке, учтены данные исследований, проведенных в других медицинских организациях, время исследования.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_3.12" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 3:</label>
+                        <textarea class="section-comment-area" id="section_comment_3" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Раздел 4 -->
+                <div class="section">
+                    <h2>Раздел 4: Оформление диспансерного наблюдения (Эпикриз ВК)</h2>
+                    
+                    <div class="question-block" data-id="4.1">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.1" name="4.1">
+                            <label for="4.1" class="question-label">
+                                <strong>4.1.</strong> Оформлен эпикриз ВК о взятии под диспансерное наблюдение (по установленной форме).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.1" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="4.2">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.2" name="4.2">
+                            <label for="4.2" class="question-label">
+                                <strong>4.2.</strong> Диагноз в решении ВК оформлен по клинической классификации (форма, локализация, фаза, МБТ, ЛУ, осложнения).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.2" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="4.3">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.3" name="4.3">
+                            <label for="4.3" class="question-label">
+                                <strong>4.3.</strong> Имеется подробное обоснование диагноза.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="4.4">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.4" name="4.4">
+                            <label for="4.4" class="question-label">
+                                <strong>4.4.</strong> Указаны группа диспансерного наблюдения, режим химиотерапии, дата проведения ВК.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="4.5">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.5" name="4.5">
+                            <label for="4.5" class="question-label">
+                                <strong>4.5.</strong> Заключительный диагноз установлен в срок не более 14 дней.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.5" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="4.6">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.6" name="4.6">
+                            <label for="4.6" class="question-label">
+                                <strong>4.6.</strong> Дата ВК совпадает с датой подачи извещений (ф. 058/у и 089/у) и диагнозом в листе уточненных диагнозов.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.6" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <!-- ОБЪЕДИНЕННЫЙ ПУНКТ 4.7-4.8 -->
+                    <div class="question-block" data-id="4.7">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.7" name="4.7">
+                            <label for="4.7" class="question-label">
+                                <strong>4.7.</strong> В протоколе ВК отражена схема лечения или имеется запись о том, что схема лечения будет разработана в стационаре.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.7" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="4.9">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.9" name="4.9">
+                            <label for="4.9" class="question-label">
+                                <strong>4.9.</strong> В протоколе ВК отражен план ведения (консультация специалистов, лабораторные и инструментальные методы исследования).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.9" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="4.10">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.10" name="4.10">
+                            <label for="4.10" class="question-label">
+                                <strong>4.10.</strong> Оформлен протокол ВК о постановке на бациллярный учет.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.10" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="4.11">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.11" name="4.11">
+                            <label for="4.11" class="question-label">
+                                <strong>4.11.</strong> Подана повторно форма 058/у.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.11" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="4.12">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.12" name="4.12">
+                            <label for="4.12" class="question-label">
+                                <strong>4.12.</strong> Внесены изменения в журнал (ф. № 60-у) и лист уточненных диагнозов.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.12" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="4.13">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.13" name="4.13">
+                            <label for="4.13" class="question-label">
+                                <strong>4.13.</strong> Указана дата госпитализации. Ведутся ежемесячные записи о лечении в стационаре.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.13" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="4.14">
+                        <div class="question-header">
+                            <input type="checkbox" id="4.14" name="4.14">
+                            <label for="4.14" class="question-label">
+                                <strong>4.14.</strong> Посещение очага туберкулезной инфекции проведено в срок до 3 суток с момента постановки на учет.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_4.14" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 4:</label>
+                        <textarea class="section-comment-area" id="section_comment_4" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Раздел 5 -->
+                <div class="section">
+                    <h2>Раздел 5: Этапный эпикриз после стационарного лечения</h2>
+                    
+                    <div class="question-block" data-id="5.1">
+                        <div class="question-header">
+                            <input type="checkbox" id="5.1" name="5.1">
+                            <label for="5.1" class="question-label">
+                                <strong>5.1.</strong> Отражены достигнутые результаты на стационарном этапе.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_5.1" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="5.2">
+                        <div class="question-header">
+                            <input type="checkbox" id="5.2" name="5.2">
+                            <label for="5.2" class="question-label">
+                                <strong>5.2.</strong> Имеются рекомендации стационара по дальнейшему ведению лечения.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_5.2" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="5.3">
+                        <div class="question-header">
+                            <input type="checkbox" id="5.3" name="5.3">
+                            <label for="5.3" class="question-label">
+                                <strong>5.3.</strong> При наличии данных о непереносимости лекарственных препаратов эти сведения отражены в этапном эпикризе, а также перенесены на оборотную сторону титульного листа формы 025/у.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_5.3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="5.4">
+                        <div class="question-header">
+                            <input type="checkbox" id="5.4" name="5.4">
+                            <label for="5.4" class="question-label">
+                                <strong>5.4.</strong> Указаны причины выписки из стационара.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_5.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="5.5">
+                        <div class="question-header">
+                            <input type="checkbox" id="5.5" name="5.5">
+                            <label for="5.5" class="question-label">
+                                <strong>5.5.</strong> Отражено, была ли консультация хирурга и ее результаты.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_5.5" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="5.6">
+                        <div class="question-header">
+                            <input type="checkbox" id="5.6" name="5.6">
+                            <label for="5.6" class="question-label">
+                                <strong>5.6.</strong> Составлен подробный план ведения и лечения пациента.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_5.6" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 5:</label>
+                        <textarea class="section-comment-area" id="section_comment_5" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Раздел 6 -->
+                <div class="section">
+                    <h2>Раздел 6: Ведение дневниковых записей на амбулаторном этапе</h2>
+                    
+                    <div class="question-block" data-id="6.1">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.1" name="6.1">
+                            <label for="6.1" class="question-label">
+                                <strong>6.1.</strong> По окончании каждого этапа своевременно проведено ВК.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.1" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.2">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.2" name="6.2">
+                            <label for="6.2" class="question-label">
+                                <strong>6.2.</strong> Записи ведутся не реже 1 раза в 7 дней (или чаще по необходимости).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.2" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.3">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.3" name="6.3">
+                            <label for="6.3" class="question-label">
+                                <strong>6.3.</strong> Указаны жалобы (детализировано).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.4">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.4" name="6.4">
+                            <label for="6.4" class="question-label">
+                                <strong>6.4.</strong> Отражена полнота объективного осмотра (АД, ЧСС, ЧДД).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.5">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.5" name="6.5">
+                            <label for="6.5" class="question-label">
+                                <strong>6.5.</strong> Отражены результаты и интерпретация предыдущих лабораторных и инструментальных исследований.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.5" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.6">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.6" name="6.6">
+                            <label for="6.6" class="question-label">
+                                <strong>6.6.</strong> Указано, что пациент ознакомлен с результатами обследования.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.6" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.7">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.7" name="6.7">
+                            <label for="6.7" class="question-label">
+                                <strong>6.7.</strong> Указан развернутый клинический диагноз (без сокращений).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.7" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.8">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.8" name="6.8">
+                            <label for="6.8" class="question-label">
+                                <strong>6.8.</strong> Назначены дополнительные методы исследований в соответствии с клиническими рекомендациями.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.8" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.9">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.9" name="6.9">
+                            <label for="6.9" class="question-label">
+                                <strong>6.9.</strong> Соблюдена кратность направлений к другим специалистам.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.9" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.10">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.10" name="6.10">
+                            <label for="6.10" class="question-label">
+                                <strong>6.10.</strong> При назначении ЛС указаны: доза, способ введения, кратность, время приема, связь с пищей, количество выданного.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.10" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.11">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.11" name="6.11">
+                            <label for="6.11" class="question-label">
+                                <strong>6.11.</strong> Указана дата следующей явки.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.11" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.12">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.12" name="6.12">
+                            <label for="6.12" class="question-label">
+                                <strong>6.12.</strong> Запись подписана лечащим врачом с расшифровкой подписи.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.12" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="6.13">
+                        <div class="question-header">
+                            <input type="checkbox" id="6.13" name="6.13">
+                            <label for="6.13" class="question-label">
+                                <strong>6.13.</strong> Записи в карте полностью отражают клиническое мышление врача; обоснованность назначения любых исследований не вызывает вопросов, не требует уточнений.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_6.13" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 6:</label>
+                        <textarea class="section-comment-area" id="section_comment_6" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Раздел 7 -->
+                <div class="section">
+                    <h2>Раздел 7: Наличие протоколов ВК (обязательные случаи)</h2>
+                    
+                    <div class="question-block" data-id="7.1">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.1" name="7.1">
+                            <label for="7.1" class="question-label">
+                                <strong>7.1.</strong> Взятие/снятие с диспансерного наблюдения.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.1" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.2">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.2" name="7.2">
+                            <label for="7.2" class="question-label">
+                                <strong>7.2.</strong> Перевод в другую группу диспансерного наблюдения.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.2" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.3">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.3" name="7.3">
+                            <label for="7.3" class="question-label">
+                                <strong>7.3.</strong> Окончание интенсивной фазы и перевод на фазу продолжения.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.4">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.4" name="7.4">
+                            <label for="7.4" class="question-label">
+                                <strong>7.4.</strong> Продление фазы лечения сверх установленного срока.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.5">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.5" name="7.5">
+                            <label for="7.5" class="question-label">
+                                <strong>7.5.</strong> Изменение схемы лечения (замена препаратов, НЯ, отсутствие в аптеке).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.5" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.6">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.6" name="7.6">
+                            <label for="7.6" class="question-label">
+                                <strong>7.6.</strong> Появление полости распада или бактериовыделения (изменение в листе диагнозов).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.6" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.7">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.7" name="7.7">
+                            <label for="7.7" class="question-label">
+                                <strong>7.7.</strong> Выписка из стационара с назначением дорогостоящих или 5 и более препаратов.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.7" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.8">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.8" name="7.8">
+                            <label for="7.8" class="question-label">
+                                <strong>7.8.</strong> Назначение профилактического лечения группам риска.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.8" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.9">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.9" name="7.9">
+                            <label for="7.9" class="question-label">
+                                <strong>7.9.</strong> Направление на МСЭ (оформление ф. 088/у).
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.9" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.10">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.10" name="7.10">
+                            <label for="7.10" class="question-label">
+                                <strong>7.10.</strong> Выдача/продление листка нетрудоспособности свыше 15 дней.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.10" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.11">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.11" name="7.11">
+                            <label for="7.11" class="question-label">
+                                <strong>7.11.</strong> Допуск к труду/учебе, оформление академического отпуска.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.11" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.12">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.12" name="7.12">
+                            <label for="7.12" class="question-label">
+                                <strong>7.12.</strong> Разбор жалоб и случаев смерти.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.12" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="7.13">
+                        <div class="question-header">
+                            <input type="checkbox" id="7.13" name="7.13">
+                            <label for="7.13" class="question-label">
+                                <strong>7.13.</strong> Подписи не менее 3-х членов ВК с указанием номера и даты.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_7.13" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 7:</label>
+                        <textarea class="section-comment-area" id="section_comment_7" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Раздел 8 -->
+                <div class="section">
+                    <h2>Раздел 8: Виды эпикризов (должны присутствовать)</h2>
+                    
+                    <div class="question-block" data-id="8.1">
+                        <div class="question-header">
+                            <input type="checkbox" id="8.1" name="8.1">
+                            <label for="8.1" class="question-label">
+                                <strong>8.1.</strong> Эпикриз при продолжении лечения после стационара.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_8.1" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="8.2">
+                        <div class="question-header">
+                            <input type="checkbox" id="8.2" name="8.2">
+                            <label for="8.2" class="question-label">
+                                <strong>8.2.</strong> Этапный эпикриз при переводе из интенсивной фазы в фазу продолжения.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_8.2" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="8.3">
+                        <div class="question-header">
+                            <input type="checkbox" id="8.3" name="8.3">
+                            <label for="8.3" class="question-label">
+                                <strong>8.3.</strong> Годовой эпикриз.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_8.3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="8.4">
+                        <div class="question-header">
+                            <input type="checkbox" id="8.4" name="8.4">
+                            <label for="8.4" class="question-label">
+                                <strong>8.4.</strong> Эпикриз передачи пациента другому врачу на период отпуска.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_8.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 8:</label>
+                        <textarea class="section-comment-area" id="section_comment_8" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Раздел 9 -->
+                <div class="section">
+                    <h2>Раздел 9: Организация работы в ЕМИАС</h2>
+                    
+                    <div class="question-block" data-id="9.1">
+                        <div class="question-header">
+                            <input type="checkbox" id="9.1" name="9.1">
+                            <label for="9.1" class="question-label">
+                                <strong>9.1.</strong> Сведения о каждом посещении вносятся в ЕМИАС в день визита.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_9.1" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="9.2">
+                        <div class="question-header">
+                            <input type="checkbox" id="9.2" name="9.2">
+                            <label for="9.2" class="question-label">
+                                <strong>9.2.</strong> Каждое посещение вносится как первичное, вид услуги -- «ОМС».
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_9.2" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="9.3">
+                        <div class="question-header">
+                            <input type="checkbox" id="9.3" name="9.3">
+                            <label for="9.3" class="question-label">
+                                <strong>9.3.</strong> Дата в ТАП и дата дневниковой записи строго совпадают.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_9.3" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="9.4">
+                        <div class="question-header">
+                            <input type="checkbox" id="9.4" name="9.4">
+                            <label for="9.4" class="question-label">
+                                <strong>9.4.</strong> Клинический диагноз в ТАП и дневниковой записи совпадает.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_9.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="9.5">
+                        <div class="question-header">
+                            <input type="checkbox" id="9.5" name="9.5">
+                            <label for="9.5" class="question-label">
+                                <strong>9.5.</strong> В один день не оформляются посещения врача-фтизиатра двух разных филиалов/КДО.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_9.5" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="9.6">
+                        <div class="question-header">
+                            <input type="checkbox" id="9.6" name="9.6">
+                            <label for="9.6" class="question-label">
+                                <strong>9.6.</strong> Расписание приемов в ЕМИАС соответствует фактическому.
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_9.6" placeholder="Введите комментарий..."></textarea>
+                    </div>
+                    
+                    <div class="question-block" data-id="9.7">
+                        <div class="question-header">
+                            <input type="checkbox" id="9.7" name="9.7">
+                            <label for="9.7" class="question-label">
+                                <strong>9.7.</strong> Телемедицинские консультации (видеоконтроль) оформляются как первичное посещение, вид услуги -- «ОМС».
+                            </label>
+                        </div>
+                        <label class="comment-label">Комментарий:</label>
+                        <textarea class="comment-area" id="comment_9.7" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 9:</label>
+                        <textarea class="section-comment-area" id="section_comment_9" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
+                </div>
+            </form>
+
+            <div class="bottom-controls">
+                <button type="button" class="save-excel-btn" id="saveExcelBtn">Сохранить в Excel</button>
             </div>
         </div>
-    </main>
+    </div>
 
     <script>
-    // Dropdown functionality
-    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-    
-    dropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            const dropdown = this.nextElementSibling;
-            dropdown.classList.toggle('show');
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('checklistForm');
+            const statusMessage = document.getElementById('statusMessage');
+            const clearBtn = document.getElementById('clearBtn');
+            const saveExcelBtn = document.getElementById('saveExcelBtn');
+            const progressFill = document.getElementById('progressFill');
+            const progressPercent = document.getElementById('progressPercent');
+            const completedCount = document.getElementById('completedCount');
+            const totalCount = document.getElementById('totalCount');
+            const currentDateDisplay = document.getElementById('currentDateDisplay');
+            
+            const patientName = document.getElementById('patientName');
+            const patientBirthDate = document.getElementById('patientBirthDate');
+            const patientId = document.getElementById('patientId');
+            const checkDate = document.getElementById('checkDate');
+            
+            let autoSaveInterval;
+            
+            function setCurrentDate() {
+                const now = new Date();
+                const today = now.toISOString().split('T')[0];
+                const formattedDate = now.toLocaleDateString('ru-RU', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                
+                checkDate.value = today;
+                currentDateDisplay.textContent = `Дата проверки: ${formattedDate}`;
+            }
+            
+            function initCounters() {
+                const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+                totalCount.textContent = checkboxes.length;
+                updateProgress();
+            }
+            
+            function updateProgress() {
+                const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+                const checked = form.querySelectorAll('input[type="checkbox"]:checked');
+                const percent = Math.round((checked.length / checkboxes.length) * 100);
+                
+                progressFill.style.width = percent + '%';
+                progressPercent.textContent = percent + '%';
+                completedCount.textContent = checked.length;
+                
+                checkboxes.forEach(checkbox => {
+                    const block = checkbox.closest('.question-block');
+                    if (checkbox.checked) {
+                        block.classList.add('checked');
+                    } else {
+                        block.classList.remove('checked');
+                    }
+                });
+            }
+            
+            function setupCommentAutoCheck() {
+                const commentAreas = form.querySelectorAll('.comment-area');
+                commentAreas.forEach(area => {
+                    area.addEventListener('input', function() {
+                        if (this.value.trim() !== '') {
+                            const questionId = this.id.replace('comment_', '');
+                            const checkbox = document.getElementById(questionId);
+                            if (checkbox && !checkbox.checked) {
+                                checkbox.checked = true;
+                                updateProgress();
+                            }
+                        }
+                    });
+                });
+            }
+            
+            function setupBlockClick() {
+                const questionBlocks = document.querySelectorAll('.question-block');
+                questionBlocks.forEach(block => {
+                    block.addEventListener('click', function(e) {
+                        if (e.target.tagName === 'TEXTAREA') return;
+                        
+                        const checkbox = this.querySelector('input[type="checkbox"]');
+                        if (checkbox) {
+                            checkbox.checked = !checkbox.checked;
+                            updateProgress();
+                            saveData();
+                        }
+                    });
+                });
+            }
+            
+            function loadSavedData() {
+                const savedData = localStorage.getItem('checklistData');
+                const savedComments = localStorage.getItem('checklistComments');
+                const savedPatientInfo = localStorage.getItem('patientInfo');
+                const savedSectionComments = localStorage.getItem('sectionComments');
+                
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    for (const key in data) {
+                        const checkbox = document.getElementById(key);
+                        if (checkbox) {
+                            checkbox.checked = data[key];
+                        }
+                    }
+                }
+                
+                if (savedComments) {
+                    const comments = JSON.parse(savedComments);
+                    for (const key in comments) {
+                        const commentArea = document.getElementById('comment_' + key);
+                        if (commentArea) {
+                            commentArea.value = comments[key];
+                        }
+                    }
+                }
+                
+                if (savedSectionComments) {
+                    const sectionComments = JSON.parse(savedSectionComments);
+                    for (const key in sectionComments) {
+                        const sectionCommentArea = document.getElementById('section_comment_' + key);
+                        if (sectionCommentArea) {
+                            sectionCommentArea.value = sectionComments[key];
+                        }
+                    }
+                }
+                
+                if (savedPatientInfo) {
+                    const patientInfo = JSON.parse(savedPatientInfo);
+                    patientName.value = patientInfo.name || '';
+                    patientBirthDate.value = patientInfo.birthDate || '';
+                    patientId.value = patientInfo.id || '';
+                    if (patientInfo.checkDate) {
+                        checkDate.value = patientInfo.checkDate;
+                        const date = new Date(patientInfo.checkDate);
+                        currentDateDisplay.textContent = `Дата проверки: ${date.toLocaleDateString('ru-RU')}`;
+                    }
+                }
+                
+                updateProgress();
+                showStatus('Данные загружены', 'success');
+            }
+            
+            function saveData() {
+                const data = {};
+                const comments = {};
+                const sectionComments = {};
+                const patientInfo = {
+                    name: patientName.value,
+                    birthDate: patientBirthDate.value,
+                    id: patientId.value,
+                    checkDate: checkDate.value
+                };
+                
+                const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    data[checkbox.id] = checkbox.checked;
+                    
+                    const commentArea = document.getElementById('comment_' + checkbox.id);
+                    if (commentArea) {
+                        comments[checkbox.id] = commentArea.value;
+                    }
+                });
+                
+                const sectionCommentAreas = document.querySelectorAll('.section-comment-area');
+                sectionCommentAreas.forEach(area => {
+                    const sectionId = area.id.replace('section_comment_', '');
+                    sectionComments[sectionId] = area.value;
+                });
+                
+                localStorage.setItem('checklistData', JSON.stringify(data));
+                localStorage.setItem('checklistComments', JSON.stringify(comments));
+                localStorage.setItem('sectionComments', JSON.stringify(sectionComments));
+                localStorage.setItem('patientInfo', JSON.stringify(patientInfo));
+                showStatus('Данные сохранены', 'success');
+            }
+            
+            function startAutoSave() {
+                autoSaveInterval = setInterval(saveData, 10000);
+            }
+            
+            function showStatus(message, type = 'info') {
+                statusMessage.textContent = message;
+                statusMessage.style.background = type === 'success' ? '#e8f5e8' : 
+                                               type === 'error' ? '#fde8e8' : '#e8f4fd';
+                statusMessage.style.borderColor = type === 'success' ? '#27ae60' : 
+                                                type === 'error' ? '#e74c3c' : '#3498db';
+                
+                setTimeout(() => {
+                    statusMessage.textContent = 'Готов к работе • Автосохранение каждые 10 секунд';
+                    statusMessage.style.background = '#e8f4fd';
+                    statusMessage.style.borderColor = '#3498db';
+                }, 3000);
+            }
+            
+            function clearForm() {
+                if (confirm('Вы уверены, что хотите очистить всю форму?')) {
+                    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    
+                    const commentAreas = form.querySelectorAll('.comment-area');
+                    commentAreas.forEach(area => {
+                        area.value = '';
+                    });
+                    
+                    const sectionCommentAreas = document.querySelectorAll('.section-comment-area');
+                    sectionCommentAreas.forEach(area => {
+                        area.value = '';
+                    });
+                    
+                    patientName.value = '';
+                    patientBirthDate.value = '';
+                    patientId.value = '';
+                    setCurrentDate();
+                    
+                    localStorage.removeItem('checklistData');
+                    localStorage.removeItem('checklistComments');
+                    localStorage.removeItem('sectionComments');
+                    localStorage.removeItem('patientInfo');
+                    updateProgress();
+                    showStatus('Форма очищена', 'success');
+                }
+            }
+            
+            function saveToExcel() {
+                try {
+                    const data = [];
+                    
+                    data.push(['Чек-лист проверки медицинской карты - BETA', '', '']);
+                    data.push(['ФИО пациента:', '', patientName.value || 'Не указано']);
+                    data.push(['Дата рождения:', '', patientBirthDate.value || 'Не указано']);
+                    data.push(['ID/номер карты:', '', patientId.value || 'Не указано']);
+                    data.push(['Дата проверки:', '', checkDate.value || new Date().toISOString().split('T')[0]]);
+                    data.push(['', '', '']);
+                    
+                    data.push(['Раздел', 'Пункт', 'Описание', 'Статус', 'Комментарий']);
+                    
+                    const sections = form.querySelectorAll('.section');
+                    
+                    sections.forEach(section => {
+                        const sectionTitle = section.querySelector('h2').textContent;
+                        data.push([sectionTitle, '', '', '', '']);
+                        
+                        const questions = section.querySelectorAll('.question-block');
+                        questions.forEach(question => {
+                            const checkbox = question.querySelector('input[type="checkbox"]');
+                            const label = question.querySelector('.question-label');
+                            const commentArea = question.querySelector('.comment-area');
+                            
+                            const status = checkbox.checked ? 'ПРОВЕРЕНО' : 'НЕ ПРОВЕРЕНО';
+                            const comment = commentArea ? commentArea.value : '';
+                            
+                            data.push(['', checkbox.id, label.textContent.trim(), status, comment]);
+                        });
+                        
+                        const sectionId = Array.from(sections).indexOf(section) + 1;
+                        const sectionCommentArea = document.getElementById('section_comment_' + sectionId);
+                        if (sectionCommentArea && sectionCommentArea.value.trim()) {
+                            data.push(['', '', 'Комментарий к разделу:', '', sectionCommentArea.value]);
+                        }
+                        
+                        data.push(['', '', '', '', '']);
+                    });
+                    
+                    const ws = XLSX.utils.aoa_to_sheet(data);
+                    const wb = XLSX.utils.book_new();
+                    
+                    const colWidths = [
+                        { wch: 25 },
+                        { wch: 8 },
+                        { wch: 60 },
+                        { wch: 12 },
+                        { wch: 40 }
+                    ];
+                    ws['!cols'] = colWidths;
+                    
+                    const range = XLSX.utils.decode_range(ws['!ref']);
+                    for (let R = range.s.r; R <= range.e.r; ++R) {
+                        for (let C = range.s.c; C <= range.e.c; ++C) {
+                            const cell_address = {c: C, r: R};
+                            const cell_ref = XLSX.utils.encode_cell(cell_address);
+                            
+                            if (ws[cell_ref]) {
+                                if (!ws[cell_ref].s) ws[cell_ref].s = {};
+                                ws[cell_ref].s.alignment = {
+                                    horizontal: 'left',
+                                    vertical: 'top',
+                                    wrapText: true
+                                };
+                            }
+                        }
+                    }
+                    
+                    let fileName = 'чек-лист_медицинской_карты_BETA';
+                    if (patientName.value) {
+                        fileName += '_' + patientName.value.replace(/\s+/g, '_');
+                    }
+                    if (patientId.value) {
+                        fileName += '_' + patientId.value;
+                    }
+                    fileName += '_' + (checkDate.value || new Date().toISOString().split('T')[0]) + '.xlsx';
+                    
+                    XLSX.utils.book_append_sheet(wb, ws, "Чек-лист");
+                    XLSX.writeFile(wb, fileName);
+                    showStatus('Файл Excel успешно сохранен!', 'success');
+                    
+                } catch (error) {
+                    console.error('Ошибка при сохранении в Excel:', error);
+                    showStatus('Ошибка при сохранении файла', 'error');
+                }
+            }
+            
+            function init() {
+                setCurrentDate();
+                initCounters();
+                setupCommentAutoCheck();
+                setupBlockClick();
+                loadSavedData();
+                startAutoSave();
+                
+                checkDate.addEventListener('change', function() {
+                    if (this.value) {
+                        const date = new Date(this.value);
+                        currentDateDisplay.textContent = `Дата проверки: ${date.toLocaleDateString('ru-RU')}`;
+                    }
+                });
+                
+                clearBtn.addEventListener('click', clearForm);
+                saveExcelBtn.addEventListener('click', saveToExcel);
+                form.addEventListener('change', updateProgress);
+                
+                [patientName, patientBirthDate, patientId, checkDate].forEach(field => {
+                    field.addEventListener('input', saveData);
+                });
+                
+                const sectionCommentAreas = document.querySelectorAll('.section-comment-area');
+                sectionCommentAreas.forEach(area => {
+                    area.addEventListener('input', saveData);
+                });
+            }
+            
+            init();
         });
-    });
-    
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.dropdown-toggle')) {
-            document.querySelectorAll('.dropdown-content').forEach(dropdown => {
-                dropdown.classList.remove('show');
-            });
-        }
-    });
-
-    // Функция для открытия с переводчиком
-    function openWithTranslator(event) {
-        event.preventDefault();
-        
-        // Открываем переводчик
-        window.open('https://translate.google.com/?sl=en&tl=ru&op=translate', 'translator');
-        
-        // Открываем drugs.com
-        window.open('https://www.drugs.com/drug_interactions.html', 'drugs');
-        
-        return false;
-    }
-</script>
+    </script>
 </body>
 </html>
