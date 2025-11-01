@@ -3,342 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Чек-лист проверки медицинской карты</title>
+    <title>Чек-лист проверки медицинской карты - BETA</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.3;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 8px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-            position: relative;
-        }
-        
-        h1 {
-            font-size: 1.6rem;
-            margin-bottom: 4px;
-            font-weight: 600;
-        }
-        
-        .subtitle {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        .clear-btn-top {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 5px 10px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        
-        .clear-btn-top:hover {
-            background: #c0392b;
-        }
-        
-        .content {
-            padding: 12px 15px;
-        }
-        
-        .patient-info {
-            background: #f8f9fa;
-            border-radius: 6px;
-            padding: 12px 15px;
-            margin: 12px 0;
-            border: 1px solid #e9ecef;
-        }
-        
-        .info-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 8px;
-        }
-        
-        .info-field {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .info-field label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 4px;
-        }
-        
-        .info-field label .optional {
-            font-weight: normal;
-            color: #666;
-            font-size: 0.75rem;
-        }
-        
-        .info-field input {
-            width: 100%;
-            padding: 6px 8px;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            font-family: inherit;
-        }
-        
-        .info-field input:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.1);
-        }
-        
-        .check-date {
-            text-align: center;
-            font-weight: 600;
-            color: #2c3e50;
-            margin: 8px 0;
-            padding: 6px;
-            background: #e8f4fd;
-            border-radius: 4px;
-            border: 1px solid #3498db;
-        }
-        
-        .status {
-            margin: 8px 0;
-            padding: 8px;
-            text-align: center;
-            font-weight: 600;
-            background: #e8f4fd;
-            border-radius: 4px;
-            border: 1px solid #3498db;
-            color: #2c3e50;
-            font-size: 0.85rem;
-        }
-        
-        .progress {
-            margin: 8px 0;
-            background: #f8f9fa;
-            border-radius: 4px;
-            padding: 10px;
-            text-align: center;
-        }
-        
-        .progress-bar {
-            height: 5px;
-            background: #e9ecef;
-            border-radius: 2px;
-            overflow: hidden;
-            margin: 4px 0;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #27ae60 0%, #219955 100%);
-            transition: width 0.3s ease;
-        }
-        
-        .progress-text {
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 0.85rem;
-        }
-        
-        h2 {
-            font-size: 1.2rem;
-            margin: 15px 0 8px;
-            padding: 8px 12px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-left: 3px solid #3498db;
-            border-radius: 4px;
-            color: #2c3e50;
-        }
-        
-        .section {
-            margin-bottom: 10px;
-        }
-        
-        .question-block {
-            margin-bottom: 4px;
-            padding: 8px 10px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-            border-left: 2px solid transparent;
-            cursor: pointer;
-        }
-        
-        .question-block.checked {
-            background-color: #f0f9f0;
-            border-left-color: #27ae60;
-        }
-        
-        .question-block:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .question-header {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 4px;
-        }
-        
-        input[type="checkbox"] {
-            margin-right: 8px;
-            margin-top: 2px;
-            transform: scale(1.1);
-            cursor: pointer;
-            pointer-events: none;
-        }
-        
-        .question-label {
-            flex: 1;
-            font-size: 1.05rem;
-            cursor: pointer;
-            font-weight: 500;
-            line-height: 1.3;
-            pointer-events: none;
-        }
-        
-        .comment-area {
-            width: 100%;
-            padding: 5px 6px;
-            border: 1px solid #e0e0e0;
-            border-radius: 3px;
-            font-size: 0.85rem;
-            font-family: inherit;
-            resize: vertical;
-            min-height: 35px;
-            transition: all 0.2s ease;
-            cursor: auto;
-        }
-        
-        .comment-area:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.1);
-        }
-        
-        .comment-label {
-            display: block;
-            margin: 4px 0 2px;
-            font-size: 0.8rem;
-            color: #666;
-            font-weight: 500;
-            pointer-events: none;
-        }
-        
-        .bottom-controls {
-            text-align: center;
-            margin-top: 15px;
-            padding: 12px;
-        }
-        
-        .save-excel-btn {
-            padding: 8px 20px;
-            background: linear-gradient(135deg, #27ae60 0%, #219955 100%);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-        
-        .save-excel-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(39, 174, 96, 0.3);
-        }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.3; color: #333; background: #667eea; min-height: 100vh; padding: 8px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; }
+        header { background: #2c3e50; color: white; padding: 15px 20px; text-align: center; position: relative; }
+        h1 { font-size: 1.6rem; margin-bottom: 4px; font-weight: 600; }
+        .subtitle { font-size: 0.9rem; opacity: 0.9; }
+        .clear-btn-top { position: absolute; top: 12px; right: 12px; padding: 5px 10px; background: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
+        .clear-btn-top:hover { background: #c0392b; }
+        .content { padding: 12px 15px; }
+        .patient-info { background: #f8f9fa; border-radius: 6px; padding: 12px 15px; margin: 12px 0; border: 1px solid #e9ecef; }
+        .info-row { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 8px; }
+        .info-field { flex: 1; min-width: 200px; }
+        .info-field label { display: block; font-size: 0.85rem; font-weight: 600; color: #2c3e50; margin-bottom: 4px; }
+        .info-field label .optional { font-weight: normal; color: #666; font-size: 0.75rem; }
+        .info-field input { width: 100%; padding: 6px 8px; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 0.9rem; font-family: inherit; }
+        .info-field input:focus { outline: none; border-color: #3498db; }
+        .check-date { text-align: center; font-weight: 600; color: #2c3e50; margin: 8px 0; padding: 6px; background: #e8f4fd; border-radius: 4px; border: 1px solid #3498db; }
+        .status { margin: 8px 0; padding: 8px; text-align: center; font-weight: 600; background: #e8f4fd; border-radius: 4px; border: 1px solid #3498db; color: #2c3e50; font-size: 0.85rem; }
+        .progress { margin: 8px 0; background: #f8f9fa; border-radius: 4px; padding: 10px; text-align: center; }
+        .progress-bar { height: 5px; background: #e9ecef; border-radius: 2px; overflow: hidden; margin: 4px 0; }
+        .progress-fill { height: 100%; background: #27ae60; transition: width 0.3s ease; }
+        .progress-text { font-weight: 600; color: #2c3e50; font-size: 0.85rem; }
+        h2 { font-size: 1.2rem; margin: 15px 0 8px; padding: 8px 12px; background: #f8f9fa; border-left: 3px solid #3498db; border-radius: 4px; color: #2c3e50; }
+        .section { margin-bottom: 10px; }
+        .question-block { margin-bottom: 4px; padding: 8px 10px; border-radius: 4px; transition: background-color 0.2s ease; border-left: 2px solid transparent; cursor: pointer; }
+        .question-block.checked { background-color: #f0f9f0; border-left-color: #27ae60; }
+        .question-block:hover { background-color: #f8f9fa; }
+        .question-header { display: flex; align-items: flex-start; margin-bottom: 4px; }
+        input[type="checkbox"] { margin-right: 8px; margin-top: 2px; transform: scale(1.1); cursor: pointer; pointer-events: none; }
+        .question-label { flex: 1; font-size: 1.05rem; cursor: pointer; font-weight: 500; line-height: 1.3; pointer-events: none; }
+        .comment-area { width: 100%; padding: 5px 6px; border: 1px solid #e0e0e0; border-radius: 3px; font-size: 0.85rem; font-family: inherit; resize: vertical; min-height: 35px; }
+        .comment-area:focus { outline: none; border-color: #3498db; }
+        .comment-label { display: block; margin: 4px 0 2px; font-size: 0.8rem; color: #666; font-weight: 500; pointer-events: none; }
+        .section-comment { margin: 10px 0; padding: 8px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #3498db; }
+        .section-comment-label { display: block; font-size: 0.75rem; color: #666; font-weight: 600; margin-bottom: 4px; }
+        .section-comment-area { width: 100%; padding: 6px 8px; border: 1px solid #e0e0e0; border-radius: 3px; font-size: 0.8rem; font-family: inherit; resize: vertical; min-height: 40px; }
+        .bottom-controls { text-align: center; margin-top: 15px; padding: 12px; }
+        .save-excel-btn { padding: 8px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+        .save-excel-btn:hover { background: #219955; }
         @media (max-width: 768px) {
-            body {
-                padding: 5px;
-            }
-            
-            .container {
-                border-radius: 6px;
-            }
-            
-            header {
-                padding: 12px;
-            }
-            
-            h1 {
-                font-size: 1.4rem;
-            }
-            
-            .clear-btn-top {
-                position: static;
-                margin-top: 6px;
-                width: 100%;
-            }
-            
-            .content {
-                padding: 10px;
-            }
-            
-            .question-block {
-                padding: 6px 8px;
-            }
-            
-            h2 {
-                font-size: 1.1rem;
-                padding: 6px 10px;
-                margin: 12px 0 6px;
-            }
-            
-            .question-label {
-                font-size: 1rem;
-            }
-            
-            .save-excel-btn {
-                width: 100%;
-                padding: 10px;
-            }
-            
-            .info-field {
-                min-width: 100%;
-            }
+            body { padding: 5px; }
+            .container { border-radius: 6px; }
+            header { padding: 12px; }
+            h1 { font-size: 1.4rem; }
+            .clear-btn-top { position: static; margin-top: 6px; width: 100%; }
+            .content { padding: 10px; }
+            .question-block { padding: 6px 8px; }
+            h2 { font-size: 1.1rem; padding: 6px 10px; margin: 12px 0 6px; }
+            .question-label { font-size: 1rem; }
+            .save-excel-btn { width: 100%; padding: 10px; }
+            .info-field { min-width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Чек-лист проверки медицинской карты 2025</h1>
+            <h1>Чек-лист проверки медицинской карты - BETA</h1>
             <p class="subtitle">Форма № 025/у - амбулаторное ведение пациента</p>
             <button type="button" class="clear-btn-top" id="clearBtn">Очистить форму</button>
         </header>
 
         <div class="content">
-            <!-- Блок информации о пациенте -->
             <div class="patient-info">
                 <div class="info-row">
                     <div class="info-field">
@@ -477,6 +207,11 @@
                         <label class="comment-label">Комментарий:</label>
                         <textarea class="comment-area" id="comment_1.9" placeholder="Введите комментарий..."></textarea>
                     </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 1:</label>
+                        <textarea class="section-comment-area" id="section_comment_1" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
                 </div>
 
                 <!-- Раздел 2 -->
@@ -498,7 +233,7 @@
                         <div class="question-header">
                             <input type="checkbox" id="2.2" name="2.2">
                             <label for="2.2" class="question-label">
-                                <strong>2.2.</strong> В п.23 (оборотная сторона) внесены данные об аллергических и нежелательных реакциях (либо прописано в любом месте на оборотной стороне обложки).
+                                <strong>2.2.</strong> В п.23 (оборотная сторона) внесены данные об аллергических и нежелательных реакциях (либо прописано в любом месте на оборотной стороны обложки).
                             </label>
                         </div>
                         <label class="comment-label">Комментарий:</label>
@@ -602,6 +337,11 @@
                         </div>
                         <label class="comment-label">Комментарий:</label>
                         <textarea class="comment-area" id="comment_2.11" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 2:</label>
+                        <textarea class="section-comment-area" id="section_comment_2" placeholder="Введите общий комментарий к разделу..."></textarea>
                     </div>
                 </div>
 
@@ -740,6 +480,11 @@
                         <label class="comment-label">Комментарий:</label>
                         <textarea class="comment-area" id="comment_3.12" placeholder="Введите комментарий..."></textarea>
                     </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 3:</label>
+                        <textarea class="section-comment-area" id="section_comment_3" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
                 </div>
 
                 <!-- Раздел 4 -->
@@ -812,26 +557,16 @@
                         <textarea class="comment-area" id="comment_4.6" placeholder="Введите комментарий..."></textarea>
                     </div>
                     
+                    <!-- ОБЪЕДИНЕННЫЙ ПУНКТ 4.7-4.8 -->
                     <div class="question-block" data-id="4.7">
                         <div class="question-header">
                             <input type="checkbox" id="4.7" name="4.7">
                             <label for="4.7" class="question-label">
-                                <strong>4.7.</strong> В протоколе ВК отражена схема лечения.
+                                <strong>4.7.</strong> В протоколе ВК отражена схема лечения или имеется запись о том, что схема лечения будет разработана в стационаре.
                             </label>
                         </div>
                         <label class="comment-label">Комментарий:</label>
                         <textarea class="comment-area" id="comment_4.7" placeholder="Введите комментарий..."></textarea>
-                    </div>
-                    
-                    <div class="question-block" data-id="4.8">
-                        <div class="question-header">
-                            <input type="checkbox" id="4.8" name="4.8">
-                            <label for="4.8" class="question-label">
-                                <strong>4.8.</strong> Имеется запись о том, что схема лечения будет разработана в стационаре.
-                            </label>
-                        </div>
-                        <label class="comment-label">Комментарий:</label>
-                        <textarea class="comment-area" id="comment_4.8" placeholder="Введите комментарий..."></textarea>
                     </div>
                     
                     <div class="question-block" data-id="4.9">
@@ -898,6 +633,11 @@
                         </div>
                         <label class="comment-label">Комментарий:</label>
                         <textarea class="comment-area" id="comment_4.14" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 4:</label>
+                        <textarea class="section-comment-area" id="section_comment_4" placeholder="Введите общий комментарий к разделу..."></textarea>
                     </div>
                 </div>
 
@@ -969,6 +709,11 @@
                         </div>
                         <label class="comment-label">Комментарий:</label>
                         <textarea class="comment-area" id="comment_5.6" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 5:</label>
+                        <textarea class="section-comment-area" id="section_comment_5" placeholder="Введите общий комментарий к разделу..."></textarea>
                     </div>
                 </div>
 
@@ -1118,6 +863,11 @@
                         <label class="comment-label">Комментарий:</label>
                         <textarea class="comment-area" id="comment_6.13" placeholder="Введите комментарий..."></textarea>
                     </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 6:</label>
+                        <textarea class="section-comment-area" id="section_comment_6" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
                 </div>
 
                 <!-- Раздел 7 -->
@@ -1266,6 +1016,11 @@
                         <label class="comment-label">Комментарий:</label>
                         <textarea class="comment-area" id="comment_7.13" placeholder="Введите комментарий..."></textarea>
                     </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 7:</label>
+                        <textarea class="section-comment-area" id="section_comment_7" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
                 </div>
 
                 <!-- Раздел 8 -->
@@ -1314,6 +1069,11 @@
                         </div>
                         <label class="comment-label">Комментарий:</label>
                         <textarea class="comment-area" id="comment_8.4" placeholder="Введите комментарий..."></textarea>
+                    </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 8:</label>
+                        <textarea class="section-comment-area" id="section_comment_8" placeholder="Введите общий комментарий к разделу..."></textarea>
                     </div>
                 </div>
 
@@ -1397,6 +1157,11 @@
                         <label class="comment-label">Комментарий:</label>
                         <textarea class="comment-area" id="comment_9.7" placeholder="Введите комментарий..."></textarea>
                     </div>
+
+                    <div class="section-comment">
+                        <label class="section-comment-label">Общий комментарий к разделу 9:</label>
+                        <textarea class="section-comment-area" id="section_comment_9" placeholder="Введите общий комментарий к разделу..."></textarea>
+                    </div>
                 </div>
             </form>
 
@@ -1418,7 +1183,6 @@
             const totalCount = document.getElementById('totalCount');
             const currentDateDisplay = document.getElementById('currentDateDisplay');
             
-            // Элементы информации о пациенте
             const patientName = document.getElementById('patientName');
             const patientBirthDate = document.getElementById('patientBirthDate');
             const patientId = document.getElementById('patientId');
@@ -1426,7 +1190,6 @@
             
             let autoSaveInterval;
             
-            // Установка текущей даты
             function setCurrentDate() {
                 const now = new Date();
                 const today = now.toISOString().split('T')[0];
@@ -1481,12 +1244,10 @@
                 });
             }
             
-            // Функция: Кликабельность всего блока
             function setupBlockClick() {
                 const questionBlocks = document.querySelectorAll('.question-block');
                 questionBlocks.forEach(block => {
                     block.addEventListener('click', function(e) {
-                        // Не срабатывает при клике на textarea
                         if (e.target.tagName === 'TEXTAREA') return;
                         
                         const checkbox = this.querySelector('input[type="checkbox"]');
@@ -1503,6 +1264,7 @@
                 const savedData = localStorage.getItem('checklistData');
                 const savedComments = localStorage.getItem('checklistComments');
                 const savedPatientInfo = localStorage.getItem('patientInfo');
+                const savedSectionComments = localStorage.getItem('sectionComments');
                 
                 if (savedData) {
                     const data = JSON.parse(savedData);
@@ -1520,6 +1282,16 @@
                         const commentArea = document.getElementById('comment_' + key);
                         if (commentArea) {
                             commentArea.value = comments[key];
+                        }
+                    }
+                }
+                
+                if (savedSectionComments) {
+                    const sectionComments = JSON.parse(savedSectionComments);
+                    for (const key in sectionComments) {
+                        const sectionCommentArea = document.getElementById('section_comment_' + key);
+                        if (sectionCommentArea) {
+                            sectionCommentArea.value = sectionComments[key];
                         }
                     }
                 }
@@ -1543,6 +1315,7 @@
             function saveData() {
                 const data = {};
                 const comments = {};
+                const sectionComments = {};
                 const patientInfo = {
                     name: patientName.value,
                     birthDate: patientBirthDate.value,
@@ -1560,8 +1333,15 @@
                     }
                 });
                 
+                const sectionCommentAreas = document.querySelectorAll('.section-comment-area');
+                sectionCommentAreas.forEach(area => {
+                    const sectionId = area.id.replace('section_comment_', '');
+                    sectionComments[sectionId] = area.value;
+                });
+                
                 localStorage.setItem('checklistData', JSON.stringify(data));
                 localStorage.setItem('checklistComments', JSON.stringify(comments));
+                localStorage.setItem('sectionComments', JSON.stringify(sectionComments));
                 localStorage.setItem('patientInfo', JSON.stringify(patientInfo));
                 showStatus('Данные сохранены', 'success');
             }
@@ -1596,14 +1376,19 @@
                         area.value = '';
                     });
                     
-                    // Очищаем поля информации о пациенте
+                    const sectionCommentAreas = document.querySelectorAll('.section-comment-area');
+                    sectionCommentAreas.forEach(area => {
+                        area.value = '';
+                    });
+                    
                     patientName.value = '';
                     patientBirthDate.value = '';
                     patientId.value = '';
-                    setCurrentDate(); // Сбрасываем дату на текущую
+                    setCurrentDate();
                     
                     localStorage.removeItem('checklistData');
                     localStorage.removeItem('checklistComments');
+                    localStorage.removeItem('sectionComments');
                     localStorage.removeItem('patientInfo');
                     updateProgress();
                     showStatus('Форма очищена', 'success');
@@ -1614,15 +1399,13 @@
                 try {
                     const data = [];
                     
-                    // Заголовок с информацией о пациенте - данные в столбце C
-                    data.push(['Чек-лист проверки медицинской карты 2025', '', '']);
+                    data.push(['Чек-лист проверки медицинской карты - BETA', '', '']);
                     data.push(['ФИО пациента:', '', patientName.value || 'Не указано']);
                     data.push(['Дата рождения:', '', patientBirthDate.value || 'Не указано']);
                     data.push(['ID/номер карты:', '', patientId.value || 'Не указано']);
                     data.push(['Дата проверки:', '', checkDate.value || new Date().toISOString().split('T')[0]]);
                     data.push(['', '', '']);
                     
-                    // Заголовок таблицы чек-листа
                     data.push(['Раздел', 'Пункт', 'Описание', 'Статус', 'Комментарий']);
                     
                     const sections = form.querySelectorAll('.section');
@@ -1642,6 +1425,12 @@
                             
                             data.push(['', checkbox.id, label.textContent.trim(), status, comment]);
                         });
+                        
+                        const sectionId = Array.from(sections).indexOf(section) + 1;
+                        const sectionCommentArea = document.getElementById('section_comment_' + sectionId);
+                        if (sectionCommentArea && sectionCommentArea.value.trim()) {
+                            data.push(['', '', 'Комментарий к разделу:', '', sectionCommentArea.value]);
+                        }
                         
                         data.push(['', '', '', '', '']);
                     });
@@ -1675,8 +1464,7 @@
                         }
                     }
                     
-                    // Формируем имя файла с информацией о пациенте
-                    let fileName = 'чек-лист_медицинской_карты';
+                    let fileName = 'чек-лист_медицинской_карты_BETA';
                     if (patientName.value) {
                         fileName += '_' + patientName.value.replace(/\s+/g, '_');
                     }
@@ -1699,11 +1487,10 @@
                 setCurrentDate();
                 initCounters();
                 setupCommentAutoCheck();
-                setupBlockClick(); // Включаем кликабельность блоков
+                setupBlockClick();
                 loadSavedData();
                 startAutoSave();
                 
-                // Обновляем отображение даты при изменении
                 checkDate.addEventListener('change', function() {
                     if (this.value) {
                         const date = new Date(this.value);
@@ -1715,9 +1502,13 @@
                 saveExcelBtn.addEventListener('click', saveToExcel);
                 form.addEventListener('change', updateProgress);
                 
-                // Сохраняем данные при изменении полей информации о пациенте
                 [patientName, patientBirthDate, patientId, checkDate].forEach(field => {
                     field.addEventListener('input', saveData);
+                });
+                
+                const sectionCommentAreas = document.querySelectorAll('.section-comment-area');
+                sectionCommentAreas.forEach(area => {
+                    area.addEventListener('input', saveData);
                 });
             }
             
