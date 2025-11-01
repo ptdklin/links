@@ -50,17 +50,15 @@
         }
         
         .clear-btn-top {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 5px 10px;
+            padding: 8px 20px;
             background: #e74c3c;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 600;
+            margin-top: 10px;
         }
         
         .clear-btn-top:hover {
@@ -258,12 +256,6 @@
             
             h1 {
                 font-size: 1.4rem;
-            }
-            
-            .clear-btn-top {
-                position: static;
-                margin-top: 6px;
-                width: 100%;
             }
             
             .content {
@@ -537,7 +529,6 @@
 
             <div class="bottom-controls">
                 <button type="button" class="save-excel-btn" id="saveExcelBtn">Сохранить в Excel</button>
-                <button type="button" class="clear-btn-top" id="clearCurrentBtn">Очистить текущий раздел</button>
             </div>
         </div>
     </div>
@@ -550,7 +541,6 @@
             const childrenBtn = document.getElementById('childrenBtn');
             const statusMessage = document.getElementById('statusMessage');
             const clearBtn = document.getElementById('clearBtn');
-            const clearCurrentBtn = document.getElementById('clearCurrentBtn');
             const saveExcelBtn = document.getElementById('saveExcelBtn');
             const progressFill = document.getElementById('progressFill');
             const progressPercent = document.getElementById('progressPercent');
@@ -691,24 +681,6 @@
                 }, 3000);
             }
             
-            function clearCurrentForm() {
-                if (confirm('Вы уверены, что хотите очистить текущий раздел?')) {
-                    const checkboxes = currentForm.querySelectorAll('input[type="checkbox"]');
-                    checkboxes.forEach(checkbox => {
-                        checkbox.checked = false;
-                    });
-                    
-                    const commentAreas = currentForm.querySelectorAll('.comment-area');
-                    commentAreas.forEach(area => {
-                        area.value = '';
-                    });
-                    
-                    saveData();
-                    updateProgress();
-                    showStatus('Текущий раздел очищен', 'success');
-                }
-            }
-            
             function clearAllForms() {
                 if (confirm('Вы уверены, что хотите очистить ВСЕ разделы?')) {
                     const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -807,7 +779,6 @@
                 
                 // Обработчики событий
                 clearBtn.addEventListener('click', clearAllForms);
-                clearCurrentBtn.addEventListener('click', clearCurrentForm);
                 saveExcelBtn.addEventListener('click', saveToExcel);
                 
                 // Обработчики изменений в формах
