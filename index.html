@@ -933,6 +933,17 @@
         <div class="dropdown-meta">Приказ Минздрава России от 14.04.2025 N 203н</div>
     </a>
 </div>
+                                <!-- ВСТАВЬТЕ ЧАТ ЗДЕСЬ - ПОСЛЕ ВСЕХ ССЫЛОК -->
+        <div class="link-item" onclick="openChat()" style="cursor: pointer;">
+            <div class="link-content">
+                <div class="link-icon">💬</div>
+                <div class="link-text">Открыть общий чат</div>
+            </div>
+            <div class="link-meta">Общение между сотрудниками с историей сообщений</div>
+        </div>
+
+    </div> <!-- этот </div> уже есть -->
+</div> <!-- этот </div> уже есть -->
                     </div>
                 </div>
                 
@@ -1081,6 +1092,143 @@ if (announcementText) {
     `;
     document.body.appendChild(modal);
 }
+</script>
+    <!-- Окно чата -->
+<div id="chatModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center;">
+    <div style="background: white; width: 90%; max-width: 500px; height: 80vh; border-radius: 15px; display: flex; flex-direction: column;">
+        <!-- Заголовок -->
+        <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; color: #1e293b;">Чат сотрудников</h3>
+            <button onclick="closeChat()" style="background: none; border: none; font-size: 20px; cursor: pointer;">✕</button>
+        </div>
+        
+        <!-- Сообщения -->
+        <div id="chatMessages" style="flex: 1; padding: 20px; overflow-y: auto; background: #f8faff;">
+            <div style="text-align: center; color: #64748b;">Загрузка сообщений...</div>
+        </div>
+        
+        <!-- Форма отправки -->
+        <div style="padding: 20px; border-top: 1px solid #e2e8f0; background: white;">
+            <input type="text" id="userName" placeholder="Ваше имя" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+            <textarea id="messageText" placeholder="Ваше сообщение..." style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; resize: vertical; min-height: 60px;"></textarea>
+            <select id="replyTo" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 8px;">
+                <option value="">Новое сообщение</option>
+            </select>
+            <button onclick="sendMessage()" style="width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Отправить</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxSNinLEhtIgDBtzzoM4rl4Fkfp5OB-1JypmTUQC5uPydok6tP5a-hBUM87jMX_cvexAg/exec';
+
+function openChat() {
+    document.getElementById('chatModal').style.display = 'flex';
+    loadMessages();
+}
+
+function closeChat() {
+    document.getElementById('chatModal').style.display = 'none';
+}
+
+async function loadMessages() {
+    try {
+        const response = await fetch(WEB_APP_URL);
+        const data = await response.json();
+        
+        let html = '';
+        // Пропускаем шапку (первую строку)
+        for (let i = 1; i < data.length; i++) {
+            const row = data[i];
+            const [num, time, name, message, replyTo] = row;
+            
+            if (num && name && message) {
+                html += `
+                    <div style="margin-bottom: 15px; padding: 10px; background: ${replyTo ? '#f0f9ff' : 'white'}; border-radius: 10px; border-left: 3px solid ${replyTo ? '#06b6d4' : '#2563eb'};">
+                        ${replyTo ? `<div style="font-size: 12px; color: #64748b; margin-bottom: 5px;">↳ Ответ на #${replyTo}</div>` : ''}
+                        <div style="font-weight: 600; color: #2563eb;">#${num} ${name}</div>
+                        <div style="margin: 5px 0;">${message}</div>
+                        <div style="font-size: 12px; color: #64748b;">${time}</div>
+                    </div>
+                `;
+            }
+        }
+        
+        document.getElementById('chatMessages').innerHTML = html || '<div style="text-align: center; color: #64748b;">Пока нет сообщений</div>';
+        
+        // Обновляем список для ответов
+        updateReplySelect(data);
+        
+        // Прокручиваем вниз
+        const messagesContainer = document.getElementById('chatMessages');
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        
+    } catch (error) {
+        document.getElementById('chatMessages').innerHTML = '<div style="text-align: center; color: #ef4444;">Ошибка загрузки сообщений</div>';
+    }
+}
+
+function updateReplySelect(data) {
+    const select = document.getElementById('replyTo');
+    select.innerHTML = '<option value="">Новое сообщение</option>';
+    
+    for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        const [num, time, name, message] = row;
+        
+        if (num && name && message) {
+            const option = document.createElement('option');
+            option.value = num;
+            option.textContent = `#${num} ${name}: ${message.substring(0, 30)}${message.length > 30 ? '...' : ''}`;
+            select.appendChild(option);
+        }
+    }
+}
+
+async function sendMessage() {
+    const name = document.getElementById('userName').value;
+    const message = document.getElementById('messageText').value;
+    const replyTo = document.getElementById('replyTo').value;
+    
+    if (!name || !message) {
+        alert('Введите имя и сообщение');
+        return;
+    }
+    
+    try {
+        const response = await fetch(WEB_APP_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+                message: message,
+                replyTo: replyTo
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Очищаем поля
+            document.getElementById('messageText').value = '';
+            document.getElementById('replyTo').value = '';
+            
+            // Перезагружаем сообщения
+            loadMessages();
+        } else {
+            alert('Ошибка отправки: ' + result.error);
+        }
+    } catch (error) {
+        alert('Ошибка сети: ' + error);
+    }
+}
+
+// Закрытие по клику вне окна
+document.getElementById('chatModal').addEventListener('click', function(e) {
+    if (e.target === this) closeChat();
+});
 </script>
 </body>
 </html>
