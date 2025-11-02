@@ -1083,40 +1083,6 @@ if (announcementText) {
 }
 </script>
 
-<!-- Кастомная кнопка чата -->
-<script>
-// Создаем свою иконку чата в верхнем правом углу
-const customChatIcon = `
-<div style="position:fixed;top:20px;right:20px;z-index:9999;">
-    <button onclick="openTawkTo()" style="background:#2563eb;color:white;border:none;border-radius:12px;padding:10px 15px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2);display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;">
-        💬 Вопрос руководителю
-    </button>
-</div>
-`;
-
-document.body.insertAdjacentHTML('beforeend', customChatIcon);
-
-function openTawkTo() {
-    if(typeof Tawk_API !== 'undefined') {
-        Tawk_API.maximize();
-        // Пытаемся установить русский язык
-        setTimeout(() => {
-            Tawk_API.setLanguage('ru');
-        }, 1000);
-    }
-}
-
-// Скрываем стандартный виджет Tawk.to и ставим русский язык
-setTimeout(() => {
-    if(typeof Tawk_API !== 'undefined') {
-        // Скрываем стандартную кнопку
-        Tawk_API.hideWidget();
-        // Устанавливаем русский язык
-        Tawk_API.setLanguage('ru');
-    }
-}, 2000);
-</script>
-
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -1129,6 +1095,16 @@ s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
+
+<style>
+/* Переносим стандартную иконку Tawk.to в верхний левый угол */
+#tawk-to-container {
+    top: 20px !important;
+    left: 20px !important;
+    right: auto !important;
+    bottom: auto !important;
+}
+</style>
 <!--End of Tawk.to Script-->
 </body>
 </html>
