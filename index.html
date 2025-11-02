@@ -1081,7 +1081,9 @@ if (announcementText) {
     `;
     document.body.appendChild(modal);
 }
-<!-- НОВЫЙ скрипт Tawk.to с кнопкой "Вопрос руководителю" -->
+</script>
+
+<!-- Кастомная кнопка чата -->
 <script>
 // Создаем свою иконку чата в верхнем правом углу
 const customChatIcon = `
@@ -1097,8 +1099,22 @@ document.body.insertAdjacentHTML('beforeend', customChatIcon);
 function openTawkTo() {
     if(typeof Tawk_API !== 'undefined') {
         Tawk_API.maximize();
+        // Пытаемся установить русский язык
+        setTimeout(() => {
+            Tawk_API.setLanguage('ru');
+        }, 1000);
     }
 }
+
+// Скрываем стандартный виджет Tawk.to и ставим русский язык
+setTimeout(() => {
+    if(typeof Tawk_API !== 'undefined') {
+        // Скрываем стандартную кнопку
+        Tawk_API.hideWidget();
+        // Устанавливаем русский язык
+        Tawk_API.setLanguage('ru');
+    }
+}, 2000);
 </script>
 
 <!--Start of Tawk.to Script-->
@@ -1113,7 +1129,6 @@ s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
-<!--End of Tawk.to Script-->
 <!--End of Tawk.to Script-->
 </body>
 </html>
