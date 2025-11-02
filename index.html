@@ -1083,38 +1083,6 @@ if (announcementText) {
 }
 </script>
 
-<!-- Кастомная кнопка чата в верхнем левом углу -->
-<script>
-// Создаем свою иконку чата в верхнем левом углу
-const customChatIcon = `
-<div style="position:fixed;top:20px;left:20px;z-index:9999;">
-    <button onclick="openTawkToChat()" style="background:#2563eb;color:white;border:none;border-radius:12px;padding:10px 15px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2);display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;">
-        💬 Вопрос руководителю
-    </button>
-</div>
-`;
-
-document.body.insertAdjacentHTML('beforeend', customChatIcon);
-
-function openTawkToChat() {
-    if(typeof Tawk_API !== 'undefined') {
-        Tawk_API.maximize();
-    }
-}
-
-// Скрываем стандартный виджет Tawk.to после загрузки
-setTimeout(() => {
-    if(typeof Tawk_API !== 'undefined') {
-        Tawk_API.hideWidget();
-    }
-    // Также скрываем стандартный контейнер
-    const tawkContainer = document.getElementById('tawk-to-container');
-    if (tawkContainer) {
-        tawkContainer.style.display = 'none';
-    }
-}, 3000);
-</script>
-
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
