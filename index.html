@@ -1081,8 +1081,27 @@ if (announcementText) {
     `;
     document.body.appendChild(modal);
 }
+<!-- НОВЫЙ скрипт Tawk.to с кнопкой "Вопрос руководителю" -->
+<script>
+// Создаем свою иконку чата в верхнем правом углу
+const customChatIcon = `
+<div style="position:fixed;top:20px;right:20px;z-index:9999;">
+    <button onclick="openTawkTo()" style="background:#2563eb;color:white;border:none;border-radius:12px;padding:10px 15px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2);display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;">
+        💬 Вопрос руководителю
+    </button>
+</div>
+`;
+
+document.body.insertAdjacentHTML('beforeend', customChatIcon);
+
+function openTawkTo() {
+    if(typeof Tawk_API !== 'undefined') {
+        Tawk_API.maximize();
+    }
+}
 </script>
-    <!--Start of Tawk.to Script-->
+
+<!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
@@ -1094,6 +1113,7 @@ s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
+<!--End of Tawk.to Script-->
 <!--End of Tawk.to Script-->
 </body>
 </html>
