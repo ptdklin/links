@@ -1000,6 +1000,7 @@
                     // Добавляем кнопку только для определенных препаратов и реакций
                     let qtButtonHTML = '';
                     if ((drug.code === 'Lfx/Mfx/Sfx' && reaction.title === 'Удлинение интервала QTc. Нарушение ритма сердца') ||
+                        (drug.code === 'Bq' && reaction.title === 'Нарушение ритма сердца, удлинение интервала QT') ||
                         (drug.code === 'Dlm' && reaction.title === 'Удлинение интервала QT') ||
                         (drug.code === 'Cfz' && reaction.title === 'Нарушение ритма сердца, удлинение интервала QT')) {
                         qtButtonHTML = `<button class="qt-details-btn" data-drug="${drug.name}">Подробнее о препаратах, удлиняющих интервал QT</button>`;
