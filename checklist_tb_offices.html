@@ -278,6 +278,143 @@
         .clear-btn:hover {
             background-color: #d32f2f;
         }
+
+        .print-btn {
+            background-color: #9c27b0;
+        }
+        
+        .print-btn:hover {
+            background-color: #7b1fa2;
+        }
+
+        /* Стили для печати */
+        @media print {
+            body {
+                background-color: white;
+                padding: 5mm !important;
+                margin: 0 !important;
+                font-size: 10pt;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 0 !important;
+                max-width: none !important;
+                margin: 0 !important;
+                width: 100% !important;
+            }
+            
+            .controls, .progress-bar, .auto-save-status {
+                display: none !important;
+            }
+            
+            /* Раскрываем все секции при печати */
+            .section {
+                max-height: none !important;
+                margin-bottom: 10px !important;
+                border: 1px solid #000 !important;
+            }
+            
+            .section.collapsed {
+                max-height: none !important;
+            }
+            
+            .section-content {
+                display: block !important;
+                max-height: none !important;
+                overflow: visible !important;
+                padding: 8px !important;
+            }
+            
+            .section-header {
+                cursor: default;
+                background-color: #2c7fb8 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                padding: 6px 8px !important;
+                margin-bottom: 0 !important;
+            }
+            
+            .section-header h2 {
+                font-size: 11pt !important;
+                margin: 0 !important;
+            }
+            
+            .sections-grid {
+                display: block !important;
+                grid-template-columns: none !important;
+                gap: 0 !important;
+                margin-bottom: 0 !important;
+            }
+            
+            .question {
+                margin-bottom: 8px !important;
+                padding: 6px !important;
+            }
+            
+            .question-text {
+                font-size: 9pt !important;
+                margin-bottom: 5px !important;
+                padding-right: 35px !important;
+            }
+            
+            .check-button {
+                width: 20px !important;
+                height: 20px !important;
+                top: 6px !important;
+                right: 6px !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .check-button.checked::after {
+                font-size: 10px !important;
+            }
+            
+            .comment {
+                min-height: 40px !important;
+                padding: 4px !important;
+                font-size: 9pt !important;
+                border: 1px solid #000 !important;
+            }
+            
+            .section-status {
+                display: none !important;
+            }
+            
+            header {
+                margin-bottom: 15px !important;
+                padding-bottom: 10px !important;
+            }
+            
+            h1 {
+                font-size: 14pt !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .branch-info {
+                padding: 8px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .branch-name {
+                font-size: 11pt !important;
+            }
+            
+            .branch-details {
+                font-size: 10pt !important;
+            }
+            
+            .timestamp {
+                padding: 8px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .timestamp input {
+                padding: 4px !important;
+                font-size: 10pt !important;
+            }
+        }
         
         @media (max-width: 768px) {
             .sections-grid {
@@ -302,13 +439,11 @@
     <div class="container">
         <header>
             <h1>Чек-лист проверки организации противотуберкулезной помощи</h1>
-            <p class="subtitle">для фтизиатрической службы</p>
         </header>
         
         <div class="branch-info">
             <div class="branch-name">ГБУЗ МО МОКПТД</div>
             <div class="branch-details">Филиал "Клинский"</div>
-            <div class="branch-details"></div>
         </div>
         
         <div class="timestamp">
@@ -329,6 +464,7 @@
             <button id="save-btn" class="save-btn">Сохранить данные</button>
             <button id="export-btn" class="export-btn">Скачать Excel файл</button>
             <button id="clear-btn" class="clear-btn">Очистить форму</button>
+            <button id="print-btn" class="print-btn">Печать формы</button>
         </div>
     </div>
 
@@ -514,6 +650,7 @@
             document.getElementById('save-btn').addEventListener('click', saveToLocalStorage);
             document.getElementById('export-btn').addEventListener('click', exportToExcel);
             document.getElementById('clear-btn').addEventListener('click', clearForm);
+            document.getElementById('print-btn').addEventListener('click', printForm);
             
             // Загрузка сохраненных данных
             loadFromLocalStorage();
@@ -524,6 +661,20 @@
             // Автоматическое увеличение полей комментариев
             setupAutoResizeTextareas();
         });
+        
+        // Функция для печати формы
+        function printForm() {
+            // Раскрываем все секции перед печатью
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('collapsed');
+                section.classList.add('expanded');
+            });
+            
+            // Даем время на обновление DOM и затем печатаем
+            setTimeout(() => {
+                window.print();
+            }, 100);
+        }
         
         // Настройка автоматического изменения размера textarea
         function setupAutoResizeTextareas() {
@@ -647,10 +798,9 @@
             questionElement.appendChild(questionTextElement);
             questionElement.appendChild(checkButton);
             
-            // Поле для комментария
+            // Поле для комментария (БЕЗ placeholder)
             const comment = document.createElement('textarea');
             comment.className = 'comment';
-            comment.placeholder = 'Комментарий (необязательно)';
             comment.dataset.questionId = `${sectionIndex}-${questionIndex}`;
             
             questionElement.appendChild(comment);
@@ -863,7 +1013,6 @@
             excelData.push(["Чек-лист проверки организации противотуберкулезной помощи"]);
             excelData.push(["ГБУЗ МО МОКПТД"]);
             excelData.push(['Филиал "Клинский"']);
-            excelData.push(["Химкинское отделение"]);
             excelData.push([`Дата проверки: ${date}`]);
             excelData.push([]); // Пустая строка
             
@@ -903,7 +1052,7 @@
             XLSX.utils.book_append_sheet(wb, ws, "Чек-лист ПТП");
             
             // Скачиваем файл
-            XLSX.writeFile(wb, `чек-лист_птп_химкинское_${date.replace(/\./g, '-')}.xlsx`);
+            XLSX.writeFile(wb, `чек-лист_птп_клинский_${date.replace(/\./g, '-')}.xlsx`);
         }
     </script>
 </body>
