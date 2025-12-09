@@ -32,6 +32,9 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             --shadow-lg: 0 12px 25px -5px rgba(0, 0, 0, 0.1), 0 6px 10px -5px rgba(0, 0, 0, 0.08);
             --error: #e53935; /* Красный для объявлений */
+
+            /* НОВАЯ ПЕРЕМЕННАЯ ДЛЯ ЗЕЛЕНОГО В ЗАГОЛОВКЕ */
+            --tuberculosis-green: #43a047; /* Насыщенный Зеленый (из card-7) */
         }
         
         body {
@@ -88,17 +91,37 @@
             font-weight: 500;
             letter-spacing: 0.5px;
         }
+
+        /* Контейнер для двух заголовков <h1> */
+        .header-titles {
+            display: flex; /* Выравнивает два H1 рядом */
+            gap: 0.25rem; /* Небольшой отступ между частями */
+            margin-bottom: 2px;
+            align-items: flex-end; /* Выравнивание по нижней линии */
+        }
         
-        /* ЗАГОЛОВОК - ЯРКИЙ ГРАДИЕНТ (СИНИЙ) */
+        /* ЗАГОЛОВОК - ЯРКИЙ ГРАДИЕНТ (СИНИЙ) - ПЕРВАЯ ЧАСТЬ ("Навигатор врача-") */
         .page-title {
             font-size: 3.2rem; 
             font-weight: 800;
+            /* Сохраняем оригинальный синий градиент */
             background: linear-gradient(135deg, var(--primary) 0%, #0099e5 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 2px; 
+            /* Изменения для выравнивания */
+            margin: 0; 
             line-height: 1.2; 
+        }
+
+        /* ВТОРАЯ ЧАСТЬ - ЗЕЛЕНЫЙ ЦВЕТ ("фтизиатра") */
+        .page-title-secondary {
+            font-size: 3.2rem; 
+            font-weight: 800;
+            color: var(--tuberculosis-green); /* Применяем зеленый цвет */
+            line-height: 1.2; 
+            margin: 0; 
+            -webkit-text-fill-color: initial; /* Отключаем прозрачность градиента */
         }
         
         .page-description {
@@ -416,10 +439,11 @@
                 padding: 25px;
             }
             
-            .page-title {
+            /* Адаптивные стили для двух частей заголовка */
+            .page-title, .page-title-secondary {
                 font-size: 2.2rem; 
             }
-            
+
             .card {
                 padding: 22px;
                 min-height: 280px;
@@ -439,10 +463,11 @@
                 padding: 20px;
             }
             
-            .page-title {
+            /* Адаптивные стили для двух частей заголовка */
+            .page-title, .page-title-secondary {
                 font-size: 1.8rem;
             }
-            
+
             .card {
                 padding: 18px;
                 min-height: 260px;
@@ -461,7 +486,11 @@
             
             <div class="header-text-container">
                 <div class="institution-main">ГБУЗ МО МОКПТД филиал Клинский</div>
-                <h1 class="page-title">Навигатор врача-фтизиатра</h1>
+                
+                <div class="header-titles">
+                    <h1 class="page-title">Навигатор врача-</h1>
+                    <h1 class="page-title-secondary">фтизиатра</h1>
+                </div>
                 <p class="page-description">Система доступа к профессиональным ресурсам</p>
                 <p class="page-description" style="margin-top: 20px; font-size: 1.8rem; font-weight: 700; color: var(--error); text-align: left; line-height: 1.3;">
                     
