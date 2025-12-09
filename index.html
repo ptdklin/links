@@ -15,17 +15,12 @@
         }
         
         :root {
-            /* Обновленная цветовая схема */
+            /* Общая цветовая схема - только синий/голубой */
             --primary: #2563eb; /* Основной синий */
             --primary-gradient-start: #0f86a2; /* Новый сине-зеленый для градиентов */
-            --primary-light: #eff6ff;
-            --primary-dark: #1e40af;
-            --primary-very-light: #f8faff;
+            --primary-light: #eff6ff; /* Светлый фон для ссылок */
             --secondary: #64748b;
             --accent: #06b6d4;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #dc2626; /* Красный */
             --background: #f4f6f8; /* Легкий серый фон */
             --surface: #ffffff;
             --text-primary: #1e293b;
@@ -53,14 +48,12 @@
             border-bottom: 1px solid var(--border);
             box-shadow: var(--shadow);
             position: relative;
-            /* Flexbox для логотипа и текста */
             display: flex;
             align-items: center;
             gap: 30px; 
             text-align: left;
         }
 
-        /* Замена цветной линии сверху шапки на градиент */
         .content-header::before {
             content: "";
             position: absolute;
@@ -68,18 +61,16 @@
             left: 0;
             right: 0;
             height: 4px;
-            /* Градиент для шапки */
             background: linear-gradient(90deg, var(--primary-gradient-start), var(--primary)); 
         }
 
         /* Стиль для логотипа - УВЕЛИЧЕН, но не слишком сильно */
         .header-logo {
-            width: 130px; /* ИСПРАВЛЕНО: Уменьшен до 130px */
+            width: 130px; /* ИСПРАВЛЕНО */
             height: auto;
             flex-shrink: 0;
         }
 
-        /* Контейнер для текста шапки */
         .header-text-container {
             display: flex;
             flex-direction: column;
@@ -93,11 +84,10 @@
             letter-spacing: 0.5px;
         }
         
-        /* ЗАГОЛОВОК - ВОССТАНОВЛЕН СТАНДАРТНЫЙ РАЗМЕР */
+        /* ЗАГОЛОВОК - Восстановлен размер */
         .page-title {
-            font-size: 3.2rem; /* ИСПРАВЛЕНО: Восстановлен размер 3.2rem */
+            font-size: 3.2rem; 
             font-weight: 800;
-            /* Применение градиента к тексту */
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -145,28 +135,13 @@
             display: flex;
             flex-direction: column;
             
-            /* Дефолтные переменные для синих блоков */
-            --block-color: #2563eb; 
-            --block-color-light: #eff6ff; 
-            --block-color-secondary: #0f86a2; 
+            /* ЕДИНЫЕ ПЕРЕМЕННЫЕ ДЛЯ ВСЕХ БЛОКОВ (СИНЕ-ГОЛУБЫЕ) */
+            --block-color: var(--primary); /* Основной синий */
+            --block-color-light: var(--primary-light); /* Светлый фон */
+            --block-color-secondary: var(--primary-gradient-start); /* Начало градиента */
         }
 
-        /* ВОССТАНОВЛЕНИЕ ЦВЕТОВОЙ СХЕМЫ ДЛЯ БЛОКОВ */
-        /* Синий/Голубой Схема (основная) */
-        .card-1, .card-3, .card-4, .card-5, .card-6, .card-7 {
-            --block-color: #2563eb; 
-            --block-color-light: #eff6ff;
-            --block-color-secondary: #0f86a2;
-        }
-        
-        /* Красный/Оранжевый Схема (для НПР) */
-        .card-2, .card-8 {
-            --block-color: #dc2626; /* Красный */
-            --block-color-light: #fef2f2; /* Очень светлый красный фон */
-            --block-color-secondary: #f97316; /* Оранжевый для градиента */
-        }
-
-        /* Градиент сверху окна карточки - берет цвет из переменных блока */
+        /* Градиент сверху окна карточки - ТЕПЕРЬ ОДНОРОДНЫЙ СИНИЙ */
         .card::before {
             content: "";
             position: absolute;
@@ -198,9 +173,8 @@
             margin-right: 16px;
             font-size: 1.4rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            /* Фон значка теперь берется из light-версии цвета блока */
             background: var(--block-color-light); 
-            color: var(--block-color); /* Цвет значка */
+            color: var(--block-color); 
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
@@ -233,7 +207,7 @@
             text-decoration: none;
             color: var(--block-color);
             border: 1px solid transparent;
-            background: var(--block-color-light); /* Фон берется из переменной блока */
+            background: var(--block-color-light); 
             margin-bottom: 10px;
             flex-direction: column;
             cursor: pointer;
@@ -271,7 +245,7 @@
 
         .link-item:hover .link-icon {
             transform: scale(1.15);
-            color: var(--accent); /* Цвет стрелки/иконки меняется при наведении */
+            color: var(--accent);
         }
         
         .link-text {
@@ -294,7 +268,7 @@
         /* Dropdown styles */
         .dropdown-content {
             display: none;
-            background: var(--block-color-light); /* Фон берется из переменной блока */
+            background: var(--block-color-light); 
             border-left: 3px solid var(--block-color);
             border-radius: 0 0 12px 12px;
             margin-top: -10px;
@@ -315,7 +289,7 @@
         }
         
         .dropdown-link:hover {
-            background: rgba(255, 255, 255, 0.7); /* Легкий белый фон при наведении */
+            background: rgba(255, 255, 255, 0.7); 
         }
         
         .dropdown-link:last-child {
@@ -368,13 +342,13 @@
         @media (max-width: 768px) {
             .content-header {
                 padding: 25px 20px;
-                flex-direction: column; /* Элементы друг под другом */
+                flex-direction: column; 
                 align-items: flex-start; 
                 gap: 15px;
             }
 
             .header-logo {
-                width: 100px; /* Адаптивный размер логотипа */
+                width: 100px;
             }
 
             .content-area {
@@ -474,7 +448,7 @@
                                 </div>
                                 <div class="dropdown-meta">Подробный справочник по режимам ХТ</div>
                             </a>
-                            <a href="https://1drv.ms/b/c/8d834935e09ce801/EbEu8ZIm4sJDphnusFoGcNsB6qunIguEoDTWNKzO1xqAjg?e=SjH49f" target="_blank" class="dropdown-link">
+                            <a href="https://1drv.ms/b/c/8d834935e09ce801/EbEu8ZIm4sJDphnusFoGcNsB6qunIguEoDTWNKzO1xqAjg?e=SjH49r" target="_blank" class="dropdown-link">
                                 <div class="link-content">
                                     <div class="link-icon">→</div>
                                     <div class="link-text">Латентная туберкулезная инфекция у детей</div>
