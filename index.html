@@ -19,7 +19,7 @@
         
         :root {
             /* Основные цвета (Нейтральные + Акценты) */
-            --primary: #0070c0; /* Глубокий синий (для основного текста, границ, близок к логотипу) */
+            --primary: #0070c0; /* Глубокий синий (близок к логотипу) */
             --primary-gradient-start: #0099e5; /* Яркий голубой */
             
             --accent: #e53935; /* Красный акцент (для важных элементов) */
@@ -195,56 +195,57 @@
         }
         
         /* ---------------------------------
-        УНИКАЛЬНЫЕ ЯРКИЕ ЦВЕТА ДЛЯ КАЖДОГО БЛОКА
+        УНИКАЛЬНЫЕ ЯРКИЕ И КАРДИНАЛЬНО РАЗНЫЕ ЦВЕТА ДЛЯ КАЖДОГО БЛОКА
+        + ОЧЕНЬ БЛЕДНАЯ ЗАЛИВКА ПОДБЛОКОВ (--block-color-light)
         --------------------------------- */
         
-        /* 1. Нормативные документы (Синий - Близок к логотипу, основа) */
+        /* 1. Нормативные документы (Синий) */
         .card-1 {
             --block-color: #0070c0; /* Синий */
             --block-color-secondary: #0099e5;
-            --block-color-light: #e6f7ff; 
+            --block-color-light: #e6f7ff; /* Очень бледный светло-голубой */
         }
         
-        /* 2. Справочник (Яркий Голубой - Логистика) */
+        /* 2. Справочник (Яркий Желто-Оранжевый) - КАРДИНАЛЬНОЕ РАЗЛИЧИЕ */
         .card-3 {
-            --block-color: #1e88e5; /* Оранжевый */
-            --block-color-secondary: #39a3f2;
-            --block-color-light: #e8f5fd; 
+            --block-color: #FFB300; /* Золотистый/Яркий Желтый */
+            --block-color-secondary: #ffc107;
+            --block-color-light: #fff9e6; /* Очень бледный желтый */ 
         }
 
-        /* 3. Нежелательные реакции (Красный - Предупреждение, опасность) */
+        /* 3. Нежелательные реакции (Красный) */
         .card-8 {
             --block-color: #e53935; /* Красный */
             --block-color-secondary: #ff5252;
-            --block-color-light: #ffeeee; 
+            --block-color-light: #fff4f4; /* Очень бледный красный */ 
         }
 
-        /* 4. Рабочие системы (Фиолетовый - Технологии, организация) */
+        /* 4. Рабочие системы (Темный Фиолетовый) */
         .card-4 {
             --block-color: #673ab7; /* Фиолетовый */
             --block-color-secondary: #9575cd;
-            --block-color-light: #f3e5f5; 
+            --block-color-light: #f7f2ff; /* Очень бледный фиолетовый */ 
         }
         
-        /* 5. Работа с пациентами (Бирюзовый - Общение, поддержка) */
+        /* 5. Работа с пациентами (Изумрудно-Зеленый/Бирюзовый) */
         .card-5 {
             --block-color: #00897b; /* Бирюзовый */
             --block-color-secondary: #00bfa5;
-            --block-color-light: #e0f2f1; 
+            --block-color-light: #f0f7f6; /* Очень бледный бирюзовый */
         }
         
-        /* 6. Дополнительные ресурсы (Темный оранжевый/коричневый - Ресурсы, фонды) */
+        /* 6. Дополнительные ресурсы (Темный Оранжевый/Коричневый) */
         .card-6 {
-            --block-color: #d85f1c; /* Темный оранжевый */
+            --block-color: #d85f1c; /* Темный Оранжевый */
             --block-color-secondary: #ff9800;
-            --block-color-light: #fff3e0; 
+            --block-color-light: #fff7f2; /* Очень бледный оранжевый */ 
         }
         
-        /* 7. Образовательные ресурсы (Зеленый - Рост, обучение) */
+        /* 7. Образовательные ресурсы (Насыщенный Зеленый) */
         .card-7 {
             --block-color: #43a047; /* Зеленый */
             --block-color-secondary: #66bb6a;
-            --block-color-light: #e8f5e9; 
+            --block-color-light: #f3fff3; /* Очень бледный зеленый */ 
         }
 
 
@@ -264,9 +265,9 @@
             border-radius: 12px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
-            color: var(--block-color);
+            color: var(--block-color); /* Цвет шрифта - по цвету блока */
             border: 1px solid transparent;
-            background: var(--block-color-light); /* СВЕТЛЫЙ ФОН БЛОКА */
+            background: var(--block-color-light); /* ОЧЕНЬ БЛЕДНАЯ ЗАЛИВКА */
             margin-bottom: 10px;
             flex-direction: column;
             cursor: pointer;
@@ -327,7 +328,7 @@
         /* Dropdown styles */
         .dropdown-content {
             display: none;
-            background: var(--block-color-light); /* СВЕТЛЫЙ ФОН БЛОКА */
+            background: var(--block-color-light); /* ОЧЕНЬ БЛЕДНАЯ ЗАЛИВКА ПОДБЛОКА */
             border-left: 3px solid var(--block-color); /* Вертикальная полоса цветом блока */
             border-radius: 0 0 12px 12px;
             margin-top: -10px;
