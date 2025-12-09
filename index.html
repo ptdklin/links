@@ -25,7 +25,7 @@
             --accent: #06b6d4;
             --success: #10b981;
             --warning: #f59e0b;
-            --error: #dc2626; /* Красный (используется только для текста с ошибками/предупреждениями) */
+            --error: #dc2626; /* Красный */
             --background: #f4f6f8; /* Легкий серый фон */
             --surface: #ffffff;
             --text-primary: #1e293b;
@@ -72,9 +72,9 @@
             background: linear-gradient(90deg, var(--primary-gradient-start), var(--primary)); 
         }
 
-        /* Стиль для логотипа - УВЕЛИЧЕН РАЗМЕР */
+        /* Стиль для логотипа - УВЕЛИЧЕН, но не слишком сильно */
         .header-logo {
-            width: 180px; /* УВЕЛИЧЕНО */
+            width: 130px; /* ИСПРАВЛЕНО: Уменьшен до 130px */
             height: auto;
             flex-shrink: 0;
         }
@@ -88,21 +88,22 @@
         .institution-main {
             color: var(--text-secondary);
             font-size: 1.1rem;
-            margin-bottom: 4px;
+            margin-bottom: 0px; /* ИСПРАВЛЕНО: Уменьшен отступ */
             font-weight: 500;
             letter-spacing: 0.5px;
         }
         
-        /* ЗАГОЛОВОК - УВЕЛИЧЕН ШРИФТ */
+        /* ЗАГОЛОВОК - ВОССТАНОВЛЕН СТАНДАРТНЫЙ РАЗМЕР */
         .page-title {
-            font-size: 4.5rem; /* УВЕЛИЧЕНО */
+            font-size: 3.2rem; /* ИСПРАВЛЕНО: Восстановлен размер 3.2rem */
             font-weight: 800;
             /* Применение градиента к тексту */
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 5px;
+            margin-bottom: 2px; /* ИСПРАВЛЕНО: Уменьшен отступ */
+            line-height: 1.2; /* Уменьшен межстрочный интервал */
         }
         
         .page-description {
@@ -144,13 +145,28 @@
             display: flex;
             flex-direction: column;
             
-            /* ЕДИНАЯ ЦВЕТОВАЯ СХЕМА ДЛЯ ВСЕХ БЛОКОВ */
-            --block-color: #2563eb; /* Основной синий для заголовков и ссылок */
-            --block-color-light: #eff6ff; /* Фон ссылок */
-            --block-color-secondary: #0f86a2; /* Начало градиента для верхней полосы */
+            /* Дефолтные переменные для синих блоков */
+            --block-color: #2563eb; 
+            --block-color-light: #eff6ff; 
+            --block-color-secondary: #0f86a2; 
         }
 
-        /* Градиент сверху окна карточки - ТЕПЕРЬ ОДНОРОДНЫЙ */
+        /* ВОССТАНОВЛЕНИЕ ЦВЕТОВОЙ СХЕМЫ ДЛЯ БЛОКОВ */
+        /* Синий/Голубой Схема (основная) */
+        .card-1, .card-3, .card-4, .card-5, .card-6, .card-7 {
+            --block-color: #2563eb; 
+            --block-color-light: #eff6ff;
+            --block-color-secondary: #0f86a2;
+        }
+        
+        /* Красный/Оранжевый Схема (для НПР) */
+        .card-2, .card-8 {
+            --block-color: #dc2626; /* Красный */
+            --block-color-light: #fef2f2; /* Очень светлый красный фон */
+            --block-color-secondary: #f97316; /* Оранжевый для градиента */
+        }
+
+        /* Градиент сверху окна карточки - берет цвет из переменных блока */
         .card::before {
             content: "";
             position: absolute;
@@ -182,7 +198,8 @@
             margin-right: 16px;
             font-size: 1.4rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: var(--primary-light); 
+            /* Фон значка теперь берется из light-версии цвета блока */
+            background: var(--block-color-light); 
             color: var(--block-color); /* Цвет значка */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
@@ -357,7 +374,7 @@
             }
 
             .header-logo {
-                width: 120px; /* Адаптивный размер логотипа */
+                width: 100px; /* Адаптивный размер логотипа */
             }
 
             .content-area {
@@ -365,7 +382,7 @@
             }
             
             .page-title {
-                font-size: 2.8rem; /* Адаптивный размер заголовка */
+                font-size: 2.2rem; 
             }
             
             .card {
@@ -388,7 +405,7 @@
             }
             
             .page-title {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
             }
             
             .card {
@@ -457,7 +474,7 @@
                                 </div>
                                 <div class="dropdown-meta">Подробный справочник по режимам ХТ</div>
                             </a>
-                            <a href="https://1drv.ms/b/c/8d834935e09ce801/EbEu8ZIm4sJDphnusFoGcNsB6qunIguEoDTWNKzO1xqAjg?e=SjH49r" target="_blank" class="dropdown-link">
+                            <a href="https://1drv.ms/b/c/8d834935e09ce801/EbEu8ZIm4sJDphnusFoGcNsB6qunIguEoDTWNKzO1xqAjg?e=SjH49f" target="_blank" class="dropdown-link">
                                 <div class="link-content">
                                     <div class="link-icon">→</div>
                                     <div class="link-text">Латентная туберкулезная инфекция у детей</div>
