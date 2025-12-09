@@ -15,12 +15,12 @@
         }
         
         :root {
-            /* Общая цветовая схема - только синий/голубой */
-            --primary: #2563eb; /* Основной синий */
-            --primary-gradient-start: #0f86a2; /* Новый сине-зеленый для градиентов */
-            --primary-light: #eff6ff; /* Светлый фон для ссылок */
+            /* ОБНОВЛЕННАЯ СЕРАЯ ЦВЕТОВАЯ СХЕМА (Низкий контраст) */
+            --primary: #475569; /* Темно-грифельный для текста и обводок */
+            --primary-gradient-start: #64748b; /* Светло-грифельный для градиентов */
+            --primary-light: #f2f2f2; /* СВЕТЛО-СЕРЫЙ ДЛЯ ЗАЛИВКИ БЛОКОВ (Link Fill) */
             --secondary: #64748b;
-            --accent: #06b6d4;
+            --accent: #5e7087; /* Мягкий акцент для заголовка */
             --background: #f4f6f8; /* Легкий серый фон */
             --surface: #ffffff;
             --text-primary: #1e293b;
@@ -54,6 +54,7 @@
             text-align: left;
         }
 
+        /* Обводка шапки - СЕРЫЙ ГРАДИЕНТ */
         .content-header::before {
             content: "";
             position: absolute;
@@ -64,9 +65,9 @@
             background: linear-gradient(90deg, var(--primary-gradient-start), var(--primary)); 
         }
 
-        /* Стиль для логотипа - УВЕЛИЧЕН, но не слишком сильно */
+        /* Стиль для логотипа */
         .header-logo {
-            width: 130px; /* ИСПРАВЛЕНО */
+            width: 130px; 
             height: auto;
             flex-shrink: 0;
         }
@@ -79,12 +80,12 @@
         .institution-main {
             color: var(--text-secondary);
             font-size: 1.1rem;
-            margin-bottom: 0px; /* ИСПРАВЛЕНО: Уменьшен отступ */
+            margin-bottom: 0px; 
             font-weight: 500;
             letter-spacing: 0.5px;
         }
         
-        /* ЗАГОЛОВОК - Восстановлен размер */
+        /* ЗАГОЛОВОК - ГРИФЕЛЬНЫЙ ГРАДИЕНТ */
         .page-title {
             font-size: 3.2rem; 
             font-weight: 800;
@@ -92,8 +93,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 2px; /* ИСПРАВЛЕНО: Уменьшен отступ */
-            line-height: 1.2; /* Уменьшен межстрочный интервал */
+            margin-bottom: 2px; 
+            line-height: 1.2; 
         }
         
         .page-description {
@@ -135,13 +136,13 @@
             display: flex;
             flex-direction: column;
             
-            /* ЕДИНЫЕ ПЕРЕМЕННЫЕ ДЛЯ ВСЕХ БЛОКОВ (СИНЕ-ГОЛУБЫЕ) */
-            --block-color: var(--primary); /* Основной синий */
-            --block-color-light: var(--primary-light); /* Светлый фон */
-            --block-color-secondary: var(--primary-gradient-start); /* Начало градиента */
+            /* ЕДИНЫЕ ПЕРЕМЕННЫЕ ДЛЯ ВСЕХ БЛОКОВ (СЕРЫЕ/ГРИФЕЛЬНЫЕ) */
+            --block-color: var(--primary); 
+            --block-color-light: var(--primary-light); /* СВЕТЛО-СЕРЫЙ ФОН */
+            --block-color-secondary: var(--primary-gradient-start); 
         }
 
-        /* Градиент сверху окна карточки - ТЕПЕРЬ ОДНОРОДНЫЙ СИНИЙ */
+        /* Градиент сверху окна карточки - СЕРЫЙ ГРАДИЕНТ */
         .card::before {
             content: "";
             position: absolute;
@@ -173,8 +174,8 @@
             margin-right: 16px;
             font-size: 1.4rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: var(--block-color-light); 
-            color: var(--block-color); 
+            background: var(--block-color-light); /* СВЕТЛО-СЕРЫЙ */
+            color: var(--block-color); /* ТЕМНО-ГРИФЕЛЬНЫЙ */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
@@ -183,7 +184,7 @@
         }
 
         .card h2 {
-            color: var(--block-color);
+            color: var(--block-color); /* ТЕМНО-ГРИФЕЛЬНЫЙ */
             font-size: 1.4rem;
             font-weight: 700;
             margin: 0;
@@ -207,7 +208,7 @@
             text-decoration: none;
             color: var(--block-color);
             border: 1px solid transparent;
-            background: var(--block-color-light); 
+            background: var(--block-color-light); /* СВЕТЛО-СЕРЫЙ ФОН */
             margin-bottom: 10px;
             flex-direction: column;
             cursor: pointer;
@@ -216,7 +217,7 @@
         .link-item:hover {
             background: var(--surface);
             border-color: var(--block-color);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.12);
+            box-shadow: 0 6px 20px rgba(71, 85, 105, 0.12); /* Тень от грифельного */
             transform: translateX(6px);
         }
         
@@ -237,7 +238,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--block-color);
+            color: var(--block-color); /* ТЕМНО-ГРИФЕЛЬНЫЙ */
             font-weight: 700;
             flex-shrink: 0;
             transition: all 0.3s ease;
@@ -245,14 +246,14 @@
 
         .link-item:hover .link-icon {
             transform: scale(1.15);
-            color: var(--accent);
+            color: var(--accent); /* Мягкий акцент при наведении */
         }
         
         .link-text {
             flex: 1;
             font-weight: 600;
             font-size: 1rem;
-            color: var(--block-color);
+            color: var(--block-color); /* ТЕМНО-ГРИФЕЛЬНЫЙ */
         }
         
         .link-meta {
@@ -268,7 +269,7 @@
         /* Dropdown styles */
         .dropdown-content {
             display: none;
-            background: var(--block-color-light); 
+            background: var(--block-color-light); /* СВЕТЛО-СЕРЫЙ ФОН */
             border-left: 3px solid var(--block-color);
             border-radius: 0 0 12px 12px;
             margin-top: -10px;
@@ -1055,9 +1056,9 @@ if (announcementText) {
     const modal = document.createElement('div');
     modal.innerHTML = `
         <div onclick="this.remove()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:10000;padding:40px;cursor:pointer;">
-            <div style="background:white;padding:40px;border-radius:20px;max-width:800px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,0.4);border-top:6px solid #2563eb;position:relative;cursor:auto;">
+            <div style="background:white;padding:40px;border-radius:20px;max-width:800px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,0.4);border-top:6px solid var(--primary);position:relative;cursor:auto;">
                 <div style="font-size:18px;line-height:1.6;color:#1e293b;margin-bottom:30px;">${announcementText}</div>
-                <button onclick="this.closest('div[style*=\"position:fixed\"]').remove()" style="display:block;margin:0 auto;padding:12px 30px;background:#2563eb;color:white;border:none;border-radius:10px;font-size:16px;cursor:pointer;font-weight:600;">Закрыть</button>
+                <button onclick="this.closest('div[style*=\"position:fixed\"]').remove()" style="display:block;margin:0 auto;padding:12px 30px;background:var(--primary);color:white;border:none;border-radius:10px;font-size:16px;cursor:pointer;font-weight:600;">Закрыть</button>
             </div>
         </div>
     `;
