@@ -25,7 +25,7 @@
             --accent: #06b6d4;
             --success: #10b981;
             --warning: #f59e0b;
-            --error: #dc2626; /* Новый красный */
+            --error: #dc2626; /* Красный (используется только для текста с ошибками/предупреждениями) */
             --background: #f4f6f8; /* Легкий серый фон */
             --surface: #ffffff;
             --text-primary: #1e293b;
@@ -68,13 +68,13 @@
             left: 0;
             right: 0;
             height: 4px;
-            /* Новый градиент для шапки */
+            /* Градиент для шапки */
             background: linear-gradient(90deg, var(--primary-gradient-start), var(--primary)); 
         }
 
-        /* Стиль для логотипа */
+        /* Стиль для логотипа - УВЕЛИЧЕН РАЗМЕР */
         .header-logo {
-            width: 100px; /* Размер логотипа */
+            width: 180px; /* УВЕЛИЧЕНО */
             height: auto;
             flex-shrink: 0;
         }
@@ -93,8 +93,9 @@
             letter-spacing: 0.5px;
         }
         
+        /* ЗАГОЛОВОК - УВЕЛИЧЕН ШРИФТ */
         .page-title {
-            font-size: 3.2rem;
+            font-size: 4.5rem; /* УВЕЛИЧЕНО */
             font-weight: 800;
             /* Применение градиента к тексту */
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
@@ -142,9 +143,14 @@
             min-height: 300px;
             display: flex;
             flex-direction: column;
+            
+            /* ЕДИНАЯ ЦВЕТОВАЯ СХЕМА ДЛЯ ВСЕХ БЛОКОВ */
+            --block-color: #2563eb; /* Основной синий для заголовков и ссылок */
+            --block-color-light: #eff6ff; /* Фон ссылок */
+            --block-color-secondary: #0f86a2; /* Начало градиента для верхней полосы */
         }
 
-        /* Градиент сверху окна карточки */
+        /* Градиент сверху окна карточки - ТЕПЕРЬ ОДНОРОДНЫЙ */
         .card::before {
             content: "";
             position: absolute;
@@ -152,7 +158,6 @@
             left: 0;
             width: 100%;
             height: 4px;
-            /* Новый градиент для карточек */
             background: linear-gradient(90deg, var(--block-color-secondary), var(--block-color));
         }
         
@@ -177,7 +182,6 @@
             margin-right: 16px;
             font-size: 1.4rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            /* Убрали индивидуальный фон, используем общий для всех */
             background: var(--primary-light); 
             color: var(--block-color); /* Цвет значка */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -185,20 +189,6 @@
 
         .card:hover .card-icon {
             transform: scale(1.05);
-        }
-        
-        /* Единая цветовая схема для всех блоков */
-        /* Используем разные оттенки для блока и его градиента */
-        .card-1, .card-3, .card-4, .card-5, .card-6, .card-7 {
-            --block-color: #2563eb; /* Основной цвет ссылок и заголовка */
-            --block-color-light: #eff6ff; /* Фон ссылок */
-            --block-color-secondary: #0f86a2; /* Начало градиента */
-        }
-        
-        .card-2, .card-8 {
-            --block-color: #dc2626; /* Цвет для предупреждений (НПР) */
-            --block-color-light: #fef2f2;
-            --block-color-secondary: #f97316; /* Оранжевый для градиента */
         }
 
         .card h2 {
@@ -367,7 +357,7 @@
             }
 
             .header-logo {
-                width: 80px; /* Уменьшаем размер логотипа на мобильных */
+                width: 120px; /* Адаптивный размер логотипа */
             }
 
             .content-area {
@@ -375,7 +365,7 @@
             }
             
             .page-title {
-                font-size: 2.2rem;
+                font-size: 2.8rem; /* Адаптивный размер заголовка */
             }
             
             .card {
@@ -398,7 +388,7 @@
             }
             
             .page-title {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
             }
             
             .card {
@@ -415,7 +405,7 @@
 <body>
     <main class="main-content" id="main-content">
         <header class="content-header">
-            <img src="logo.jpg" alt="Логотип ГБУЗ МО МОКПТД филиал Клинский" class="header-logo">
+            <img src="Филиал_Клинский _Логотип.jpg" alt="Логотип ГБУЗ МО МОКПТД филиал Клинский" class="header-logo">
             
             <div class="header-text-container">
                 <div class="institution-main">ГБУЗ МО МОКПТД филиал Клинский</div>
@@ -467,7 +457,7 @@
                                 </div>
                                 <div class="dropdown-meta">Подробный справочник по режимам ХТ</div>
                             </a>
-                            <a href="https://1drv.ms/b/c/8d834935e09ce801/EbEu8ZIm4sJDphnusFoGcNsB6qunIguEoDTWNKzO1xqAjg?e=SjH49f" target="_blank" class="dropdown-link">
+                            <a href="https://1drv.ms/b/c/8d834935e09ce801/EbEu8ZIm4sJDphnusFoGcNsB6qunIguEoDTWNKzO1xqAjg?e=SjH49r" target="_blank" class="dropdown-link">
                                 <div class="link-content">
                                     <div class="link-icon">→</div>
                                     <div class="link-text">Латентная туберкулезная инфекция у детей</div>
@@ -1045,7 +1035,7 @@
     
     // Close dropdowns when clicking outside
     document.addEventListener('click', function(e) {
-        if (!e.target.closest('.link-item')) { // Изменено, чтобы закрывалось, если клик не по любому link-item
+        if (!e.target.closest('.link-item')) { 
             document.querySelectorAll('.dropdown-content').forEach(dropdown => {
                 dropdown.classList.remove('show');
             });
