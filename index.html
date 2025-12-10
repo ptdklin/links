@@ -57,17 +57,26 @@
         }
 
         /* ---------------------------------
-        1. ШАПКА (HEADER) - ВОССТАНОВЛЕНА ИСХОДНАЯ ВЕРСИЯ!
+        1. ШАПКА (HEADER)
         --------------------------------- */
         
         .content-header {
             background: var(--surface);
-            /* Измененный padding возвращен к исходному: */
-            padding: 35px 0px; 
+            padding: 35px 40px;
             border-bottom: 1px solid var(--border);
             box-shadow: var(--shadow);
-            text-align: center; /* Восстановлено центрирование */
             position: relative;
+            display: flex;
+            align-items: center;
+            gap: 30px; 
+            text-align: left;
+        }
+        /* Добавляем возможность размещения элементов справа */
+        .header-content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
 
         /* Обводка шапки - ЯРКИЙ ГРАДИЕНТ (СИНИЙ) */
@@ -82,54 +91,131 @@
             background: linear-gradient(90deg, var(--primary), var(--primary-gradient-start)); 
         }
 
-        /* Логотип удален из стилей, так как его нет в исходной разметке */
+        /* Стиль для логотипа */
+        .header-logo {
+            width: 130px; 
+            height: auto;
+            flex-shrink: 0;
+        }
 
         .header-text-container {
-            /* Удалены стили flex, так как они относились к логотипу */
-            display: block; 
-            margin: 0 auto;
-            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; /* Разрешаем занимать доступное пространство */
         }
         
         .institution-main {
             color: var(--text-secondary);
             font-size: 1.1rem;
-            margin-bottom: 4px; /* Восстановлен исходный отступ */
+            margin-bottom: 0px; 
             font-weight: 500;
             letter-spacing: 0.5px;
         }
 
-        /* Контейнер для двух заголовков <h1> удален, так как это было моё изменение */
+        /* Контейнер для двух заголовков <h1> */
+        .header-titles {
+            display: flex; /* Выравнивает два H1 рядом */
+            gap: 0.25rem; /* Небольшой отступ между частями */
+            margin-bottom: 2px;
+            align-items: flex-end; /* Выравнивание по нижней линии */
+        }
         
-        /* ЗАГОЛОВОК - ЦЕНТРИРОВАН! */
+        /* ЗАГОЛОВОК - ГЛУБОКИЙ СТРОГИЙ СИНИЙ - ПЕРВАЯ ЧАСТЬ ("Навигатор врача-") */
         .page-title {
             font-size: 3.2rem; 
             font-weight: 800;
-            /* Восстановлен градиент Fluent */
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-gradient-start) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 5px; /* Восстановлен исходный отступ */
+            /* Устанавливаем единый, строгий синий цвет */
+            color: #004C99; 
+            -webkit-text-fill-color: initial; 
+            /* Изменения для выравнивания */
+            margin: 0; 
+            line-height: 1.2; 
         }
 
-       /* ВТОРАЯ ЧАСТЬ - УДАЛЕНА! */
+       /* ВТОРАЯ ЧАСТЬ - ТАКОЙ ЖЕ СИНИЙ ЦВЕТ ("фтизиатра") */
         .page-title-secondary {
-            display: none; 
+            font-size: 3.2rem; 
+            font-weight: 800;
+            color: #004C99; /* Используем тот же строгий синий */
+            line-height: 1.2; 
+            margin: 0; 
+            -webkit-text-fill-color: initial; 
         }
         
         .page-description {
             color: var(--text-secondary);
             font-size: 1.1rem;
             font-weight: 400;
-            /* Восстановлен max-width и центрирование */
             max-width: 600px;
-            margin: 0 auto; 
+            margin: 0;
             line-height: 1.5;
         }
 
         /* ---------------------------------
-        2. СЕТКА И КАРТОЧКИ (CARDS) - СТИЛИ НЕ ТРЕБОВАЛИ ИЗМЕНЕНИЙ, ОСТАВЛЕНЫ ИСХОДНЫМИ
+        1.1. БЛОК ОБЪЯВЛЕНИЙ (ANNOUNCEMENT)
+        --------------------------------- */
+        .announcement-container {
+            align-self: flex-end; /* Прижимает к нижней части шапки */
+            background-color: var(--block-color-light); /* Светлый фон */
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--primary); /* Синий акцент */
+            border-radius: 6px;
+            padding: 10px 15px;
+            max-width: 300px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0; /* Не сжимать */
+            margin-left: 20px; /* Отступ от основного текста */
+        }
+
+        .announcement-container:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-1px);
+        }
+
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .announcement-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .announcement-show-btn {
+            background: var(--primary);
+            color: var(--surface);
+            border: none;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .announcement-show-btn:hover {
+            background: var(--primary-light);
+        }
+
+        .announcement-text-preview {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            /* Ограничение текста в 2 строки */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ---------------------------------
+        2. СЕТКА И КАРТОЧКИ (CARDS)
         --------------------------------- */
         
         .content-area {
@@ -267,7 +353,7 @@
         }
 
         /* ---------------------------------
-        3. СПИСКИ ССЫЛОК (LINKS) - СТИЛИ НЕ ТРЕБОВАЛИ ИЗМЕНЕНИЙ, ОСТАВЛЕНЫ ИСХОДНЫМИ
+        3. СПИСКИ ССЫЛОК (LINKS)
         --------------------------------- */
         
         .link-list {
@@ -384,7 +470,7 @@
         }
         
         /* ---------------------------------
-        4. ПОДВАЛ (FOOTER) - СТИЛИ НЕ ТРЕБОВАЛИ ИЗМЕНЕНИЙ, ОСТАВЛЕНЫ ИСХОДНЫМИ
+        4. ПОДВАЛ (FOOTER)
         --------------------------------- */
         .footer {
             text-align: center;
@@ -409,25 +495,44 @@
         }
         
         /* ---------------------------------
-        5. АДАПТИВНОСТЬ (RESPONSIVE) - ВОССТАНОВЛЕНА ИСХОДНАЯ ВЕРСИЯ!
+        5. АДАПТИВНОСТЬ (RESPONSIVE)
         --------------------------------- */
         @media (max-width: 1024px) {
             .grid {
                 grid-template-columns: 1fr;
+            }
+            .content-header {
+                flex-wrap: wrap; /* Разрешаем перенос элементов */
+            }
+            .header-content-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .announcement-container {
+                align-self: flex-start; /* В адаптивной версии прижимаем к левому краю */
+                margin-left: 0;
             }
         }
         
         @media (max-width: 768px) {
             .content-header {
                 padding: 25px 20px;
+                flex-direction: column; 
+                align-items: flex-start; 
+                gap: 15px;
+            }
+
+            .header-logo {
+                width: 100px;
             }
 
             .content-area {
                 padding: 25px;
             }
             
-            /* Адаптивные стили для заголовка */
-            .page-title {
+            /* Адаптивные стили для двух частей заголовка */
+            .page-title, .page-title-secondary {
                 font-size: 2.2rem; 
             }
 
@@ -450,8 +555,8 @@
                 padding: 20px;
             }
             
-            /* Адаптивные стили для заголовка */
-            .page-title {
+            /* Адаптивные стили для двух частей заголовка */
+            .page-title, .page-title-secondary {
                 font-size: 1.8rem;
             }
 
@@ -469,15 +574,30 @@
 <body>
     <main class="main-content" id="main-content">
         <header class="content-header">
-            <div class="header-text-container">
-                <div class="institution-main">ГБУЗ МО МОКПТД филиал Клинский</div>
-                
-                <h1 class="page-title">Навигатор врача-фтизиатра</h1>
-                <p class="page-description">Система доступа к профессиональным ресурсам</p>
-                <p class="page-description" style="margin-top: 20px; font-size: 1.8rem; font-weight: 700; color: var(--error); text-align: center; line-height: 1.3;">
+            <img src="logo.jpg" alt="Логотип ГБУЗ МО МОКПТД филиал Клинский" class="header-logo">
+            
+            <div class="header-content-wrapper">
+                <div class="header-text-container">
+                    <div class="institution-main">ГБУЗ МО МОКПТД филиал Клинский</div>
                     
-                </p>
-            </div>
+                    <div class="header-titles">
+                        <h1 class="page-title">Навигатор врача-</h1>
+                        <h1 class="page-title-secondary">фтизиатра</h1>
+                    </div>
+                    <p class="page-description">Система доступа к профессиональным ресурсам</p>
+                    <p class="page-description" style="margin-top: 20px; font-size: 1.8rem; font-weight: 700; color: var(--error); text-align: left; line-height: 1.3;">
+                        
+                    </p>
+                </div>
+
+                <div class="announcement-container" id="announcement-block">
+                    <div class="announcement-header">
+                        <span class="announcement-title">Текущее объявление</span>
+                        <button class="announcement-show-btn">Показать</button>
+                    </div>
+                    <p class="announcement-text-preview" id="announcement-preview"></p>
+                </div>
+                </div>
         </header>
         
         <div class="content-area">
@@ -508,7 +628,7 @@
                                     <div class="link-text">Туберкулез (Взрослые)</div>
                                 </div>
                             </a>
-                            <a href="https://cr.minzdrav.ru/view-cr/507_3" target="_blank" class="dropdown-link">
+                            <a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="dropdown-link">
                                 <div class="link-content">
                                     <div class="link-icon">→</div>
                                     <div class="link-text">Туберкулез (Дети)</div>
@@ -852,13 +972,45 @@
                             </div>
                         </div>
                         <div class="dropdown-content">
-                            <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAB6JzgNUmDIICNPOgAAAAAAQiAwXwlpg4h0b-jXksWgUc?e=UhUGH3" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Агит-папка</div>
+                            <div class="link-item dropdown-toggle" style="margin-bottom:0; background:none; border:none; padding:0 0 0 10px;">
+                                <div class="link-content" style="padding:12px 0; display:block; color: var(--block-color); text-decoration:none; transition:all 0.2s ease;">
+                                    <div class="link-icon" style="margin-right:8px; display:inline-block; transform:none;">⌄</div>
+                                    <div class="link-text" style="display:inline-block; font-weight:600; font-size:1rem;">Агит-папка</div>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                            <div class="dropdown-content" style="padding-left:10px; margin-top:0;">
+                                <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAB6JzgNUmDIICNPOgAAAAAAQiAwXwlpg4h0b-jXksWgUc?e=UhUGH3" target="_blank" class="dropdown-link">
+                                    <div class="link-content">
+                                        <div class="link-icon">→</div>
+                                        <div class="link-text">О профосмотрах</div>
+                                    </div>
+                                </a>
+                                <a href="#" target="_blank" class="dropdown-link">
+                                    <div class="link-content">
+                                        <div class="link-icon">→</div>
+                                        <div class="link-text">Тема 2</div>
+                                    </div>
+                                </a>
+                                <a href="#" target="_blank" class="dropdown-link">
+                                    <div class="link-content">
+                                        <div class="link-icon">→</div>
+                                        <div class="link-text">Тема 3</div>
+                                    </div>
+                                </a>
+                                <a href="#" target="_blank" class="dropdown-link">
+                                    <div class="link-content">
+                                        <div class="link-icon">→</div>
+                                        <div class="link-text">Тема 4</div>
+                                    </div>
+                                </a>
+                                <a href="#" target="_blank" class="dropdown-link">
+                                    <div class="link-content">
+                                        <div class="link-icon">→</div>
+                                        <div class="link-text">Тема 5</div>
+                                    </div>
+                                </a>
+                            </div>
+                            </div>
                         
                         <div class="link-item dropdown-toggle">
                             <div class="link-content">
@@ -1086,16 +1238,30 @@
     </main>
 
     <script>
+    // ТЕКСТ ТЕКУЩЕГО ОБЪЯВЛЕНИЯ
+    const currentAnnouncementText = "ВАЖНОЕ ОБЪЯВЛЕНИЕ! С 10 декабря 2025 года вводится новый порядок ведения медицинской документации. Ознакомьтесь с Приказом №123 от 01.12.2025 в разделе «Дополнительные ресурсы» -> «Контрольные листы». Несоблюдение правил может привести к штрафам. Всем врачам необходимо пройти краткий инструктаж у заведующего отделением до конца недели. (Это полный текст объявления для модального окна)";
+    
     // Dropdown functionality
     const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
     
     dropdownToggles.forEach(toggle => {
         toggle.addEventListener('click', function(e) {
             e.preventDefault();
-            const dropdown = this.nextElementSibling;
+            
+            // Если это вложенный дропдаун (как "Агит-папка"), обрабатываем особым образом
+            let dropdown = this.nextElementSibling;
+            if (this.closest('.dropdown-content')) {
+                // Если мы внутри другого дропдауна, ищем следующий элемент
+                dropdown = this.parentNode.nextElementSibling;
+            } else {
+                dropdown = this.nextElementSibling;
+            }
+            
+            if (!dropdown || !dropdown.classList.contains('dropdown-content')) return;
+
             // Закрываем все открытые дропдауны, кроме текущего
             document.querySelectorAll('.dropdown-content.show').forEach(openDropdown => {
-                if (openDropdown !== dropdown) {
+                if (openDropdown !== dropdown && !openDropdown.contains(dropdown)) {
                     openDropdown.classList.remove('show');
                 }
             });
@@ -1107,7 +1273,10 @@
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.link-item')) { 
             document.querySelectorAll('.dropdown-content').forEach(dropdown => {
-                dropdown.classList.remove('show');
+                // Игнорируем вложенный дропдаун "Агит-папка" при глобальном закрытии
+                if (!dropdown.closest('.link-item.dropdown-toggle')) {
+                     dropdown.classList.remove('show');
+                }
             });
         }
     });
@@ -1124,24 +1293,38 @@
         
         return false;
     }
-</script>
-    <script>
-// Окно объявлений (сохранено, но используется новая переменная --error)
-const announcementText = "";  // Впиши текст объявления сюда
+    
+    // Инициализация блока объявлений
+    const announcementBlock = document.getElementById('announcement-block');
+    const announcementPreview = document.getElementById('announcement-preview');
+    
+    if (currentAnnouncementText && announcementBlock) {
+        // Заполняем превью
+        announcementPreview.textContent = currentAnnouncementText;
 
-if (announcementText) {
-    // Крупное окно, закрывается по клику в любом месте
-    const modal = document.createElement('div');
-    modal.innerHTML = `
-        <div onclick="this.remove()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:10000;padding:40px;cursor:pointer;">
-            <div style="background:white;padding:40px;border-radius:20px;max-width:800px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,0.4);border-top:6px solid var(--primary);position:relative;cursor:auto;">
-                <div style="font-size:18px;line-height:1.6;color:#1e293b;margin-bottom:30px;">${announcementText}</div>
-                <button onclick="this.closest('div[style*=\"position:fixed\"]').remove()" style="display:block;margin:0 auto;padding:12px 30px;background:var(--primary);color:white;border:none;border-radius:10px;font-size:16px;cursor:pointer;font-weight:600;">Закрыть</button>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(modal);
-}
+        // Обработчик для открытия модального окна по клику на блок
+        announcementBlock.addEventListener('click', function() {
+            // Крупное окно, закрывается по клику в любом месте
+            const modal = document.createElement('div');
+            modal.innerHTML = `
+                <div onclick="this.remove()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:10000;padding:40px;cursor:pointer;">
+                    <div style="background:white;padding:40px;border-radius:20px;max-width:800px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,0.4);border-top:6px solid var(--primary);position:relative;cursor:auto;">
+                        <h3 style="color: var(--primary); margin-bottom: 20px;">Текущее объявление</h3>
+                        <div style="font-size:18px;line-height:1.6;color:#1e293b;margin-bottom:30px; white-space: pre-wrap;">${currentAnnouncementText}</div>
+                        <button onclick="this.closest('div[style*=\"position:fixed\"]').remove()" style="display:block;margin:0 auto;padding:12px 30px;background:var(--primary);color:white;border:none;border-radius:10px;font-size:16px;cursor:pointer;font-weight:600;">Закрыть</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        });
+
+    } else if (announcementBlock) {
+        // Если текста нет, скрываем блок
+        announcementBlock.style.display = 'none';
+    }
+    
+    // Старый скрипт модального окна удален, так как его заменяет новый код выше
+    // (он был в конце body в <script> блоке)
 </script>
 </body>
 </html>
