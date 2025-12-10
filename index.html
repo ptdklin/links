@@ -112,15 +112,14 @@
             align-items: flex-end; /* Выравнивание по нижней линии */
         }
         
-        /* ЗАГОЛОВОК - ЯРКИЙ ГРАДИЕНТ (СИНИЙ) - ПЕРВАЯ ЧАСТЬ ("Навигатор врача-") */
+        /* ЗАГОЛОВОК - ГЛУБОКИЙ СТРОГИЙ СИНИЙ - ПЕРВАЯ ЧАСТЬ ("Навигатор врача-") */
         .page-title {
             font-size: 3.2rem; 
             font-weight: 800;
-            /* Используем Fluent Blue gradient */
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-gradient-start) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            /* Убираем градиент, используем единый, глубокий цвет */
+            color: #004C99; /* Новый, строгий синий цвет */
+            -webkit-text-fill-color: initial; /* Отключаем прозрачность градиента */
+            /* Изменения для выравнивания */
             margin: 0; 
             line-height: 1.2; 
         }
