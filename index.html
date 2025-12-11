@@ -1261,9 +1261,20 @@
         // Устанавливаем превью
         announcementPreview.textContent = currentAnnouncementText;
         
+        // !!! ИЗМЕНЕНИЕ 1: Обработчик события клика на весь блок announcement-container
+        announcementBlock.addEventListener('click', (e) => {
+            // Убедимся, что клик не был на самой кнопке, чтобы избежать двойного вызова,
+            // но при этом клик на кнопке все равно работает.
+            if (e.target.closest('.announcement-container') && e.target !== announcementButton) {
+                showModal('Текущее объявление', currentAnnouncementText, 'var(--primary)');
+            }
+        });
+        
+        // Оставляем обработчик для кнопки, чтобы клик по ней тоже работал
         announcementButton.addEventListener('click', () => {
             showModal('Текущее объявление', currentAnnouncementText, 'var(--primary)');
         });
+
     } else {
         // Скрываем блок, если нет текста
         announcementBlock.style.display = 'none';
@@ -1317,7 +1328,7 @@
                 document.getElementById('important-modal-permanent').remove();
             });
             
-            // Закрытие по клику вне модального окна
+            // !!! ИЗМЕНЕНИЕ 2: Закрытие по клику вне модального окна
             importantModal.addEventListener('click', (e) => {
                 if (e.target.id === 'important-modal-permanent') {
                     e.target.remove();
