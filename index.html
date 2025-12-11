@@ -93,7 +93,7 @@
 
         /* Стиль для логотипа */
         .header-logo {
-            width: 130px; 
+            width: 140px; /* ИЗМЕНЕНИЕ 1: Логотип Сделан чуть-чуть больше (было 130px) */
             height: auto;
             flex-shrink: 0;
         }
@@ -102,6 +102,7 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1; /* Разрешаем занимать доступное пространство */
+            justify-content: center; /* ИЗМЕНЕНИЕ 2: Вертикальное центрирование трех строк */
         }
         
         .institution-main {
@@ -668,7 +669,7 @@
                             </div>
                             <div class="link-meta">Нормативные документы по КК</div>
                         </a>
-                        <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=oGc4AZ" class="link-item">
+                        <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=hPVL2o" class="link-item">
                             <div class="link-content">
                                 <div class="link-icon">→</div>
                                 <div class="link-text">Новые документы</div>
@@ -985,7 +986,7 @@
                                 </div>
                             </div>
                             <div class="dropdown-content" style="padding-left:10px; margin-top:0;">
-                                <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAB6JzgNUmDIICNPOgAAAAAAQiAwXwlpg4h0b-jXksWgUc?e=UhUGH3" target="_blank" class="dropdown-link">
+                                <a href="https://ptdklin.github.io/o-profosmotrach/" target="_blank" class="dropdown-link">
                                     <div class="link-content">
                                         <div class="link-icon">→</div>
                                         <div class="link-text">О профосмотрах</div>
@@ -1289,7 +1290,7 @@
         modal.id = 'dynamic-modal';
         modal.innerHTML = `
             <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:10000;padding:40px;cursor:pointer;">
-                <div onclick="event.stopPropagation()" style="background:var(--surface);padding:40px;border-radius:12px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg);border-top:6px solid ${color};position:relative;cursor:auto;border:1px solid var(--border);">
+                <div style="background:var(--surface);padding:40px;border-radius:12px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg);border-top:6px solid ${color};position:relative;cursor:auto;border:1px solid var(--border);">
                     <h3 style="color:${color};font-size:1.6rem;margin-bottom:15px;font-weight:700;">${title}</h3>
                     <div style="font-size:1rem;line-height:1.6;color:var(--text-primary);margin-bottom:30px;">${content}</div>
                     <button onclick="document.getElementById('dynamic-modal').remove()" style="background:${color};color:var(--surface);border:none;padding:10px 20px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background-color 0.2s;display:block;margin:0 auto;">Закрыть</button>
@@ -1298,11 +1299,9 @@
         `;
         document.body.appendChild(modal);
         
-        // Закрытие по клику вне модального окна
+        // ИЗМЕНЕНИЕ 3: Закрытие по клику на любую часть модального окна (включая контент)
         modal.addEventListener('click', (e) => {
-            if (e.target.id === 'dynamic-modal') {
-                e.target.remove();
-            }
+            modal.remove();
         });
     }
 
@@ -1314,7 +1313,7 @@
             importantModal.id = 'important-modal-permanent';
             importantModal.innerHTML = `
                 <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:10000;padding:40px;cursor:pointer;">
-                    <div onclick="event.stopPropagation()" style="background:var(--surface);padding:40px;border-radius:12px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg);border-top:6px solid var(--error);position:relative;cursor:auto;border:1px solid var(--border);">
+                    <div style="background:var(--surface);padding:40px;border-radius:12px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg);border-top:6px solid var(--error);position:relative;cursor:auto;border:1px solid var(--border);">
                         <h3 style="color:var(--error);font-size:1.6rem;margin-bottom:15px;font-weight:700;">🚨 Важное объявление! 🚨</h3>
                         <div style="font-size:1rem;line-height:1.6;color:var(--text-primary);margin-bottom:30px;">${importantModalText}</div>
                         <button id="close-important-modal" style="background:var(--error);color:var(--surface);border:none;padding:10px 20px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background-color 0.2s;display:block;margin:0 auto;">Ознакомлен(а) и закрыть</button>
@@ -1328,11 +1327,9 @@
                 document.getElementById('important-modal-permanent').remove();
             });
             
-            // !!! ИЗМЕНЕНИЕ 2: Закрытие по клику вне модального окна
+            // ИЗМЕНЕНИЕ 4: Закрытие по клику на любую часть модального окна (включая контент)
             importantModal.addEventListener('click', (e) => {
-                if (e.target.id === 'important-modal-permanent') {
-                    e.target.remove();
-                }
+                 importantModal.remove();
             });
         }
     });
