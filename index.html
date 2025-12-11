@@ -152,21 +152,27 @@
         }
 
         /* ---------------------------------
-        1.1. БЛОК ОБЪЯВЛЕНИЙ (ANNOUNCEMENT)
+        1.1. БЛОК ОБЪЯВЛЕНИЙ (ANNOUNCEMENT) - ИЗМЕНЕНИЯ СТИЛЕЙ ЗДЕСЬ
         --------------------------------- */
         .announcement-container {
-            align-self: flex-end; /* Прижимает к нижней части шапки */
+            /* align-self: flex-end; <-- УДАЛЕН. ЦЕНТРИРОВАНИЕ ТЕПЕРЬ ЗАДАЕТСЯ В .header-content-wrapper */
             background-color: var(--block-color-light); /* Светлый фон */
             border: 1px solid var(--border);
             border-top: 3px solid var(--primary); /* Синий акцент */
             border-radius: 6px;
             padding: 10px 15px;
             max-width: 300px;
+            /* Увеличиваем высоту с помощью min-height */
+            min-height: 120px; 
             box-shadow: var(--shadow);
             cursor: pointer;
             transition: all 0.3s ease;
             flex-shrink: 0; /* Не сжимать */
             margin-left: 20px; /* Отступ от основного текста */
+            /* Добавляем вертикальное выравнивание содержимого внутри блока */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Центрирование содержимого по вертикали */
         }
 
         .announcement-container:hover {
@@ -1243,7 +1249,7 @@
     const currentAnnouncementText = "ВАЖНОЕ ОБЪЯВЛЕНИЕ! С 10 декабря 2025 года вводится новый порядок ведения медицинской документации. Ознакомьтесь с Приказом №123 от 01.12.2025 в разделе «Дополнительные ресурсы» -> «Контрольные листы». Несоблюдение правил может привести к штрафам. Всем врачам необходимо пройти краткий инструктаж у заведующего отделением до конца недели. (Это полный текст объявления для модального окна)";
     
     // 2. ТЕКСТ ВАЖНОГО ОБЪЯВЛЕНИЯ (ДЛЯ ПОЯВЛЯЮЩЕГОСЯ ПРИ ЗАГРУЗКЕ ОКНА)
-    // Вставьте сюда текст важного объявления, которое должно всплыть сразу при открытии страницы
+    // Если текст есть - объявление появляется всегда. Если текста нет - не появляется.
     const importantModalText = "Это очень важное всплывающее объявление, которое должно появиться один раз при загрузке страницы. Пожалуйста, обратите внимание на новую процедуру регистрации нежелательных реакций с 15.12.2025. Подробности в разделе «Нежелательные реакции на ЛС».";
 
     // --- ЛОГИКА ОБЪЯВЛЕНИЯ В ШАПКЕ (СИНИЙ ЦВЕТ) ---
@@ -1289,13 +1295,10 @@
         });
     }
 
-    // --- ЛОГИКА ВАЖНОГО МОДАЛЬНОГО ОКНА ПРИ ЗАГРУЗКЕ (КРАСНЫЙ ЦВЕТ) ---
-    // ВНИМАНИЕ: Если вы меняете текст важного объявления, измените дату в ключе, чтобы оно всплыло снова!
-    const IMPORTANT_MODAL_KEY = 'importantModalSeen_20251211'; 
-    
+    // --- ЛОГИКА ВАЖНОГО МОДАЛЬНОГО ОКНА ПРИ ЗАГРУЗКЕ (КРАСНЫЙ ЦВЕТ) - ИЗМЕНЕНА ---
     document.addEventListener('DOMContentLoaded', () => {
-        // Проверяем, есть ли текст и не видел ли пользователь это объявление
-        if (importantModalText && localStorage.getItem(IMPORTANT_MODAL_KEY) !== 'true') {
+        // Проверяем, есть ли текст. Если есть - показываем всегда.
+        if (importantModalText) {
             const importantModal = document.createElement('div');
             importantModal.id = 'important-modal-permanent';
             importantModal.innerHTML = `
@@ -1309,17 +1312,15 @@
             `;
             document.body.appendChild(importantModal);
             
-            // Логика закрытия и сохранения в localStorage
+            // Логика закрытия. localStorage удален.
             document.getElementById('close-important-modal').addEventListener('click', () => {
                 document.getElementById('important-modal-permanent').remove();
-                localStorage.setItem(IMPORTANT_MODAL_KEY, 'true');
             });
             
             // Закрытие по клику вне модального окна
             importantModal.addEventListener('click', (e) => {
                 if (e.target.id === 'important-modal-permanent') {
                     e.target.remove();
-                    localStorage.setItem(IMPORTANT_MODAL_KEY, 'true');
                 }
             });
         }
