@@ -849,9 +849,21 @@
                 <li><a href="https://1drv.ms/w/c/8d834935e09ce801/IQCZ_j1AKrUyRpOS9zayQmy2AZVEy_sKjHcesdLxdO2MMn0?e=cf42rq" target="_blank">Контрольный лист соблюдения основных этапов при постановке на учёт<span class="link-star">*</span></a></li>
                 <li><a href="https://1drv.ms/w/c/8d834935e09ce801/IQBtfCwhI8UhTI4GbF-qLdt8AbTLSngTJio9kO3Y-P0IjT0?e=SFGqHI" target="_blank">Контрольный лист проверки организации противотуберкулезной службы<span class="link-star">*</span></a></li>
             </ul>
-        </section>
+                </section>
+        
+        <!-- Простая надпись без фона -->
+        <footer style="
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            border-top: 1px solid #ddd;
+        ">
+            <p><strong>Разработал:</strong> Лукаш И. А.,<br>заведующий филиалом «Клинский» ГБУЗ МО «МОКПТД»</p>
+            <p>2025</p>
+        </footer>
     </main>
-
     <script>
         // JavaScript для интерактивного оглавления и прокрутки
         document.addEventListener('DOMContentLoaded', function() {
@@ -859,7 +871,6 @@
             const sections = document.querySelectorAll('section');
             const progressBar = document.getElementById('progress-bar');
             
-            // Функция для обновления активной ссылки в оглавлении
             function updateActiveLink() {
                 let currentSection = '';
                 const scrollPosition = window.scrollY + 150;
@@ -878,7 +889,6 @@
                     if (link.getAttribute('href') === `#${currentSection}`) {
                         link.classList.add('active');
                         
-                        // Прокручиваем оглавление к активной ссылке
                         const toc = document.getElementById('toc');
                         const linkRect = link.getBoundingClientRect();
                         const tocRect = toc.getBoundingClientRect();
@@ -889,20 +899,15 @@
                     }
                 });
                 
-                // Обновление индикатора прогресса
                 const windowHeight = window.innerHeight;
                 const documentHeight = document.documentElement.scrollHeight - windowHeight;
                 const scrollPercent = (window.scrollY / documentHeight) * 100;
                 progressBar.style.width = `${scrollPercent}%`;
             }
             
-            // Обработчик прокрутки
             window.addEventListener('scroll', updateActiveLink);
-            
-            // Инициализация при загрузке
             updateActiveLink();
             
-            // Плавная прокрутка при клике на ссылки оглавления
             tocLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -918,7 +923,6 @@
                 });
             });
             
-            // Обработка всех ссылок в документе (открытие внешних в новой вкладке)
             document.querySelectorAll('a[href^="http"]').forEach(link => {
                 link.setAttribute('target', '_blank');
                 link.setAttribute('rel', 'noopener noreferrer');
@@ -927,6 +931,7 @@
     </script>
 </body>
 </html>
+
 
 
 
