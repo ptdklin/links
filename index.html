@@ -465,92 +465,110 @@
         <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">ГБУЗ МО МОКПТД филиал Клинский</p>
     </footer>
 
-    <script>
-        // --- 1. КРАСИВЫЙ СНЕГОПАД ---
-        const canvas = document.getElementById('snow-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height, snowflakes = [];
+   <script>
+    // --- 1. КРАСИВЫЙ СНЕГОПАД ---
+    const canvas = document.getElementById('snow-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, snowflakes = [];
 
-        function init() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            snowflakes = [];
-            for (let i = 0; i < 80; i++) {
-                snowflakes.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    size: Math.random() * 15 + 10,
-                    speed: Math.random() * 0.8 + 0.4,
-                    opacity: Math.random() * 0.5 + 0.3,
-                    rotation: Math.random() * Math.PI * 2,
-                    spin: Math.random() * 0.02
-                });
-            }
+    function init() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        snowflakes = [];
+        for (let i = 0; i < 80; i++) {
+            snowflakes.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 15 + 10,
+                speed: Math.random() * 0.8 + 0.4,
+                opacity: Math.random() * 0.5 + 0.3,
+                rotation: Math.random() * Math.PI * 2,
+                spin: Math.random() * 0.02
+            });
         }
+    }
 
-        function drawSnowflake(x, y, size, rotation) {
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.rotate(rotation);
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            for (let i = 0; i < 6; i++) {
-                ctx.moveTo(0, 0);
-                ctx.lineTo(0, -size);
-                ctx.moveTo(0, -size/2);
-                ctx.lineTo(-size/4, -size/1.5);
-                ctx.moveTo(0, -size/2);
-                ctx.lineTo(size/4, -size/1.5);
-                ctx.rotate(Math.PI / 3);
-            }
-            ctx.stroke();
-            ctx.restore();
+    function drawSnowflake(x, y, size, rotation) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(rotation);
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -size);
+            ctx.moveTo(0, -size/2);
+            ctx.lineTo(-size/4, -size/1.5);
+            ctx.moveTo(0, -size/2);
+            ctx.lineTo(size/4, -size/1.5);
+            ctx.rotate(Math.PI / 3);
         }
+        ctx.stroke();
+        ctx.restore();
+    }
 
-        function update() {
-            ctx.clearRect(0, 0, width, height);
-            for (let f of snowflakes) {
-                ctx.globalAlpha = f.opacity;
-                drawSnowflake(f.x, f.y, f.size/2, f.rotation);
-                f.y += f.speed;
-                f.x += Math.sin(f.y / 50) * 0.5;
-                f.rotation += f.spin;
-                if (f.y > height + 20) f.y = -20;
-                if (f.x > width + 20) f.x = -20;
-                if (f.x < -20) f.x = width + 20;
-            }
-            requestAnimationFrame(update);
+    function update() {
+        ctx.clearRect(0, 0, width, height);
+        for (let f of snowflakes) {
+            ctx.globalAlpha = f.opacity;
+            drawSnowflake(f.x, f.y, f.size/2, f.rotation);
+            f.y += f.speed;
+            f.x += Math.sin(f.y / 50) * 0.5;
+            f.rotation += f.spin;
+            if (f.y > height + 20) f.y = -20;
+            if (f.x > width + 20) f.x = -20;
+            if (f.x < -20) f.x = width + 20;
         }
+        requestAnimationFrame(update);
+    }
 
-        window.addEventListener('resize', init);
-        init(); update();
+    window.addEventListener('resize', init);
+    init(); update();
 
-        // --- 2. ЛОГИКА ВЫПАДАЮЩИХ СПИСКОВ ---
-        document.querySelectorAll('.dropdown-toggle').forEach(btn => {
-            btn.onclick = (e) => {
-                e.stopPropagation();
-                // Закрываем другие списки в этой же карточке
+    // --- 2. ЛОГИКА ВЫПАДАЮЩИХ СПИСКОВ (ИСПРАВЛЕННАЯ) ---
+    document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            
+            const content = btn.nextElementSibling;
+            if (content && content.classList.contains('dropdown-content')) {
+                // Закрываем другие списки в этой же карточке, но не родительские
                 const parent = btn.closest('.link-list');
                 parent.querySelectorAll('.dropdown-content').forEach(d => {
-                    if (d !== btn.nextElementSibling) d.classList.remove('show');
+                    // Не закрываем родительский список, если это вложенный
+                    if (d !== content && !d.contains(btn)) {
+                        d.classList.remove('show');
+                    }
                 });
-                btn.nextElementSibling.classList.toggle('show');
-            };
-        });
-
-        window.onclick = () => {
-            document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
+                
+                content.classList.toggle('show');
+            }
         };
+    });
 
-        // --- 3. ТЕКСТ ТЕЛЕГРАММЫ ---
-        const telegramFull = "Дорогие коллеги! От всей души поздравляем вас с наступающим 2026 годом! Пусть год Золотой Лошади принесет в ваши дома тепло, уют и благополучие. Желаем крепкого здоровья, терпения и успехов в нашем нелегком труде. С праздником!";
-        
-        document.getElementById('announcement-preview').innerText = telegramFull.substring(0, 100) + "... (Нажмите)";
-        
-        document.getElementById('announcement-block').onclick = () => {
-            alert(telegramFull);
+    // Закрытие выпадающих списков при клике вне их
+    window.onclick = (e) => {
+        if (!e.target.closest('.dropdown-toggle') && !e.target.closest('.dropdown-content')) {
+            document.querySelectorAll('.dropdown-content').forEach(d => {
+                d.classList.remove('show');
+            });
+        }
+    };
+
+    // Предотвращаем закрытие при клике внутри выпадающего списка
+    document.querySelectorAll('.dropdown-content').forEach(content => {
+        content.onclick = (e) => {
+            e.stopPropagation();
         };
-    </script>
-</body>
-</html>
+    });
+
+    // --- 3. ТЕКСТ ТЕЛЕГРАММЫ ---
+    const telegramFull = "Дорогие коллеги! От всей души поздравляем вас с наступающим 2026 годом! Пусть год Золотой Лошади принесет в ваши дома тепло, уют и благополучие. Желаем крепкого здоровья, терпения и успехов в нашем нелегком труде. С праздником!";
+    
+    document.getElementById('announcement-preview').innerText = telegramFull.substring(0, 100) + "... (Нажмите)";
+    
+    document.getElementById('announcement-block').onclick = () => {
+        alert(telegramFull);
+    };
+</script>
