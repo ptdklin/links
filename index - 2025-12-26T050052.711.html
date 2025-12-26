@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Навигатор врача-фтизиатра | ГБУЗ МО МОКПТД</title>
+    <link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Open+Sans:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        /* ---------------------------------
+        ДИЗАЙН: КЛАССИЧЕСКАЯ ЗИМНЯЯ СКАЗКА
+        --------------------------------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        :root {
+            --winter-sky: #0c2b4a; 
+            --spruce-green: #1b4d3e; 
+            --cone-brown: #5d4037;
+            --toy-gold: #ffd700;
+            --snow-white: #ffffff;
+            --frost-blue: #e0f2fe;
+        }
+        
+        body {
+            background-color: var(--winter-sky);
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 80%);
+            color: var(--frost-blue);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+
+        /* КРАСИВЫЕ ГЕОМЕТРИЧЕСКИЕ СНЕЖИНКИ */
+        #snow-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* ХЕДЕР */
+        .content-header {
+            position: relative;
+            padding: 50px 40px;
+            background: rgba(12, 43, 74, 0.8);
+            border-bottom: 3px double var(--toy-gold);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            z-index: 20;
+            backdrop-filter: blur(8px);
+        }
+
+        .header-logo {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 0 25px rgba(255,255,255,0.3);
+            background: white;
+        }
+
+        .page-title {
+            font-family: 'Marck Script', cursive;
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            line-height: 1.2;
+        }
+
+        .year-label {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.5rem;
+            color: var(--toy-gold);
+            margin-top: 8px;
+        }
+
+        /* ТЕЛЕГРАММА */
+        .announcement-container {
+            background: #fdf5e6;
+            padding: 15px;
+            border: 2px solid #8b4513;
+            color: #5d4037;
+            font-family: 'Courier New', monospace;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.2);
+            cursor: pointer;
+            max-width: 320px;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .announcement-container:hover { transform: scale(1.02); }
+
+        /* КАРТОЧКИ */
+        .content-area {
+            position: relative;
+            z-index: 20;
+            padding: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 15px;
+            padding: 25px;
+            color: #2c3e50;
+            box-shadow: 12px 12px 0px rgba(0,0,0,0.15);
+            border: 1px solid #d1e2d9;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 18px 18px 0px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed var(--spruce-green);
+            padding-bottom: 12px;
+        }
+
+        .card-icon { font-size: 2.2rem; }
+        .card h2 {
+            font-family: 'Marck Script', cursive;
+            font-size: 1.7rem;
+            color: var(--spruce-green);
+        }
+
+        /* ССЫЛКИ */
+        .link-list { display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
+
+        .link-item {
+            padding: 12px 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 700;
+            transition: 0.2s;
+            border: 1px solid #e2e8f0;
+            display: block;
+        }
+
+        .link-item:hover {
+            background: var(--spruce-green);
+            color: #fff;
+            border-color: var(--spruce-green);
+        }
+
+        .link-meta {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-top: 3px;
+        }
+
+        /* ВЫПАДАЮЩИЕ СПИСКИ */
+        .dropdown-content {
+            display: none;
+            background: #fff;
+            padding: 5px 10px;
+            border: 1px solid var(--spruce-green);
+            border-radius: 8px;
+            margin-top: 2px;
+            margin-bottom: 8px;
+        }
+        .dropdown-content.show { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .dropdown-link {
+            display: block;
+            padding: 8px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .dropdown-link:hover { background: #f0fdf4; color: var(--spruce-green); font-weight: bold; }
+
+        /* ФУТЕР */
+        footer {
+            margin-top: 80px;
+            padding: 60px 40px;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-decor { font-size: 2.5rem; margin-bottom: 15px; }
+
+        @media (max-width: 768px) {
+            .content-header { flex-direction: column; text-align: center; padding: 30px 20px; }
+            .announcement-container { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="snow-canvas"></canvas>
+
+    <header class="content-header">
+        <img src="logo.jpg" alt="Логотип" class="header-logo">
+        <div style="flex-grow: 1;">
+            <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.9;">ГБУЗ МО МОКПТД филиал Клинский</div>
+            <h1 class="page-title">С наступающим Новым годом!<br>Навигатор врача-фтизиатра</h1>
+            <div class="year-label">🐎 Счастливого 2026 года!</div>
+        </div>
+        
+        <div class="announcement-container" id="announcement-block">
+            <div style="font-weight: bold; border-bottom: 1px solid #8b4513; margin-bottom: 8px;">ВХОДЯЩАЯ ТЕЛЕГРАММА:</div>
+            <div id="announcement-preview" style="font-size: 0.85rem; line-height: 1.4;"></div>
+        </div>
+    </header>
+
+    <div class="content-area">
+        <div class="grid">
+            
+            <!-- 🎄 Нормативные документы -->
+            <div class="card" id="normative-documents">
+                <div class="card-header">
+                    <span class="card-icon">🌲</span>
+                    <h2>Нормативные документы и руководства</h2>
+                </div>
+                <div class="link-list">
+                    <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Клинические рекомендации</div>
+                    <div class="dropdown-content">
+                        <a href="https://cr.minzdrav.gov.ru/clin-rec" target="_blank" class="dropdown-link">Все клинические рекомендации МЗ РФ</a>
+                        <a href="https://cr.minzdrav.gov.ru/view-cr/16_3" target="_blank" class="dropdown-link">Туберкулез (Взрослые)</a>
+                        <a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="dropdown-link">Туберкулез (Дети)</a>
+                        <a href="https://1drv.ms/b/c/8d834935e09ce801/EXfoaQoPodRFlFCwYQF30E4BOpcXAQ02t2QHElCyODukjA?e=xysaif" target="_blank" class="dropdown-link">Терапия туберкулеза у взрослых</a>
+                        <a href="https://1drv.ms/b/c/8d834935e09ce801/EbEu8ZIm4sJDphnusFoGcNsB6qunIguEoDTWNKzO1xqAjg?e=SjH49r" target="_blank" class="dropdown-link">Латентная туберкулезная инфекция у детей</a>
+                        <a href="https://1drv.ms/b/c/8d834935e09ce801/IQDii3FykF2ASJhjQF0k8n_dAQ2knA0cwKguGbuqltg3MlM?e=CFp4Yt" target="_blank" class="dropdown-link">Иммунодиагностика у детей и подростков МОКПТД 2025</a>
+                    </div>
+                    
+                    <a href="http://217.107.102.71:90/kk/" target="_blank" class="link-item">❄ Контроль качества <span class="link-meta">Нормативные документы по КК</span></a>
+                    
+                    <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=hPVL2o" target="_blank" class="link-item">❄ Новые документы</a>
+                    
+                    <a href="https://1drv.ms/f/s!AgHonOA1SYONg6V9QJOtmDuNuSpnrw?e=jXOO9r" target="_blank" class="link-item">❄ Приказы МОКПТД</a>
+                    
+                    <a href="https://1drv.ms/x/c/8d834935e09ce801/EQHonOA1SYMggI18_gAAAAABdstLdOmwQ6U6_s1A2Bq1og?e=aJm6HP" target="_blank" class="link-item">❄ Практические рекомендации Росздравнадзора</a>
+                    
+                    <a href="https://1drv.ms/x/c/8d834935e09ce801/EbYfGwSPzF9MtGn1UVFjnsMBhAXrSZKlGIJvQa1m348HsA?e=H4TUz7" target="_blank" class="link-item">❄ Правовая навигация <span class="link-meta">Разбор нормативных документов</span></a>
+                    
+                    <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Гид по работе врача-фтизиатра</div>
+                    <div class="dropdown-content">
+                        <a href="https://1drv.ms/b/c/8d834935e09ce801/IQDnxmw5kKE6TpEr_d13nVPxAdhJeGx4mji74blurvZv--Y?e=Fz2PQx" target="_blank" class="dropdown-link">Открыть в формате PDF</a>
+                        <a href="gid.html" class="dropdown-link">Просмотр в браузере</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🎄 Справочник -->
+            <div class="card" id="drugs">
+                <div class="card-header">
+                    <span class="card-icon">🐿️</span>
+                    <h2>Справочник</h2>
+                </div>
+                <div class="link-list">
+                    <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Справочники лекарственных препаратов</div>
+                    <div class="dropdown-content">
+                        <a href="https://www.rlsnet.ru/" target="_blank" class="dropdown-link">РЛС</a>
+                        <a href="https://www.vidal.ru/" target="_blank" class="dropdown-link">ВИДАЛЬ</a>
+                    </div>
+                    
+                    <a href="https://www.cardioneurology.ru/skf/" target="_blank" class="link-item">❄ Калькулятор СКФ</a>
+                    
+                    <a href="calculator_doz.html" class="link-item">❄ Калькулятор дозировок</a>
+                    
+                    <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Взаимодействия ЛС</div>
+                    <div class="dropdown-content">
+                        <a href="https://www.vidal.ru/drugs/interaction/new" target="_blank" class="dropdown-link">ВИДАЛЬ</a>
+                        <a href="https://www.drugs.com/drug_interactions.html" target="_blank" class="dropdown-link">Drugs.com</a>
+                        <a href="https://www.hiv-druginteractions.org/checker" target="_blank" class="dropdown-link">Hiv-druginteractions.org</a>
+                        <a href="https://translate.google.com/?sl=ru&tl=en&op=translate" target="_blank" class="dropdown-link">Google Переводчик</a>
+                    </div>
+                    
+                    <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Рекомендации</div>
+                    <div class="dropdown-content">
+                        <a href="drugs.html" class="dropdown-link">Drugs.com</a>
+                    </div>
+                    
+                    <a href="comorb.html" class="link-item">❄ Индекс коморбидности</a>
+                    
+                    <a href="relapse.html" class="link-item">❄ Прогноз развития рецидива</a>
+                </div>
+            </div>
+
+            <!-- 🎄 Нежелательные реакции на ЛС -->
+            <div class="card" id="adverse-reactions">
+                <div class="card-header">
+                    <span class="card-icon">🔔</span>
+                    <h2>Нежелательные реакции на ЛС</h2>
+                </div>
+                <div class="link-list">
+                    <a href="registration.html" class="link-item">❄ Классификация и регистрация НПР</a>
+                    
+                    <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Мониторинг нежелательных лекарственных реакций</div>
+                    <div class="dropdown-content">
+                        <a href="monitoring_npr.html" class="dropdown-link">Лабораторный и инструментальный мониторинг</a>
+                        <a href="assessment_complaints.html" class="dropdown-link">Мониторинг по оценке жалоб</a>
+                        <a href="monitoring_regimen_phase.html" class="dropdown-link">Мониторинг НПР в зависимости от режима и фазы ХТ</a>
+                    </div>
+                    
+                    <a href="naranjo.html" class="link-item">❄ Оценка причинно-следственной связи НПР <span class="link-meta">Шкала Наранжо</span></a>
+                    
+                    <a href="https://1drv.ms/x/c/8d834935e09ce801/EVdJemGlT35IqKO8SQrr9dkBhyIxGMn2HXF45kmNPXQgfw?e=6mUyKm" target="_blank" class="link-item">❄ Приложения к КР - мониторинг и коррекция НПР <span class="link-meta">Формат Excel</span></a>
+                    
+                    <a href="https://docs.google.com/spreadsheets/d/1MqnrLh4yU9PO3dzlznTngd8kuIhMlv9gQPOMQPpoGsw/edit?usp=sharing" target="_blank" class="link-item">❄ Анкетирование <span class="link-meta">С целью выявления НПР</span></a>
+                </div>
+            </div>
+
+            <!-- ❄ Рабочие системы -->
+            <div class="card" id="work-systems">
+                <div class="card-header">
+                    <span class="card-icon">📺</span>
+                    <h2>Рабочие системы</h2>
+                </div>
+                <div class="link-list">
+                    <a href="https://docs.google.com/spreadsheets/d/1IK-BZKmY90ksx05DI86zfvjGK8Hl9OHs/edit?usp=drive_link&ouid=112330460103672782930&rtpof=true&sd=true" target="_blank" class="link-item">❄ Сигнальная картотека</a>
+                    
+                    <a href="https://results.dnkom.ru/cabinet/partner/login" target="_blank" class="link-item">❄ Анализы <span class="link-meta">Лаборатория "ДНКОМ"</span></a>
+                    
+                    <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="link-item">❄ 1С-мокрота</a>
+                    
+                    <a href="https://pyrus.com/t#inbox" target="_blank" class="link-item">❄ Pyrus</a>
+                    
+                    <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="link-item">❄ DIGIPAX</a>
+                    
+                    <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="link-item">❄ ЕМИАС</a>
+                    
+                    <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="link-item">❄ ФРБТ</a>
+                    
+                    <a href="https://stat.miacmo.ru/datainput" target="_blank" class="link-item">❄ МедИнфо</a>
+                </div>
+            </div>
+
+            <!-- 🎄 Работа с пациентами -->
+<div class="card" id="patient-work">
+    <div class="card-header">
+        <span class="card-icon">🐇</span>
+        <h2>Работа с пациентами</h2>
+    </div>
+    <div class="link-list">
+        <a href="faq.html" class="link-item">❄ Часто задаваемые вопросы</a>
+        
+        <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Информация для пациентов</div>
+        <div class="dropdown-content">
+            <!-- Вложенный выпадающий список -->
+            <div class="dropdown-toggle" style="padding: 8px; cursor:pointer; color:#334155; font-weight:bold; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🎄</span> Агит-папка
+            </div>
+            <div class="dropdown-content" style="margin-left: 15px; margin-top: 0; border-left: 2px solid var(--spruce-green);">
+                <a href="https://ptdklin.github.io/o-profosmotrach/" target="_blank" class="dropdown-link">О профосмотрах</a>
+                <a href="https://ptdklin.github.io/informochag/" target="_blank" class="dropdown-link">Обследование производственного очага</a>
+                <a href="#" target="_blank" class="dropdown-link">Тема 3</a>
+                <a href="#" target="_blank" class="dropdown-link">Тема 4</a>
+                <a href="#" target="_blank" class="dropdown-link">Тема 5</a>
+            </div>
+        </div>
+        
+        <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Работа на участке</div>
+        <div class="dropdown-content">
+            <a href="address.html" class="dropdown-link">Поиск по адресу</a>
+            <a href="https://1drv.ms/f/c/8d834935e09ce801/Eh3G9C4VxUZKnfglaOwTQlIBXwXqBByDfRc8ljcJm3Ir6g?e=Tf3AFY" target="_blank" class="dropdown-link">Паспорта участков</a>
+        </div>
+        
+        <a href="clinical_cases.html" class="link-item">❄ Клинические случаи</a>
+        
+        <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Шкалы и опросники</div>
+        <div class="dropdown-content">
+            <a href="https://docs.google.com/spreadsheets/d/1IqDCNdMeW3Qavc7ajgeq8ueR1wVBnr17CajXz29tje4/edit?usp=sharing" target="_blank" class="dropdown-link">Анкетирование <span class="link-meta">Удовлетворенность</span></a>
+            <a href="fall_risk_assessment.html" class="dropdown-link">Оценка риска падений</a>
+            <a href="questionnaire1.html" class="dropdown-link">Опросник 1</a>
+            <a href="questionnaire2.html" class="dropdown-link">Опросник 2</a>
+            <a href="questionnaire3.html" class="dropdown-link">Опросник 3</a>
+        </div>
+    </div>
+</div>
+
+            <!-- 🎄 Дополнительные ресурсы -->
+            <div class="card" id="additional-resources">
+                <div class="card-header">
+                    <span class="card-icon">🎁</span>
+                    <h2>Дополнительные ресурсы</h2>
+                </div>
+                <div class="link-list">
+                    <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="link-item">❄ Бланки <span class="link-meta">Шаблоны и образцы</span></a>
+                    
+                    <a href="https://1drv.ms/w/c/8d834935e09ce801/EfmUE9okE1RKvExQiwJrC7sB3e4_hVw17f8jIXyme61KFQ?e=hR6aPs" target="_blank" class="link-item">❄ Папка ТМК</a>
+                    
+                    <a href="https://drive.google.com/drive/folders/1GIHw6MCzqTaXVXDJVER19kBEBvvk_81f?usp=drive_link" target="_blank" class="link-item">❄ Быстрый обмен данными <span class="link-meta">Общая папка для файлов</span></a>
+                    
+                    <a href="grafik.html" class="link-item">❄ График отчётности</a>
+                    
+                    <a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="link-item">❄ Нежелательные события</a>
+                    
+                    <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Проверка полиса ОМС</div>
+                    <div class="dropdown-content">
+                        <a href="https://www.mofoms.ru/proverit-strakhovuyu-prinadlezhnost/" target="_blank" class="dropdown-link">Вариант 1 - МОФОМС</a>
+                        <a href="https://www.mofoms.ru/proverit-strakhovuyu-prinadlezhnost/" target="_blank" class="dropdown-link">Вариант 2 - Резервный сервис</a>
+                    </div>
+                    
+                    <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Контрольные листы</div>
+                    <div class="dropdown-content">
+                        <a href="medical_record_guidelines.html" class="dropdown-link">Порядок ведения и оформления медицинской карты <span class="link-meta">Письмо ГБУЗ МО «МОКПТД» от 29.07.2025 № 04-594/25</span></a>
+                        <a href="quality_criteria.html" class="dropdown-link">Критерии оценки качества <span class="link-meta">Приказ Минздрава России от 14.04.2025 N 203н</span></a>
+                        <a href="checklist_tb_offices.html" class="dropdown-link">Организация противотуберкулезной помощи <span class="link-meta">Для тубкабинетов</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🎄 Образовательные ресурсы -->
+            <div class="card" id="educational-resources">
+                <div class="card-header">
+                    <span class="card-icon">🎓</span>
+                    <h2>Образовательные ресурсы</h2>
+                </div>
+                <div class="link-list">
+                    <a href="https://rof-tb.ru/" target="_blank" class="link-item">❄ Российское общество фтизиатров</a>
+                    
+                    <a href="https://nmrc.ru/" target="_blank" class="link-item">❄ Национальный центр фтизиопульмонологии</a>
+                    
+                    <a href="https://www.tibl-journal.com/jour?locale=ru_RU" target="_blank" class="link-item">❄ Туберкулез и болезни легких <span class="link-meta">Журнал</span></a>
+                    
+                    <div class="link-item dropdown-toggle" style="cursor:pointer">🎄 Международные ресурсы</div>
+                    <div class="dropdown-content">
+                        <a href="https://www.who.int/teams/global-tuberculosis-programme" target="_blank" class="dropdown-link">Всемирная организация здравоохранения (ВОЗ) — Программа по туберкулёзу <span class="link-meta">Международные стандарты диагностики, лечения и профилактики туберкулёза, а также актуальная статистика по странам.</span></a>
+                        <a href="https://www.cdc.gov/tb" target="_blank" class="dropdown-link">CDC — Tuberculosis (США) <span class="link-meta">Центры по контролю и профилактике заболеваний США. Подробные рекомендации по диагностике, лечению и профилактике туберкулёза, включая устойчивые формы.</span></a>
+                        <a href="https://www.ecdc.europa.eu/en/tuberculosis" target="_blank" class="dropdown-link">European Centre for Disease Prevention and Control (ECDC) — Tuberculosis <span class="link-meta">Европейский центр профилактики и контроля заболеваний. Содержит отчёты по эпидемиологии, стандарты лечения и профилактики TB в Европе.</span></a>
+                        <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" class="dropdown-link">PubMed <span class="link-meta">Международная база медицинских и биомедицинских публикаций. Позволяет искать последние исследования по туберкулёзу, лекарственной устойчивости и клиническим протоколам.</span></a>
+                        <a href="https://www.thelancet.com/journals/lanres" target="_blank" class="dropdown-link">Lancet Respiratory Medicine <span class="link-meta">Ведущий международный журнал по заболеваниям дыхательной системы, включая туберкулёз.</span></a>
+                        <a href="http://www.stoptb.org" target="_blank" class="dropdown-link">Stop TB Partnership <span class="link-meta">Международная организация по борьбе с туберкулёзом. Предоставляет отчёты, статистику и материалы для профессионалов здравоохранения.</span></a>
+                        <a href="https://theunion.org" target="_blank" class="dropdown-link">The Union (International Union Against Tuberculosis and Lung Disease) <span class="link-meta">Международная организация, публикует практические руководства, исследования и образовательные программы для специалистов по туберкулёзу и заболеваниям лёгких.</span></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-decor">❄️</div>
+        <p style="font-weight: 700;">Навигатор врача-фтизиатра | 2026</p>
+        <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">ГБУЗ МО МОКПТД филиал Клинский</p>
+    </footer>
+
+   <script>
+    // --- 1. КРАСИВЫЙ СНЕГОПАД ---
+    const canvas = document.getElementById('snow-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, snowflakes = [];
+
+    function init() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        snowflakes = [];
+        for (let i = 0; i < 80; i++) {
+            snowflakes.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 15 + 10,
+                speed: Math.random() * 0.8 + 0.4,
+                opacity: Math.random() * 0.5 + 0.3,
+                rotation: Math.random() * Math.PI * 2,
+                spin: Math.random() * 0.02
+            });
+        }
+    }
+
+    function drawSnowflake(x, y, size, rotation) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(rotation);
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -size);
+            ctx.moveTo(0, -size/2);
+            ctx.lineTo(-size/4, -size/1.5);
+            ctx.moveTo(0, -size/2);
+            ctx.lineTo(size/4, -size/1.5);
+            ctx.rotate(Math.PI / 3);
+        }
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function update() {
+        ctx.clearRect(0, 0, width, height);
+        for (let f of snowflakes) {
+            ctx.globalAlpha = f.opacity;
+            drawSnowflake(f.x, f.y, f.size/2, f.rotation);
+            f.y += f.speed;
+            f.x += Math.sin(f.y / 50) * 0.5;
+            f.rotation += f.spin;
+            if (f.y > height + 20) f.y = -20;
+            if (f.x > width + 20) f.x = -20;
+            if (f.x < -20) f.x = width + 20;
+        }
+        requestAnimationFrame(update);
+    }
+
+    window.addEventListener('resize', init);
+    init(); update();
+
+    // --- 2. ЛОГИКА ВЫПАДАЮЩИХ СПИСКОВ (ИСПРАВЛЕННАЯ) ---
+    document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            
+            const content = btn.nextElementSibling;
+            if (content && content.classList.contains('dropdown-content')) {
+                // Закрываем другие списки в этой же карточке, но не родительские
+                const parent = btn.closest('.link-list');
+                parent.querySelectorAll('.dropdown-content').forEach(d => {
+                    // Не закрываем родительский список, если это вложенный
+                    if (d !== content && !d.contains(btn)) {
+                        d.classList.remove('show');
+                    }
+                });
+                
+                content.classList.toggle('show');
+            }
+        };
+    });
+
+    // Закрытие выпадающих списков при клике вне их
+    window.onclick = (e) => {
+        if (!e.target.closest('.dropdown-toggle') && !e.target.closest('.dropdown-content')) {
+            document.querySelectorAll('.dropdown-content').forEach(d => {
+                d.classList.remove('show');
+            });
+        }
+    };
+
+    // Предотвращаем закрытие при клике внутри выпадающего списка
+    document.querySelectorAll('.dropdown-content').forEach(content => {
+        content.onclick = (e) => {
+            e.stopPropagation();
+        };
+    });
+
+    // --- 3. ТЕКСТ ТЕЛЕГРАММЫ ---
+    const telegramFull = "Дорогие коллеги! От всей души поздравляем вас с наступающим 2026 годом! Пусть год Золотой Лошади принесет в ваши дома тепло, уют и благополучие. Желаем крепкого здоровья, терпения и успехов в нашем нелегком труде. С праздником!";
+    
+    document.getElementById('announcement-preview').innerText = telegramFull.substring(0, 100) + "... (Нажмите)";
+    
+    document.getElementById('announcement-block').onclick = () => {
+        alert(telegramFull);
+    };
+</script>
