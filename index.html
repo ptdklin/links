@@ -18,30 +18,66 @@
     }
     
     :root {
-        /* Основная палитра */
+        /* Основная палитра (как было) */
         --teal: #20B2AA;
         --teal-light: #E0F7FA;
         --slate-grey: #708090;
         --slate-light: #F8F9FA;
-        --safety-orange: #FF4500;
-        --orange-light: #FFF3E0;
-        
-        /* Neutrals / Surfaces */
+        /* Убираем старый оранжевый, он не нужен */
         --background: #FFFFFF;
         --surface: #FFFFFF;
-        
-        /* Text & Border */
         --text-primary: #2C3E50;
         --text-secondary: #7F8C8D;
         --border: #ECF0F1;
-        
-        /* Shadows (Soft medical) */
         --shadow: 0 2px 12px rgba(112, 128, 144, 0.08);
         --shadow-lg: 0 8px 24px rgba(112, 128, 144, 0.12);
-        
-        /* Gradients */
         --gradient-teal: linear-gradient(135deg, #20B2AA 0%, #48D1CC 100%);
         --gradient-subtle: linear-gradient(135deg, var(--teal-light) 0%, #FFFFFF 100%);
+        
+        /* ================================================
+           НОВАЯ ПАЛИТРА ДЛЯ 8 БЛОКОВ
+           Сочетается с основным Teal и Slate Grey
+           ================================================ */
+        
+        /* 1. Стандартизация во фтизиатрии - основной цвет */
+        --color-block-1: #20B2AA; /* Ваш исходный Teal */
+        --color-block-1-light: #E0F7FA;
+        --color-block-1-secondary: #48D1CC;
+        
+        /* 2. Мониторинг, анализ и безопасность */
+        --color-block-2: #2E8AA6; /* Глубокий сине-зеленый */
+        --color-block-2-light: #E8F4F8;
+        --color-block-2-secondary: #5AA9C5;
+        
+        /* 3. Информационные системы и рабочие инструменты */
+        --color-block-3: #4A6B9E; /* Приглушенный синий */
+        --color-block-3-light: #EDF2F9;
+        --color-block-3-secondary: #6B8AB8;
+        
+        /* 4. Работа с пациентами */
+        --color-block-4: #3A9E8E; /* Теплый бирюзовый */
+        --color-block-4-light: #E8F6F4;
+        --color-block-4-secondary: #5DB8A8;
+        
+        /* 5. Отчетность */
+        --color-block-5: #6B7A9E; /* Серо-синий с фиолетовым оттенком */
+        --color-block-5-light: #F0F2F7;
+        --color-block-5-secondary: #8A98B8;
+        
+        /* 6. Интеграция с общей лечебной сетью */
+        --color-block-6: #7A8A6B; /* Оливково-серый */
+        --color-block-6-light: #F2F4F0;
+        --color-block-6-secondary: #98A98A;
+        
+        /* 7. Развитие персонала и профессиональная культура */
+        --color-block-7: #9E6B8A; /* Приглушенный пурпурный */
+        --color-block-7-light: #F7F0F4;
+        --color-block-7-secondary: #B88A9E;
+        
+        /* 8. Бережливое мышление и управление процессами */
+        --color-block-8: #9E7A4A; /* Теплый коричневый (терракотовый) */
+        --color-block-8-light: #F7F2ED;
+        --color-block-8-secondary: #B8986B;
     }
     
     body {
@@ -204,7 +240,7 @@
     .announcement-container:hover {
         box-shadow: var(--shadow-lg);
         transform: translateY(-4px);
-        border-top-color: var(--safety-orange);
+        border-top-color: var(--color-block-8); /* Теперь будет менять на цвет 8-го блока */
     }
 
     .announcement-header {
@@ -237,9 +273,9 @@
     }
     
     .announcement-show-btn:hover {
-        background: var(--safety-orange);
+        background: var(--color-block-8); /* Теперь будет менять на цвет 8-го блока */
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(255, 69, 0, 0.3);
+        box-shadow: 0 4px 12px rgba(158, 122, 74, 0.3);
     }
 
     .announcement-text-preview {
@@ -287,6 +323,7 @@
         flex-direction: column;
         backdrop-filter: blur(10px);
         
+        /* Эти переменные будут переопределяться для каждого блока */
         --block-color: var(--teal);
         --block-color-light: var(--teal-light);
         --block-color-secondary: #48D1CC;
@@ -378,62 +415,64 @@
         letter-spacing: -0.2px;
     }
     
-    /* УНИКАЛЬНЫЕ ЦВЕТА ДЛЯ 8 БЛОКОВ в современной палитре */
+    /* ================================================
+       ЦВЕТА ДЛЯ 8 БЛОКОВ - ПЕРЕОПРЕДЕЛЕНИЕ ПЕРЕМЕННЫХ
+       ================================================ */
     
     /* 1. Стандартизация во фтизиатрии */
     .card-1 {
-        --block-color: #20B2AA; /* Teal */
-        --block-color-secondary: #48D1CC;
-        --block-color-light: #E0F7FA;
+        --block-color: var(--color-block-1);
+        --block-color-secondary: var(--color-block-1-secondary);
+        --block-color-light: var(--color-block-1-light);
     }
 
     /* 2. Мониторинг, анализ и безопасность */
     .card-2 {
-        --block-color: #708090; /* Slate Grey */
-        --block-color-secondary: #8A9BA8;
-        --block-color-light: #F5F7FA;
+        --block-color: var(--color-block-2);
+        --block-color-secondary: var(--color-block-2-secondary);
+        --block-color-light: var(--color-block-2-light);
     }
     
     /* 3. Информационные системы и рабочие инструменты */
     .card-3 {
-        --block-color: #5D8CAE; /* Blue Slate */
-        --block-color-secondary: #7BA7CC;
-        --block-color-light: #F0F7FF;
+        --block-color: var(--color-block-3);
+        --block-color-secondary: var(--color-block-3-secondary);
+        --block-color-light: var(--color-block-3-light);
     }
     
     /* 4. Работа с пациентами */
     .card-4 {
-        --block-color: #5CA2A2; /* Muted Teal */
-        --block-color-secondary: #7BC4C4;
-        --block-color-light: #F0FAFA;
+        --block-color: var(--color-block-4);
+        --block-color-secondary: var(--color-block-4-secondary);
+        --block-color-light: var(--color-block-4-light);
     }
 
     /* 5. Отчетность */
     .card-5 {
-        --block-color: #8A7F8D; /* Muted Purple */
-        --block-color-secondary: #A99DAE;
-        --block-color-light: #F7F5F8;
+        --block-color: var(--color-block-5);
+        --block-color-secondary: var(--color-block-5-secondary);
+        --block-color-light: var(--color-block-5-light);
     }
     
     /* 6. Интеграция с общей лечебной сетью */
     .card-6 {
-        --block-color: #6A8EAE; /* Soft Blue */
-        --block-color-secondary: #8BAED6;
-        --block-color-light: #F0F7FF;
+        --block-color: var(--color-block-6);
+        --block-color-secondary: var(--color-block-6-secondary);
+        --block-color-light: var(--color-block-6-light);
     }
     
-    /* 7. Развитие персонала и профессиональная культура (теперь Teal) */
+    /* 7. Развитие персонала и профессиональная культура */
     .card-7 {
-        --block-color: #20B2AA; /* Teal - цвета поменяны с блоком 8 */
-        --block-color-secondary: #48D1CC;
-        --block-color-light: #E0F7FA;
+        --block-color: var(--color-block-7);
+        --block-color-secondary: var(--color-block-7-secondary);
+        --block-color-light: var(--color-block-7-light);
     }
 
-    /* 8. Бережливое мышление и управление процессами (теперь Orange) */
+    /* 8. Бережливое мышление и управление процессами */
     .card-8 {
-        --block-color: #FF4500; /* Safety Orange - акцент - цвета поменяны с блоком 7 */
-        --block-color-secondary: #FF6B35;
-        --block-color-light: #FFF3E0;
+        --block-color: var(--color-block-8);
+        --block-color-secondary: var(--color-block-8-secondary);
+        --block-color-light: var(--color-block-8-light);
     }
 
     /* ---------------------------------
