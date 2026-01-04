@@ -7,243 +7,203 @@
     <title>Навигатор врача-фтизиатра | ГБУЗ МО МОКПТД</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-    /* STYLE: OKABE RINTARO / STEINS;GATE 2008 EDITION
-    Aesthetics: CRT Screens, Nixie Tubes, Cyberpunk Retro, Dark Lab
+    /* STYLE: OKABE-ITO (2008) ACCESSIBILITY PALETTE 
+       Цветовая палитра для обеспечения доступности (для людей с нарушениями цветовосприятия).
     */
-    
+
+    :root {
+        /* Константы палитры Okabe-Ito */
+        --oi-black: #000000;
+        --oi-orange: #E69F00;
+        --oi-skyblue: #56B4E9;
+        --oi-bluishgreen: #009E73;
+        --oi-yellow: #F0E442;
+        --oi-blue: #0072B2;
+        --oi-vermilion: #D55E00;
+        --oi-reddishpurple: #CC79A7;
+
+        /* Системные цвета */
+        --background: #FFFFFF;
+        --surface: #F8F9FA;
+        --text-primary: #000000;
+        --text-secondary: #4a4a4a;
+        --border-color: #DDDDDD;
+    }
+
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Courier New', Courier, monospace; /* Шрифт печатной машинки/кода */
+        font-family: 'Inter', -apple-system, sans-serif;
     }
-    
-    :root {
-        /* Палитра "Врата Штейна" */
-        --dark-lab: #0d0d0d;        /* Глубокий черный */
-        --neon-lime: #32CD32;      /* Цвет терминала / Дивергенция */
-        --nixie-orange: #FF4500;   /* Оранжевый газоразрядных ламп */
-        --metal-grey: #2F4F4F;     /* Цвет серверных стоек */
-        --text-terminal: #e0e0e0;
-        
-        --shadow-glow: 0 0 10px rgba(50, 205, 50, 0.4);
-        --border-retro: 2px solid var(--metal-grey);
-    }
-    
+
     body {
-        background-color: var(--dark-lab);
-        color: var(--text-terminal);
-        background-image: 
-            linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-            linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-        background-size: 100% 4px, 3px 100%; /* Эффект строк сканирования CRT */
-        min-height: 100vh;
-        overflow-x: hidden;
+        background-color: var(--background);
+        color: var(--text-primary);
+        line-height: 1.5;
     }
 
-    /* Анимированная сетка на фоне */
-    body::before {
-        content: "";
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: radial-gradient(circle at center, transparent 0%, black 90%),
-                    url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-        opacity: 0.3;
-        z-index: -1;
-    }
-
-    /* ---------------------------------
-    1. ШАПКА (Future Gadget Lab Style)
-    --------------------------------- */
-    
+    /* --- ШАПКА --- */
     .content-header {
-        background: #1a1a1a;
-        padding: 30px;
-        border-bottom: 3px solid var(--neon-lime);
-        box-shadow: 0 0 20px rgba(50, 205, 50, 0.2);
-        display: flex;
-        align-items: center;
-        gap: 30px;
-        margin: 10px;
-        position: relative;
-    }
-
-    .header-logo {
-        width: 120px;
-        filter: grayscale(1) brightness(1.5) drop-shadow(0 0 5px var(--neon-lime));
+        background: var(--oi-black);
+        color: white;
+        padding: 40px 20px;
+        border-bottom: 8px solid var(--oi-orange);
     }
 
     .institution-main {
-        color: var(--nixie-orange);
-        font-size: 0.9rem;
-        letter-spacing: 2px;
+        font-weight: 700;
         text-transform: uppercase;
-        font-weight: bold;
+        color: var(--oi-skyblue);
+        display: block;
+        margin-bottom: 5px;
     }
 
     .page-title {
-        font-size: 2.5rem;
-        color: var(--neon-lime);
-        text-transform: uppercase;
-        text-shadow: 2px 2px 0px #000, 0 0 10px var(--neon-lime);
+        font-size: 2.2rem;
+        font-weight: 800;
     }
 
     .page-title-secondary {
-        font-size: 2.5rem;
-        color: #fff;
-        text-shadow: 0 0 5px #fff;
-    }
-    
-    .page-description {
-        color: var(--text-terminal);
-        border-left: 3px solid var(--nixie-orange);
-        padding-left: 15px;
-        margin-top: 10px;
-        font-style: italic;
+        color: var(--oi-yellow);
     }
 
-    /* Объявление как системное сообщение */
+    /* --- ОБЪЯВЛЕНИЕ --- */
     .announcement-container {
-        border: 2px solid var(--nixie-orange);
-        background: #2a1100;
-        color: #ffaa80;
-        padding: 15px;
-        clip-path: polygon(0 0, 100% 0, 100% 80%, 90% 100%, 0 100%);
-    }
-
-    .announcement-title { color: var(--nixie-orange); font-weight: bold; }
-
-    .announcement-show-btn {
-        background: var(--nixie-orange);
-        color: #000;
-        border: none;
-        padding: 5px 10px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    /* ---------------------------------
-    2. КАРТОЧКИ (Terminal Windows)
-    --------------------------------- */
-    
-    .content-area { padding: 30px; }
-    
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 25px;
-    }
-    
-    .card {
-        background: rgba(20, 20, 20, 0.9);
-        border: 1px solid var(--metal-grey);
-        padding: 25px;
-        position: relative;
-        transition: 0.3s;
-    }
-
-    .card:hover {
-        border-color: var(--neon-lime);
-        box-shadow: var(--shadow-glow);
-        transform: scale(1.02);
-    }
-
-    /* Заголовки блоков как в логах сервера */
-    .card-header {
-        border-bottom: 1px solid var(--metal-grey);
-        margin-bottom: 20px;
-        padding-bottom: 10px;
+        background-color: var(--oi-yellow);
+        padding: 15px 20px;
+        margin: 20px;
+        border: 2px solid var(--oi-black);
+        border-radius: 4px;
         display: flex;
+        justify-content: space-between;
         align-items: center;
     }
 
-    .card h2 {
-        font-size: 1.2rem;
-        color: var(--neon-lime);
-        text-transform: uppercase;
+    /* --- СЕТКА --- */
+    .content-area {
+        padding: 20px;
+        max-width: 1400px;
+        margin: 0 auto;
     }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 20px;
+    }
+
+    /* --- КАРТОЧКИ --- */
+    .card {
+        background: var(--surface);
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        padding: 20px;
+        display: flex;
+        flex-column: column;
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--card-accent);
+    }
+
+    /* Привязка цветов Okabe-Ito к карточкам */
+    .card-1 { --card-accent: var(--oi-blue); }
+    .card-2 { --card-accent: var(--oi-vermilion); }
+    .card-3 { --card-accent: var(--oi-bluishgreen); }
+    .card-4 { --card-accent: var(--oi-orange); }
+    .card-5 { --card-accent: var(--oi-reddishpurple); }
+    .card-6 { --card-accent: var(--oi-skyblue); }
+    .card-7 { --card-accent: var(--oi-black); }
 
     .card-icon {
-        background: var(--metal-grey);
-        margin-right: 15px;
-        padding: 10px;
-        border-radius: 0;
+        width: 36px;
+        height: 36px;
+        background: var(--card-accent);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        margin-right: 12px;
+        flex-shrink: 0;
     }
-    
-    /* Цвета блоков - теперь это разные уровни доступа/безопасности */
-    .card-1, .card-7 { --block-color: var(--neon-lime); }
-    .card-2, .card-8 { --block-color: var(--nixie-orange); }
-    .card-3, .card-4 { --block-color: #00ced1; }
-    .card-5, .card-6 { --block-color: #8a2be2; }
 
-    /* ---------------------------------
-    3. ССЫЛКИ (Command Lines)
-    --------------------------------- */
+    /* --- ВЫПАДАЮЩИЕ СПИСКИ (DROPDOWNS) --- */
     
+    /* Ссылка-заголовок, которая раскрывает список */
+    .link-item.dropdown-toggle {
+        cursor: pointer;
+        position: relative;
+    }
+
     .link-item {
         display: block;
-        padding: 10px;
-        color: var(--text-terminal);
-        text-decoration: none;
-        border-left: 3px solid var(--block-color);
-        background: rgba(255, 255, 255, 0.03);
+        padding: 12px;
         margin-bottom: 8px;
-        transition: 0.2s;
+        text-decoration: none;
+        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        transition: all 0.2s ease;
     }
-    
-    .link-item:hover {
-        background: var(--block-color);
-        color: #000 !important;
-    }
-    
-    .link-text { font-weight: bold; }
-    .link-meta { color: #888; font-size: 0.8rem; }
-    .link-item:hover .link-meta { color: #222; }
 
-    /* Выпадающие списки */
+    .link-item:hover {
+        border-color: var(--card-accent);
+        background: #fdfdfd;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .link-text {
+        color: var(--text-primary);
+        font-weight: 600;
+        display: block;
+    }
+
+    /* СКРЫТЫЙ КОНТЕНТ (По умолчанию закрыт) */
     .dropdown-content {
-        background: #000;
-        border: 1px dashed var(--block-color);
-        margin: -5px 0 10px 10px;
+        display: none; /* Скрыто */
+        padding-left: 15px;
+        margin-bottom: 15px;
+        border-left: 3px solid var(--card-accent);
+        background: #fafafa;
+    }
+
+    /* КЛАСС ДЛЯ ОТОБРАЖЕНИЯ (Добавляется через JS) */
+    .dropdown-content.show {
+        display: block !important; /* Показываем список */
     }
 
     .dropdown-link {
-        color: var(--block-color);
-        padding: 8px 20px;
         display: block;
+        padding: 8px 10px;
+        color: var(--oi-blue);
         text-decoration: none;
+        font-size: 0.9rem;
+        border-bottom: 1px solid #eee;
     }
 
     .dropdown-link:hover {
-        background: rgba(255, 255, 255, 0.1);
-        text-decoration: underline;
+        background-color: #f0f0f0;
+        color: var(--oi-vermilion);
     }
 
-    /* ---------------------------------
-    4. ПОДВАЛ (Divergence Meter Style)
-    --------------------------------- */
+    /* --- ФУТЕР --- */
     .footer {
-        text-align: right;
-        padding: 20px;
-        border-top: 1px solid var(--metal-grey);
         margin-top: 50px;
+        padding: 30px;
+        border-top: 2px solid var(--oi-black);
+        text-align: center;
+        background: var(--surface);
     }
-    
+
     .year {
-        color: var(--nixie-orange);
-        font-size: 2rem;
-        letter-spacing: 5px;
-        font-family: 'OCR A Std', monospace;
-        text-shadow: 0 0 15px var(--nixie-orange);
-    }
-
-    .year::before {
-        content: "DIVERGENCE: 1.";
-    }
-
-    /* Спец-эффекты для модалок */
-    #dynamic-modal > div {
-        backdrop-filter: blur(5px);
+        font-weight: 800;
+        color: var(--oi-vermilion);
     }
 </style>
 </head>
