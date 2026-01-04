@@ -7,740 +7,243 @@
     <title>Навигатор врача-фтизиатра | ГБУЗ МО МОКПТД</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-    /* ---------------------------------
-    ОБЩИЕ СТИЛИ И ПЕРЕМЕННЫЕ (MODERN MEDICAL UI)
-    --------------------------------- */
+    /* STYLE: OKABE RINTARO / STEINS;GATE 2008 EDITION
+    Aesthetics: CRT Screens, Nixie Tubes, Cyberpunk Retro, Dark Lab
+    */
+    
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: 'Courier New', Courier, monospace; /* Шрифт печатной машинки/кода */
     }
     
     :root {
-        /* Основная палитра */
-        --teal: #20B2AA;
-        --teal-light: #E0F7FA;
-        --slate-grey: #708090;
-        --slate-light: #F8F9FA;
-        --safety-orange: #FF4500;
-        --orange-light: #FFF3E0;
+        /* Палитра "Врата Штейна" */
+        --dark-lab: #0d0d0d;        /* Глубокий черный */
+        --neon-lime: #32CD32;      /* Цвет терминала / Дивергенция */
+        --nixie-orange: #FF4500;   /* Оранжевый газоразрядных ламп */
+        --metal-grey: #2F4F4F;     /* Цвет серверных стоек */
+        --text-terminal: #e0e0e0;
         
-        /* Neutrals / Surfaces */
-        --background: #FFFFFF;
-        --surface: #FFFFFF;
-        
-        /* Text & Border */
-        --text-primary: #2C3E50;
-        --text-secondary: #7F8C8D;
-        --border: #ECF0F1;
-        
-        /* Shadows (Soft medical) */
-        --shadow: 0 2px 12px rgba(112, 128, 144, 0.08);
-        --shadow-lg: 0 8px 24px rgba(112, 128, 144, 0.12);
-        
-        /* Gradients */
-        --gradient-teal: linear-gradient(135deg, #20B2AA 0%, #48D1CC 100%);
-        --gradient-subtle: linear-gradient(135deg, var(--teal-light) 0%, #FFFFFF 100%);
+        --shadow-glow: 0 0 10px rgba(50, 205, 50, 0.4);
+        --border-retro: 2px solid var(--metal-grey);
     }
     
     body {
-        background: var(--background);
-        color: var(--text-primary);
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
+        background-color: var(--dark-lab);
+        color: var(--text-terminal);
+        background-image: 
+            linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+            linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+        background-size: 100% 4px, 3px 100%; /* Эффект строк сканирования CRT */
         min-height: 100vh;
-        position: relative;
         overflow-x: hidden;
     }
 
-    /* Тонкие серые круговые линии на фоне */
+    /* Анимированная сетка на фоне */
     body::before {
         content: "";
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: 
-            radial-gradient(circle at 10% 20%, rgba(112, 128, 144, 0.03) 1px, transparent 1px),
-            radial-gradient(circle at 90% 80%, rgba(112, 128, 144, 0.03) 1px, transparent 1px);
-        background-size: 100px 100px, 150px 150px;
-        background-position: 0 0, 50px 50px;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: radial-gradient(circle at center, transparent 0%, black 90%),
+                    url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        opacity: 0.3;
         z-index: -1;
-        pointer-events: none;
     }
 
     /* ---------------------------------
-    1. ШАПКА (HEADER) - Modern Medical
+    1. ШАПКА (Future Gadget Lab Style)
     --------------------------------- */
     
     .content-header {
-        background: var(--surface);
-        padding: 40px 50px 35px;
-        border-bottom: 1px solid var(--border);
-        box-shadow: var(--shadow);
+        background: #1a1a1a;
+        padding: 30px;
+        border-bottom: 3px solid var(--neon-lime);
+        box-shadow: 0 0 20px rgba(50, 205, 50, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        margin: 10px;
         position: relative;
-        display: flex;
-        align-items: center;
-        gap: 40px;
-        text-align: left;
-        background: var(--gradient-subtle);
-        margin: 20px 20px 0;
-        border-radius: 16px 16px 0 0;
-        border: none;
-    }
-    
-    .header-content-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-
-    .content-header::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: var(--gradient-teal);
-        border-radius: 16px 16px 0 0;
     }
 
     .header-logo {
-        width: 160px;
-        height: auto;
-        flex-shrink: 0;
-        filter: drop-shadow(0 4px 8px rgba(32, 178, 170, 0.1));
+        width: 120px;
+        filter: grayscale(1) brightness(1.5) drop-shadow(0 0 5px var(--neon-lime));
     }
 
-    .header-text-container {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        justify-content: center;
-    }
-    
     .institution-main {
-        color: var(--slate-grey);
-        font-size: 1.1rem;
-        margin-bottom: 8px;
-        font-weight: 500;
-        letter-spacing: 0.5px;
+        color: var(--nixie-orange);
+        font-size: 0.9rem;
+        letter-spacing: 2px;
         text-transform: uppercase;
-        opacity: 0.8;
+        font-weight: bold;
     }
 
-    .header-titles {
-        display: flex;
-        gap: 0.5rem;
-        margin-bottom: 12px;
-        align-items: flex-end;
-    }
-    
     .page-title {
-        font-size: 3.2rem;
-        font-weight: 800;
-        color: var(--teal);
-        margin: 0;
-        line-height: 1.2;
-        text-shadow: 0 2px 4px rgba(32, 178, 170, 0.1);
+        font-size: 2.5rem;
+        color: var(--neon-lime);
+        text-transform: uppercase;
+        text-shadow: 2px 2px 0px #000, 0 0 10px var(--neon-lime);
     }
 
     .page-title-secondary {
-        font-size: 3.2rem;
-        font-weight: 800;
-        color: var(--slate-grey);
-        line-height: 1.2;
-        margin: 0;
+        font-size: 2.5rem;
+        color: #fff;
+        text-shadow: 0 0 5px #fff;
     }
     
     .page-description {
-        color: var(--text-secondary);
-        font-size: 1.1rem;
-        font-weight: 400;
-        max-width: 600px;
-        margin: 0;
-        line-height: 1.5;
-        opacity: 0.9;
+        color: var(--text-terminal);
+        border-left: 3px solid var(--nixie-orange);
+        padding-left: 15px;
+        margin-top: 10px;
+        font-style: italic;
     }
 
-    /* ---------------------------------
-    1.1. БЛОК ОБЪЯВЛЕНИЙ (ANNOUNCEMENT) - Modern
-    --------------------------------- */
+    /* Объявление как системное сообщение */
     .announcement-container {
-        background-color: white;
-        border: 1px solid var(--border);
-        border-top: 4px solid var(--teal);
-        border-radius: 12px;
-        padding: 20px;
-        max-width: 320px;
-        min-height: 140px;
-        box-shadow: var(--shadow);
-        cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        flex-shrink: 0;
-        margin-left: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
+        border: 2px solid var(--nixie-orange);
+        background: #2a1100;
+        color: #ffaa80;
+        padding: 15px;
+        clip-path: polygon(0 0, 100% 0, 100% 80%, 90% 100%, 0 100%);
     }
 
-    .announcement-container::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(32, 178, 170, 0.02) 0%, transparent 100%);
-        z-index: 0;
-    }
-
-    .announcement-container:hover {
-        box-shadow: var(--shadow-lg);
-        transform: translateY(-4px);
-        border-top-color: var(--safety-orange);
-    }
-
-    .announcement-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
-        position: relative;
-        z-index: 1;
-    }
-
-    .announcement-title {
-        font-weight: 700;
-        font-size: 1rem;
-        color: var(--teal);
-        letter-spacing: 0.5px;
-    }
+    .announcement-title { color: var(--nixie-orange); font-weight: bold; }
 
     .announcement-show-btn {
-        background: var(--gradient-teal);
-        color: white;
+        background: var(--nixie-orange);
+        color: #000;
         border: none;
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 0.85rem;
-        font-weight: 600;
+        padding: 5px 10px;
+        font-weight: bold;
         cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(32, 178, 170, 0.2);
-    }
-    
-    .announcement-show-btn:hover {
-        background: var(--safety-orange);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(255, 69, 0, 0.3);
-    }
-
-    .announcement-text-preview {
-        font-size: 0.95rem;
-        color: var(--slate-grey);
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        position: relative;
-        z-index: 1;
-        line-height: 1.5;
     }
 
     /* ---------------------------------
-    2. СЕТКА И КАРТОЧКИ (CARDS) - Modern Medical
+    2. КАРТОЧКИ (Terminal Windows)
     --------------------------------- */
     
-    .content-area {
-        flex: 1;
-        padding: 40px;
-        overflow-y: auto;
-        background: transparent;
-    }
+    .content-area { padding: 30px; }
     
     .grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-        gap: 30px;
-        margin-bottom: 50px;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 25px;
     }
     
     .card {
-        background: var(--surface);
-        border-radius: 16px;
-        padding: 32px;
-        box-shadow: var(--shadow);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        background: rgba(20, 20, 20, 0.9);
+        border: 1px solid var(--metal-grey);
+        padding: 25px;
         position: relative;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        min-height: 320px;
-        display: flex;
-        flex-direction: column;
-        backdrop-filter: blur(10px);
-        
-        --block-color: var(--teal);
-        --block-color-light: var(--teal-light);
-        --block-color-secondary: #48D1CC;
+        transition: 0.3s;
     }
 
-    .card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(90deg, var(--block-color), var(--block-color-secondary));
-    }
-    
-    .card::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
-        z-index: -1;
-        border-radius: 16px;
-    }
-    
     .card:hover {
-        transform: translateY(-8px);
-        box-shadow: var(--shadow-lg);
-    }
-    
-    .card-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 28px;
-        position: relative;
-    }
-    
-    .card-icon {
-        width: 56px;
-        height: 56px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 20px;
-        font-size: 1.6rem;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        background: white;
-        color: var(--slate-grey);
-        box-shadow: 0 4px 12px rgba(112, 128, 144, 0.1);
-        border: 1px solid var(--border);
+        border-color: var(--neon-lime);
+        box-shadow: var(--shadow-glow);
+        transform: scale(1.02);
     }
 
-    .card:hover .card-icon {
-        transform: scale(1.1) translateY(-2px);
-        color: var(--block-color);
-        box-shadow: 0 8px 16px rgba(112, 128, 144, 0.15);
+    /* Заголовки блоков как в логах сервера */
+    .card-header {
+        border-bottom: 1px solid var(--metal-grey);
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        display: flex;
+        align-items: center;
     }
 
     .card h2 {
-        color: var(--block-color);
-        font-size: 1.5rem;
-        font-weight: 800;
-        margin: 0;
-        letter-spacing: -0.2px;
-    }
-    
-    /* УНИКАЛЬНЫЕ ЦВЕТА ДЛЯ 8 БЛОКОВ в современной палитре */
-    
-    /* 1. Стандартизация во фтизиатрии */
-    .card-1 {
-        --block-color: #20B2AA; /* Teal */
-        --block-color-secondary: #48D1CC;
-        --block-color-light: #E0F7FA;
+        font-size: 1.2rem;
+        color: var(--neon-lime);
+        text-transform: uppercase;
     }
 
-    /* 2. Мониторинг, анализ и безопасность */
-    .card-2 {
-        --block-color: #708090; /* Slate Grey */
-        --block-color-secondary: #8A9BA8;
-        --block-color-light: #F5F7FA;
+    .card-icon {
+        background: var(--metal-grey);
+        margin-right: 15px;
+        padding: 10px;
+        border-radius: 0;
     }
     
-    /* 3. Информационные системы и рабочие инструменты */
-    .card-3 {
-        --block-color: #5D8CAE; /* Blue Slate */
-        --block-color-secondary: #7BA7CC;
-        --block-color-light: #F0F7FF;
-    }
-    
-    /* 4. Работа с пациентами */
-    .card-4 {
-        --block-color: #5CA2A2; /* Muted Teal */
-        --block-color-secondary: #7BC4C4;
-        --block-color-light: #F0FAFA;
-    }
-
-    /* 5. Отчетность */
-    .card-5 {
-        --block-color: #8A7F8D; /* Muted Purple */
-        --block-color-secondary: #A99DAE;
-        --block-color-light: #F7F5F8;
-    }
-    
-    /* 6. Интеграция с общей лечебной сетью */
-    .card-6 {
-        --block-color: #6A8EAE; /* Soft Blue */
-        --block-color-secondary: #8BAED6;
-        --block-color-light: #F0F7FF;
-    }
-    
-    /* 7. Развитие персонала и профессиональная культура (теперь Teal) */
-    .card-7 {
-        --block-color: #20B2AA; /* Teal - цвета поменяны с блоком 8 */
-        --block-color-secondary: #48D1CC;
-        --block-color-light: #E0F7FA;
-    }
-
-    /* 8. Бережливое мышление и управление процессами (теперь Orange) */
-    .card-8 {
-        --block-color: #FF4500; /* Safety Orange - акцент - цвета поменяны с блоком 7 */
-        --block-color-secondary: #FF6B35;
-        --block-color-light: #FFF3E0;
-    }
+    /* Цвета блоков - теперь это разные уровни доступа/безопасности */
+    .card-1, .card-7 { --block-color: var(--neon-lime); }
+    .card-2, .card-8 { --block-color: var(--nixie-orange); }
+    .card-3, .card-4 { --block-color: #00ced1; }
+    .card-5, .card-6 { --block-color: #8a2be2; }
 
     /* ---------------------------------
-    3. СПИСКИ ССЫЛОК (LINKS) - Modern
+    3. ССЫЛКИ (Command Lines)
     --------------------------------- */
     
-    .link-list {
-        list-style: none;
-        flex: 1;
-    }
-    
     .link-item {
-        display: flex;
-        align-items: flex-start;
-        padding: 16px 20px;
-        border-radius: 12px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: block;
+        padding: 10px;
+        color: var(--text-terminal);
         text-decoration: none;
-        color: var(--block-color);
-        border: 1px solid transparent;
-        background: rgba(255, 255, 255, 0.7);
-        margin-bottom: 12px;
-        flex-direction: column;
-        cursor: pointer;
-        backdrop-filter: blur(5px);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .link-item::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 3px;
-        background: var(--block-color);
-        opacity: 0;
-        transition: opacity 0.3s ease;
+        border-left: 3px solid var(--block-color);
+        background: rgba(255, 255, 255, 0.03);
+        margin-bottom: 8px;
+        transition: 0.2s;
     }
     
     .link-item:hover {
-        background: white;
-        border-color: var(--border);
-        box-shadow: 0 6px 20px rgba(112, 128, 144, 0.12);
-        transform: translateX(8px);
-    }
-    
-    .link-item:hover::before {
-        opacity: 1;
-    }
-    
-    .link-item:last-child {
-        margin-bottom: 0;
-    }
-    
-    .link-content {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        position: relative;
-        z-index: 1;
-    }
-    
-    .link-icon {
-        width: 22px;
-        height: 22px;
-        margin-right: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--block-color); /* Цвет как у заголовка блока */
-        font-weight: 700;
-        flex-shrink: 0;
-        transition: all 0.3s ease;
-        background: var(--block-color-light);
-        border-radius: 6px;
-        padding: 4px;
-    }
-
-    .link-item:hover .link-icon {
-        transform: scale(1.15);
-        color: var(--block-color);
-        background: var(--block-color-light);
-    }
-    
-    .link-text {
-        flex: 1;
-        font-weight: 600;
-        font-size: 1.05rem;
-        color: var(--block-color); /* Цвет как у заголовка блока */
-        transition: color 0.3s ease;
-    }
-    
-    .link-item:hover .link-text {
-        color: var(--block-color);
-    }
-    
-    .link-meta {
-        font-size: 0.85rem;
-        color: var(--slate-grey);
-        opacity: 0.9;
-        margin-top: 6px;
-        margin-left: 38px;
-        font-weight: 400;
-        line-height: 1.5;
-    }
-
-    /* Dropdown styles - Modern */
-    .dropdown-content {
-        display: none;
-        background: white;
-        border-left: 3px solid var(--block-color);
-        border-radius: 0 0 12px 12px;
-        margin-top: -12px;
-        margin-bottom: 12px;
-        box-shadow: 0 4px 12px rgba(112, 128, 144, 0.08);
-        padding: 8px 0;
-        border: 1px solid var(--border);
-        border-top: none;
-    }
-    
-    .dropdown-content.show {
-        display: block;
-        animation: fadeIn 0.3s ease;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .dropdown-link {
-        padding: 14px 20px 14px 48px;
-        display: block;
-        color: var(--block-color); /* Цвет как у заголовка блока */
-        text-decoration: none;
-        transition: all 0.2s ease;
-        border-bottom: 1px solid var(--border);
-        position: relative;
-    }
-    
-    .dropdown-link::before {
-        content: "";
-        position: absolute;
-        left: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 6px;
-        height: 6px;
         background: var(--block-color);
-        border-radius: 50%;
-        opacity: 0.5;
+        color: #000 !important;
     }
     
+    .link-text { font-weight: bold; }
+    .link-meta { color: #888; font-size: 0.8rem; }
+    .link-item:hover .link-meta { color: #222; }
+
+    /* Выпадающие списки */
+    .dropdown-content {
+        background: #000;
+        border: 1px dashed var(--block-color);
+        margin: -5px 0 10px 10px;
+    }
+
+    .dropdown-link {
+        color: var(--block-color);
+        padding: 8px 20px;
+        display: block;
+        text-decoration: none;
+    }
+
     .dropdown-link:hover {
-        background: var(--block-color-light);
-        padding-left: 52px;
-        color: var(--block-color);
+        background: rgba(255, 255, 255, 0.1);
+        text-decoration: underline;
     }
-    
-    .dropdown-link:hover::before {
-        opacity: 1;
-    }
-    
-    .dropdown-link:last-child {
-        border-bottom: none;
-    }
-    
-    /* Стили для текста внутри выпадающих ссылок */
-    .dropdown-link .link-content {
-        width: 100%;
-    }
-    
-    .dropdown-link .link-icon {
-        color: var(--block-color); /* Цвет как у заголовка блока */
-        background: transparent;
-        margin-right: 12px;
-    }
-    
-    .dropdown-link .link-text {
-        color: var(--block-color); /* Цвет как у заголовка блока */
-    }
-    
-    .dropdown-link:hover .link-icon,
-    .dropdown-link:hover .link-text {
-        color: var(--block-color);
-    }
-    
-    .dropdown-meta {
-        font-size: 0.85rem;
-        color: var(--slate-grey);
-        opacity: 0.8;
-        margin-top: 4px;
-        font-weight: 400;
-        line-height: 1.5;
-        padding-left: 28px;
-    }
-    
+
     /* ---------------------------------
-    4. ПОДВАЛ (FOOTER) - Modern
+    4. ПОДВАЛ (Divergence Meter Style)
     --------------------------------- */
     .footer {
-        text-align: center;
-        padding: 40px;
-        color: var(--slate-grey);
-        background: white;
-        border-radius: 16px;
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow);
-        margin: 40px 20px 20px;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .footer::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: var(--gradient-teal);
-    }
-    
-    .footer p {
-        margin-bottom: 10px;
-        font-weight: 500;
-        opacity: 0.9;
+        text-align: right;
+        padding: 20px;
+        border-top: 1px solid var(--metal-grey);
+        margin-top: 50px;
     }
     
     .year {
-        color: var(--teal);
-        font-weight: 700;
-        font-size: 1.05rem;
-        text-shadow: 0 2px 4px rgba(32, 178, 170, 0.1);
+        color: var(--nixie-orange);
+        font-size: 2rem;
+        letter-spacing: 5px;
+        font-family: 'OCR A Std', monospace;
+        text-shadow: 0 0 15px var(--nixie-orange);
     }
-    
-    /* ---------------------------------
-    5. АДАПТИВНОСТЬ (RESPONSIVE)
-    --------------------------------- */
-    @media (max-width: 1024px) {
-        .grid {
-            grid-template-columns: 1fr;
-        }
-        .content-header {
-            flex-wrap: wrap;
-            margin: 15px 15px 0;
-        }
-        .header-content-wrapper {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 20px;
-        }
-        .announcement-container {
-            align-self: flex-start;
-            margin-left: 0;
-            max-width: 100%;
-        }
+
+    .year::before {
+        content: "DIVERGENCE: 1.";
     }
-    
-    @media (max-width: 768px) {
-        .content-header {
-            padding: 30px 25px 25px;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 20px;
-            margin: 10px 10px 0;
-        }
 
-        .header-logo {
-            width: 120px;
-        }
-
-        .content-area {
-            padding: 25px 20px;
-        }
-        
-        .page-title, .page-title-secondary {
-            font-size: 2.4rem;
-        }
-
-        .card {
-            padding: 25px;
-            min-height: 300px;
-            margin: 0 10px;
-        }
-        
-        .link-meta {
-            margin-left: 0;
-        }
-        
-        body::before {
-            background-size: 80px 80px, 120px 120px;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .content-header {
-            padding: 25px 20px;
-            margin: 5px 5px 0;
-        }
-        
-        .content-area {
-            padding: 20px 15px;
-        }
-        
-        .page-title, .page-title-secondary {
-            font-size: 2rem;
-        }
-
-        .card {
-            padding: 20px;
-            min-height: 280px;
-        }
-        
-        .grid {
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        
-        .announcement-container {
-            padding: 15px;
-        }
-        
-        .footer {
-            padding: 30px 20px;
-            margin: 20px 5px 10px;
-        }
+    /* Спец-эффекты для модалок */
+    #dynamic-modal > div {
+        backdrop-filter: blur(5px);
     }
 </style>
 </head>
