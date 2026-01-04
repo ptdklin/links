@@ -6,7 +6,7 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <title>Навигатор врача-фтизиатра | ГБУЗ МО МОКПТД</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
+   <style>
     /* ---------------------------------
     ОБЩИЕ СТИЛИ И ПЕРЕМЕННЫЕ (MODERN MEDICAL UI)
     --------------------------------- */
@@ -326,26 +326,48 @@
         position: relative;
     }
     
+    /* ОБНОВЛЕННЫЙ СТИЛЬ ДЛЯ БОЛЬШИХ ИКОНОК КАРТОЧЕК */
     .card-icon {
-        width: 56px;
-        height: 56px;
-        border-radius: 12px;
+        width: 60px;
+        height: 60px;
+        border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-right: 20px;
-        font-size: 1.6rem;
+        font-size: 2rem;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        background: white;
-        color: var(--slate-grey);
-        box-shadow: 0 4px 12px rgba(112, 128, 144, 0.1);
-        border: 1px solid var(--border);
+        background: linear-gradient(135deg, var(--block-color-light) 0%, white 100%);
+        color: var(--block-color);
+        box-shadow: 
+            0 4px 12px rgba(112, 128, 144, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        font-weight: 400;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-icon::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+        z-index: 1;
+        border-radius: 14px 14px 0 0;
     }
 
     .card:hover .card-icon {
-        transform: scale(1.1) translateY(-2px);
+        transform: scale(1.15) translateY(-4px);
         color: var(--block-color);
-        box-shadow: 0 8px 16px rgba(112, 128, 144, 0.15);
+        box-shadow: 
+            0 8px 24px rgba(112, 128, 144, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        border-color: rgba(255, 255, 255, 0.95);
     }
 
     .card h2 {
@@ -483,7 +505,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--block-color); /* Цвет как у заголовка блока */
+        color: var(--block-color);
         font-weight: 700;
         flex-shrink: 0;
         transition: all 0.3s ease;
@@ -502,7 +524,7 @@
         flex: 1;
         font-weight: 600;
         font-size: 1.05rem;
-        color: var(--block-color); /* Цвет как у заголовка блока */
+        color: var(--block-color);
         transition: color 0.3s ease;
     }
     
@@ -520,7 +542,7 @@
         line-height: 1.5;
     }
 
-    /* Dropdown styles - Modern */
+    /* Dropdown styles - Modern (БЕЗ ТОЧЕК) */
     .dropdown-content {
         display: none;
         background: white;
@@ -545,36 +567,19 @@
     }
     
     .dropdown-link {
-        padding: 14px 20px 14px 48px;
+        padding: 14px 20px 14px 20px;
         display: block;
-        color: var(--block-color); /* Цвет как у заголовка блока */
+        color: var(--block-color);
         text-decoration: none;
         transition: all 0.2s ease;
         border-bottom: 1px solid var(--border);
         position: relative;
     }
     
-    .dropdown-link::before {
-        content: "";
-        position: absolute;
-        left: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 6px;
-        height: 6px;
-        background: var(--block-color);
-        border-radius: 50%;
-        opacity: 0.5;
-    }
-    
     .dropdown-link:hover {
         background: var(--block-color-light);
-        padding-left: 52px;
+        padding-left: 24px;
         color: var(--block-color);
-    }
-    
-    .dropdown-link:hover::before {
-        opacity: 1;
     }
     
     .dropdown-link:last-child {
@@ -587,13 +592,13 @@
     }
     
     .dropdown-link .link-icon {
-        color: var(--block-color); /* Цвет как у заголовка блока */
+        color: var(--block-color);
         background: transparent;
         margin-right: 12px;
     }
     
     .dropdown-link .link-text {
-        color: var(--block-color); /* Цвет как у заголовка блока */
+        color: var(--block-color);
     }
     
     .dropdown-link:hover .link-icon,
@@ -608,7 +613,7 @@
         margin-top: 4px;
         font-weight: 400;
         line-height: 1.5;
-        padding-left: 28px;
+        padding-left: 32px;
     }
     
     /* ---------------------------------
@@ -700,6 +705,12 @@
             margin: 0 10px;
         }
         
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.8rem;
+        }
+        
         .link-meta {
             margin-left: 0;
         }
@@ -726,6 +737,12 @@
         .card {
             padding: 20px;
             min-height: 280px;
+        }
+        
+        .card-icon {
+            width: 45px;
+            height: 45px;
+            font-size: 1.6rem;
         }
         
         .grid {
