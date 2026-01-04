@@ -400,18 +400,18 @@
         --block-color-light: #F0F7FF;
     }
     
-    /* 7. Развитие персонала и профессиональная культура */
+    /* 7. Развитие персонала и профессиональная культура (теперь Teal) */
     .card-7 {
-        --block-color: #FF4500; /* Safety Orange - акцент */
-        --block-color-secondary: #FF6B35;
-        --block-color-light: #FFF3E0;
-    }
-
-    /* 8. Бережливое мышление и управление процессами */
-    .card-8 {
-        --block-color: #20B2AA; /* Teal */
+        --block-color: #20B2AA; /* Teal - цвета поменяны с блоком 8 */
         --block-color-secondary: #48D1CC;
         --block-color-light: #E0F7FA;
+    }
+
+    /* 8. Бережливое мышление и управление процессами (теперь Orange) */
+    .card-8 {
+        --block-color: #FF4500; /* Safety Orange - акцент - цвета поменяны с блоком 7 */
+        --block-color-secondary: #FF6B35;
+        --block-color-light: #FFF3E0;
     }
 
     /* ---------------------------------
@@ -483,11 +483,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--slate-grey);
+        color: var(--block-color); /* Цвет как у заголовка блока */
         font-weight: 700;
         flex-shrink: 0;
         transition: all 0.3s ease;
-        background: var(--slate-light);
+        background: var(--block-color-light);
         border-radius: 6px;
         padding: 4px;
     }
@@ -502,7 +502,7 @@
         flex: 1;
         font-weight: 600;
         font-size: 1.05rem;
-        color: var(--text-primary);
+        color: var(--block-color); /* Цвет как у заголовка блока */
         transition: color 0.3s ease;
     }
     
@@ -547,7 +547,7 @@
     .dropdown-link {
         padding: 14px 20px 14px 48px;
         display: block;
-        color: var(--text-primary);
+        color: var(--block-color); /* Цвет как у заголовка блока */
         text-decoration: none;
         transition: all 0.2s ease;
         border-bottom: 1px solid var(--border);
@@ -579,6 +579,26 @@
     
     .dropdown-link:last-child {
         border-bottom: none;
+    }
+    
+    /* Стили для текста внутри выпадающих ссылок */
+    .dropdown-link .link-content {
+        width: 100%;
+    }
+    
+    .dropdown-link .link-icon {
+        color: var(--block-color); /* Цвет как у заголовка блока */
+        background: transparent;
+        margin-right: 12px;
+    }
+    
+    .dropdown-link .link-text {
+        color: var(--block-color); /* Цвет как у заголовка блока */
+    }
+    
+    .dropdown-link:hover .link-icon,
+    .dropdown-link:hover .link-text {
+        color: var(--block-color);
     }
     
     .dropdown-meta {
