@@ -18,66 +18,67 @@
     }
     
     :root {
-        /* Основная палитра (как было) */
+        /* Основная палитра */
         --teal: #20B2AA;
         --teal-light: #E0F7FA;
         --slate-grey: #708090;
         --slate-light: #F8F9FA;
-        /* Убираем старый оранжевый, он не нужен */
+        /* Убираем старый оранжевый */
+        /* --safety-orange: #FF4500; */
+        /* --orange-light: #FFF3E0; */
+        
+        /* Neutrals / Surfaces */
         --background: #FFFFFF;
         --surface: #FFFFFF;
+        
+        /* Text & Border */
         --text-primary: #2C3E50;
         --text-secondary: #7F8C8D;
         --border: #ECF0F1;
+        
+        /* Shadows (Soft medical) */
         --shadow: 0 2px 12px rgba(112, 128, 144, 0.08);
         --shadow-lg: 0 8px 24px rgba(112, 128, 144, 0.12);
+        
+        /* Gradients */
         --gradient-teal: linear-gradient(135deg, #20B2AA 0%, #48D1CC 100%);
         --gradient-subtle: linear-gradient(135deg, var(--teal-light) 0%, #FFFFFF 100%);
         
         /* ================================================
-           НОВАЯ ПАЛИТРА ДЛЯ 8 БЛОКОВ
-           Сочетается с основным Teal и Slate Grey
+           НОВАЯ ЦВЕТОВАЯ ПАЛИТРА ДЛЯ 8 БЛОКОВ
+           Все цвета сочетаются с основной палитрой
            ================================================ */
+        --block-1-color: #20B2AA; /* Teal (основной) */
+        --block-1-light: #E0F7FA;
+        --block-1-secondary: #48D1CC;
         
-        /* 1. Стандартизация во фтизиатрии - основной цвет */
-        --color-block-1: #20B2AA; /* Ваш исходный Teal */
-        --color-block-1-light: #E0F7FA;
-        --color-block-1-secondary: #48D1CC;
+        --block-2-color: #3A8B8B; /* Темный бирюзовый */
+        --block-2-light: #E8F6F6;
+        --block-2-secondary: #5CADAD;
         
-        /* 2. Мониторинг, анализ и безопасность */
-        --color-block-2: #2E8AA6; /* Глубокий сине-зеленый */
-        --color-block-2-light: #E8F4F8;
-        --color-block-2-secondary: #5AA9C5;
+        --block-3-color: #4A7792; /* Серо-синий */
+        --block-3-light: #EDF3F8;
+        --block-3-secondary: #6B95B0;
         
-        /* 3. Информационные системы и рабочие инструменты */
-        --color-block-3: #4A6B9E; /* Приглушенный синий */
-        --color-block-3-light: #EDF2F9;
-        --color-block-3-secondary: #6B8AB8;
+        --block-4-color: #5A8A6B; /* Зеленый с серым оттенком */
+        --block-4-light: #EBF3EE;
+        --block-4-secondary: #7BA58C;
         
-        /* 4. Работа с пациентами */
-        --color-block-4: #3A9E8E; /* Теплый бирюзовый */
-        --color-block-4-light: #E8F6F4;
-        --color-block-4-secondary: #5DB8A8;
+        --block-5-color: #7A6B8C; /* Приглушенный фиолетовый */
+        --block-5-light: #F2F0F7;
+        --block-5-secondary: #998BA9;
         
-        /* 5. Отчетность */
-        --color-block-5: #6B7A9E; /* Серо-синий с фиолетовым оттенком */
-        --color-block-5-light: #F0F2F7;
-        --color-block-5-secondary: #8A98B8;
+        --block-6-color: #8C7A6B; /* Теплый серо-коричневый */
+        --block-6-light: #F7F4F2;
+        --block-6-secondary: #A9988B;
         
-        /* 6. Интеграция с общей лечебной сетью */
-        --color-block-6: #7A8A6B; /* Оливково-серый */
-        --color-block-6-light: #F2F4F0;
-        --color-block-6-secondary: #98A98A;
+        --block-7-color: #8C8A3A; /* Оливковый */
+        --block-7-light: #F7F7E8;
+        --block-7-secondary: #A9A85D;
         
-        /* 7. Развитие персонала и профессиональная культура */
-        --color-block-7: #9E6B8A; /* Приглушенный пурпурный */
-        --color-block-7-light: #F7F0F4;
-        --color-block-7-secondary: #B88A9E;
-        
-        /* 8. Бережливое мышление и управление процессами */
-        --color-block-8: #9E7A4A; /* Теплый коричневый (терракотовый) */
-        --color-block-8-light: #F7F2ED;
-        --color-block-8-secondary: #B8986B;
+        --block-8-color: #9E6B7A; /* Приглушенный розово-коричневый */
+        --block-8-light: #F7F0F2;
+        --block-8-secondary: #B88A98;
     }
     
     body {
@@ -240,7 +241,7 @@
     .announcement-container:hover {
         box-shadow: var(--shadow-lg);
         transform: translateY(-4px);
-        border-top-color: var(--color-block-8); /* Теперь будет менять на цвет 8-го блока */
+        border-top-color: var(--block-8-color);
     }
 
     .announcement-header {
@@ -273,9 +274,9 @@
     }
     
     .announcement-show-btn:hover {
-        background: var(--color-block-8); /* Теперь будет менять на цвет 8-го блока */
+        background: var(--block-8-color);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(158, 122, 74, 0.3);
+        box-shadow: 0 4px 12px rgba(158, 107, 122, 0.3);
     }
 
     .announcement-text-preview {
@@ -323,7 +324,6 @@
         flex-direction: column;
         backdrop-filter: blur(10px);
         
-        /* Эти переменные будут переопределяться для каждого блока */
         --block-color: var(--teal);
         --block-color-light: var(--teal-light);
         --block-color-secondary: #48D1CC;
@@ -363,7 +363,7 @@
         position: relative;
     }
     
-    /* ОБНОВЛЕННЫЙ СТИЛЬ ДЛЯ БОЛЬШИХ ИКОНОК КАРТОЧЕК */
+    /* ИСПРАВЛЕННЫЙ СТИЛЬ ДЛЯ БОЛЬШИХ ИКОНОК КАРТОЧЕК */
     .card-icon {
         width: 60px;
         height: 60px;
@@ -372,7 +372,7 @@
         align-items: center;
         justify-content: center;
         margin-right: 20px;
-        font-size: 2rem;
+        font-size: 1.8rem; /* Уменьшили размер шрифта для одинакового отображения */
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         background: linear-gradient(135deg, var(--block-color-light) 0%, white 100%);
         color: var(--block-color);
@@ -384,6 +384,8 @@
         font-weight: 400;
         position: relative;
         overflow: hidden;
+        /* Добавляем фиксированный контейнер для эмодзи */
+        flex-shrink: 0;
     }
 
     .card-icon::before {
@@ -415,64 +417,62 @@
         letter-spacing: -0.2px;
     }
     
-    /* ================================================
-       ЦВЕТА ДЛЯ 8 БЛОКОВ - ПЕРЕОПРЕДЕЛЕНИЕ ПЕРЕМЕННЫХ
-       ================================================ */
+    /* УНИКАЛЬНЫЕ ЦВЕТА ДЛЯ 8 БЛОКОВ в новой палитре */
     
     /* 1. Стандартизация во фтизиатрии */
     .card-1 {
-        --block-color: var(--color-block-1);
-        --block-color-secondary: var(--color-block-1-secondary);
-        --block-color-light: var(--color-block-1-light);
+        --block-color: var(--block-1-color);
+        --block-color-secondary: var(--block-1-secondary);
+        --block-color-light: var(--block-1-light);
     }
 
     /* 2. Мониторинг, анализ и безопасность */
     .card-2 {
-        --block-color: var(--color-block-2);
-        --block-color-secondary: var(--color-block-2-secondary);
-        --block-color-light: var(--color-block-2-light);
+        --block-color: var(--block-2-color);
+        --block-color-secondary: var(--block-2-secondary);
+        --block-color-light: var(--block-2-light);
     }
     
     /* 3. Информационные системы и рабочие инструменты */
     .card-3 {
-        --block-color: var(--color-block-3);
-        --block-color-secondary: var(--color-block-3-secondary);
-        --block-color-light: var(--color-block-3-light);
+        --block-color: var(--block-3-color);
+        --block-color-secondary: var(--block-3-secondary);
+        --block-color-light: var(--block-3-light);
     }
     
     /* 4. Работа с пациентами */
     .card-4 {
-        --block-color: var(--color-block-4);
-        --block-color-secondary: var(--color-block-4-secondary);
-        --block-color-light: var(--color-block-4-light);
+        --block-color: var(--block-4-color);
+        --block-color-secondary: var(--block-4-secondary);
+        --block-color-light: var(--block-4-light);
     }
 
     /* 5. Отчетность */
     .card-5 {
-        --block-color: var(--color-block-5);
-        --block-color-secondary: var(--color-block-5-secondary);
-        --block-color-light: var(--color-block-5-light);
+        --block-color: var(--block-5-color);
+        --block-color-secondary: var(--block-5-secondary);
+        --block-color-light: var(--block-5-light);
     }
     
     /* 6. Интеграция с общей лечебной сетью */
     .card-6 {
-        --block-color: var(--color-block-6);
-        --block-color-secondary: var(--color-block-6-secondary);
-        --block-color-light: var(--color-block-6-light);
+        --block-color: var(--block-6-color);
+        --block-color-secondary: var(--block-6-secondary);
+        --block-color-light: var(--block-6-light);
     }
     
     /* 7. Развитие персонала и профессиональная культура */
     .card-7 {
-        --block-color: var(--color-block-7);
-        --block-color-secondary: var(--color-block-7-secondary);
-        --block-color-light: var(--color-block-7-light);
+        --block-color: var(--block-7-color);
+        --block-color-secondary: var(--block-7-secondary);
+        --block-color-light: var(--block-7-light);
     }
 
     /* 8. Бережливое мышление и управление процессами */
     .card-8 {
-        --block-color: var(--color-block-8);
-        --block-color-secondary: var(--color-block-8-secondary);
-        --block-color-light: var(--color-block-8-light);
+        --block-color: var(--block-8-color);
+        --block-color-secondary: var(--block-8-secondary);
+        --block-color-light: var(--block-8-light);
     }
 
     /* ---------------------------------
@@ -747,7 +747,7 @@
         .card-icon {
             width: 50px;
             height: 50px;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
         }
         
         .link-meta {
@@ -781,7 +781,7 @@
         .card-icon {
             width: 45px;
             height: 45px;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
         }
         
         .grid {
@@ -798,7 +798,6 @@
             margin: 20px 5px 10px;
         }
     }
-</style>
 </style>
 </head>
 <body>
