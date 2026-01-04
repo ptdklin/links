@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Навигатор врача-фтизиатра | ГБУЗ МО МОКПТД</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ---------------------------------
+        ОБЩИЕ СТИЛИ И ПЕРЕМЕННЫЕ (MICROSOFT FLUENT DESIGN)
+        --------------------------------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        :root {
+            /* Accent Blue (Fluent Primary) */
+            --primary: #0078D4;
+            --primary-light: #005A9E;
+            --primary-gradient-start: #00B7FC;
+            
+            /* Neutrals / Surfaces */
+            --background: #F3F3F3;
+            --surface: #ffffff;
+            
+            /* Text & Border */
+            --text-primary: #201F1F;
+            --text-secondary: #605E5C;
+            --border: #E6E6E6;
+            
+            /* Shadows (Elevation) */
+            --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.12);
+            
+            /* Semantic Colors */
+            --accent: #E81123;
+            --error: var(--accent);
+            --tuberculosis-green: #107C10;
+        }
+        
+        body {
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* ---------------------------------
+        1. ШАПКА (HEADER)
+        --------------------------------- */
+        
+        .content-header {
+            background: var(--surface);
+            padding: 35px 40px;
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            text-align: left;
+        }
+        
+        .header-content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .content-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-gradient-start));
+        }
+
+        .header-logo {
+            width: 140px;
+            height: auto;
+            flex-shrink: 0;
+        }
+
+        .header-text-container {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: center;
+        }
+        
+        .institution-main {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 0px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .header-titles {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 2px;
+            align-items: flex-end;
+        }
+        
+        .page-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #004C99;
+            -webkit-text-fill-color: initial;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .page-title-secondary {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #004C99;
+            line-height: 1.2;
+            margin: 0;
+            -webkit-text-fill-color: initial;
+        }
+        
+        .page-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ---------------------------------
+        1.1. БЛОК ОБЪЯВЛЕНИЙ (ANNOUNCEMENT)
+        --------------------------------- */
+        .announcement-container {
+            background-color: var(--block-color-light);
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 6px;
+            padding: 10px 15px;
+            max-width: 300px;
+            min-height: 120px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .announcement-container:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-1px);
+        }
+
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .announcement-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .announcement-show-btn {
+            background: var(--primary);
+            color: var(--surface);
+            border: none;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .announcement-show-btn:hover {
+            background: var(--primary-light);
+        }
+
+        .announcement-text-preview {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ---------------------------------
+        2. СЕТКА И КАРТОЧКИ (CARDS) - НОВЫЕ 7 БЛОКОВ
+        --------------------------------- */
+        
+        .content-area {
+            flex: 1;
+            padding: 35px;
+            overflow-y: auto;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: var(--surface);
+            border-radius: 8px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            
+            --block-color: var(--primary);
+            --block-color-light: #F0F9FF;
+            --block-color-secondary: var(--primary-gradient-start);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--block-color), var(--block-color-secondary));
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 1.4rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--block-color-light);
+            color: var(--block-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.05);
+        }
+
+        .card h2 {
+            color: var(--block-color);
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin: 0;
+        }
+        
+        /* УНИКАЛЬНЫЕ ЦВЕТА ДЛЯ 8 БЛОКОВ в новом порядке */
+        
+        /* 1. Стандартизация во фтизиатрии */
+        .card-1 {
+            --block-color: #107C10; /* Fluent Green */
+            --block-color-secondary: #66BB6A;
+            --block-color-light: #FDFFFD;
+        }
+
+        /* 2. Мониторинг, анализ и безопасность */
+        .card-2 {
+            --block-color: #E81123; /* Красный - Fluent Semantic */
+            --block-color-secondary: #FF6E7B;
+            --block-color-light: #FFFDFD;
+        }
+        
+        /* 3. Информационные системы и рабочие инструменты */
+        .card-3 {
+            --block-color: #673AB7; /* Фиолетовый */
+            --block-color-secondary: #9575CD;
+            --block-color-light: #FDFBFF;
+        }
+        
+        /* 4. Работа с пациентами */
+        .card-4 {
+            --block-color: #00897B; /* Бирюзовый */
+            --block-color-secondary: #00BFA5;
+            --block-color-light: #FBFDFE;
+        }
+
+        /* 5. Отчетность */
+        .card-5 {
+            --block-color: #6D4C41; /* Коричневый */
+            --block-color-secondary: #8D6E63;
+            --block-color-light: #FCFBF7;
+        }
+        
+        /* 6. Интеграция с общей лечебной сетью (НОВЫЙ) */
+        .card-6 {
+            --block-color: #9C27B0; /* Пурпурный */
+            --block-color-secondary: #BA68C8;
+            --block-color-light: #FDF9FF;
+        }
+        
+        /* 7. Развитие персонала и профессиональная культура */
+        .card-7 {
+            --block-color: #D85F1C; /* Оранжевый/Коричневый */
+            --block-color-secondary: #FF9800;
+            --block-color-light: #FFFDFB;
+        }
+
+        /* 8. Бережливое мышление и управление процессами */
+        .card-8 {
+            --block-color: #0078D4; /* Fluent Blue */
+            --block-color-secondary: #00B7FC;
+            --block-color-light: #F7FDFF;
+        }
+
+        /* ---------------------------------
+        3. СПИСКИ ССЫЛОК (LINKS)
+        --------------------------------- */
+        
+        .link-list {
+            list-style: none;
+            flex: 1;
+        }
+        
+        .link-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 14px 18px;
+            border-radius: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: var(--block-color);
+            border: 1px solid transparent;
+            background: var(--block-color-light);
+            margin-bottom: 10px;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .link-item:hover {
+            background: var(--surface);
+            border-color: var(--block-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transform: translateX(4px);
+        }
+        
+        .link-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .link-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .link-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--block-color);
+            font-weight: 700;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .link-item:hover .link-icon {
+            transform: scale(1.15);
+            color: var(--block-color-secondary);
+        }
+        
+        .link-text {
+            flex: 1;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--block-color);
+        }
+        
+        .link-meta {
+            font-size: 0.85rem;
+            color: var(--block-color);
+            opacity: 0.8;
+            margin-top: 6px;
+            margin-left: 34px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* Dropdown styles */
+        .dropdown-content {
+            display: none;
+            background: var(--block-color-light);
+            border-left: 3px solid var(--block-color);
+            border-radius: 0 0 6px 6px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.03);
+        }
+        
+        .dropdown-content.show {
+            display: block;
+        }
+        
+        .dropdown-link {
+            padding: 12px 18px 12px 40px;
+            display: block;
+            color: var(--block-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .dropdown-link:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
+        
+        .dropdown-link:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-meta {
+            font-size: 0.85rem;
+            color: var(--block-color);
+            opacity: 0.7;
+            margin-top: 4px;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        
+        /* ---------------------------------
+        4. ПОДВАЛ (FOOTER)
+        --------------------------------- */
+        .footer {
+            text-align: center;
+            padding: 35px;
+            color: var(--text-secondary);
+            background: var(--surface);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-top: 35px;
+        }
+        
+        .footer p {
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .year {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+        
+        /* ---------------------------------
+        5. АДАПТИВНОСТЬ (RESPONSIVE)
+        --------------------------------- */
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .content-header {
+                flex-wrap: wrap;
+            }
+            .header-content-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .announcement-container {
+                align-self: flex-start;
+                margin-left: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .content-header {
+                padding: 25px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .header-logo {
+                width: 100px;
+            }
+
+            .content-area {
+                padding: 25px;
+            }
+            
+            .page-title, .page-title-secondary {
+                font-size: 2.2rem;
+            }
+
+            .card {
+                padding: 22px;
+                min-height: 280px;
+            }
+            
+            .link-meta {
+                margin-left: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .content-header {
+                padding: 20px 15px;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .page-title, .page-title-secondary {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                padding: 18px;
+                min-height: 260px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="main-content" id="main-content">
+        <header class="content-header">
+            <img src="logo.jpg" alt="Логотип ГБУЗ МО МОКПТД филиал Клинский" class="header-logo">
+            
+            <div class="header-content-wrapper">
+                <div class="header-text-container">
+                    <div class="institution-main">ГБУЗ МО МОКПТД филиал Клинский</div>
+                    
+                    <div class="header-titles">
+                        <h1 class="page-title">Навигатор врача-</h1>
+                        <h1 class="page-title-secondary">фтизиатра</h1>
+                    </div>
+                    <p class="page-description">Система доступа к профессиональным ресурсам</p>
+                    <p class="page-description" style="margin-top: 20px; font-size: 1.8rem; font-weight: 700; color: var(--error); text-align: left; line-height: 1.3;">
+                        
+                    </p>
+                </div>
+
+                <div class="announcement-container" id="announcement-block">
+                    <div class="announcement-header">
+                        <span class="announcement-title">Текущее объявление</span>
+                        <button class="announcement-show-btn">Показать</button>
+                    </div>
+                    <p class="announcement-text-preview" id="announcement-preview"></p>
+                </div>
+            </div>
+        </header>
+        
+        <div class="content-area">
+            <div class="grid">
+                
+                <!-- БЛОК 1: Стандартизация во фтизиатрии -->
+<div class="card card-1" id="standardization">
+    <div class="card-header">
+        <div class="card-icon">📋</div>
+        <h2>Стандартизация во фтизиатрии</h2>
+    </div>
+    <div class="link-list">
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Клинические рекомендации</div>
+            </div>
+        </div>
+        <div class="dropdown-content">
+            <a href="https://cr.minzdrav.gov.ru/clin-rec" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Все рекомендации МЗ РФ</div>
+                </div>
+            </a>
+            <a href="https://cr.minzdrav.gov.ru/view-cr/16_3" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Туберкулез (Взрослые)</div>
+                </div>
+            </a>
+            <a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Туберкулез (Дети)</div>
+                </div>
+            </a>
+            <a href="https://1drv.ms/b/c/8d834935e09ce801/EXfoaQoPodRFlFCwYQF30E4BOpcXAQ02t2QHElCyODukjA?e=xysaif" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Терапия туберкулеза у взрослых</div>
+                </div>
+                <div class="dropdown-meta">Подробный справочник по режимам ХТ</div>
+            </a>
+            <a href="https://1drv.ms/b/c/8d834935e09ce801/EbEu8ZIm4sJDphnusFoGcNsB6qunIguEoDTWNKzO1xqAjg?e=SjH49r" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Латентная туберкулезная инфекция у детей</div>
+                </div>
+            </a>
+            <a href="https://1drv.ms/b/c/8d834935e09ce801/IQDii3FykF2ASJhjQF0k8n_dAQ2knA0cwKguGbuqltg3MlM?e=CFp4Yt" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Иммунодиагностика у детей и подростков МОКПТД 2025</div>
+                </div>
+            </a>
+        </div>
+
+        <a href="http://217.107.102.71:90/kk/" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Контроль качества</div>
+            </div>
+            <div class="link-meta">Нормативные документы по КК</div>
+        </a>
+        
+        <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=hPVL2o" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Новые документы</div>
+            </div>
+        </a>
+        
+        <a href="https://1drv.ms/f/s!AgHonOA1SYONg6V9QJOtmDuNuSpnrw?e=jXOO9r" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Приказы МОКПТД</div>
+            </div>
+        </a>
+        
+        <!-- УДАЛЕНО: Практические рекомендации Росздравнадзора перенесены в блок 8 -->
+        
+        <a href="https://1drv.ms/x/c/8d834935e09ce801/EbYfGwSPzF9MtGn1UVFjnsMBhAXrSZKlGIJvQa1m348HsA?e=H4TUz7" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Правовая навигация</div>
+            </div>
+            <div class="link-meta">Разбор нормативных документов</div>
+        </a>
+
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Гид по работе врача-фтизиатра</div>
+            </div>
+        </div>
+        <div class="dropdown-content">
+            <a href="https://1drv.ms/b/c/8d834935e09ce801/IQDnxmw5kKE6TpEr_d13nVPxAdhJeGx4mji74blurvZv--Y?e=Fz2PQx" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Открыть в формате PDF</div>
+                </div>
+                <div class="dropdown-meta">Скачать или прочитать файл</div>
+            </a>
+            <a href="gid.html" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Просмотр в браузере</div>
+                </div>
+                <div class="dropdown-meta">Интерактивная веб-версия</div>
+            </a>
+        </div>
+        
+        <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Бланки</div>
+            </div>
+            <div class="link-meta">Шаблоны и образцы</div>
+        </a>
+
+        <!-- ПЕРЕНЕСЕНО из блока 2: Контрольные листы -->
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Контрольные листы</div>
+            </div>
+        </div>
+        <div class="dropdown-content">
+            <a href="medical_record_guidelines.html" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Порядок ведения и оформления медицинской карты</div>
+                </div>
+                <div class="dropdown-meta">Письмо ГБУЗ МО «МОКПТД» от 29.07.2025 № 04-594/25</div>
+            </a>
+            <a href="quality_criteria.html" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Критерии оценки качества</div>
+                </div>
+                <div class="dropdown-meta">Приказ Минздрава России от 14.04.2025 N 203н</div>
+            </a>
+            <a href="checklist_tb_offices.html" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Организация противотуберкулезной помощи</div>
+                </div>
+                <div class="dropdown-meta">Для тубкабинетов</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- БЛОК 2: Мониторинг, анализ и безопасность -->
+<div class="card card-2" id="monitoring-safety">
+    <div class="card-header">
+        <div class="card-icon">⚠️</div>
+        <h2>Мониторинг, анализ и безопасность</h2>
+    </div>
+    <div class="link-list">
+        <!-- Нежелательные реакции на ЛС (весь блок) -->
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Нежелательные реакции на ЛС</div>
+            </div>
+        </div>
+        <div class="dropdown-content">
+            <a href="registration.html" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Классификация и регистрация НПР</div>
+                </div>
+            </a>
+            
+            <div class="dropdown-link dropdown-toggle">
+                <div class="link-content">
+                    <div class="link-icon">⌄</div>
+                    <div class="link-text">Мониторинг нежелательных лекарственных реакций</div>
+                </div>
+            </div>
+            <div class="dropdown-content">
+                <a href="monitoring_npr.html" class="dropdown-link">
+                    <div class="link-content">
+                        <div class="link-icon">→</div>
+                        <div class="link-text">Лабораторный и инструментальный мониторинг</div>
+                    </div>
+                </a>
+                <a href="assessment_complaints.html" class="dropdown-link">
+                    <div class="link-content">
+                        <div class="link-icon">→</div>
+                        <div class="link-text">Мониторинг по оценке жалоб</div>
+                    </div>
+                </a>
+                <a href="monitoring_regimen_phase.html" class="dropdown-link">
+                    <div class="link-content">
+                        <div class="link-icon">→</div>
+                        <div class="link-text">Мониторинг НПР в зависимости от режима и фазы ХТ</div>
+                    </div>
+                </a>
+            </div>
+            
+            <a href="naranjo.html" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Оценка причинно-следственной связи НПР</div>
+                </div>
+                <div class="dropdown-meta">Шкала Наранжо</div>
+            </a>
+            
+            <a href="https://1drv.ms/x/c/8d834935e09ce801/EVdJemGlT35IqKO8SQrr9dkBhyIxGMn2HXF45kmNPXQgfw?e=6mUyKm" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Приложения к КР - мониторинг и коррекция НПР</div>
+                </div>
+                <div class="dropdown-meta">Формат Excel</div>
+            </a>
+            
+            <a href="https://docs.google.com/spreadsheets/d/1MqnrLh4yU9PO3dzlznTngd8kuIhMlv9gQPOMQPpoGsw/edit?usp=sharing" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Анкетирование</div>
+                </div>
+                <div class="dropdown-meta">С целью выявления НПР</div>
+            </a>
+        </div>
+
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Справочники лекарственных препаратов</div>
+            </div>
+        </div>
+        <div class="dropdown-content">
+            <a href="https://www.rlsnet.ru/" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">РЛС</div>
+                </div>
+            </a>
+            <a href="https://www.vidal.ru/" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">ВИДАЛЬ</div>
+                </div>
+            </a>
+        </div>
+        
+        <a href="https://www.cardioneurology.ru/skf/" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Калькулятор СКФ</div>
+            </div>
+        </a>
+        
+        <a href="calculator_doz.html" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Калькулятор дозировок</div>
+            </div>
+        </a>
+        
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Взаимодействия ЛС</div>
+            </div>
+        </div>
+        <div class="dropdown-content">
+            <a href="https://www.vidal.ru/drugs/interaction/new" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">ВИДАЛЬ</div>
+                </div>
+            </a>
+            <a href="https://www.drugs.com/drug_interactions.html" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Drugs.com</div>
+                </div>
+            </a>
+            <a href="https://www.hiv-druginteractions.org/checker" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Hiv-druginteractions.org</div>
+                </div>
+                <div class="dropdown-meta">Совместимость ПТХ и АРВТ. Ресурс рекомендован КР „Туберкулёз у взрослых" 2024</div>
+            </a>
+            <a href="https://translate.google.com/?sl=ru&tl=en&op=translate" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Google Переводчик</div>
+                </div>
+                <div class="dropdown-meta">Для перевода англоязычных ресурсов</div>
+            </a>
+        </div>
+        
+        <a href="comorb.html" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Индекс коморбидности</div>
+            </div>
+        </a>
+
+        <a href="relapse.html" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Прогноз развития рецидива</div>
+            </div>
+        </a>
+        
+        <a href="https://1drv.ms/f/c/8d834935e09ce801/Eh3G9C4VxUZKnfglaOwTQlIBXwXqBByDfRc8ljcJm3Ir6g?e=Tf3AFY" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Паспорта участков</div>
+            </div>
+        </a>
+        
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Шкалы и опросники</div>
+            </div>
+        </div>
+        <div class="dropdown-content">
+            <a href="https://docs.google.com/spreadsheets/d/1IqDCNdMeW3Qavc7ajgeq8ueR1wVBnr17CajXz29tje4/edit?usp=sharing" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Анкетирование</div>
+                </div>
+                <div class="dropdown-meta">Удовлетворенность</div>
+            </a>
+            
+            <a href="fall_risk_assessment.html" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Оценка риска падений</div>
+                </div>
+            </a>
+            
+            <a href="questionnaire1.html" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Опросник 1</div>
+                </div>
+            </a>
+            
+            <a href="questionnaire2.html" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Опросник 2</div>
+                </div>
+            </a>
+            
+            <a href="questionnaire3.html" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Опросник 3</div>
+                </div>
+            </a>
+        </div>
+        
+        <!-- УДАЛЕНО: Контрольные листы перенесены в блок 1 -->
+    </div>
+</div>
+
+<!-- БЛОК 3: Информационные системы и рабочие инструменты -->
+<div class="card card-3" id="information-systems">
+    <div class="card-header">
+        <div class="card-icon">🖥️</div>
+        <h2>Информационные системы и рабочие инструменты</h2>
+    </div>
+    <div class="link-list">
+        <!-- Новая последовательность: начинается с сигнальной картотеки -->
+        <a href="https://docs.google.com/spreadsheets/d/1vDPGIBNrvLCHh4ols-tzP6OFZaCd5RmpKyADhKf9fG8/edit?usp=sharing" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Сигнальная картотека</div>
+            </div>
+        </a>
+        
+        <a href="https://results.dnkom.ru/cabinet/partner/login" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Анализы "ДНКОМ"</div>
+            </div>
+        </a>
+        
+        <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">1С-мокрота</div>
+            </div>
+        </a>
+        
+        <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">DIGIPAX</div>
+            </div>
+        </a>
+        
+        <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">ЕМИАС</div>
+            </div>
+        </a>
+        
+        <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">ФРБТ</div>
+            </div>
+        </a>
+        
+        <a href="https://stat.miacmo.ru/datainput" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">МедИнфо</div>
+            </div>
+        </a>
+        
+        <!-- Перемещены в конец: поиск по адресу и проверка полиса -->
+        <a href="address.html" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Поиск по адресу</div>
+            </div>
+        </a>
+        
+        <a href="https://1drv.ms/w/c/8d834935e09ce801/EfmUE9okE1RKvExQiwJrC7sB3e4_hVw17f8jIXyme61KFQ?e=hR6aPs" target="_blank" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Папка ТМК</div>
+            </div>
+        </a>
+        
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Проверка полиса ОМС</div>
+            </div>
+        </div>
+        <div class="dropdown-content">
+            <a href="https://www.mofoms.ru/proverit-strakhovuyu-prinadlezhnost/" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Вариант 1 - МОФОМС</div>
+                </div>
+            </a>
+            <a href="https://www.mofoms.ru/proverit-strakhovuyu-prinadlezhnost/" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Вариант 2 - Резервный сервис</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+                <!-- БЛОК 4: Работа с пациентами -->
+                <div class="card card-4" id="patient-work">
+                    <div class="card-header">
+                        <div class="card-icon">👨‍⚕️</div>
+                        <h2>Работа с пациентами</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="faq.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Часто задаваемые вопросы</div>
+                            </div>
+                        </a>
+                        
+                        <div class="link-item dropdown-toggle">
+                            <div class="link-content">
+                                <div class="link-icon">⌄</div>
+                                <div class="link-text">Информация для пациентов</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAB6JzgNUmDIICNPOgAAAAAAZULily1ajsngWpbw6vPUF0?e=MhfBIM" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Агитпапка</div>
+                                </div>
+                                <div class="dropdown-meta">Вся информация в одном месте</div>
+                            </a>
+                            
+                            <a href="https://klinmokptd.github.io/o_profosmotrax_na_tuberkulez/" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">О профосмотрах</div>
+                                </div>
+                            </a>
+                            
+                            <a href="https://klinmokptd.github.io/informirovanie_v_ochagah_tuberculeza/" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Информирование в производственном очаге</div>
+                                </div>
+                            </a>
+                            
+                            <a href="https://klinmokptd.github.io/o_hirurgicheskom_lechenii/" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">О хирургическом лечении</div>
+                                </div>
+                            </a>
+                            
+                            <a href="https://klinmokptd.github.io/QR_kode/" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">QR коды для пациентов</div>
+                                </div>
+                            </a>
+                            
+                            <a href="https://klinmokptd.github.io/obiavlenie_v_ochage_tuberkuleza/" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Объявление в производственном очаге</div>
+                                </div>
+                                <div class="dropdown-meta">Об обязательном обследовании</div>
+                            </a>
+                        </div>
+                        
+                        <!-- ИСПРАВЛЕНИЕ: убрал выпадающий список, сделал обычной ссылкой -->
+                        <a href="drugs.html" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Рекомендации (взаимодействие ЛС с пищей, образ жизни)</div>
+                            </div>
+                            <div class="link-meta">Drugs.com</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- БЛОК 5: Отчетность -->
+<div class="card card-5" id="reporting">
+    <div class="card-header">
+        <div class="card-icon">📊</div>
+        <h2>Отчетность</h2>
+    </div>
+    <div class="link-list">
+        <!-- 1. График отчетности -->
+        <a href="grafik.html" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">📅</div>
+                <div class="link-text">График отчетности</div>
+            </div>
+            <div class="link-meta">Сроки сдачи отчетов</div>
+        </a>
+        
+        <!-- 2. Формы отчетов -->
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">📄</div>
+                <div class="link-text">Формы отчетов</div>
+            </div>
+        </div>
+        <div class="dropdown-content">
+            <!-- Текущие -->
+            <a href="https://drive.google.com/drive/folders/1IY7jY8opAtMQQ5Q5N1JGLI7CmF-nhszB?usp=sharing" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Текущие</div>
+                </div>
+            </a>
+            
+            <!-- Еженедельные -->
+            <a href="https://drive.google.com/drive/folders/10Y8Pty7dX0tp9V2kYvbX3o129c9Dk1js?usp=sharing" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Еженедельные</div>
+                </div>
+            </a>
+            
+            <!-- Ежемесячные -->
+            <a href="" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Ежемесячные</div>
+                </div>
+            </a>
+            
+            <!-- Ежеквартальные -->
+            <a href="" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Ежеквартальные</div>
+                </div>
+            </a>
+            
+            <!-- Ежегодные -->
+            <a href="" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Ежегодные</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- БЛОК 6: Интеграция с общей лечебной сетью -->
+<div class="card card-6" id="integration">
+    <div class="card-header">
+        <div class="card-icon">🔗</div>
+        <h2>Интеграция с общей лечебной сетью</h2>
+    </div>
+    <div class="link-list">
+        <!-- Нормативная база (существующая ссылка) -->
+        <a href="#" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Нормативная база по раннему выявлению туберкулеза</div>
+            </div>
+        </a>
+        
+        <!-- Обучающие материалы для сотрудников ЛС (новый подблок) -->
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Обучающие материалы для сотрудников ЛС</div>
+            </div>
+        </div>
+        <div class="dropdown-content">
+            <a href="#" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Тема 1</div>
+                </div>
+            </a>
+            
+            <a href="#" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Тема 2</div>
+                </div>
+            </a>
+            
+            <a href="#" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Тема 3</div>
+                </div>
+            </a>
+            
+            <a href="#" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Тема 4</div>
+                </div>
+            </a>
+            
+            <a href="#" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Тема 5</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+                <!-- БЛОК 7: Развитие персонала и профессиональная культура -->
+                <div class="card card-7" id="professional-development">
+                    <div class="card-header">
+                        <div class="card-icon">🎓</div>
+                        <h2>Развитие персонала и профессиональная культура</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="https://rof-tb.ru/" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Российское общество фтизиатров</div>
+                            </div>
+                        </a>
+                        
+                        <a href="https://nmrc.ru/" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Национальный центр фтизиопульмонологии</div>
+                            </div>
+                        </a>
+                        
+                        <a href="https://www.tibl-journal.com/jour?locale=ru_RU" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Туберкулез и болезни легких</div>
+                            </div>
+                            <div class="link-meta">Журнал</div>
+                        </a>
+                        
+                        <div class="link-item dropdown-toggle">
+                            <div class="link-content">
+                                <div class="link-icon">⌄</div>
+                                <div class="link-text">Международные ресурсы</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="https://www.who.int/teams/global-tuberculosis-programme" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Всемирная организация здравоохранения (ВОЗ) — Программа по туберкулёзу</div>
+                                </div>
+                                <div class="dropdown-meta">Международные стандарты диагностики, лечения и профилактики туберкулёза, а также актуальная статистика по странам.</div>
+                            </a>
+                            <a href="https://www.cdc.gov/tb" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">CDC — Tuberculosis (США)</div>
+                                </div>
+                                <div class="dropdown-meta">Центры по контролю и профилактике заболеваний США. Подробные рекомендации по диагностике, лечению и профилактике туберкулёза, включая устойчивые формы.</div>
+                            </a>
+                            <a href="https://www.ecdc.europa.eu/en/tuberculosis" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">European Centre for Disease Prevention and Control (ECDC) — Tuberculosis</div>
+                                </div>
+                                <div class="dropdown-meta">Европейский центр профилактики и контроля заболеваний. Содержит отчёты по эпидемиологии, стандарты лечения и профилактики TB в Европе.</div>
+                            </a>
+                            <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">PubMed</div>
+                                </div>
+                                <div class="dropdown-meta">Международная база медицинских и биомедицинских публикаций. Позволяет искать последние исследования по туберкулёзу, лекарственной устойчивости и клиническим протоколам.</div>
+                            </a>
+                            <a href="https://www.thelancet.com/journals/lanres" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Lancet Respiratory Medicine</div>
+                                </div>
+                                <div class="dropdown-meta">Ведущий международный журнал по заболеваниям дыхательной системы, включая туберкулёз.</div>
+                            </a>
+                            <a href="http://www.stoptb.org" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Stop TB Partnership</div>
+                                </div>
+                                <div class="dropdown-meta">Международная организация по борьбе с туберкулёзом. Предоставляет отчёты, статистику и материалы для профессионалов здравоохранения.</div>
+                            </a>
+                            <a href="https://theunion.org" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">The Union (International Union Against Tuberculosis and Lung Disease)</div>
+                                </div>
+                                <div class="dropdown-meta">Международная организация, публикует практические руководства, исследования и образовательные программы для специалистов по туберкулёзу и заболеваниям лёгких.</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- БЛОК 8: Бережливое мышление и управление процессами -->
+                <div class="card card-8" id="lean-thinking">
+                    <div class="card-header">
+                        <div class="card-icon">⚙️</div>
+                        <h2>Бережливое мышление и управление процессами</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="https://ucp.mokptd.ru:9443/front/unevent/47f5f3b1-27ed-11ef-befd-04d4c4925ede" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Нежелательные события</div>
+                            </div>
+                        </a>
+                        
+                        <a href="https://pyrus.com/t#inbox" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Pyrus</div>
+                            </div>
+                        </a>
+                        
+                        <!-- Перенесены Практические рекомендации Росздравнадзора из блока Стандартизация -->
+                        <a href="https://1drv.ms/x/c/8d834935e09ce801/EQHonOA1SYMggI18_gAAAAABdstLdOmwQ6U6_s1A2Bq1og?e=aJm6HP" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Практические рекомендации Росздравнадзора</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="footer">
+                <p><span class="year">2024</span></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    // 1. ТЕКСТ ТЕКУЩЕГО ОБЪЯВЛЕНИЯ (ДЛЯ БЛОКА В ШАПКЕ)
+    const currentAnnouncementText = "Смотрите изменения в агит-папке!";
+    
+    // 2. ТЕКСТ ВАЖНОГО ОБЪЯВЛЕНИЯ (ДЛЯ ПОЯВЛЯЮЩЕГОСЯ ПРИ ЗАГРУЗКЕ ОКНА)
+    const importantModalText = "";
+
+    // --- ЛОГИКА ОБЪЯВЛЕНИЯ В ШАПКЕ (СИНИЙ ЦВЕТ) ---
+    const announcementBlock = document.getElementById('announcement-block');
+    const announcementPreview = document.getElementById('announcement-preview');
+    const announcementButton = announcementBlock.querySelector('.announcement-show-btn');
+    
+    if (currentAnnouncementText) {
+        announcementPreview.textContent = currentAnnouncementText;
+        
+        announcementBlock.addEventListener('click', (e) => {
+            if (e.target.closest('.announcement-container') && e.target !== announcementButton) {
+                showModal('Текущее объявление', currentAnnouncementText, 'var(--primary)');
+            }
+        });
+        
+        announcementButton.addEventListener('click', () => {
+            showModal('Текущее объявление', currentAnnouncementText, 'var(--primary)');
+        });
+
+    } else {
+        announcementBlock.style.display = 'none';
+    }
+
+    // --- ФУНКЦИЯ ДЛЯ СОЗДАНИЯ МОДАЛЬНОГО ОКНА (Общая) ---
+    function showModal(title, content, color) {
+        document.querySelectorAll('#dynamic-modal').forEach(el => el.remove());
+
+        const modal = document.createElement('div');
+        modal.id = 'dynamic-modal';
+        modal.innerHTML = `
+            <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:10000;padding:40px;cursor:pointer;">
+                <div style="background:var(--surface);padding:40px;border-radius:12px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg);border-top:6px solid ${color};position:relative;cursor:auto;border:1px solid var(--border);">
+                    <h3 style="color:${color};font-size:1.6rem;margin-bottom:15px;font-weight:700;">${title}</h3>
+                    <div style="font-size:1rem;line-height:1.6;color:var(--text-primary);margin-bottom:30px;">${content}</div>
+                    <button onclick="document.getElementById('dynamic-modal').remove()" style="background:${color};color:var(--surface);border:none;padding:10px 20px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background-color 0.2s;display:block;margin:0 auto;">Закрыть</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        modal.addEventListener('click', (e) => {
+            modal.remove();
+        });
+    }
+
+    // --- ЛОГИКА ВАЖНОГО МОДАЛЬНОГО ОКНА ПРИ ЗАГРУЗКЕ (КРАСНЫЙ ЦВЕТ) ---
+    document.addEventListener('DOMContentLoaded', () => {
+        if (importantModalText) {
+            const importantModal = document.createElement('div');
+            importantModal.id = 'important-modal-permanent';
+            importantModal.innerHTML = `
+                <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:10000;padding:40px;cursor:pointer;">
+                    <div style="background:var(--surface);padding:40px;border-radius:12px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg);border-top:6px solid var(--error);position:relative;cursor:auto;border:1px solid var(--border);">
+                        <h3 style="color:var(--error);font-size:1.6rem;margin-bottom:15px;font-weight:700;">🚨 Важное объявление! 🚨</h3>
+                        <div style="font-size:1rem;line-height:1.6;color:var(--text-primary);margin-bottom:30px;">${importantModalText}</div>
+                        <button id="close-important-modal" style="background:var(--error);color:var(--surface);border:none;padding:10px 20px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background-color 0.2s;display:block;margin:0 auto;">Ознакомлен(а) и закрыть</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(importantModal);
+            
+            document.getElementById('close-important-modal').addEventListener('click', () => {
+                document.getElementById('important-modal-permanent').remove();
+            });
+            
+            importantModal.addEventListener('click', (e) => {
+                 importantModal.remove();
+            });
+        }
+    });
+
+    // --- ЛОГИКА ВЫПАДАЮЩИХ СПИСКОВ (Dropdowns) ---
+    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            if (e.target.closest('a') === toggle) {
+                e.preventDefault();
+            }
+            
+            const content = this.nextElementSibling;
+            if (content && content.classList.contains('dropdown-content')) {
+                content.classList.toggle('show');
+            }
+        });
+    });
+    </script>
+    
+</body>
+</html>
