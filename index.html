@@ -48,9 +48,9 @@
         --block-1-light: #E0F7FA;
         --block-1-secondary: #48D1CC;
         
-      --block-2-color: #D35400; /* Оранжево-красный */
---block-2-light: #FFF3E0; /* Светлый оранжевый фон */
---block-2-secondary: #E67E22; /* Более светлый оранжевый */
+        --block-2-color: #D35400; /* Оранжево-красный для анализа/мониторинга */
+        --block-2-light: #FFF3E0;
+        --block-2-secondary: #E67E22;
         
         --block-3-color: #4A7792; /* Серо-синий */
         --block-3-light: #EDF3F8;
@@ -424,11 +424,11 @@
         --block-color-light: var(--block-1-light);
     }
 
-    /* 2. Мониторинг, анализ и безопасность */
+    /* 2. Мониторинг, анализ и безопасность - ОРАНЖЕВО-КРАСНЫЙ */
     .card-2 {
-        --block-2-color: #D35400; /* Оранжево-красный */
---block-2-light: #FFF3E0; /* Светлый оранжевый фон */
---block-2-secondary: #E67E22; /* Более светлый оранжевый */
+        --block-color: var(--block-2-color);
+        --block-color-secondary: var(--block-2-secondary);
+        --block-color-light: var(--block-2-light);
     }
     
     /* 3. Информационные системы и рабочие инструменты */
