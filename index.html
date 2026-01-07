@@ -587,6 +587,7 @@
         border-radius: 0 0 12px 12px;
         margin-top: -12px;
         margin-bottom: 12px;
+        margin-left: 30px; /* ← ИЗМЕНЕНИЕ: отступ для всей выпадающей области */
         box-shadow: 0 4px 12px rgba(112, 128, 144, 0.08);
         padding: 8px 0;
         border: 1px solid var(--border);
@@ -603,8 +604,13 @@
         to { opacity: 1; transform: translateY(0); }
     }
     
+    /* Стиль для заголовков выпадающих списков */
+    .dropdown-toggle .link-content {
+        padding-left: 15px; /* ← ИЗМЕНЕНИЕ: отступ для стрелки и текста */
+    }
+    
     .dropdown-link {
-        padding: 14px 20px 14px 20px;
+        padding: 14px 20px 14px 35px; /* ← ИЗМЕНЕНИЕ: увеличен левый отступ */
         display: block;
         color: var(--block-color);
         text-decoration: none;
@@ -615,7 +621,7 @@
     
     .dropdown-link:hover {
         background: var(--block-color-light);
-        padding-left: 24px;
+        padding-left: 40px; /* ← ИЗМЕНЕНИЕ: увеличенный отступ при наведении */
         color: var(--block-color);
     }
     
@@ -632,6 +638,7 @@
         color: var(--block-color);
         background: transparent;
         margin-right: 12px;
+        margin-left: -5px; /* ← ИЗМЕНЕНИЕ: небольшой сдвиг иконки */
     }
     
     .dropdown-link .link-text {
@@ -650,7 +657,7 @@
         margin-top: 4px;
         font-weight: 400;
         line-height: 1.5;
-        padding-left: 32px;
+        padding-left: 47px; /* ← ИЗМЕНЕНИЕ: увеличенный отступ для мета-текста */
     }
     
     /* ---------------------------------
@@ -752,6 +759,23 @@
             margin-left: 0;
         }
         
+        /* Адаптивные отступы для выпадающих списков */
+        .dropdown-content {
+            margin-left: 20px; /* ← ИЗМЕНЕНИЕ: уменьшен отступ на мобильных */
+        }
+        
+        .dropdown-link {
+            padding-left: 30px; /* ← ИЗМЕНЕНИЕ: уменьшен отступ на мобильных */
+        }
+        
+        .dropdown-toggle .link-content {
+            padding-left: 10px; /* ← ИЗМЕНЕНИЕ: уменьшен отступ на мобильных */
+        }
+        
+        .dropdown-meta {
+            padding-left: 40px; /* ← ИЗМЕНЕНИЕ: уменьшен отступ на мобильных */
+        }
+        
         body::before {
             background-size: 80px 80px, 120px 120px;
         }
@@ -785,6 +809,23 @@
         .grid {
             grid-template-columns: 1fr;
             gap: 20px;
+        }
+        
+        /* Еще больше уменьшаем отступы для очень маленьких экранов */
+        .dropdown-content {
+            margin-left: 15px;
+        }
+        
+        .dropdown-link {
+            padding-left: 25px;
+        }
+        
+        .dropdown-toggle .link-content {
+            padding-left: 8px;
+        }
+        
+        .dropdown-meta {
+            padding-left: 35px;
         }
         
         .announcement-container {
