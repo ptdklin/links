@@ -7,7 +7,7 @@
     <title>Навигатор врача-фтизиатра | ГБУЗ МО МОКПТД</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* ---------------------------------
+        /* ---------------------------------
     ОБЩИЕ СТИЛИ И ПЕРЕМЕННЫЕ (MODERN MEDICAL UI)
     --------------------------------- */
     * {
@@ -591,11 +591,24 @@
         padding: 8px 0;
         border: 1px solid var(--border);
         border-top: none;
+        margin-left: 30px; /* ЗНАЧИТЕЛЬНОЕ СМЕЩЕНИЕ ВПРАВО */
     }
     
     .dropdown-content.show {
         display: block;
         animation: fadeIn 0.3s ease;
+    }
+    
+    /* ДЛЯ ВЛОЖЕННЫХ ВЫПАДАЮЩИХ СПИСКОВ (2 уровень) */
+    .dropdown-content .dropdown-content {
+        margin-left: 40px; /* ЕЩЕ БОЛЬШЕ СМЕЩЕНИЕ ДЛЯ ВТОРОГО УРОВНЯ */
+        border-left-color: color-mix(in srgb, var(--block-color) 70%, transparent);
+    }
+    
+    /* ДЛЯ ВЛОЖЕННЫХ ВЫПАДАЮЩИХ СПИСКОВ (3 уровень) */
+    .dropdown-content .dropdown-content .dropdown-content {
+        margin-left: 50px; /* МАКСИМАЛЬНОЕ СМЕЩЕНИЕ ДЛЯ ТРЕТЬЕГО УРОВНЯ */
+        border-left-color: color-mix(in srgb, var(--block-color) 40%, transparent);
     }
     
     @keyframes fadeIn {
@@ -604,7 +617,7 @@
     }
     
     .dropdown-link {
-        padding: 14px 20px 14px 30px; /* ← ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ: увеличен левый отступ */
+        padding: 14px 20px 14px 20px;
         display: block;
         color: var(--block-color);
         text-decoration: none;
@@ -615,7 +628,7 @@
     
     .dropdown-link:hover {
         background: var(--block-color-light);
-        padding-left: 34px; /* ← ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ: увеличенный отступ при наведении */
+        padding-left: 24px;
         color: var(--block-color);
     }
     
@@ -650,7 +663,16 @@
         margin-top: 4px;
         font-weight: 400;
         line-height: 1.5;
-        padding-left: 42px; /* ← ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ: увеличенный отступ для мета-текста */
+        padding-left: 32px;
+    }
+    
+    /* ДЛЯ ВЛОЖЕННЫХ DROPDOWN-TOGGLE */
+    .dropdown-content .dropdown-toggle {
+        padding-left: 20px;
+    }
+    
+    .dropdown-content .dropdown-toggle .link-icon {
+        background: var(--block-color-light);
     }
     
     /* ---------------------------------
@@ -713,6 +735,15 @@
             margin-left: 0;
             max-width: 100%;
         }
+        
+        /* Адаптивность для выпадающих списков */
+        .dropdown-content {
+            margin-left: 20px;
+        }
+        
+        .dropdown-content .dropdown-content {
+            margin-left: 30px;
+        }
     }
     
     @media (max-width: 768px) {
@@ -755,6 +786,15 @@
         body::before {
             background-size: 80px 80px, 120px 120px;
         }
+        
+        /* Адаптивность для выпадающих списков */
+        .dropdown-content {
+            margin-left: 15px;
+        }
+        
+        .dropdown-content .dropdown-content {
+            margin-left: 25px;
+        }
     }
     
     @media (max-width: 480px) {
@@ -794,6 +834,15 @@
         .footer {
             padding: 30px 20px;
             margin: 20px 5px 10px;
+        }
+        
+        /* Адаптивность для выпадающих списков */
+        .dropdown-content {
+            margin-left: 10px;
+        }
+        
+        .dropdown-content .dropdown-content {
+            margin-left: 20px;
         }
     }
 </style>
