@@ -1723,34 +1723,35 @@
 
     <script>
     // 1. ТЕКСТ ТЕКУЩЕГО ОБЪЯВЛЕНИЯ (ДЛЯ БЛОКА В ШАПКЕ)
-    const currentAnnouncementText = "Появился раздел "Административные оходы"!";
+    const currentAnnouncementText = "Появился раздел \"Административные обходы\"!";
     
     // 2. ТЕКСТ ВАЖНОГО ОБЪЯВЛЕНИЯ (ДЛЯ ПОЯВЛЯЮЩЕГОСЯ ПРИ ЗАГРУЗКЕ ОКНА)
     const importantModalText = "";
 
-    // --- ЛОГИКА ОБЪЯВЛЕНИЯ В ШАПКЕ (СИНИЙ ЦВЕТ) ---
+    // --- ЛОГИКА ОБЪЯВЛЕНИЯ В ШАПКЕ ---
     const announcementBlock = document.getElementById('announcement-block');
     const announcementPreview = document.getElementById('announcement-preview');
     const announcementButton = announcementBlock.querySelector('.announcement-show-btn');
     
-    if (currentAnnouncementText) {
+    // ЕСЛИ ЕСТЬ ТЕКСТ ОБЪЯВЛЕНИЯ - ПОКАЗЫВАЕМ БЛОК, ЕСЛИ НЕТ - СКРЫВАЕМ
+    if (currentAnnouncementText && currentAnnouncementText.trim() !== "") {
         announcementPreview.textContent = currentAnnouncementText;
         
         announcementBlock.addEventListener('click', (e) => {
             if (e.target.closest('.announcement-container') && e.target !== announcementButton) {
-                showModal('Текущее объявление', currentAnnouncementText, 'var(--primary)');
+                showModal('Текущее объявление', currentAnnouncementText, 'var(--teal)');
             }
         });
         
         announcementButton.addEventListener('click', () => {
-            showModal('Текущее объявление', currentAnnouncementText, 'var(--primary)');
+            showModal('Текущее объявление', currentAnnouncementText, 'var(--teal)');
         });
 
     } else {
         announcementBlock.style.display = 'none';
     }
 
-    // --- ФУНКЦИЯ ДЛЯ СОЗДАНИЯ МОДАЛЬНОГО ОКНА (Общая) ---
+    // --- ФУНКЦИЯ ДЛЯ СОЗДАНИЯ МОДАЛЬНОГО ОКНА ---
     function showModal(title, content, color) {
         document.querySelectorAll('#dynamic-modal').forEach(el => el.remove());
 
@@ -1768,21 +1769,23 @@
         document.body.appendChild(modal);
         
         modal.addEventListener('click', (e) => {
-            modal.remove();
+            if (e.target.id === 'dynamic-modal') {
+                modal.remove();
+            }
         });
     }
 
-    // --- ЛОГИКА ВАЖНОГО МОДАЛЬНОГО ОКНА ПРИ ЗАГРУЗКЕ (КРАСНЫЙ ЦВЕТ) ---
+    // --- ЛОГИКА ВАЖНОГО МОДАЛЬНОГО ОКНА ПРИ ЗАГРУЗКЕ ---
     document.addEventListener('DOMContentLoaded', () => {
-        if (importantModalText) {
+        if (importantModalText && importantModalText.trim() !== "") {
             const importantModal = document.createElement('div');
             importantModal.id = 'important-modal-permanent';
             importantModal.innerHTML = `
                 <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:10000;padding:40px;cursor:pointer;">
-                    <div style="background:var(--surface);padding:40px;border-radius:12px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg);border-top:6px solid var(--error);position:relative;cursor:auto;border:1px solid var(--border);">
-                        <h3 style="color:var(--error);font-size:1.6rem;margin-bottom:15px;font-weight:700;">🚨 Важное объявление! 🚨</h3>
+                    <div style="background:var(--surface);padding:40px;border-radius:12px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-lg);border-top:6px solid var(--teal);position:relative;cursor:auto;border:1px solid var(--border);">
+                        <h3 style="color:var(--teal);font-size:1.6rem;margin-bottom:15px;font-weight:700;">🚨 Важное объявление! 🚨</h3>
                         <div style="font-size:1rem;line-height:1.6;color:var(--text-primary);margin-bottom:30px;">${importantModalText}</div>
-                        <button id="close-important-modal" style="background:var(--error);color:var(--surface);border:none;padding:10px 20px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background-color 0.2s;display:block;margin:0 auto;">Ознакомлен(а) и закрыть</button>
+                        <button id="close-important-modal" style="background:var(--teal);color:var(--surface);border:none;padding:10px 20px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:background-color 0.2s;display:block;margin:0 auto;">Ознакомлен(а) и закрыть</button>
                     </div>
                 </div>
             `;
@@ -1793,12 +1796,14 @@
             });
             
             importantModal.addEventListener('click', (e) => {
-                 importantModal.remove();
+                if (e.target.id === 'important-modal-permanent') {
+                    importantModal.remove();
+                }
             });
         }
     });
 
-    // --- ЛОГИКА ВЫПАДАЮЩИХ СПИСКОВ (Dropdowns) - ИСПРАВЛЕННАЯ ---
+    // --- ЛОГИКА ВЫПАДАЮЩИХ СПИСКОВ ---
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
             toggle.addEventListener('click', function(e) {
@@ -1812,7 +1817,6 @@
             });
         });
         
-        // Закрываем все выпадающие списки при клике вне их
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.dropdown-toggle')) {
                 document.querySelectorAll('.dropdown-content').forEach(dropdown => {
@@ -1821,7 +1825,7 @@
             }
         });
     });
-    </script>
+</script>
     
 </body>
 </html>
