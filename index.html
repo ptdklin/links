@@ -1531,6 +1531,17 @@
                                     <div class="link-text">Журналы по контролю медоборудования</div>
                                 </div>
                             </a>
+                            <a href="https://drive.google.com/drive/folders/1NVKRYKC3op4gjMhLqVZcuSHeUgrl0_GL?usp=drive_link" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Новый журнал1</div>
+                                </div>
+                                <a href="https://drive.google.com/drive/folders/1gPYcpJI6z4MiMyCplZERt7Y0i52MLxxE?usp=drive_link" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Новый журнал2</div>
+                                </div>
+                            </a>
                         </div>
                         
                         <a href="https://docs.google.com/spreadsheets/d/1Syc-yPuTSdRnaxtEGBzsLpkTlUb6vY6seiNbpwfFj3c/edit?usp=sharing" target="_blank" class="link-item">
@@ -1898,30 +1909,29 @@
     <script>
         // ТЕКСТ ТЕКУЩЕГО ОБЪЯВЛЕНИЯ
         const currentAnnouncementText = "тест";
-        
         // --- ЛОГИКА БЛОКА ОБЪЯВЛЕНИЙ ---
-        const announcementBlock = document.getElementById('announcement-block');
-        const announcementPreview = document.getElementById('announcement-preview');
-        const announcementButton = announcementBlock.querySelector('.announcement-show-btn');
-        
-        // ЕСЛИ ЕСТЬ ТЕКСТ ОБЪЯВЛЕНИЯ - ПОКАЗЫВАЕМ БЛОК, ЕСЛИ НЕТ - СКРЫВАЕМ
-        if (currentAnnouncementText && currentAnnouncementText.trim() !== "") {
-            announcementPreview.textContent = currentAnnouncementText;
-            announcementBlock.style.display = 'flex';
-            
-            announcementBlock.addEventListener('click', (e) => {
-                if (e.target.closest('.announcement-container') && e.target !== announcementButton) {
-                    // Просто открываем ссылку на mission.html для объявления
-                    window.open('mission.html', '_blank');
-                }
-            });
-            
-            announcementButton.addEventListener('click', () => {
-                window.open('mission.html', '_blank');
-            });
-        } else {
-            announcementBlock.style.display = 'none';
-        }
+const announcementBlock = document.getElementById('announcement-block');
+
+if (currentAnnouncementText && currentAnnouncementText.trim() !== "") {
+    const announcementPreview = document.getElementById('announcement-preview');
+    const announcementButton = announcementBlock.querySelector('.announcement-show-btn');
+    
+    announcementPreview.textContent = currentAnnouncementText;
+    announcementBlock.style.display = 'flex';
+    
+    // Показываем текст объявления при клике
+    announcementBlock.addEventListener('click', () => {
+        alert(currentAnnouncementText);
+    });
+    
+    // Кнопка тоже показывает текст объявления
+    announcementButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        alert(currentAnnouncementText);
+    });
+} else {
+    announcementBlock.style.display = 'none';
+}
 
         // --- ЛОГИКА БЛОКА МИССИИ ---
 const missionBlock = document.getElementById('mission-block');
