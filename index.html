@@ -1924,14 +1924,21 @@
         }
 
         // --- ЛОГИКА БЛОКА МИССИИ ---
-        const missionBlock = document.getElementById('mission-block');
-        const missionButton = missionBlock.querySelector('.mission-show-btn');
-        
-        missionBlock.addEventListener('click', (e) => {
-            if (e.target.closest('.mission-container') && e.target !== missionButton) {
-                window.open('mission.html', '_blank');
-            }
-        });
+const missionBlock = document.getElementById('mission-block');
+const missionButton = missionBlock.querySelector('.mission-show-btn');
+
+// Клик по всему блоку (кроме кнопки) → открываем missia.html
+missionBlock.addEventListener('click', (e) => {
+    if (!e.target.closest('.mission-show-btn')) {
+        window.open('missia.html', '_blank');
+    }
+});
+
+// Клик по кнопке → тоже открываем missia.html
+missionButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    window.open('missia.html', '_blank');
+});
 
         // --- ЛОГИКА ВЫПАДАЮЩИХ СПИСКОВ ---
         document.addEventListener('DOMContentLoaded', function() {
