@@ -260,7 +260,28 @@
             max-width: 320px;
         }
 
-        .mission-container,
+        .mission-btn {
+            background: linear-gradient(135deg, #D4AF37 0%, #E6C158 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+            text-align: center;
+            width: 100%;
+            border-top: 4px solid #D4AF37;
+        }
+
+        .mission-btn:hover {
+            background: #D4AF37;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3);
+        }
+
         .announcement-container {
             background-color: white;
             border: 1px solid var(--border);
@@ -278,11 +299,6 @@
             cursor: pointer;
         }
 
-        .mission-container {
-            border-top-color: var(--block-8-color);
-        }
-
-        .mission-container::before,
         .announcement-container::before {
             content: "";
             position: absolute;
@@ -294,17 +310,15 @@
             z-index: 0;
         }
 
-        .mission-container:hover,
         .announcement-container:hover {
             box-shadow: var(--shadow-lg);
             transform: translateY(-4px);
         }
 
-        .mission-container:hover {
+        .announcement-container:hover {
             border-top-color: var(--teal);
         }
 
-        .mission-header,
         .announcement-header {
             display: flex;
             justify-content: space-between;
@@ -314,7 +328,6 @@
             z-index: 1;
         }
 
-        .mission-title,
         .announcement-title {
             font-weight: 700;
             font-size: 1rem;
@@ -322,11 +335,6 @@
             letter-spacing: 0.5px;
         }
 
-        .mission-title {
-            color: var(--block-8-color);
-        }
-
-        .mission-show-btn,
         .announcement-show-btn {
             background: var(--gradient-teal);
             color: white;
@@ -340,19 +348,12 @@
             box-shadow: 0 2px 8px rgba(32, 178, 170, 0.2);
         }
 
-        .mission-show-btn {
-            background: linear-gradient(135deg, var(--block-8-color) 0%, var(--block-8-secondary) 100%);
-            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
-        }
-
-        .mission-container:hover .mission-show-btn,
         .announcement-container:hover .announcement-show-btn {
             background: var(--block-8-color);
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
         }
 
-        .mission-text-preview,
         .announcement-text-preview {
             font-size: 0.95rem;
             color: var(--slate-grey);
@@ -364,6 +365,79 @@
             position: relative;
             z-index: 1;
             line-height: 1.5;
+        }
+
+        /* Модальное окно для объявлений */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            border-top: 5px solid var(--teal);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--teal);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--slate-grey);
+            cursor: pointer;
+            padding: 5px;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--teal);
+        }
+
+        .modal-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 10px 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* ---------------------------------
@@ -902,7 +976,6 @@
                 gap: 20px;
             }
             
-            .mission-container,
             .announcement-container {
                 padding: 15px;
             }
@@ -942,13 +1015,8 @@
                 </div>
 
                 <div class="header-right-column">
-                    <!-- Блок Миссии (всегда видимый) -->
-                    <div class="mission-container" id="mission-block">
-    <div class="mission-header">
-        <span class="mission-title">Миссия филиала</span>
-        <button class="mission-show-btn">Показать</button>
-    </div>
-</div>
+                    <!-- Простая кнопка Миссии -->
+                    <button class="mission-btn" id="mission-btn">Миссия филиала</button>
 
                     <!-- Блок Объявлений (только при наличии текста) -->
                     <div class="announcement-container" id="announcement-block" style="display: none;">
@@ -1905,49 +1973,68 @@
         </div>
     </main>
 
+    <!-- Модальное окно для объявлений -->
+    <div class="modal-overlay" id="announcement-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Объявление</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-content" id="modal-content">
+                <!-- Сюда вставится текст объявления -->
+            </div>
+        </div>
+    </div>
+
     <script>
         // ТЕКСТ ТЕКУЩЕГО ОБЪЯВЛЕНИЯ
         const currentAnnouncementText = "тест";
-        // --- ЛОГИКА БЛОКА ОБЪЯВЛЕНИЙ ---
-const announcementBlock = document.getElementById('announcement-block');
+        
+        // --- ЛОГИКА БЛОКА ОБЪЯВЛЕНИЙ С МОДАЛЬНЫМ ОКНОМ ---
+        const announcementBlock = document.getElementById('announcement-block');
+        const announcementModal = document.getElementById('announcement-modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalClose = document.getElementById('modal-close');
 
-if (currentAnnouncementText && currentAnnouncementText.trim() !== "") {
-    const announcementPreview = document.getElementById('announcement-preview');
-    const announcementButton = announcementBlock.querySelector('.announcement-show-btn');
-    
-    announcementPreview.textContent = currentAnnouncementText;
-    announcementBlock.style.display = 'flex';
-    
-    // Показываем текст объявления при клике
-    announcementBlock.addEventListener('click', () => {
-        alert(currentAnnouncementText);
-    });
-    
-    // Кнопка тоже показывает текст объявления
-    announcementButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        alert(currentAnnouncementText);
-    });
-} else {
-    announcementBlock.style.display = 'none';
-}
+        if (currentAnnouncementText && currentAnnouncementText.trim() !== "") {
+            const announcementPreview = document.getElementById('announcement-preview');
+            const announcementButton = announcementBlock.querySelector('.announcement-show-btn');
+            
+            announcementPreview.textContent = currentAnnouncementText;
+            announcementBlock.style.display = 'flex';
+            modalContent.textContent = currentAnnouncementText;
+            
+            // Открытие модального окна при клике на блок объявления
+            announcementBlock.addEventListener('click', () => {
+                announcementModal.classList.add('active');
+            });
+            
+            // Открытие модального окна при клике на кнопку "Показать"
+            announcementButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                announcementModal.classList.add('active');
+            });
+        } else {
+            announcementBlock.style.display = 'none';
+        }
 
-        // --- ЛОГИКА БЛОКА МИССИИ ---
-const missionBlock = document.getElementById('mission-block');
-const missionButton = missionBlock.querySelector('.mission-show-btn');
+        // Закрытие модального окна
+        modalClose.addEventListener('click', () => {
+            announcementModal.classList.remove('active');
+        });
 
-// Клик по всему блоку (кроме кнопки) → открываем missia.html
-missionBlock.addEventListener('click', (e) => {
-    if (!e.target.closest('.mission-show-btn')) {
-        window.open('missia.html', '_blank');
-    }
-});
+        // Закрытие модального окна при клике вне его области
+        announcementModal.addEventListener('click', (e) => {
+            if (e.target === announcementModal) {
+                announcementModal.classList.remove('active');
+            }
+        });
 
-// Клик по кнопке → тоже открываем missia.html
-missionButton.addEventListener('click', (e) => {
-    e.stopPropagation();
-    window.open('missia.html', '_blank');
-});
+        // --- ЛОГИКА КНОПКИ МИССИИ ---
+        const missionBtn = document.getElementById('mission-btn');
+        missionBtn.addEventListener('click', () => {
+            window.open('mission.html', '_blank');
+        });
 
         // --- ЛОГИКА ВЫПАДАЮЩИХ СПИСКОВ ---
         document.addEventListener('DOMContentLoaded', function() {
