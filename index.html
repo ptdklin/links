@@ -1099,7 +1099,7 @@
 
         </div> <!-- Конец dropdown-content для Клинических рекомендаций -->
 
-        <!-- ========== ОСТАЛЬНЫЕ ПУНКТЫ БЛОКА (БЕЗ ИЗМЕНЕНИЙ) ========== -->
+        <!-- ========== ОСТАЛЬНЫЕ ПУНКТЫ БЛОКА ========== -->
         
         <!-- Контроль качества -->
         <a href="http://217.107.102.71:90/kk/" target="_blank" class="link-item">
@@ -1173,14 +1173,48 @@
             </a>
         </div>
         
-        <!-- Бланки -->
-        <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="link-item">
+        <!-- ========== БЛАНКИ (ТЕПЕРЬ ВЫПАДАЮЩИЙ СПИСОК) ========== -->
+        <div class="link-item dropdown-toggle">
             <div class="link-content">
-                <div class="link-icon">→</div>
+                <div class="link-icon">⌄</div>
                 <div class="link-text">Бланки</div>
             </div>
-            <div class="link-meta">Шаблоны и образцы</div>
-        </a>
+        </div>
+        <div class="dropdown-content">
+            <!-- Все бланки (старая общая ссылка) -->
+            <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Все бланки</div>
+                </div>
+                <div class="dropdown-meta">Общая папка с шаблонами и образцами</div>
+            </a>
+
+            <!-- Бланки в быстром доступе -->
+            <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-top: 2px dashed var(--border); border-bottom: 1px solid var(--border); margin-top: 10px;">
+                Бланки в быстром доступе
+            </div>
+
+            <!-- Примеры быстрых бланков (замени ссылки позже) -->
+            <a href="#" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Информированное добровольное согласие</div>
+                </div>
+            </a>
+            <a href="#" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Направление на КДЛ</div>
+                </div>
+            </a>
+            <a href="#" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Дневник врача-фтизиатра</div>
+                </div>
+            </a>
+        </div> <!-- Конец dropdown-content для Бланки -->
         
         <!-- СОПы -->
         <a href="https://drive.google.com/drive/folders/16ngpPCk6BV8Ox9nzzk90loGw3auIalVz?usp=sharing" class="link-item" target="_blank">
@@ -1191,39 +1225,38 @@
         </a>
 
         <!-- Контрольные листы (выпадающий список) -->
-<div class="link-item dropdown-toggle">
-    <div class="link-content">
-        <div class="link-icon">⌄</div>
-        <div class="link-text">Контрольные листы</div>
-    </div>
-</div>
-<div class="dropdown-content">
-    <a href="https://klinmokptd.github.io/navigator_PTO/medical_record_guidelines.html" target="_blank" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Порядок ведения и оформления медицинской карты</div>
+        <div class="link-item dropdown-toggle">
+            <div class="link-content">
+                <div class="link-icon">⌄</div>
+                <div class="link-text">Контрольные листы</div>
+            </div>
         </div>
-        <div class="dropdown-meta">Письмо ГБУЗ МО «МОКПТД» от 29.07.2025 № 04-594/25</div>
-    </a>
-    <a href="quality_criteria.html" target="_blank" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Критерии оценки качества</div>
+        <div class="dropdown-content">
+            <a href="https://klinmokptd.github.io/navigator_PTO/medical_record_guidelines.html" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Порядок ведения и оформления медицинской карты</div>
+                </div>
+                <div class="dropdown-meta">Письмо ГБУЗ МО «МОКПТД» от 29.07.2025 № 04-594/25</div>
+            </a>
+            <a href="quality_criteria.html" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Критерии оценки качества</div>
+                </div>
+                <div class="dropdown-meta">Приказ Минздрава России от 14.04.2025 N 203н</div>
+            </a>
+            <a href="https://klinmokptd.github.io/navigator_PTO/checklist_tb_offices.html" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Организация противотуберкулезной помощи</div>
+                </div>
+                <div class="dropdown-meta">Для тубкабинетов</div>
+            </a>
         </div>
-        <div class="dropdown-meta">Приказ Минздрава России от 14.04.2025 N 203н</div>
-    </a>
-    <a href="https://klinmokptd.github.io/navigator_PTO/checklist_tb_offices.html" target="_blank" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Организация противотуберкулезной помощи</div>
-        </div>
-        <div class="dropdown-meta">Для тубкабинетов</div>
-    </a>
-</div>
 
     </div> <!-- Конец link-list -->
 </div> <!-- Конец card-1 -->
-
                                 <!-- БЛОК 2: Мониторинг, анализ и безопасность -->
                 <div class="card card-2" id="monitoring-safety">
                     <div class="card-header">
