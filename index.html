@@ -46,14 +46,15 @@
     </div>
 
     <script>
-        // ЗДЕСЬ ТВОЙ ПАРОЛЬ (поменяй на свой)
+        // Пароль для входа
         const SECRET_PASSWORD = "12345";
 
+        // Функция проверки пароля
         function checkPassword() {
             const enteredPassword = document.getElementById('password').value;
             
             if (enteredPassword === SECRET_PASSWORD) {
-                // Если пароль верный - сохраняем в localStorage и переходим на контент
+                // Если пароль верный - сохраняем доступ и переходим на контент
                 localStorage.setItem('site_access', 'true');
                 window.location.href = 'content.html';
             } else {
@@ -61,12 +62,22 @@
             }
         }
 
-        // Проверяем при загрузке, может уже есть доступ
+        // Проверяем при загрузке - может уже есть доступ
         window.onload = function() {
             if (localStorage.getItem('site_access') === 'true') {
                 window.location.href = 'content.html';
             }
         }
+
+        // Добавляем поддержку клавиши Enter
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            passwordInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+        });
     </script>
 </body>
 </html>
