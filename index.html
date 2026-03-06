@@ -93,7 +93,11 @@
         <h2>Введите пароль</h2>
         
         <form onsubmit="checkPassword(); return false;">
-            <input type="password" id="pass" placeholder="Пароль" autofocus>
+            <!-- Хитрость: невидимое поле с фиксированным значением -->
+            <input type="text" name="username" value="user" autocomplete="username" style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none; height: 0; width: 0;" tabindex="-1" aria-hidden="true">
+            
+            <!-- Поле для пароля -->
+            <input type="password" id="pass" name="password" placeholder="Пароль" autocomplete="current-password" autofocus>
             <button type="submit">Войти</button>
         </form>
     </div>
