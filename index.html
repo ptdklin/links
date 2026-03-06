@@ -47,17 +47,10 @@
         
         h2 {
             color: #333;
-            margin-bottom: 8px;
+            margin-bottom: 24px;
             font-weight: 500;
             font-size: 24px;
             text-align: center;
-        }
-        
-        .subtitle {
-            color: #666;
-            margin-bottom: 24px;
-            text-align: center;
-            font-size: 14px;
         }
         
         input {
@@ -95,11 +88,10 @@
 </head>
 <body>
     <div class="container">
-        <h2>Доступ к Навигатору</h2>
-        <div class="subtitle">Для сотрудников МОКПТД</div>
+        <h2>Введите пароль</h2>
         
         <form onsubmit="checkPassword(); return false;">
-            <input type="password" id="pass" placeholder="Введите пароль" autofocus>
+            <input type="password" id="pass" placeholder="Пароль" autofocus>
             <button type="submit">Войти</button>
         </form>
     </div>
