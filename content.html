@@ -1106,67 +1106,74 @@
             <div class="link-meta">Интерактивная веб-версия</div>
         </a>
 
-        <!-- ========== ПРАВОВАЯ НАВИГАЦИЯ (основной раздел с выпадающим списком) ========== -->
-        <div class="link-item dropdown-toggle">
-            <div class="link-content">
-                <div class="link-icon">⌄</div>
-                <div class="link-text">Правовая навигация</div>
-            </div>
-            <div class="link-meta">Разбор нормативных документов</div>
+        <!-- ========== ПРАВОВАЯ НАВИГАЦИЯ ========== -->
+<div class="link-item dropdown-toggle">
+    <div class="link-content">
+        <div class="link-icon">⌄</div>
+        <div class="link-text">Правовая навигация</div>
+    </div>
+    <div class="link-meta">Разбор нормативных документов</div>
+</div>
+<div class="dropdown-content">
+    <!-- Контроль качества -->
+    <a href="http://217.107.102.71:90/kk/" target="_blank" class="dropdown-link">
+        <div class="link-content">
+            <div class="link-icon">→</div>
+            <div class="link-text">Контроль качества</div>
         </div>
-        <div class="dropdown-content">
-            <!-- Контроль качества -->
-            <a href="http://217.107.102.71:90/kk/" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Контроль качества</div>
-                </div>
-                <div class="dropdown-meta">Нормативная база ГБУЗ МО МОКПТД</div>
-            </a>
-            
-            <!-- Новые документы -->
-            <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=hPVL2o" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Новые документы</div>
-                </div>
-            </a>
-            
-            <!-- Приказы МОКПТД (выпадающий список внутри выпадающего списка) -->
-            <div class="dropdown-link dropdown-toggle" style="display: flex; flex-direction: column;">
-                <div class="link-content">
-                    <div class="link-icon">⌄</div>
-                    <div class="link-text">Приказы МОКПТД</div>
-                </div>
+        <div class="dropdown-meta">Нормативная база ГБУЗ МО МОКПТД</div>
+    </a>
+
+    <!-- Новые документы -->
+    <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=hPVL2o" target="_blank" class="dropdown-link">
+        <div class="link-content">
+            <div class="link-icon">→</div>
+            <div class="link-text">Новые документы</div>
+        </div>
+    </a>
+
+    <!-- Приказы МОКПТД (внутренний выпадающий список) -->
+    <div class="dropdown-link dropdown-toggle" style="display: flex; flex-direction: column;">
+        <div class="link-content">
+            <div class="link-icon">⌄</div>
+            <div class="link-text">Приказы МОКПТД</div>
+        </div>
+    </div>
+    <div class="dropdown-content">
+        <!-- Все приказы (защищено паролем) -->
+        <a href="javascript:void(0);" onclick="promptPassword('https://drive.google.com/drive/folders/17x2EOKr5kdkNsT-QZfaAvRtVHtUEcy7n?usp=sharing')" class="dropdown-link">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Все приказы</div>
             </div>
-            <div class="dropdown-content">
-                <!-- Все приказы (с защитой паролем) -->
-                <a href="javascript:void(0);" onclick="promptPassword('https://drive.google.com/drive/folders/17x2EOKr5kdkNsT-QZfaAvRtVHtUEcy7n?usp=sharing')" class="dropdown-link">
-                    <div class="link-content">
-                        <div class="link-icon">→</div>
-                        <div class="link-text">Все приказы (требуется пароль)</div>
-                    </div>
-                    <div class="dropdown-meta">Пароль: 54321</div>
-                </a>
-                
-                <!-- Применимые для ПТО -->
-                <a href="https://klinmokptd.github.io/navigator_PTO/normativ_pto_mokptd.html" target="_blank" class="dropdown-link">
-                    <div class="link-content">
-                        <div class="link-icon">→</div>
-                        <div class="link-text">Применимые для ПТО</div>
-                    </div>
-                </a>
+        </a>
+
+        <!-- НОВЫЕ ПРИКАЗЫ -->
+        <a href="СЮДА_ССЫЛКУ_НА_НОВЫЕ_ПРИКАЗЫ" target="_blank" class="dropdown-link">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Новые приказы</div>
             </div>
-            
-            <!-- Разбор нормативных документов -->
-            <a href="https://1drv.ms/x/c/8d834935e09ce801/EbYfGwSPzF9MtGn1UVFjnsMBhAXrSZKlGIJvQa1m348HsA?e=H4TUz7" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Разбор нормативных документов</div>
-                </div>
-                <div class="dropdown-meta">Правовая навигация</div>
-            </a>
-        </div> <!-- Конец dropdown-content для Правовая навигация -->
+        </a>
+
+        <!-- Применимые для ПТО -->
+        <a href="https://klinmokptd.github.io/navigator_PTO/normativ_pto_mokptd.html" target="_blank" class="dropdown-link">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">Применимые для ПТО</div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Разбор нормативных документов -->
+    <a href="https://1drv.ms/x/c/8d834935e09ce801/EbYfGwSPzF9MtGn1UVFjnsMBhAXrSZKlGIJvQa1m348HsA?e=H4TUz7" target="_blank" class="dropdown-link">
+        <div class="link-content">
+            <div class="link-icon">→</div>
+            <div class="link-text">Разбор нормативных документов</div>
+        </div>
+        <div class="dropdown-meta">Правовая навигация</div>
+    </a>
+</div> <!-- Конец dropdown-content для Правовая навигация -->
 
         <!-- ========== БЛАНКИ (оставляем как есть) ========== -->
         <div class="link-item dropdown-toggle">
