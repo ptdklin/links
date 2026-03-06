@@ -1041,7 +1041,7 @@
     </div>
     <div class="link-list">
         
-        <!-- ========== КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ (ОСНОВНОЙ ВЫПАДАЮЩИЙ СПИСОК) ========== -->
+        <!-- ========== КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ (оставляем как есть) ========== -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
@@ -1049,8 +1049,7 @@
             </div>
         </div>
         <div class="dropdown-content">
-
-            <!-- ГРУППА 1: Официальный рубрикатор Минздрава РФ -->
+            <!-- Официальный рубрикатор Минздрава РФ -->
             <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-bottom: 1px solid var(--border);">
                 Официальные КР на сайте Минздрава РФ
             </div>
@@ -1073,7 +1072,7 @@
                 </div>
             </a>
 
-            <!-- ГРУППА 2: Материалы РОФ (презентационные версии) — ОДНА ССЫЛКА -->
+            <!-- Материалы РОФ -->
             <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-top: 2px dashed var(--border); border-bottom: 1px solid var(--border); margin-top: 10px;">
                 Материалы Российского общества фтизиатров (РОФ)
             </div>
@@ -1085,7 +1084,7 @@
                 <div class="dropdown-meta">Справочники, ЛТИ, менингит, вакцинация и другие материалы РОФ</div>
             </a>
 
-            <!-- ГРУППА 3: Региональные документы (Московская область) -->
+            <!-- Региональные документы -->
             <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-top: 2px dashed var(--border); border-bottom: 1px solid var(--border); margin-top: 10px;">
                 Документы Московской области
             </div>
@@ -1096,127 +1095,123 @@
                 </div>
                 <div class="dropdown-meta">Методические рекомендации Министерства здравоохранения Московской области</div>
             </a>
-
         </div> <!-- Конец dropdown-content для Клинических рекомендаций -->
 
-        <!-- ========== ОСТАЛЬНЫЕ ПУНКТЫ БЛОКА ========== -->
-        
-        <!-- Контроль качества -->
-        <a href="http://217.107.102.71:90/kk/" target="_blank" class="link-item">
+        <!-- ========== ГИД ВРАЧА-ФТИЗИАТРА (теперь простая ссылка) ========== -->
+        <a href="https://klinmokptd.github.io/navigator_PTO/gid_vracha_ftiziatra/" target="_blank" class="link-item">
             <div class="link-content">
                 <div class="link-icon">→</div>
-                <div class="link-text">Контроль качества</div>
+                <div class="link-text">Гид по работе врача-фтизиатра</div>
             </div>
-            <div class="link-meta">Нормативная база ГБУЗ МО МОКПТД</div>
+            <div class="link-meta">Интерактивная веб-версия</div>
         </a>
-        
-        <!-- Новые документы -->
-        <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=hPVL2o" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Новые документы</div>
-            </div>
-        </a>
-        
-        <!-- Приказы МОКПТД (выпадающий список) -->
+
+        <!-- ========== ПРАВОВАЯ НАВИГАЦИЯ (основной раздел с выпадающим списком) ========== -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
-                <div class="link-text">Приказы МОКПТД</div>
-            </div>
-        </div>
-        <div class="dropdown-content">
-            <a href="https://drive.google.com/drive/folders/17x2EOKr5kdkNsT-QZfaAvRtVHtUEcy7n?usp=sharing" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Все приказы</div>
-                </div>
-            </a>
-            <a href="https://1drv.ms/f/c/8d834935e09ce801/IgBSJqfyAkOPS6X7hjQ9BdaYAaA7d0TB-zC7Ha6pUq44RCM?e=T09eBw" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Применимые для тубкабинетов</div>
-                </div>
-            </a>
-        </div>
-        
-        <!-- Правовая навигация -->
-        <a href="https://1drv.ms/x/c/8d834935e09ce801/EbYfGwSPzF9MtGn1UVFjnsMBhAXrSZKlGIJvQa1m348HsA?e=H4TUz7" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
                 <div class="link-text">Правовая навигация</div>
             </div>
             <div class="link-meta">Разбор нормативных документов</div>
-        </a>
+        </div>
+        <div class="dropdown-content">
+            <!-- Контроль качества -->
+            <a href="http://217.107.102.71:90/kk/" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Контроль качества</div>
+                </div>
+                <div class="dropdown-meta">Нормативная база ГБУЗ МО МОКПТД</div>
+            </a>
+            
+            <!-- Новые документы -->
+            <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=hPVL2o" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Новые документы</div>
+                </div>
+            </a>
+            
+            <!-- Приказы МОКПТД (выпадающий список внутри выпадающего списка) -->
+            <div class="dropdown-link dropdown-toggle" style="display: flex; flex-direction: column;">
+                <div class="link-content">
+                    <div class="link-icon">⌄</div>
+                    <div class="link-text">Приказы МОКПТД</div>
+                </div>
+            </div>
+            <div class="dropdown-content">
+                <!-- Все приказы (с защитой паролем) -->
+                <a href="javascript:void(0);" onclick="promptPassword('https://drive.google.com/drive/folders/17x2EOKr5kdkNsT-QZfaAvRtVHtUEcy7n?usp=sharing')" class="dropdown-link">
+                    <div class="link-content">
+                        <div class="link-icon">→</div>
+                        <div class="link-text">Все приказы (требуется пароль)</div>
+                    </div>
+                    <div class="dropdown-meta">Пароль: 54321</div>
+                </a>
+                
+                <!-- Применимые для ПТО -->
+                <a href="https://klinmokptd.github.io/navigator_PTO/normativ_pto_mokptd.html" target="_blank" class="dropdown-link">
+                    <div class="link-content">
+                        <div class="link-icon">→</div>
+                        <div class="link-text">Применимые для ПТО</div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Разбор нормативных документов -->
+            <a href="https://1drv.ms/x/c/8d834935e09ce801/EbYfGwSPzF9MtGn1UVFjnsMBhAXrSZKlGIJvQa1m348HsA?e=H4TUz7" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Разбор нормативных документов</div>
+                </div>
+                <div class="dropdown-meta">Правовая навигация</div>
+            </a>
+        </div> <!-- Конец dropdown-content для Правовая навигация -->
 
-        <!-- Гид по работе врача-фтизиатра (выпадающий список) -->
+        <!-- ========== БЛАНКИ (оставляем как есть) ========== -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
-                <div class="link-text">Гид по работе врача-фтизиатра</div>
+                <div class="link-text">Бланки</div>
             </div>
         </div>
         <div class="dropdown-content">
-            <a href="https://1drv.ms/f/c/8d834935e09ce801/IgDFObpnb1lWR6cWmUf9l9lZAVueTduFaGdw1WDl4RToNd4?e=FBAAft" target="_blank" class="dropdown-link">
+            <!-- Все бланки -->
+            <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="dropdown-link">
                 <div class="link-content">
                     <div class="link-icon">→</div>
-                    <div class="link-text">Открыть в формате PDF</div>
+                    <div class="link-text">Все бланки</div>
                 </div>
-                <div class="dropdown-meta">Скачать или прочитать файл</div>
+                <div class="dropdown-meta">Шаблоны и образцы</div>
             </a>
-            <a href="https://klinmokptd.github.io/gid_vracha_ftiziatra/" target="_blank" class="dropdown-link">
+
+            <!-- Бланки в быстром доступе -->
+            <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-top: 2px dashed var(--border); border-bottom: 1px solid var(--border); margin-top: 10px;">
+                Бланки в быстром доступе
+            </div>
+
+            <!-- Быстрые бланки -->
+            <a href="1pdf" target="_blank" class="dropdown-link">
                 <div class="link-content">
                     <div class="link-icon">→</div>
-                    <div class="link-text">Просмотр в браузере</div>
+                    <div class="link-text">Бланк 1</div>
                 </div>
-                <div class="dropdown-meta">Интерактивная веб-версия</div>
             </a>
-        </div>
+            <a href="2pdf" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Бланк 2</div>
+                </div>
+            </a>
+            <a href="3pdf" target="_blank" class="dropdown-link">
+                <div class="link-content">
+                    <div class="link-icon">→</div>
+                    <div class="link-text">Бланк 3</div>
+                </div>
+            </a>
+        </div> <!-- Конец dropdown-content для Бланки -->
         
-        <!-- ========== БЛАНКИ (ТЕПЕРЬ ВЫПАДАЮЩИЙ СПИСОК) ========== -->
-<div class="link-item dropdown-toggle">
-    <div class="link-content">
-        <div class="link-icon">⌄</div>
-        <div class="link-text">Бланки</div>
-    </div>
-</div>
-<div class="dropdown-content">
-    <!-- Все бланки (старая общая ссылка) -->
-    <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Все бланки</div>
-        </div>
-        <div class="dropdown-meta">Шаблоны и образцы</div>
-    </a>
-
-    <!-- Бланки в быстром доступе -->
-    <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-top: 2px dashed var(--border); border-bottom: 1px solid var(--border); margin-top: 10px;">
-        Бланки в быстром доступе
-    </div>
-
-    <!-- Быстрые бланки (внутренние файлы) -->
-    <a href="1pdf" target="_blank" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Бланк 1</div>
-        </div>
-    </a>
-    <a href="2pdf" target="_blank" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Бланк 2</div>
-        </div>
-    </a>
-    <a href="3pdf" target="_blank" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Бланк 3</div>
-        </div>
-    </a>
-</div> <!-- Конец dropdown-content для Бланки -->
-        
-        <!-- СОПы -->
+        <!-- ========== СОПы (оставляем как есть) ========== -->
         <a href="https://drive.google.com/drive/folders/16ngpPCk6BV8Ox9nzzk90loGw3auIalVz?usp=sharing" class="link-item" target="_blank">
             <div class="link-content">
                 <div class="link-icon">→</div>
@@ -1224,7 +1219,7 @@
             </div>
         </a>
 
-        <!-- Контрольные листы (выпадающий список) -->
+        <!-- ========== Контрольные листы (оставляем как есть) ========== -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
@@ -2101,6 +2096,16 @@ missionBtn.addEventListener('click', () => {
             });
         });
     </script>
-    
+    <script>
+// Функция для проверки пароля перед переходом по ссылке
+function promptPassword(link) {
+    const password = prompt('Введите пароль для доступа к приказам:');
+    if (password === '54321') {
+        window.open(link, '_blank');
+    } else if (password !== null) {
+        alert('Неверный пароль');
+    }
+}
+</script>
 </body>
 </html>
