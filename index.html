@@ -2,13 +2,17 @@
 <html>
 <head>
     <title>Вход</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            width: 100%;
         }
         
         body {
@@ -17,11 +21,13 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            height: 100vh;
+            background-attachment: fixed;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            margin: 0;
+            padding: 0;
         }
         
         body::before {
@@ -64,7 +70,8 @@
             outline: none;
             transition: border-color 0.2s;
             margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.9);
+            background: white;
+            display: block;
         }
         
         input:focus {
@@ -81,6 +88,7 @@
             font-size: 16px;
             cursor: pointer;
             transition: background 0.2s;
+            display: block;
         }
         
         button:hover {
@@ -92,24 +100,34 @@
     <div class="container">
         <h2>Введите пароль</h2>
         
-        <form onsubmit="checkPassword(); return false;">
-            <!-- Хитрость: невидимое поле с фиксированным значением -->
-            <input type="text" name="username" value="user" autocomplete="username" style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none; height: 0; width: 0;" tabindex="-1" aria-hidden="true">
-            
-            <!-- Поле для пароля -->
-            <input type="password" id="pass" name="password" placeholder="Пароль" autocomplete="current-password" autofocus>
+        <form name="login" onsubmit="checkPassword(); return false;">
+            <input type="password" id="pass" name="pass" placeholder="Пароль" autofocus>
             <button type="submit">Войти</button>
         </form>
     </div>
 
     <script>
         function checkPassword() {
-            if (document.getElementById('pass').value === '12345') {
-                window.location.href = 'content.html';
+            var password = document.getElementById('pass').value;
+            if (password === '12345') {
+                window.location.href = './content.html';
+                return true;
             } else {
                 alert('Неверный пароль');
+                return false;
             }
         }
+        
+        // Дополнительная защита от случайного сабмита
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.forms.login;
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    checkPassword();
+                });
+            }
+        });
     </script>
 </body>
 </html>
