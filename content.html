@@ -1009,6 +1009,85 @@ body::before {
     display: block !important;
 }
     </style>
+    <style>
+/* ================================================
+   НОВЫЙ ДИЗАЙН ФОНА - Вариант 3 (Премиум)
+   ================================================ */
+
+/* 1. Новый базовый фон для всей страницы */
+body {
+    background-color: #f5fafc;
+    position: relative;
+}
+
+/* 2. Создаем холст для цветных "софитов" */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        /* Основное свечение (из шапки) */
+        radial-gradient(circle at 50% 10%, rgba(32, 178, 170, 0.15) 0%, transparent 50%),
+        /* Цветные акценты под каждый блок */
+        radial-gradient(circle at 5% 20%, rgba(32, 178, 170, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 25% 40%, rgba(211, 84, 0, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 45% 30%, rgba(74, 119, 146, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 65% 50%, rgba(90, 138, 107, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 35%, rgba(122, 107, 140, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 15% 70%, rgba(140, 122, 107, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 40% 85%, rgba(106, 76, 156, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 75% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 3. Делаем карточки полупрозрачными с размытием */
+.card {
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 8px 32px rgba(112, 128, 144, 0.1) !important;
+}
+
+/* Убираем старую подложку у карточек */
+.card::after {
+    display: none !important;
+}
+
+/* 4. Обновляем шапку, чтобы она сочеталась с новым фоном */
+.content-header {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    margin: 20px 20px 0;
+    border-radius: 16px 16px 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(236, 240, 241, 0.5);
+}
+
+/* 5. Обновляем подвал */
+.footer {
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+/* 6. Убираем старый градиент из шапки, если мешает */
+.content-header {
+    background: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* 7. Чтобы основной контент был выше фона */
+.main-content {
+    position: relative;
+    z-index: 1;
+}
+</style>
 </head>
 <body>
     <main class="main-content" id="main-content">
