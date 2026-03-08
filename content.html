@@ -1861,10 +1861,7 @@ missionBtn.addEventListener('click', () => {
 <div class="modal" id="docsModal">
     <div class="modal-content">
         <h3>Введите пароль</h3>
-        
-        <?php if (!empty($docs_error)): ?>
-            <div class="error"><?= $docs_error ?></div>
-        <?php endif; ?>
+   
 
         <form method="post">
             <input type="hidden" name="modal_link" id="modalLink" value="">
