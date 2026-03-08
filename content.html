@@ -1,3 +1,21 @@
+<?php
+session_start();
+
+// Обработка формы входа для документов
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modal_password'])) {
+    $password = $_POST['modal_password'] ?? '';
+    
+    if ($password === '54321') {
+        $_SESSION['auth_docs'] = true;
+        if (isset($_POST['modal_link'])) {
+            header('Location: ' . $_POST['modal_link']);
+            exit;
+        }
+    } else {
+        $docs_error = 'Неверный пароль';
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -104,10 +122,13 @@
 }
 
 /* ================================================
-   ОСНОВНОЙ ФОН - НОВЫЙ ДИЗАЙН
+   ОСНОВНОЙ ФОН - РОМАШКИ
    ================================================ */
 body {
-    background-color: #f5fafc;
+    background-image: url('romashki.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: var(--text-primary);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -116,8 +137,21 @@ body {
     overflow-x: hidden;
 }
 
-/* Цветные "софиты" на фоне */
+/* Белый полупрозрачный слой поверх ромашек */
 body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Цветные "софиты" поверх белого слоя */
+body::after {
     content: "";
     position: fixed;
     top: 0;
@@ -135,7 +169,12 @@ body::before {
         radial-gradient(circle at 40% 85%, rgba(106, 76, 156, 0.1) 0%, transparent 40%),
         radial-gradient(circle at 75% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 40%);
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
+}
+
+.main-content {
+    position: relative;
+    z-index: 2;
 }
 
 /* ================================================
@@ -308,12 +347,7 @@ body::before {
     overflow-y: auto;
     background: transparent;
     position: relative;
-    z-index: 1;
-}
-
-.main-content {
-    position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .grid {
@@ -586,6 +620,7 @@ body::before {
     margin: 40px 20px 20px;
     position: relative;
     overflow: hidden;
+    z-index: 2;
 }
 
 .footer::before {
@@ -605,7 +640,7 @@ body::before {
 }
 
 /* ================================================
-   МОДАЛЬНОЕ ОКНО
+   МОДАЛЬНЫЕ ОКНА
    ================================================ */
 .modal-overlay {
     display: none;
@@ -631,7 +666,7 @@ body::before {
     background: white;
     border-radius: 16px;
     padding: 30px;
-    max-width: 500px;
+    max-width: 400px;
     width: 100%;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     border-top: 5px solid var(--teal);
@@ -664,6 +699,45 @@ body::before {
 
 .modal-close:hover {
     color: var(--teal);
+}
+
+.modal input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.modal input:focus {
+    border-color: var(--teal);
+    outline: none;
+}
+
+.modal button {
+    width: 100%;
+    padding: 12px;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.modal button:hover {
+    background: var(--block-1-secondary);
+}
+
+.modal .error {
+    color: #e74c3c;
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #fdf0ef;
+    border-radius: 8px;
 }
 
 /* ================================================
