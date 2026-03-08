@@ -1933,5 +1933,43 @@ function promptPassword(link) {
     }
 }
 </script>
+    <!-- Модальное окно для документов -->
+<div class="modal-overlay" id="docsModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Введите пароль</h3>
+            <button class="modal-close" onclick="closeDocsModal()">&times;</button>
+        </div>
+        
+        <?php if (isset($docs_error)): ?>
+            <div class="error" style="color: #e74c3c; text-align: center; margin-bottom: 15px; padding: 10px; background: #fdf0ef; border-radius: 8px;"><?= $docs_error ?></div>
+        <?php endif; ?>
+
+        <form method="post">
+            <input type="hidden" name="modal_link" id="modalLink" value="">
+            <input type="password" name="modal_password" placeholder="Пароль" autofocus style="width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem; margin-bottom: 15px;">
+            <button type="submit" style="width: 100%; padding: 12px; background: var(--teal); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">Войти</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function openDocsModal(link) {
+    document.getElementById('modalLink').value = link;
+    document.getElementById('docsModal').classList.add('active');
+}
+
+function closeDocsModal() {
+    document.getElementById('docsModal').classList.remove('active');
+}
+
+// Закрытие по клику вне модального окна
+window.onclick = function(e) {
+    const modal = document.getElementById('docsModal');
+    if (e.target === modal) {
+        modal.classList.remove('active');
+    }
+}
+</script>
 </body>
 </html>
