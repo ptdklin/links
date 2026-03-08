@@ -857,7 +857,7 @@ body::before {
     </div>
     <div class="link-list">
         
-        <!-- ========== КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ (оставляем как есть) ========== -->
+        <!-- ========== КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ ========== -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
@@ -913,7 +913,7 @@ body::before {
             </a>
         </div> <!-- Конец dropdown-content для Клинических рекомендаций -->
 
-        <!-- ========== ГИД ВРАЧА-ФТИЗИАТРА (теперь простая ссылка) ========== -->
+        <!-- ========== ГИД ВРАЧА-ФТИЗИАТРА ========== -->
         <a href="https://klinmokptd.github.io/navigator_PTO/gid_vracha_ftiziatra/" target="_blank" class="link-item">
             <div class="link-content">
                 <div class="link-icon">→</div>
@@ -928,11 +928,10 @@ body::before {
         <div class="link-icon">⌄</div>
         <div class="link-text">Правовая навигация</div>
     </div>
-    <!-- Описание полностью удалено -->
 </div>
 <div class="dropdown-content">
     
-    <a href="proxy.php?link=kk" class="dropdown-link">
+    <a href="#" onclick="openDocsModal('proxy.php?link=kk')" class="dropdown-link">
         <div class="link-content">
             <div class="link-icon">→</div>
             <div class="link-text">Контроль качества</div>
@@ -940,21 +939,19 @@ body::before {
         <div class="dropdown-meta">Документы по практическим рекомендациям</div>
     </a>
 
-    <!-- Приказы МОКПТД (внутренний выпадающий список) -->
+    <!-- Приказы МОКПТД -->
     <div class="dropdown-link dropdown-toggle" style="display: flex; flex-direction: column;">
         <div class="link-content">
             <div class="link-icon">⌄</div>
             <div class="link-text">Приказы МОКПТД</div>
         </div>
-        <!-- Описание удалено -->
     </div>
     <div class="dropdown-content">
-        <a href="proxy.php?link=prikazy" class="dropdown-link">
+        <a href="#" onclick="openDocsModal('proxy.php?link=prikazy')" class="dropdown-link">
             <div class="link-content">
                 <div class="link-icon">→</div>
                 <div class="link-text">Все приказы</div>
             </div>
-            <!-- Описание удалено -->
         </a>
 
         <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=hPVL2o" target="_blank" class="dropdown-link">
@@ -962,7 +959,6 @@ body::before {
                 <div class="link-icon">→</div>
                 <div class="link-text">Новые документы МОКПТД</div>
             </div>
-            <!-- Описание удалено -->
         </a>
 
         <a href="https://klinmokptd.github.io/navigator_PTO/normativ_pto_mokptd.html" target="_blank" class="dropdown-link">
@@ -970,7 +966,6 @@ body::before {
                 <div class="link-icon">→</div>
                 <div class="link-text">Применимые для ПТО</div>
             </div>
-            <!-- Описание удалено -->
         </a>
     </div>
 
@@ -979,11 +974,10 @@ body::before {
             <div class="link-icon">→</div>
             <div class="link-text">Разбор нормативных документов</div>
         </div>
-        <!-- Описание удалено -->
     </a>
 </div> <!-- Конец dropdown-content для Правовая навигация -->
 
-        <!-- ========== БЛАНКИ (оставляем как есть) ========== -->
+        <!-- ========== БЛАНКИ ========== -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
@@ -1026,14 +1020,14 @@ body::before {
             </a>
         </div> <!-- Конец dropdown-content для Бланки -->
         
-        <a href="proxy.php?link=sops" class="link-item">
-    <div class="link-content">
-        <div class="link-icon">→</div>
-        <div class="link-text">СОПы ГБУЗ МО «МОКПТД»</div>
-    </div>
-</a>
+        <a href="#" onclick="openDocsModal('proxy.php?link=sops')" class="link-item">
+            <div class="link-content">
+                <div class="link-icon">→</div>
+                <div class="link-text">СОПы ГБУЗ МО «МОКПТД»</div>
+            </div>
+        </a>
 
-        <!-- ========== Контрольные листы (оставляем как есть) ========== -->
+        <!-- ========== Контрольные листы ========== -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
