@@ -1,23 +1,3 @@
-<?php
-session_start();
-
-// Обработка формы входа для документов
-$docs_error = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modal_password'])) {
-    $password = $_POST['modal_password'] ?? '';
-    
-    if ($password === '54321') {
-        $_SESSION['auth_docs'] = true;
-        if (isset($_POST['modal_link'])) {
-            header('Location: ' . $_POST['modal_link']);
-            exit;
-        }
-    } else {
-        $docs_error = 'Неверный пароль';
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -625,6 +605,68 @@ body::before {
 }
 
 /* ================================================
+   МОДАЛЬНОЕ ОКНО
+   ================================================ */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-top: 5px solid var(--teal);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border);
+}
+
+.modal-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--teal);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--slate-grey);
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--teal);
+}
+
+/* ================================================
    АДАПТИВНОСТЬ
    ================================================ */
 @media (max-width: 1200px) {
@@ -750,9 +792,9 @@ body::before {
 </style>
 </head>
 <body>
-   <!-- В самом начале <body>, сразу после открывающего тега -->
+    <!-- Кнопка возврата на tbhelper.ru -->
 <div style="position: fixed; top: 20px; left: 20px; z-index: 9999;">
-    <a href="https://tbhelper.ru/?logout=1" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none; color: #20B2AA; font-size: 2rem; line-height: 1; opacity: 0.6; transition: opacity 0.2s;" title="На главную">
+    <a href="https://tbhelper.ru/?logout=1" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none; color: #20B2AA; font-size: 2rem; line-height: 1; transition: 0.2s;" title="tbhelper.ru" onmouseover="this.style.transform='scale(1.1)'; this.style.color='#1a8d86';" onmouseout="this.style.transform='scale(1)'; this.style.color='#20B2AA';">
         ←
     </a>
 </div>
@@ -797,7 +839,7 @@ body::before {
     </div>
     <div class="link-list">
         
-        <!-- ========== КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ ========== -->
+        <!-- ========== КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ (оставляем как есть) ========== -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
@@ -853,7 +895,7 @@ body::before {
             </a>
         </div> <!-- Конец dropdown-content для Клинических рекомендаций -->
 
-        <!-- ========== ГИД ВРАЧА-ФТИЗИАТРА ========== -->
+        <!-- ========== ГИД ВРАЧА-ФТИЗИАТРА (теперь простая ссылка) ========== -->
         <a href="https://klinmokptd.github.io/navigator_PTO/gid_vracha_ftiziatra/" target="_blank" class="link-item">
             <div class="link-content">
                 <div class="link-icon">→</div>
@@ -868,10 +910,11 @@ body::before {
         <div class="link-icon">⌄</div>
         <div class="link-text">Правовая навигация</div>
     </div>
+    <!-- Описание полностью удалено -->
 </div>
 <div class="dropdown-content">
     
-    <a href="#" onclick="openDocsModal('proxy.php?link=kk')" class="dropdown-link">
+    <a href="proxy.php?link=kk" class="dropdown-link">
         <div class="link-content">
             <div class="link-icon">→</div>
             <div class="link-text">Контроль качества</div>
@@ -879,19 +922,21 @@ body::before {
         <div class="dropdown-meta">Документы по практическим рекомендациям</div>
     </a>
 
-    <!-- Приказы МОКПТД -->
+    <!-- Приказы МОКПТД (внутренний выпадающий список) -->
     <div class="dropdown-link dropdown-toggle" style="display: flex; flex-direction: column;">
         <div class="link-content">
             <div class="link-icon">⌄</div>
             <div class="link-text">Приказы МОКПТД</div>
         </div>
+        <!-- Описание удалено -->
     </div>
     <div class="dropdown-content">
-        <a href="#" onclick="openDocsModal('proxy.php?link=prikazy')" class="dropdown-link">
+        <a href="proxy.php?link=prikazy" class="dropdown-link">
             <div class="link-content">
                 <div class="link-icon">→</div>
                 <div class="link-text">Все приказы</div>
             </div>
+            <!-- Описание удалено -->
         </a>
 
         <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=hPVL2o" target="_blank" class="dropdown-link">
@@ -899,6 +944,7 @@ body::before {
                 <div class="link-icon">→</div>
                 <div class="link-text">Новые документы МОКПТД</div>
             </div>
+            <!-- Описание удалено -->
         </a>
 
         <a href="https://klinmokptd.github.io/navigator_PTO/normativ_pto_mokptd.html" target="_blank" class="dropdown-link">
@@ -906,6 +952,7 @@ body::before {
                 <div class="link-icon">→</div>
                 <div class="link-text">Применимые для ПТО</div>
             </div>
+            <!-- Описание удалено -->
         </a>
     </div>
 
@@ -914,10 +961,11 @@ body::before {
             <div class="link-icon">→</div>
             <div class="link-text">Разбор нормативных документов</div>
         </div>
+        <!-- Описание удалено -->
     </a>
 </div> <!-- Конец dropdown-content для Правовая навигация -->
 
-        <!-- ========== БЛАНКИ ========== -->
+        <!-- ========== БЛАНКИ (оставляем как есть) ========== -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
@@ -960,14 +1008,14 @@ body::before {
             </a>
         </div> <!-- Конец dropdown-content для Бланки -->
         
-        <a href="#" onclick="openDocsModal('proxy.php?link=sops')" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">СОПы ГБУЗ МО «МОКПТД»</div>
-            </div>
-        </a>
+        <a href="proxy.php?link=sops" class="link-item">
+    <div class="link-content">
+        <div class="link-icon">→</div>
+        <div class="link-text">СОПы ГБУЗ МО «МОКПТД»</div>
+    </div>
+</a>
 
-        <!-- ========== Контрольные листы ========== -->
+        <!-- ========== Контрольные листы (оставляем как есть) ========== -->
         <div class="link-item dropdown-toggle">
             <div class="link-content">
                 <div class="link-icon">⌄</div>
@@ -1368,12 +1416,6 @@ body::before {
                             </div>
                         </div>
                         <div class="dropdown-content">
-                            <a href="https://docs.google.com/spreadsheets/d/1EJpn1OMSYV79kEobhNnZ9fhZmDv3vuDT4L2SvhZp0PI/edit?usp=sharing" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Журнал административных обходов</div>
-                                </div>
-                            </a>
                             
                             <a href="https://docs.google.com/spreadsheets/d/1rTGdj7vrRvlOweJDBG8k1xwZ9RnAXG_hCv_5sYiCUIE/edit?usp=sharing" target="_blank" class="dropdown-link">
                                 <div class="link-content">
@@ -1856,134 +1898,14 @@ missionBtn.addEventListener('click', () => {
             });
         });
     </script>
-    
-    <!-- Модальное окно для документов -->
-<div class="modal" id="docsModal">
-    <div class="modal-content">
-        <h3>Введите пароль</h3>
-   
-
-        <form method="post">
-            <input type="hidden" name="modal_link" id="modalLink" value="">
-            <input type="password" name="modal_password" placeholder="Пароль" autofocus>
-            <button type="submit">Войти</button>
-        </form>
-        
-        <div class="modal-close">
-            <a href="#" onclick="closeDocsModal(event)">Отмена</a>
-        </div>
-    </div>
-</div>
-
-<style>
-/* Стили для модального окна документов (точно как в index.php) */
-#docsModal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
-}
-
-#docsModal.active {
-    display: flex;
-}
-
-#docsModal .modal-content {
-    background: white;
-    padding: 40px;
-    border-radius: 24px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
-#docsModal .modal-content h3 {
-    color: #2C3E50;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    text-align: center;
-}
-
-#docsModal .modal-content input {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
-    font-size: 1rem;
-    margin-bottom: 20px;
-    outline: none;
-}
-
-#docsModal .modal-content input:focus {
-    border-color: #20B2AA;
-}
-
-#docsModal .modal-content button {
-    width: 100%;
-    padding: 15px;
-    background: #20B2AA;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-#docsModal .modal-content button:hover {
-    background: #1a8d86;
-}
-
-#docsModal .modal-content .error {
-    color: #e74c3c;
-    text-align: center;
-    margin-bottom: 15px;
-    padding: 10px;
-    background: #fdf0ef;
-    border-radius: 8px;
-}
-
-#docsModal .modal-close {
-    text-align: center;
-    margin-top: 15px;
-}
-
-#docsModal .modal-close a {
-    color: #95A5A6;
-    text-decoration: none;
-    font-size: 0.9rem;
-    cursor: pointer;
-}
-
-#docsModal .modal-close a:hover {
-    color: #20B2AA;
-}
-</style>
-
-<script>
-function openDocsModal(link) {
-    document.getElementById('modalLink').value = link;
-    document.getElementById('docsModal').classList.add('active');
-}
-
-function closeDocsModal(e) {
-    if (e) e.preventDefault();
-    document.getElementById('docsModal').classList.remove('active');
-}
-
-// Закрытие по клику вне модального окна
-window.onclick = function(e) {
-    const modal = document.getElementById('docsModal');
-    if (e.target === modal) {
-        modal.classList.remove('active');
+    <script>
+// Функция для проверки пароля перед переходом по ссылке
+function promptPassword(link) {
+    const password = prompt('Введите пароль для доступа к приказам:');
+    if (password === '54321') {
+        window.open(link, '_blank');
+    } else if (password !== null) {
+        alert('Неверный пароль');
     }
 }
 </script>
