@@ -623,68 +623,6 @@ body::before {
 }
 
 /* ================================================
-   МОДАЛЬНОЕ ОКНО
-   ================================================ */
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.modal-overlay.active {
-    display: flex;
-    animation: fadeIn 0.3s ease;
-}
-
-.modal {
-    background: white;
-    border-radius: 16px;
-    padding: 30px;
-    max-width: 500px;
-    width: 100%;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    border-top: 5px solid var(--teal);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid var(--border);
-}
-
-.modal-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--teal);
-}
-
-.modal-close {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--slate-grey);
-    cursor: pointer;
-    padding: 5px;
-    line-height: 1;
-}
-
-.modal-close:hover {
-    color: var(--teal);
-}
-
-/* ================================================
    АДАПТИВНОСТЬ
    ================================================ */
 @media (max-width: 1200px) {
