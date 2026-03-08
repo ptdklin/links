@@ -2,6 +2,8 @@
 session_start();
 
 // Обработка формы входа для документов
+$docs_error = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modal_password'])) {
     $password = $_POST['modal_password'] ?? '';
     
@@ -15,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modal_password'])) {
         $docs_error = 'Неверный пароль';
     }
 }
+?>
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -1860,7 +1863,7 @@ missionBtn.addEventListener('click', () => {
     <div class="modal-content">
         <h3>Введите пароль</h3>
         
-        <?php if (isset($docs_error)): ?>
+        <?php if (!empty($docs_error)): ?>
             <div class="error"><?= $docs_error ?></div>
         <?php endif; ?>
 
