@@ -1917,79 +1917,138 @@ missionBtn.addEventListener('click', () => {
         });
     </script>
     
-    <!-- Модальное окно для документов (КАК В ИНДЕКСЕ) -->
-    <div class="modal-overlay" id="docsModal">
-        <div class="modal-content" style="background: white; border-radius: 24px; padding: 40px; max-width: 400px; width: 90%; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; z-index: 1002; border-top: 5px solid #20B2AA;">
-            <h3 style="color: #20B2AA; margin-bottom: 20px; font-size: 1.5rem; text-align: center;">Введите пароль</h3>
-            
-            <?php if (isset($docs_error)): ?>
-                <div style="color: #e74c3c; text-align: center; margin-bottom: 15px; padding: 10px; background: #fdf0ef; border-radius: 8px;"><?= $docs_error ?></div>
-            <?php endif; ?>
+    <!-- Модальное окно для документов -->
+<div class="modal" id="docsModal">
+    <div class="modal-content">
+        <h3>Введите пароль</h3>
+        
+        <?php if (isset($docs_error)): ?>
+            <div class="error"><?= $docs_error ?></div>
+        <?php endif; ?>
 
-            <form method="post">
-                <input type="hidden" name="modal_link" id="modalLink" value="">
-                <input type="password" name="modal_password" placeholder="Пароль" autofocus style="width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 1rem; margin-bottom: 20px; outline: none; box-sizing: border-box;">
-                <button type="submit" style="width: 100%; padding: 15px; background: #20B2AA; color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;">Войти</button>
-            </form>
-            
-            <div style="text-align: center; margin-top: 15px;">
-                <a href="#" onclick="closeDocsModal(event)" style="color: #95A5A6; text-decoration: none; font-size: 0.9rem;">Отмена</a>
-            </div>
+        <form method="post">
+            <input type="hidden" name="modal_link" id="modalLink" value="">
+            <input type="password" name="modal_password" placeholder="Пароль" autofocus>
+            <button type="submit">Войти</button>
+        </form>
+        
+        <div class="modal-close">
+            <a href="#" onclick="closeDocsModal(event)">Отмена</a>
         </div>
     </div>
+</div>
 
-    <style>
-    /* Стили для модального окна документов */
-    #docsModal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: url('romashki.png');
-        background-size: cover;
-        background-position: center;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        z-index: 1000;
+<style>
+/* Стили для модального окна документов (точно как в index.php) */
+#docsModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+#docsModal.active {
+    display: flex;
+}
+
+#docsModal .modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+#docsModal .modal-content h3 {
+    color: #2C3E50;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+#docsModal .modal-content input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    outline: none;
+}
+
+#docsModal .modal-content input:focus {
+    border-color: #20B2AA;
+}
+
+#docsModal .modal-content button {
+    width: 100%;
+    padding: 15px;
+    background: #20B2AA;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#docsModal .modal-content button:hover {
+    background: #1a8d86;
+}
+
+#docsModal .modal-content .error {
+    color: #e74c3c;
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #fdf0ef;
+    border-radius: 8px;
+}
+
+#docsModal .modal-close {
+    text-align: center;
+    margin-top: 15px;
+}
+
+#docsModal .modal-close a {
+    color: #95A5A6;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+#docsModal .modal-close a:hover {
+    color: #20B2AA;
+}
+</style>
+
+<script>
+function openDocsModal(link) {
+    document.getElementById('modalLink').value = link;
+    document.getElementById('docsModal').classList.add('active');
+}
+
+function closeDocsModal(e) {
+    if (e) e.preventDefault();
+    document.getElementById('docsModal').classList.remove('active');
+}
+
+// Закрытие по клику вне модального окна
+window.onclick = function(e) {
+    const modal = document.getElementById('docsModal');
+    if (e.target === modal) {
+        modal.classList.remove('active');
     }
-
-    #docsModal.active {
-        display: flex;
-    }
-
-    #docsModal::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(255, 255, 255, 0.85);
-        z-index: 1001;
-    }
-    </style>
-
-    <script>
-    function openDocsModal(link) {
-        document.getElementById('modalLink').value = link;
-        document.getElementById('docsModal').classList.add('active');
-    }
-
-    function closeDocsModal(e) {
-        if (e) e.preventDefault();
-        document.getElementById('docsModal').classList.remove('active');
-    }
-
-    // Закрытие при клике на фон (для документов)
-    document.addEventListener('click', function(e) {
-        const modal = document.getElementById('docsModal');
-        if (e.target === modal) {
-            modal.classList.remove('active');
-        }
-    });
-    </script>
+}
+</script>
 </body>
 </html>
