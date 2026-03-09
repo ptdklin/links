@@ -1899,16 +1899,5 @@ missionBtn.addEventListener('click', () => {
             });
         });
     </script>
-    <script>
-// Функция для проверки пароля перед переходом по ссылке
-function promptPassword(link) {
-    const password = prompt('Введите пароль для доступа к приказам:');
-    if (password === '54321') {
-        window.open(link, '_blank');
-    } else if (password !== null) {
-        alert('Неверный пароль');
-    }
-}
-</script>
 </body>
 </html>
