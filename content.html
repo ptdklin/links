@@ -139,18 +139,17 @@ body::before {
 }
 
 /* ================================================
-   ШАПКА
+   ШАПКА - НОВЫЙ ДИЗАЙН (БЕЗ БЛОКА)
    ================================================ */
 .content-header {
-    background: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 40px 50px 35px;
-    margin: 20px 20px 0;
-    border-radius: 16px 16px 0 0;
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    border-bottom: 1px solid rgba(236, 240, 241, 0.5);
-    border-top: 4px solid var(--teal) !important;
+    background: transparent !important; /* Убираем фон */
+    backdrop-filter: none !important; /* Убираем размытие */
+    -webkit-backdrop-filter: none !important;
+    padding: 40px 50px 20px; /* Уменьшил нижний отступ */
+    margin: 0; /* Убираем марджины */
+    border: none; /* Убираем границы */
+    border-bottom: none; 
+    border-top: none !important; 
     position: relative;
     display: flex;
     align-items: flex-start;
@@ -169,7 +168,7 @@ body::before {
     width: 160px;
     height: auto;
     flex-shrink: 0;
-    filter: drop-shadow(0 4px 8px rgba(32, 178, 170, 0.1));
+    filter: drop-shadow(0 4px 8px rgba(32, 178, 170, 0.2)); /* Слегка усилил тень для контраста на фоне */
 }
 
 .header-text-container {
@@ -300,11 +299,61 @@ body::before {
 }
 
 /* ================================================
-   КАРТОЧКИ - ИСПРАВЛЕНО
+   НОВАЯ ПАНЕЛЬ БЫСТРЫХ ИНСТРУМЕНТОВ
+   ================================================ */
+.quick-tools {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 60px; /* Большой радиус для "пилюли" */
+    padding: 15px 30px;
+    margin: 20px 50px 30px 50px; /* Отступы как у шапки и карточек */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.tool-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    white-space: nowrap;
+}
+
+.tool-button:hover {
+    background: var(--teal-light);
+    border-color: var(--teal);
+    color: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(32, 178, 170, 0.15);
+}
+
+.tool-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+/* ================================================
+   КАРТОЧКИ - БЕЗ ИЗМЕНЕНИЙ
    ================================================ */
 .content-area {
     flex: 1;
-    padding: 40px;
+    padding: 20px 50px 40px; /* Убрал верхний паддинг, он теперь на панели */
     overflow-y: auto;
     background: transparent;
     position: relative;
@@ -323,7 +372,7 @@ body::before {
     margin-bottom: 50px;
 }
 
-/* Для больших экранов - 5 карточек */
+/* Для больших экранов - 5 карточек (теперь их 7, но правило оставим) */
 @media (min-width: 1800px) {
     .grid {
         grid-template-columns: repeat(5, 1fr);
@@ -401,13 +450,13 @@ body::before {
     margin: 0;
     letter-spacing: -0.2px;
     white-space: normal;
-    word-break: break-word; /* ИСПРАВЛЕНО: разрешаем перенос слов */
-    hyphens: auto; /* ИСПРАВЛЕНО: включаем переносы для русского */
+    word-break: break-word;
+    hyphens: auto;
     -webkit-hyphens: auto;
     -ms-hyphens: auto;
     line-height: 1.3;
     max-width: 100%;
-    overflow-wrap: break-word; /* ИСПРАВЛЕНО: гарантирует перенос длинных слов */
+    overflow-wrap: break-word;
 }
 
 /* Цвета блоков */
@@ -498,7 +547,7 @@ body::before {
     font-size: 1.05rem;
     color: var(--block-color);
     transition: color 0.3s ease;
-    word-break: break-word; /* ИСПРАВЛЕНО: перенос длинных слов в ссылках */
+    word-break: break-word;
 }
 
 .link-meta {
@@ -509,7 +558,7 @@ body::before {
     margin-left: 38px;
     font-weight: 400;
     line-height: 1.5;
-    word-break: break-word; /* ИСПРАВЛЕНО */
+    word-break: break-word;
 }
 
 /* Dropdown */
@@ -580,7 +629,7 @@ body::before {
     font-weight: 400;
     line-height: 1.5;
     padding-left: 32px;
-    word-break: break-word; /* ИСПРАВЛЕНО */
+    word-break: break-word;
 }
 
 /* ================================================
@@ -596,7 +645,7 @@ body::before {
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.9);
     box-shadow: 0 8px 32px rgba(112, 128, 144, 0.1);
-    margin: 40px 20px 20px;
+    margin: 40px 0 0; /* Убрал боковые марджины, они теперь на .content-area */
     position: relative;
     overflow: hidden;
 }
@@ -619,9 +668,6 @@ body::before {
 
 /* ================================================
    МОДАЛЬНОЕ ОКНО
-   ================================================ */
-/* ================================================
-   МОДАЛЬНОЕ ОКНО (как в index (5).php)
    ================================================ */
 .modal-overlay {
     display: none;
@@ -694,7 +740,7 @@ body::before {
 @media (max-width: 1024px) {
     .content-header {
         flex-wrap: wrap;
-        margin: 15px 15px 0;
+        padding: 30px 30px 15px;
     }
     .header-content-wrapper {
         flex-direction: column;
@@ -705,6 +751,14 @@ body::before {
         align-self: flex-start;
         margin-left: 0;
         max-width: 100%;
+    }
+    .quick-tools {
+        margin: 10px 30px 30px;
+        border-radius: 30px;
+        padding: 15px 25px;
+    }
+    .content-area {
+        padding: 0 30px 30px;
     }
     .dropdown-content {
         margin-left: 20px;
@@ -719,17 +773,22 @@ body::before {
         grid-template-columns: 1fr;
     }
     .content-header {
-        padding: 30px 25px 25px;
+        padding: 25px 25px 10px;
         flex-direction: column;
         align-items: flex-start;
         gap: 20px;
-        margin: 10px 10px 0;
     }
     .header-logo {
         width: 120px;
     }
+    .quick-tools {
+        margin: 5px 20px 25px;
+        border-radius: 20px;
+        padding: 12px 20px;
+        justify-content: flex-start; /* На мобильных кнопки прижимаем к левому краю */
+    }
     .content-area {
-        padding: 25px 20px;
+        padding: 0 20px 25px;
     }
     .page-title {
         font-size: 2.4rem;
@@ -737,7 +796,7 @@ body::before {
     .card {
         padding: 25px;
         min-height: 300px;
-        margin: 0 10px;
+        margin: 0; /* Убрал лишние марджины */
     }
     .card-icon {
         width: 50px;
@@ -763,11 +822,15 @@ body::before {
         grid-template-columns: 1fr;
     }
     .content-header {
-        padding: 25px 20px;
-        margin: 5px 5px 0;
+        padding: 20px 15px 5px;
+    }
+    .quick-tools {
+        margin: 0 10px 20px;
+        border-radius: 16px;
+        padding: 10px 15px;
     }
     .content-area {
-        padding: 20px 15px;
+        padding: 0 15px 20px;
     }
     .page-title {
         font-size: 2rem;
@@ -789,7 +852,6 @@ body::before {
     }
     .footer {
         padding: 30px 20px;
-        margin: 20px 5px 10px;
     }
     .dropdown-content {
         margin-left: 10px;
@@ -840,227 +902,243 @@ body::before {
                 </div>
             </div>
         </header>
+
+        <!-- ========== НОВАЯ ПАНЕЛЬ БЫСТРЫХ ИНСТРУМЕНТОВ ========== -->
+        <div class="quick-tools">
+            <a href="https://pyrus.com/t#inbox" target="_blank" class="tool-button"><span class="tool-icon">📋</span> Pyrus</a>
+            <a href="https://results.dnkom.ru/cabinet/partner/login" target="_blank" class="tool-button"><span class="tool-icon">🔬</span> ДНКОМ</a>
+            <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="tool-button"><span class="tool-icon">🧪</span> 1С-мокрота</a>
+            <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="tool-button"><span class="tool-icon">🖼️</span> DIGIPAX</a>
+            <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="tool-button"><span class="tool-icon">🏥</span> ЕМИАС</a>
+            <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="tool-button"><span class="tool-icon">📊</span> ФРБТ</a>
+            <a href="address.html" target="_blank" class="tool-button"><span class="tool-icon">📍</span> Поиск по адресу</a>
+            <a href="https://smo-egisz.emias.mosreg.ru/Account/Login?ReturnUrl=%2f" target="_blank" class="tool-button"><span class="tool-icon">🩸</span> База доноров</a>
+            <a href="https://drive.google.com/drive/folders/1jkf-gLnNEqXw0wtRytFKbspNq8RQMdV2?usp=sharing" target="_blank" class="tool-button"><span class="tool-icon">☁️</span> Облако</a>
+            <a href="https://www.mofoms.ru/proverit-strakhovuyu-prinadlezhnost/" target="_blank" class="tool-button"><span class="tool-icon">🪪</span> Проверка полиса</a>
+        </div>
         
         <div class="content-area">
             <div class="grid">
                 
                 <!-- БЛОК 1: Стандартизация во фтизиатрии -->
-<div class="card card-1" id="standardization">
-    <div class="card-header">
-        <div class="card-icon">📋</div>
-        <h2>Стандартизация во фтизиатрии</h2>
-    </div>
-    <div class="link-list">
-        
-        <!-- ========== КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ (оставляем как есть) ========== -->
-        <div class="link-item dropdown-toggle">
-            <div class="link-content">
-                <div class="link-icon">⌄</div>
-                <div class="link-text">Клинические рекомендации</div>
-            </div>
-        </div>
-        <div class="dropdown-content">
-            <!-- Официальный рубрикатор Минздрава РФ -->
-            <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-bottom: 1px solid var(--border);">
-                Официальные КР на сайте Минздрава РФ
-            </div>
-            <a href="https://cr.minzdrav.gov.ru/clin-rec" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Все клинические рекомендации (рубрикатор)</div>
-                </div>
-            </a>
-            <a href="https://cr.minzdrav.gov.ru/view-cr/16_4" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Туберкулез у взрослых</div>
-                </div>
-            </a>
-            <a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Туберкулез у детей</div>
-                </div>
-            </a>
+                <div class="card card-1" id="standardization">
+                    <!-- ... (содержимое блока без изменений) ... -->
+                    <div class="card-header">
+                        <div class="card-icon">📋</div>
+                        <h2>Стандартизация во фтизиатрии</h2>
+                    </div>
+                    <div class="link-list">
+                        
+                        <!-- ========== КЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ (оставляем как есть) ========== -->
+                        <div class="link-item dropdown-toggle">
+                            <div class="link-content">
+                                <div class="link-icon">⌄</div>
+                                <div class="link-text">Клинические рекомендации</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-content">
+                            <!-- Официальный рубрикатор Минздрава РФ -->
+                            <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-bottom: 1px solid var(--border);">
+                                Официальные КР на сайте Минздрава РФ
+                            </div>
+                            <a href="https://cr.minzdrav.gov.ru/clin-rec" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Все клинические рекомендации (рубрикатор)</div>
+                                </div>
+                            </a>
+                            <a href="https://cr.minzdrav.gov.ru/view-cr/16_4" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Туберкулез у взрослых</div>
+                                </div>
+                            </a>
+                            <a href="https://cr.minzdrav.gov.ru/view-cr/507_3" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Туберкулез у детей</div>
+                                </div>
+                            </a>
 
-            <!-- Материалы РОФ -->
-            <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-top: 2px dashed var(--border); border-bottom: 1px solid var(--border); margin-top: 10px;">
-                Материалы Российского общества фтизиатров (РОФ)
-            </div>
-            <a href="https://rof-tb.ru/structure/" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Версии клинических рекомендаций на сайте РОФ</div>
-                </div>
-                <div class="dropdown-meta">Справочники, ЛТИ, менингит, вакцинация и другие материалы РОФ</div>
-            </a>
+                            <!-- Материалы РОФ -->
+                            <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-top: 2px dashed var(--border); border-bottom: 1px solid var(--border); margin-top: 10px;">
+                                Материалы Российского общества фтизиатров (РОФ)
+                            </div>
+                            <a href="https://rof-tb.ru/structure/" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Версии клинических рекомендаций на сайте РОФ</div>
+                                </div>
+                                <div class="dropdown-meta">Справочники, ЛТИ, менингит, вакцинация и другие материалы РОФ</div>
+                            </a>
 
-            <!-- Региональные документы -->
-            <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-top: 2px dashed var(--border); border-bottom: 1px solid var(--border); margin-top: 10px;">
-                Документы Московской области
-            </div>
-            <a href="https://ptdklin.github.io/links/documents/immunodiagnostika_2025.pdf" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Иммунодиагностика у детей и подростков (МОКПТД, 2025)</div>
-                </div>
-                <div class="dropdown-meta">Методические рекомендации Министерства здравоохранения Московской области</div>
-            </a>
-        </div> <!-- Конец dropdown-content для Клинических рекомендаций -->
+                            <!-- Региональные документы -->
+                            <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-top: 2px dashed var(--border); border-bottom: 1px solid var(--border); margin-top: 10px;">
+                                Документы Московской области
+                            </div>
+                            <a href="https://ptdklin.github.io/links/documents/immunodiagnostika_2025.pdf" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Иммунодиагностика у детей и подростков (МОКПТД, 2025)</div>
+                                </div>
+                                <div class="dropdown-meta">Методические рекомендации Министерства здравоохранения Московской области</div>
+                            </a>
+                        </div> <!-- Конец dropdown-content для Клинических рекомендаций -->
 
-        <!-- ========== ГИД ВРАЧА-ФТИЗИАТРА (теперь простая ссылка) ========== -->
-        <a href="https://klinmokptd.github.io/navigator_PTO/gid_vracha_ftiziatra/" target="_blank" class="link-item">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Гид по работе врача-фтизиатра</div>
-            </div>
-            <div class="link-meta">Интерактивная веб-версия</div>
-        </a>
+                        <!-- ========== ГИД ВРАЧА-ФТИЗИАТРА (теперь простая ссылка) ========== -->
+                        <a href="https://klinmokptd.github.io/navigator_PTO/gid_vracha_ftiziatra/" target="_blank" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Гид по работе врача-фтизиатра</div>
+                            </div>
+                            <div class="link-meta">Интерактивная веб-версия</div>
+                        </a>
 
-       <!-- ========== ПРАВОВАЯ НАВИГАЦИЯ ========== -->
-<div class="link-item dropdown-toggle">
-    <div class="link-content">
-        <div class="link-icon">⌄</div>
-        <div class="link-text">Правовая навигация</div>
-    </div>
-    <!-- Описание полностью удалено -->
-</div>
-<div class="dropdown-content">
-    
-    <a href="https://tbhelper.ru/verify.php?link=kk" class="dropdown-link">
-    <div class="link-content">
-        <div class="link-icon">→</div>
-        <div class="link-text">Контроль качества</div>
-    </div>
-    <div class="dropdown-meta">Документы по практическим рекомендациям</div>
-</a>
+                       <!-- ========== ПРАВОВАЯ НАВИГАЦИЯ ========== -->
+                        <div class="link-item dropdown-toggle">
+                            <div class="link-content">
+                                <div class="link-icon">⌄</div>
+                                <div class="link-text">Правовая навигация</div>
+                            </div>
+                            <!-- Описание полностью удалено -->
+                        </div>
+                        <div class="dropdown-content">
+                            
+                            <a href="https://tbhelper.ru/verify.php?link=kk" class="dropdown-link">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Контроль качества</div>
+                            </div>
+                            <div class="dropdown-meta">Документы по практическим рекомендациям</div>
+                        </a>
 
-    <!-- Приказы МОКПТД (внутренний выпадающий список) -->
-    <div class="dropdown-link dropdown-toggle" style="display: flex; flex-direction: column;">
-        <div class="link-content">
-            <div class="link-icon">⌄</div>
-            <div class="link-text">Приказы МОКПТД</div>
-        </div>
-        <!-- Описание удалено -->
-    </div>
-    <div class="dropdown-content">
-        <a href="https://tbhelper.ru/verify.php?link=prikazy" class="dropdown-link">
-    <div class="link-content">
-        <div class="link-icon">→</div>
-        <div class="link-text">Все приказы</div>
-    </div>
-</a>
+                            <!-- Приказы МОКПТД (внутренний выпадающий список) -->
+                            <div class="dropdown-link dropdown-toggle" style="display: flex; flex-direction: column;">
+                                <div class="link-content">
+                                    <div class="link-icon">⌄</div>
+                                    <div class="link-text">Приказы МОКПТД</div>
+                                </div>
+                                <!-- Описание удалено -->
+                            </div>
+                            <div class="dropdown-content">
+                                <a href="https://tbhelper.ru/verify.php?link=prikazy" class="dropdown-link">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">Все приказы</div>
+                            </div>
+                        </a>
 
-        <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=hPVL2o" target="_blank" class="dropdown-link">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Новые документы МОКПТД</div>
-            </div>
-            <!-- Описание удалено -->
-        </a>
+                                <a href="https://1drv.ms/f/c/8d834935e09ce801/IgAHV3AUCk3xRLEbyvornycIAd7p4A2qleNA8HNAiSkxOtc?e=hPVL2o" target="_blank" class="dropdown-link">
+                                    <div class="link-content">
+                                        <div class="link-icon">→</div>
+                                        <div class="link-text">Новые документы МОКПТД</div>
+                                    </div>
+                                    <!-- Описание удалено -->
+                                </a>
 
-        <a href="https://klinmokptd.github.io/navigator_PTO/normativ_pto_mokptd.html" target="_blank" class="dropdown-link">
-            <div class="link-content">
-                <div class="link-icon">→</div>
-                <div class="link-text">Применимые для ПТО</div>
-            </div>
-            <!-- Описание удалено -->
-        </a>
-    </div>
+                                <a href="https://klinmokptd.github.io/navigator_PTO/normativ_pto_mokptd.html" target="_blank" class="dropdown-link">
+                                    <div class="link-content">
+                                        <div class="link-icon">→</div>
+                                        <div class="link-text">Применимые для ПТО</div>
+                                    </div>
+                                    <!-- Описание удалено -->
+                                </a>
+                            </div>
 
-    <a href="https://1drv.ms/x/c/8d834935e09ce801/EbYfGwSPzF9MtGn1UVFjnsMBhAXrSZKlGIJvQa1m348HsA?e=H4TUz7" target="_blank" class="dropdown-link">
-        <div class="link-content">
-            <div class="link-icon">→</div>
-            <div class="link-text">Разбор нормативных документов</div>
-        </div>
-        <!-- Описание удалено -->
-    </a>
-</div> <!-- Конец dropdown-content для Правовая навигация -->
+                            <a href="https://1drv.ms/x/c/8d834935e09ce801/EbYfGwSPzF9MtGn1UVFjnsMBhAXrSZKlGIJvQa1m348HsA?e=H4TUz7" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Разбор нормативных документов</div>
+                                </div>
+                                <!-- Описание удалено -->
+                            </a>
+                        </div> <!-- Конец dropdown-content для Правовая навигация -->
 
-        <!-- ========== БЛАНКИ (оставляем как есть) ========== -->
-        <div class="link-item dropdown-toggle">
-            <div class="link-content">
-                <div class="link-icon">⌄</div>
-                <div class="link-text">Бланки</div>
-            </div>
-        </div>
-        <div class="dropdown-content">
-            <!-- Все бланки -->
-            <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Все бланки</div>
-                </div>
-                <div class="dropdown-meta">Шаблоны и образцы</div>
-            </a>
+                        <!-- ========== БЛАНКИ (оставляем как есть) ========== -->
+                        <div class="link-item dropdown-toggle">
+                            <div class="link-content">
+                                <div class="link-icon">⌄</div>
+                                <div class="link-text">Бланки</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-content">
+                            <!-- Все бланки -->
+                            <a href="https://1drv.ms/f/c/8d834935e09ce801/EgHonOA1SYMggI29fwAAAAABcj0gygBqMXIqc6c6tiHeOw?e=Sa1Kzy" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Все бланки</div>
+                                </div>
+                                <div class="dropdown-meta">Шаблоны и образцы</div>
+                            </a>
 
-            <!-- Бланки в быстром доступе -->
-            <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-top: 2px dashed var(--border); border-bottom: 1px solid var(--border); margin-top: 10px;">
-                Бланки в быстром доступе
-            </div>
+                            <!-- Бланки в быстром доступе -->
+                            <div style="padding: 10px 20px; font-size: 0.9rem; font-weight: 700; color: var(--block-1-color); background: var(--block-1-light); border-top: 2px dashed var(--border); border-bottom: 1px solid var(--border); margin-top: 10px;">
+                                Бланки в быстром доступе
+                            </div>
 
-            <!-- Быстрые бланки -->
-            <a href="1pdf" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Бланк 1</div>
-                </div>
-            </a>
-            <a href="2pdf" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Бланк 2</div>
-                </div>
-            </a>
-            <a href="3pdf" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Бланк 3</div>
-                </div>
-            </a>
-        </div> <!-- Конец dropdown-content для Бланки -->
-        
-        <a href="https://tbhelper.ru/verify.php?link=sops" class="link-item">
-    <div class="link-content">
-        <div class="link-icon">→</div>
-        <div class="link-text">СОПы ГБУЗ МО «МОКПТД»</div>
-    </div>
-</a>
+                            <!-- Быстрые бланки -->
+                            <a href="1pdf" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Бланк 1</div>
+                                </div>
+                            </a>
+                            <a href="2pdf" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Бланк 2</div>
+                                </div>
+                            </a>
+                            <a href="3pdf" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Бланк 3</div>
+                                </div>
+                            </a>
+                        </div> <!-- Конец dropdown-content для Бланки -->
+                        
+                        <a href="https://tbhelper.ru/verify.php?link=sops" class="link-item">
+                            <div class="link-content">
+                                <div class="link-icon">→</div>
+                                <div class="link-text">СОПы ГБУЗ МО «МОКПТД»</div>
+                            </div>
+                        </a>
 
-        <!-- ========== Контрольные листы (оставляем как есть) ========== -->
-        <div class="link-item dropdown-toggle">
-            <div class="link-content">
-                <div class="link-icon">⌄</div>
-                <div class="link-text">Контрольные листы</div>
-            </div>
-        </div>
-        <div class="dropdown-content">
-            <a href="https://klinmokptd.github.io/navigator_PTO/medical_record_guidelines.html" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Порядок ведения и оформления медицинской карты</div>
-                </div>
-                <div class="dropdown-meta">Письмо ГБУЗ МО «МОКПТД» от 29.07.2025 № 04-594/25</div>
-            </a>
-            <a href="quality_criteria.html" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Критерии оценки качества</div>
-                </div>
-                <div class="dropdown-meta">Приказ Минздрава России от 14.04.2025 N 203н</div>
-            </a>
-            <a href="https://klinmokptd.github.io/navigator_PTO/checklist_tb_offices.html" target="_blank" class="dropdown-link">
-                <div class="link-content">
-                    <div class="link-icon">→</div>
-                    <div class="link-text">Организация противотуберкулезной помощи</div>
-                </div>
-                <div class="dropdown-meta">Для тубкабинетов</div>
-            </a>
-        </div>
+                        <!-- ========== Контрольные листы (оставляем как есть) ========== -->
+                        <div class="link-item dropdown-toggle">
+                            <div class="link-content">
+                                <div class="link-icon">⌄</div>
+                                <div class="link-text">Контрольные листы</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-content">
+                            <a href="https://klinmokptd.github.io/navigator_PTO/medical_record_guidelines.html" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Порядок ведения и оформления медицинской карты</div>
+                                </div>
+                                <div class="dropdown-meta">Письмо ГБУЗ МО «МОКПТД» от 29.07.2025 № 04-594/25</div>
+                            </a>
+                            <a href="quality_criteria.html" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Критерии оценки качества</div>
+                                </div>
+                                <div class="dropdown-meta">Приказ Минздрава России от 14.04.2025 N 203н</div>
+                            </a>
+                            <a href="https://klinmokptd.github.io/navigator_PTO/checklist_tb_offices.html" target="_blank" class="dropdown-link">
+                                <div class="link-content">
+                                    <div class="link-icon">→</div>
+                                    <div class="link-text">Организация противотуберкулезной помощи</div>
+                                </div>
+                                <div class="dropdown-meta">Для тубкабинетов</div>
+                            </a>
+                        </div>
 
-    </div> <!-- Конец link-list -->
-</div> <!-- Конец card-1 -->
-                                <!-- БЛОК 2: Мониторинг, анализ и безопасность -->
+                    </div> <!-- Конец link-list -->
+                </div> <!-- Конец card-1 -->
+                
+                <!-- БЛОК 2: Мониторинг, анализ и безопасность -->
                 <div class="card card-2" id="monitoring-safety">
                     <div class="card-header">
                         <div class="card-icon">⚠️</div>
@@ -1280,105 +1358,9 @@ body::before {
                     </div>
                 </div>
 
-                <!-- БЛОК 3: Информационные системы и рабочие инструменты -->
-                <div class="card card-3" id="information-systems">
-                    <div class="card-header">
-                        <div class="card-icon">🖥️</div>
-                        <h2>Информационные системы и рабочие инструменты</h2>
-                    </div>
-                    <div class="link-list">
-                        <!-- Новая последовательность: начинается с сигнальной картотеки -->
-                       
-                         <a href="https://pyrus.com/t#inbox" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Pyrus</div>
-                            </div>
-                        </a>
-                        
-                        <a href="https://results.dnkom.ru/cabinet/partner/login" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Анализы "ДНКОМ"</div>
-                            </div>
-                        </a>
-                        
-                        <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">1С-мокрота</div>
-                            </div>
-                        </a>
-                        
-                        <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">DIGIPAX</div>
-                            </div>
-                        </a>
-                        
-                        <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">ЕМИАС</div>
-                            </div>
-                        </a>
-                        
-                        <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">ФРБТ</div>
-                            </div>
-                        </a>
-                        
-                            
-                        <!-- Перемещены в конец: поиск по адресу и проверка полиса -->
-                        <a href="address.html" class="link-item">
-                            <div class="link-content">
-                                <div class="link-icon">→</div>
-                                <div class="link-text">Поиск по адресу</div>
-                            </div>
-                        </a>
-                        <!-- База доноров -->
-                <a href="https://smo-egisz.emias.mosreg.ru/Account/Login?ReturnUrl=%2f" class="link-item">
-                    <div class="link-content">
-                        <div class="link-icon">→</div>
-                        <div class="link-text">База доноров</div>
-                    </div>
-                </a>
-                        <!-- Обмен данными - исправленная версия -->
-                <a href="https://drive.google.com/drive/folders/1jkf-gLnNEqXw0wtRytFKbspNq8RQMdV2?usp=sharing" class="link-item">
-                    <div class="link-content">
-                        <div class="link-icon">→</div>
-                        <div class="link-text">Облако для хранения и обмена файлами</div>
-                    </div>
-                </a>
-                        
-                        <div class="link-item dropdown-toggle">
-                            <div class="link-content">
-                                <div class="link-icon">⌄</div>
-                                <div class="link-text">Проверка полиса ОМС</div>
-                            </div>
-                        </div>
-                        <div class="dropdown-content">
-                            <a href="https://www.mofoms.ru/proverit-strakhovuyu-prinadlezhnost/" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Проверка принадлежности</div>
-                                </div>
-                            </a>
-                            <a href="https://old.mofoms.ru/polis/" target="_blank" class="dropdown-link">
-                                <div class="link-content">
-                                    <div class="link-icon">→</div>
-                                    <div class="link-text">Проверка полиса</div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <!-- БЛОК 3 (бывший Информационные системы) УДАЛЕН -->
 
-
-                                <!-- БЛОК 1 (в файле): Операционная деятельность (ИСПРАВЛЕН) -->
+                <!-- БЛОК 4: Операционная деятельность -->
                 <div class="card card-5" id="operational-activity">
                     <div class="card-header">
                         <div class="card-icon">📊</div>
@@ -1568,7 +1550,7 @@ body::before {
                     </div>
                 </div>
 
-                <!-- БЛОК 2 (в файле): Работа с пациентами (исправлен) -->
+                <!-- БЛОК 5: Работа с пациентами -->
                 <div class="card card-4" id="patient-work">
                     <div class="card-header">
                         <div class="card-icon">👨‍⚕️</div>
@@ -1595,7 +1577,7 @@ body::before {
                     </div>
                 </div>
 
-                <!-- БЛОК 3 (в файле): Бережливое мышление для управления процессами (ПЕРЕИМЕНОВАН И ИСПРАВЛЕН) -->
+                <!-- БЛОК 6: Бережливое мышление для управления процессами -->
                 <div class="card card-8" id="lean-thinking">
                     <div class="card-header">
                         <div class="card-icon">⚙️</div>
@@ -1654,7 +1636,7 @@ body::before {
                     </div>
                 </div>
                            
-                <!-- БЛОК 4 (в файле): Интеграция с общей лечебной сетью (БЕЗ ИЗМЕНЕНИЙ) -->
+                <!-- БЛОК 7: Интеграция с общей лечебной сетью -->
                 <div class="card card-6" id="integration">
                     <div class="card-header">
                         <div class="card-icon">🔗</div>
@@ -1672,7 +1654,7 @@ body::before {
                     </div>
                 </div>
 
-                                                <!-- БЛОК 5 (в файле): Развитие персонала и профессиональная культура (ИСПРАВЛЕН) -->
+                <!-- БЛОК 8: Развитие персонала и профессиональная культура -->
                 <div class="card card-7" id="professional-development">
                     <div class="card-header">
                         <div class="card-icon">🎓</div>
@@ -1822,12 +1804,12 @@ body::before {
                     </div>
                 </div>
                 
-            </div>
+            </div> <!-- Конец grid -->
             
             <div class="footer">
                 <p><span class="year">2025</span></p>
             </div>
-        </div>
+        </div> <!-- Конец content-area -->
     </main>
 
     <!-- Модальное окно для объявлений -->
@@ -1889,9 +1871,9 @@ body::before {
 
         // --- ЛОГИКА КНОПКИ МИССИИ ---
         const missionBtn = document.getElementById('mission-btn');
-missionBtn.addEventListener('click', () => {
-    window.open('https://navigatorpacienta.github.io/navigator/missia.html', '_blank');
-});
+        missionBtn.addEventListener('click', () => {
+            window.open('https://navigatorpacienta.github.io/navigator/missia.html', '_blank');
+        });
 
         // --- ЛОГИКА ВЫПАДАЮЩИХ СПИСКОВ ---
         document.addEventListener('DOMContentLoaded', function() {
