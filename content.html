@@ -142,12 +142,12 @@ body::before {
    ШАПКА - НОВЫЙ ДИЗАЙН (БЕЗ БЛОКА)
    ================================================ */
 .content-header {
-    background: transparent !important; /* Убираем фон */
-    backdrop-filter: none !important; /* Убираем размытие */
+    background: transparent !important;
+    backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    padding: 40px 50px 20px; /* Уменьшил нижний отступ */
-    margin: 0; /* Убираем марджины */
-    border: none; /* Убираем границы */
+    padding: 40px 50px 20px;
+    margin: 0;
+    border: none;
     border-bottom: none; 
     border-top: none !important; 
     position: relative;
@@ -168,7 +168,7 @@ body::before {
     width: 160px;
     height: auto;
     flex-shrink: 0;
-    filter: drop-shadow(0 4px 8px rgba(32, 178, 170, 0.2)); /* Слегка усилил тень для контраста на фоне */
+    filter: drop-shadow(0 4px 8px rgba(32, 178, 170, 0.2));
 }
 
 .header-text-container {
@@ -299,16 +299,16 @@ body::before {
 }
 
 /* ================================================
-   НОВАЯ ПАНЕЛЬ БЫСТРЫХ ИНСТРУМЕНТОВ
+   НОВАЯ ПАНЕЛЬ БЫСТРЫХ ИНСТРУМЕНТОВ - ИСПРАВЛЕНО
    ================================================ */
 .quick-tools {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 60px; /* Большой радиус для "пилюли" */
+    border-radius: 60px;
     padding: 15px 30px;
-    margin: 20px 50px 30px 50px; /* Отступы как у шапки и карточек */
+    margin: 20px 50px 30px 50px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -343,17 +343,34 @@ body::before {
     box-shadow: 0 6px 12px rgba(32, 178, 170, 0.15);
 }
 
+/* ИСПРАВЛЕННЫЕ СТИЛИ ДЛЯ ИКОНОК */
+.tool-icon-img {
+    width: 20px !important;
+    height: 20px !important;
+    max-width: 20px !important;
+    max-height: 20px !important;
+    object-fit: contain;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .tool-icon {
     font-size: 1.2rem;
     line-height: 1;
 }
 
+.tool-icon-fallback {
+    font-size: 1.2rem;
+    line-height: 1;
+    display: none;
+}
+
 /* ================================================
-   КАРТОЧКИ - БЕЗ ИЗМЕНЕНИЙ
+   КАРТОЧКИ
    ================================================ */
 .content-area {
     flex: 1;
-    padding: 15px 50px 40px; /* Убрал верхний паддинг, он теперь на панели */
+    padding: 15px 50px 40px;
     overflow-y: auto;
     background: transparent;
     position: relative;
@@ -372,7 +389,7 @@ body::before {
     margin-bottom: 50px;
 }
 
-/* Для больших экранов - 5 карточек (теперь их 7, но правило оставим) */
+/* Для больших экранов - 5 карточек */
 @media (min-width: 1800px) {
     .grid {
         grid-template-columns: repeat(5, 1fr);
@@ -645,7 +662,7 @@ body::before {
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.9);
     box-shadow: 0 8px 32px rgba(112, 128, 144, 0.1);
-    margin: 40px 0 0; /* Убрал боковые марджины, они теперь на .content-area */
+    margin: 40px 0 0;
     position: relative;
     overflow: hidden;
 }
@@ -723,7 +740,7 @@ body::before {
 }
 
 /* ================================================
-   АДАПТИВНОСТЬ - ИСПРАВЛЕНО
+   АДАПТИВНОСТЬ
    ================================================ */
 @media (max-width: 1400px) {
     .grid {
@@ -785,7 +802,7 @@ body::before {
         margin: 5px 20px 25px;
         border-radius: 20px;
         padding: 12px 20px;
-        justify-content: flex-start; /* На мобильных кнопки прижимаем к левому краю */
+        justify-content: flex-start;
     }
     .content-area {
         padding: 0 20px 25px;
@@ -796,7 +813,7 @@ body::before {
     .card {
         padding: 25px;
         min-height: 300px;
-        margin: 0; /* Убрал лишние марджины */
+        margin: 0;
     }
     .card-icon {
         width: 50px;
