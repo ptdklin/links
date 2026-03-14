@@ -881,6 +881,138 @@ body::before {
 .dropdown-content.show {
     display: block !important;
 }
+        /* ================================================
+   КРУГЛЫЕ КНОПКИ БЕЗ КОНТЕЙНЕРА (НОВЫЙ СТИЛЬ)
+   ================================================ */
+.quick-tools-circle {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 25px 20px;
+    margin: 20px 50px 40px 50px;
+    position: relative;
+    z-index: 5;
+}
+
+.tool-circle-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 90px;
+}
+
+.tool-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 6px 16px rgba(32, 178, 170, 0.15);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--teal);
+    font-size: 1.8rem;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+.tool-circle:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 24px rgba(32, 178, 170, 0.25);
+    background: var(--teal-light);
+    border-color: var(--teal);
+}
+
+.tool-circle .tool-icon-img {
+    width: 36px !important;
+    height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.tool-circle .tool-icon-fallback {
+    font-size: 2rem;
+    line-height: 1;
+    display: none;
+}
+
+.tool-circle-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-align: center;
+    max-width: 90px;
+    line-height: 1.3;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 3px 8px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 1024px) {
+    .quick-tools-circle {
+        margin: 10px 30px 30px;
+        gap: 20px 15px;
+    }
+    .tool-circle-item {
+        width: 80px;
+    }
+    .tool-circle {
+        width: 60px;
+        height: 60px;
+        font-size: 1.6rem;
+    }
+    .tool-circle .tool-icon-img {
+        width: 30px !important;
+        height: 30px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .quick-tools-circle {
+        margin: 5px 20px 25px;
+        gap: 15px 10px;
+    }
+    .tool-circle-item {
+        width: 70px;
+    }
+    .tool-circle {
+        width: 55px;
+        height: 55px;
+        font-size: 1.5rem;
+    }
+    .tool-circle .tool-icon-img {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    .tool-circle-label {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .quick-tools-circle {
+        margin: 0 10px 20px;
+    }
+    .tool-circle-item {
+        width: 65px;
+    }
+    .tool-circle {
+        width: 50px;
+        height: 50px;
+    }
+    .tool-circle .tool-icon-img {
+        width: 24px !important;
+        height: 24px !important;
+    }
+}
 </style>
 </head>
 <body>
@@ -920,64 +1052,87 @@ body::before {
             </div>
         </header>
 
-       <!-- ========== НОВАЯ ПАНЕЛЬ БЫСТРЫХ ИНСТРУМЕНТОВ ========== -->
-<div class="quick-tools">
-    <a href="https://pyrus.com/t#inbox" target="_blank" class="tool-button">
-        <img src="picture/topline/pyrus.png" alt="Pyrus" class="tool-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-        <span class="tool-icon-fallback" style="display: none;">📋</span>
-        <span>Pyrus</span>
-    </a>
+       <!-- ========== ПАНЕЛЬ БЫСТРЫХ ИНСТРУМЕНТОВ (круглые кнопки с подписями) ========== -->
+<div class="quick-tools-circle">
+    <div class="tool-circle-item">
+        <a href="https://pyrus.com/t#inbox" target="_blank" class="tool-circle">
+            <img src="picture/topline/pyrus.png" alt="Pyrus" class="tool-icon-img" onerror="this.style.display='none'; this.parentNode.querySelector('.tool-icon-fallback').style.display='flex';">
+            <span class="tool-icon-fallback" style="display: none;">📋</span>
+        </a>
+        <span class="tool-circle-label">Pyrus</span>
+    </div>
     
-    <a href="https://results.dnkom.ru/cabinet/partner/login" target="_blank" class="tool-button">
-        <img src="picture/topline/dnkom.png" alt="ДНКОМ" class="tool-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-        <span class="tool-icon-fallback" style="display: none;">🔬</span>
-        <span>ДНКОМ</span>
-    </a>
+    <div class="tool-circle-item">
+        <a href="https://results.dnkom.ru/cabinet/partner/login" target="_blank" class="tool-circle">
+            <img src="picture/topline/dnkom.png" alt="ДНКОМ" class="tool-icon-img" onerror="this.style.display='none'; this.parentNode.querySelector('.tool-icon-fallback').style.display='flex';">
+            <span class="tool-icon-fallback" style="display: none;">🔬</span>
+        </a>
+        <span class="tool-circle-label">ДНКОМ</span>
+    </div>
     
-    <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="tool-button">
-        <img src="picture/topline/1c.png" alt="1С" class="tool-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-        <span class="tool-icon-fallback" style="display: none;">🧪</span>
-        <span>1С-мокрота</span>
-    </a>
+    <div class="tool-circle-item">
+        <a href="https://1c.mokptd.ru:8443/mis" target="_blank" class="tool-circle">
+            <img src="picture/topline/1c.png" alt="1С" class="tool-icon-img" onerror="this.style.display='none'; this.parentNode.querySelector('.tool-icon-fallback').style.display='flex';">
+            <span class="tool-icon-fallback" style="display: none;">🧪</span>
+        </a>
+        <span class="tool-circle-label">1С-мокрота</span>
+    </div>
     
-    <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="tool-button">
-        <img src="picture/topline/pax.png" alt="DIGIPAX" class="tool-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-        <span class="tool-icon-fallback" style="display: none;">🖼️</span>
-        <span>DIGIPAX</span>
-    </a>
+    <div class="tool-circle-item">
+        <a href="https://webviewer.eris.mosreg.ru/viewer/#/login" target="_blank" class="tool-circle">
+            <img src="picture/topline/pax.png" alt="DIGIPAX" class="tool-icon-img" onerror="this.style.display='none'; this.parentNode.querySelector('.tool-icon-fallback').style.display='flex';">
+            <span class="tool-icon-fallback" style="display: none;">🖼️</span>
+        </a>
+        <span class="tool-circle-label">DIGIPAX</span>
+    </div>
     
-    <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="tool-button">
-        <img src="picture/topline/emias.png" alt="ЕМИАС" class="tool-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-        <span class="tool-icon-fallback" style="display: none;">🏥</span>
-        <span>ЕМИАС</span>
-    </a>
+    <div class="tool-circle-item">
+        <a href="http://main.emias.mosreg.ru/MIS/MO_MOPD/Home/Index" target="_blank" class="tool-circle">
+            <img src="picture/topline/emias.png" alt="ЕМИАС" class="tool-icon-img" onerror="this.style.display='none'; this.parentNode.querySelector('.tool-icon-fallback').style.display='flex';">
+            <span class="tool-icon-fallback" style="display: none;">🏥</span>
+        </a>
+        <span class="tool-circle-label">ЕМИАС</span>
+    </div>
     
-    <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="tool-button">
-        <img src="picture/topline/frbt.png" alt="ФРБТ" class="tool-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-        <span class="tool-icon-fallback" style="display: none;">📊</span>
-        <span>ФРБТ</span>
-    </a>
+    <div class="tool-circle-item">
+        <a href="https://nr.egisz.rosminzdrav.ru/index.xhtml" target="_blank" class="tool-circle">
+            <img src="picture/topline/frbt.png" alt="ФРБТ" class="tool-icon-img" onerror="this.style.display='none'; this.parentNode.querySelector('.tool-icon-fallback').style.display='flex';">
+            <span class="tool-icon-fallback" style="display: none;">📊</span>
+        </a>
+        <span class="tool-circle-label">ФРБТ</span>
+    </div>
     
-    <a href="https://smo-egisz.emias.mosreg.ru/Account/Login?ReturnUrl=%2f" target="_blank" class="tool-button">
-        <img src="picture/topline/donor.png" alt="База доноров" class="tool-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-        <span class="tool-icon-fallback" style="display: none;">🩸</span>
-        <span>База доноров</span>
-    </a>
-        <a href="https://stat.miacmo.ru/datainput" target="_blank" class="tool-button">
-        <img src="picture/topline/medinfo.png" alt="Мединфо" class="tool-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-        <span class="tool-icon-fallback" style="display: none;">📊</span>
-        <span>Мединфо</span>
-    </a>
-    <a href="https://chat.deepseek.com" target="_blank" class="tool-button">
-        <img src="picture/topline/deep.png" alt="Deepseek" class="tool-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-        <span class="tool-icon-fallback" style="display: none;">🧠</span>
-        <span>Deepseek</span>
-    </a>
-    <a href="https://drive.google.com/drive/folders/1jkf-gLnNEqXw0wtRytFKbspNq8RQMdV2?usp=sharing" target="_blank" class="tool-button">
-        <img src="picture/topline/drive.png" alt="Облако" class="tool-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-        <span class="tool-icon-fallback" style="display: none;">☁️</span>
-        <span>Облако</span>
-    </a>
+    <div class="tool-circle-item">
+        <a href="https://smo-egisz.emias.mosreg.ru/Account/Login?ReturnUrl=%2f" target="_blank" class="tool-circle">
+            <img src="picture/topline/donor.png" alt="База доноров" class="tool-icon-img" onerror="this.style.display='none'; this.parentNode.querySelector('.tool-icon-fallback').style.display='flex';">
+            <span class="tool-icon-fallback" style="display: none;">🩸</span>
+        </a>
+        <span class="tool-circle-label">База доноров</span>
+    </div>
+    
+    <div class="tool-circle-item">
+        <a href="https://stat.miacmo.ru/datainput" target="_blank" class="tool-circle">
+            <img src="picture/topline/medinfo.png" alt="Мединфо" class="tool-icon-img" onerror="this.style.display='none'; this.parentNode.querySelector('.tool-icon-fallback').style.display='flex';">
+            <span class="tool-icon-fallback" style="display: none;">📊</span>
+        </a>
+        <span class="tool-circle-label">Мединфо</span>
+    </div>
+    
+    <div class="tool-circle-item">
+        <a href="https://chat.deepseek.com" target="_blank" class="tool-circle">
+            <img src="picture/topline/deep.png" alt="Deepseek" class="tool-icon-img" onerror="this.style.display='none'; this.parentNode.querySelector('.tool-icon-fallback').style.display='flex';">
+            <span class="tool-icon-fallback" style="display: none;">🧠</span>
+        </a>
+        <span class="tool-circle-label">Deepseek</span>
+    </div>
+    
+    <div class="tool-circle-item">
+        <a href="https://drive.google.com/drive/folders/1jkf-gLnNEqXw0wtRytFKbspNq8RQMdV2?usp=sharing" target="_blank" class="tool-circle">
+            <img src="picture/topline/drive.png" alt="Облако" class="tool-icon-img" onerror="this.style.display='none'; this.parentNode.querySelector('.tool-icon-fallback').style.display='flex';">
+            <span class="tool-icon-fallback" style="display: none;">☁️</span>
+        </a>
+        <span class="tool-circle-label">Облако</span>
+    </div>
 </div>
         <div class="content-area">
             <div class="grid">
