@@ -2,9 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Переход на страницу команды...</title>
+    <title>Перенаправление</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <meta http-equiv="refresh" content="3; url=https://cs586493.tw1.ru/login.php?section=team">
+    <meta http-equiv="refresh" content="0; url=https://cs586493.tw1.ru/login.php?section=team">
     <style>
         body {
             background: #f0f2f5;
@@ -36,11 +36,6 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .countdown {
-            font-size: 0.9rem;
-            color: #555;
-            margin-top: 10px;
-        }
         a {
             color: #3498db;
             text-decoration: none;
@@ -53,23 +48,8 @@
 <body>
     <div class="message">
         <div class="loader"></div>
-        <p>Перенаправление на страницу команды...</p>
-        <p class="countdown">Через <span id="timer">3</span> секунды</p>
-        <p><small>Если ничего не происходит, <a href="https://tbhelper.ru/team/">нажмите сюда</a></small></p>
+        <p>Перенаправление...</p>
+        <p><small>Если ничего не происходит, <a href="https://cs586493.tw1.ru/login.php?section=team">нажмите сюда</a></small></p>
     </div>
-
-    <script>
-        let secondsLeft = 3;
-        const timerElement = document.getElementById('timer');
-        const interval = setInterval(() => {
-            secondsLeft--;
-            if (secondsLeft >= 0) {
-                timerElement.textContent = secondsLeft;
-            }
-            if (secondsLeft < 0) {
-                clearInterval(interval);
-            }
-        }, 1000);
-    </script>
 </body>
 </html>
